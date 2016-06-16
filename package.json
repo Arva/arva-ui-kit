@@ -1,0 +1,27 @@
+{
+  "name": "arva-kit",
+  "version": "1.0.0",
+  "description": "A collection of private Arva UI components for usage in Bizboard projects.",
+  "main": false,
+  "homepage": "http://arva.io",
+  "scripts": {
+    "gen-icons": "node scripts/create_icon_classes.js"
+  },
+  "jspm": {
+    "directories": {
+      "lib": "src"
+    },
+    "dependencies": {
+      "arva-js": "github:bizboard/arva-js@develop",
+      "famous": "github:bizboard/famous@master",
+      "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
+      "famous-flex": "github:bizboard/famous-flex@master",
+      "lodash": "npm:lodash@^4.13.1"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  }
+}
