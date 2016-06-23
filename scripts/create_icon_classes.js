@@ -14,6 +14,8 @@ try { fs.mkdirSync('./src/icons/angular/thin'); } catch(e){}
 try { fs.mkdirSync('./src/icons/angular/bold'); } catch(e){}
 
 for(let filePath of fs.readdirSync('./src/icons/resources')){
+    if(!filePath.includes('.svg')) { continue; }
+    
     let nameComponents = filePath.replace('.svg', '').split('_');
     let icon = nameComponents[0], form = nameComponents[1], thickness = nameComponents[2];
 

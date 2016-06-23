@@ -6,14 +6,14 @@
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
         <g id="Group" stroke="#000000" stroke-width="2">
-            <path d="M1,47 L1,13" id="Line"></path>
-            <path d="M35,47 L35,13" id="Line"></path>
-            <path d="M18,30 L18,-4" id="Line" transform="translate(18.000000, 13.000000) rotate(90.000000) translate(-18.000000, -13.000000) "></path>
-            <path d="M18,64 L18,30" id="Line" transform="translate(18.000000, 47.000000) rotate(90.000000) translate(-18.000000, -47.000000) "></path>
-            <path d="M13,13 L13,1" id="Line"></path>
-            <path d="M47,35 L47,1" id="Line"></path>
-            <path d="M30,18 L30,-16" id="Line" transform="translate(30.000000, 1.000000) rotate(90.000000) translate(-30.000000, -1.000000) "></path>
-            <path d="M41.5,40.5 L41.5,28.5" id="Line" transform="translate(41.000000, 34.500000) rotate(90.000000) translate(-41.000000, -34.500000) "></path>
+            <path d="M1,47 L1,9" id="Line"></path>
+            <path d="M39,47 L39,9" id="Line"></path>
+            <path d="M20,28 L20,-10" id="Line" transform="translate(20.000000, 9.000000) rotate(90.000000) translate(-20.000000, -9.000000) "></path>
+            <path d="M20,66 L20,28" id="Line" transform="translate(20.000000, 47.000000) rotate(90.000000) translate(-20.000000, -47.000000) "></path>
+            <path d="M9,9 L9,1" id="Line"></path>
+            <path d="M47,39 L47,1" id="Line"></path>
+            <path d="M27.5,20.5 L27.5,-17.5" id="Line" transform="translate(28.000000, 1.500000) rotate(90.000000) translate(-28.000000, -1.500000) "></path>
+            <path d="M43.5,42.5 L43.5,34.5" id="Line" transform="translate(43.000000, 38.500000) rotate(90.000000) translate(-43.000000, -38.500000) "></path>
         </g>
     </g>
 </svg>
