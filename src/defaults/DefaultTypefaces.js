@@ -2,7 +2,7 @@
  * Created by tom on 23/06/16.
  */
 
-import {AvenirLight}                  from '../fonts/AvenirLight.js';
+import AvenirLight                  from '../fonts/AvenirLight.js';
 
 // Designer's notes (charilaos@bizboard.nl):
 //
@@ -38,33 +38,53 @@ export let fonts = {
     serif: AvenirLight
 };
 
-export default typeFaces = {
-    UIBarTitle: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'bold', color: 'rgb(0, 0, 0)'},
-    UIRegular: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    UISmall: {fontFamily: fonts.sans1, fontSize: 14, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    UISmallGrey: {fontFamily: fonts.sans1, fontSize: 14, fontWeight: 'normal', color: 'rgb(23, 23, 23)'},
-    UITiny: {fontFamily: fonts.sans1, fontSize: 12, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    UITextualButtonPrimary: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    UITextualButtonSecondary: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
 
+export let TypeFaces = {
+    UIBarTitle: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'bold', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    UIRegular: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    UISmall: {fontFamily: fonts.sans1, fontSize: 14, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    UISmallGrey: {fontFamily: fonts.sans1, fontSize: 14, fontWeight: 'normal', color: 'rgb(23, 23, 23)', lineHeight: '100%'},
+    UITiny: {fontFamily: fonts.sans1, fontSize: 12, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    UITextualButtonPrimary: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    UITextualButtonSecondary: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
 
-    TextBody: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    TextH1: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    TextH2: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    TextH3: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    TextCaptions: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    TextQuotes: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    TextLabel: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(23, 23, 23)', textTransform: 'uppercase'},
+    TextBody: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    TextH1: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)' , lineHeight: '100%'},
+    TextH2: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    TextH3: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    TextCaptions: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    TextQuotes: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    TextLabel: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(23, 23, 23)', textTransform: 'uppercase', lineHeight: '100%'},
 
-    ImpactHuge: {fontFamily: fonts.sans1, fontSize: 22, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    ImpactBig: {fontFamily: fonts.sans1, fontSize: 20, fontWeight: 'normal', color: 'rgb(0, 0, 0)'}
+    ImpactHuge: {fontFamily: fonts.sans1, fontSize: 22, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    ImpactBig: {fontFamily: fonts.sans1, fontSize: 20, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'}
 };
 
 export function swapFonts(previousFont, newFont) {
-    for(let key in typeFaces) {
-        let typeFace = typeFaces[key];
+    for(let key in TypeFaces) {
+        let typeFace = TypeFaces[key];
         if(typeFace.fontFamily === previousFont) {
             typeFace.fontFamily = newFont;
         }
     }
 }
+
+export let UIBarTitle               = {properties: TypeFaces.UIBarTitle};
+export let UIRegular                = {properties: TypeFaces.UIRegular};
+export let UISmall                  = {properties: TypeFaces.UISmall};
+export let UISmallGrey              = {properties: TypeFaces.UISmallGrey};
+export let UITiny                   = {properties: TypeFaces.UITiny};
+export let UITextualButtonPrimary   = {properties: TypeFaces.UITextualButtonPrimary};
+export let UITextualButtonSecondary = {properties: TypeFaces.UITextualButtonSecondary};
+export let TextBody                 = {properties: TypeFaces.TextBody};
+export let TextH1                   = {properties: TypeFaces.TextH1};
+export let TextH2                   = {properties: TypeFaces.TextH2};
+export let TextH3                   = {properties: TypeFaces.TextH3};
+export let TextCaptions             = {properties: TypeFaces.TextCaptions};
+export let TextQuotes               = {properties: TypeFaces.TextQuotes};
+export let TextLabel                = {properties: TypeFaces.TextLabel};
+export let ImpactHuge               = {properties: TypeFaces.ImpactHuge};
+export let ImpactBig                = {properties: TypeFaces.ImpactBig};
+
+
+
