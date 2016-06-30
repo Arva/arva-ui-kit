@@ -8,9 +8,9 @@ import BkImageSurface                   from 'famous-bkimagesurface/BkImageSurfa
 export class BaseIcon extends BkImageSurface {
     constructor(options){
         super(_.merge({
-            content: this.iconPath || '',
+            content: options.iconPath,
             sizeMode: BkImageSurface.SizeMode.ASPECTFILL,
-            positionMode: BkImageSurface.positionMode.CENTER
+            positionMode: BkImageSurface.PositionMode.CENTER
         }, options));
     }
 }

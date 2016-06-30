@@ -2,5 +2,7 @@ import {BaseIcon}                  from '../../BaseIcon.js';
         import iconImage                   from '../../resources/circleminus_angular_bold.svg';
         
         export class CircleminusIcon extends BaseIcon {
-            iconPath = iconImage;
+            constructor(options){
+                super({...options, iconPath: iconImage});
+            }
         }
