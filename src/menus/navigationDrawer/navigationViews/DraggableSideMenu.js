@@ -17,9 +17,9 @@ import StateModifier            from 'famous/modifiers/StateModifier';
 import Transitionable           from 'famous/transitions/Transitionable';
 import SnapTransition           from 'famous/transitions/SnapTransition';
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
-import {FullScreenBackground}   from '../../backgrounds/FullScreenBackground.js';
-import {NavigationDrawerColors} from '../../defaults/DefaultColors.js';
-import {Dimensions}             from '../../defaults/DefaultDimensions.js';
+import {FullScreenBackground}   from '../../../backgrounds/FullScreenBackground.js';
+import {NavigationDrawerColors} from '../../../defaults/DefaultColors.js';
+import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 
 export class DraggableSideMenu extends View {
 
@@ -200,7 +200,7 @@ export class DraggableSideMenu extends View {
                 size: [20, window.innerHeight],
                 align: [0, 0],
                 origin: [0, 0],
-                translate: [0, 0, 30]
+                translate: [0, 0, 50]
             });
 
         });
@@ -310,5 +310,13 @@ export class DraggableSideMenu extends View {
     _hideSideBar() {
         this.renderables.sideMenuView.hide(this.sideMenuScrollController);
         this.renderables.fullScreenOverlay.hide(this.fullScreenOverlay);
+    }
+
+    /**
+     * Add a new item to the side menu
+     * @param item
+     */
+    addItem(item){
+        this.renderables.sideMenuView.setItem(item);
     }
 }

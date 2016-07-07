@@ -5,7 +5,7 @@
 import Surface              from 'famous/core/Surface.js';
 import {View}               from 'arva-js/core/View.js';
 import TabBar               from 'famous-flex/widgets/TabBar.js';
-import {Dimensions}         from '../../defaults/DefaultDimensions.js';
+import {Dimensions}         from '../../../defaults/DefaultDimensions.js';
 
 export class DraggableSideMenuView extends View {
     constructor(options = {}) {
@@ -78,6 +78,12 @@ export class DraggableSideMenuView extends View {
     setItems(items) {
         this.renderables.navigationItems.setItems(items);
         this.menuItems = items;
+    }
+
+    setItem(item){
+        let items = this.renderables.navigationItems.getItems();
+        items.push(item);
+        this.setItems(items);
     }
 
     getSize() {
