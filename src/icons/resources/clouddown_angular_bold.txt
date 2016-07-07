@@ -14,7 +14,7 @@
             <use id="Combined-Shape" mask="url(#mask-2)" stroke-width="8" xlink:href="#path-1"></use>
             <path d="M24,21 L24,43" id="Line" stroke-width="4" stroke-linecap="square"></path>
             <path d="M24,45 L29.5,39.5" id="Line" stroke-width="4" stroke-linecap="square"></path>
-            <path d="M18.5,45 L24,39.5" id="Line" stroke-width="4" stroke-linecap="square" transform="translate(21.250000, 42.250000) rotate(90.000000) translate(-21.250000, -42.250000) "></path>
+            <path d="M18.5,45 L24,39.5" id="Line" stroke-width="4" stroke-linecap="square" transform="translate(21.250000, 42.250000) rotate(90.000000) translate(-21.250000, -42.250000)"></path>
         </g>
     </g>
 </svg>

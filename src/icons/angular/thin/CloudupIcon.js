@@ -1,8 +1,8 @@
 import {BaseIcon}                  from '../../BaseIcon.js';
-        import iconImage                   from '../../resources/cloudup_angular_thin.svg';
+        import iconImage                   from '../../resources/cloudup_angular_thin.txt';
         
         export class CloudupIcon extends BaseIcon {
             constructor(options){
-                super({...options, iconPath: iconImage});
+                super({...options, icon: iconImage});
             }
         }

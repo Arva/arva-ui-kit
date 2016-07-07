@@ -1,8 +1,8 @@
 import {BaseIcon}                  from '../../BaseIcon.js';
-        import iconImage                   from '../../resources/tabs2_rounded_thin.svg';
+        import iconImage                   from '../../resources/tabs2_rounded_thin.txt';
         
         export class Tabs2Icon extends BaseIcon {
             constructor(options){
-                super({...options, iconPath: iconImage});
+                super({...options, icon: iconImage});
             }
         }
