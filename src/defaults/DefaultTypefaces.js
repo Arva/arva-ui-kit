@@ -2,7 +2,8 @@
  * Created by tom on 23/06/16.
  */
 
-import AvenirLight                  from '../fonts/AvenirLight.js';
+import _                        from 'lodash';
+import Avenir                   from '../fonts/Avenir.js';
 
 // Designer's notes (charilaos@bizboard.nl):
 //
@@ -31,58 +32,50 @@ import AvenirLight                  from '../fonts/AvenirLight.js';
 // - [ ] Huge
 // - [ ] Big
 
-export let fonts = {
-    sans1: AvenirLight,
-    sans2: AvenirLight,
-    sans3: AvenirLight,
-    serif: AvenirLight
-};
+export let TypeFaces = _.merge({
+    UITitle: {fontSize: 18, fontWeight: 'bold', color: 'rgb(0, 0, 0)'},
+    UIRegular: {fontSize: 18, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
+    UISmall: {fontSize: 14, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
+    UISmallGrey: {fontSize: 14, fontWeight: 'normal', color: 'rgb(170, 170, 170)'},
+    UITiny: {fontSize: 10, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
+    UIButtonPrimary: {fontSize: 18, fontWeight: 'bold', color: 'rgb(0, 0, 0)'},
+    UIButtonPrimaryLight: {fontSize: 18, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
+    UIButtonSecondary: {fontSize: 18, fontWeight: 'bold', color: 'rgb(0, 0, 0)'},
+    UIButtonSecondaryLight: {fontSize: 18, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
 
+    TextBody: {fontSize: 18, fontWeight: 'normal', color: 'rgb(20, 20, 20)'},
+    TextH1: {fontSize: 64, fontWeight: 'bold', color: 'rgb(20, 20, 20)' },
+    TextH2: {fontSize: 32, fontWeight: 'bold', color: 'rgb(20, 20, 20)'},
+    TextH3: {fontSize: 18, fontWeight: 'bold', color: 'rgb(20, 20, 20)'},
+    TextCaptions: {fontSize: 14, fontWeight: 'normal', color: 'rgb(170, 170, 170)'},
+    TextQuote: {fontSize: 18, fontWeight: 'bold', color: 'rgb(170, 170, 170)'},
+    TextQuoteEmphasis: {fontSize: 24, fontWeight: 'normal', fontStyle: 'italic', color: 'rgb(170, 170, 170)'},
+    TextInfoLabel: {fontSize: 14, fontWeight: 'normal', color: 'rgb(170, 170, 170)', textTransform: 'uppercase'},
 
-export let TypeFaces = {
-    UIBarTitle: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'bold', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
-    UIRegular: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
-    UISmall: {fontFamily: fonts.sans1, fontSize: 14, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
-    UISmallGrey: {fontFamily: fonts.sans1, fontSize: 14, fontWeight: 'normal', color: 'rgb(23, 23, 23)', lineHeight: '100%'},
-    UITiny: {fontFamily: fonts.sans1, fontSize: 12, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
-    UITextualButtonPrimary: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
-    UITextualButtonSecondary: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
+    ImpactHuge: {fontSize: 64, fontWeight: 'bold', color: 'rgb(255, 255, 255)'},
+    ImpactBig: {fontSize: 32, fontWeight: 'bold', color: 'rgb(255, 255, 255)'}
+}, Avenir.UI, Avenir.Text, Avenir.Impact);
 
-    TextBody: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
-    TextH1: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)' , lineHeight: '100%'},
-    TextH2: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
-    TextH3: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
-    TextCaptions: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
-    TextQuotes: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
-    TextLabel: {fontFamily: fonts.sans1, fontSize: 17, fontWeight: 'normal', color: 'rgb(23, 23, 23)', textTransform: 'uppercase', lineHeight: '100%'},
-
-    ImpactHuge: {fontFamily: fonts.sans1, fontSize: 22, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'},
-    ImpactBig: {fontFamily: fonts.sans1, fontSize: 20, fontWeight: 'normal', color: 'rgb(0, 0, 0)', lineHeight: '100%'}
-};
-
-export function swapFonts(previousFont, newFont) {
-    for(let key in TypeFaces) {
-        let typeFace = TypeFaces[key];
-        if(typeFace.fontFamily === previousFont) {
-            typeFace.fontFamily = newFont;
-        }
-    }
+export function useTypefaces(...faces) {
+    _.merge(TypeFaces, ...faces);
 }
 
-export let UIBarTitle               = {properties: TypeFaces.UIBarTitle};
+export let UITitle                  = {properties: TypeFaces.UITitle};
 export let UIRegular                = {properties: TypeFaces.UIRegular};
 export let UISmall                  = {properties: TypeFaces.UISmall};
 export let UISmallGrey              = {properties: TypeFaces.UISmallGrey};
 export let UITiny                   = {properties: TypeFaces.UITiny};
-export let UITextualButtonPrimary   = {properties: TypeFaces.UITextualButtonPrimary};
-export let UITextualButtonSecondary = {properties: TypeFaces.UITextualButtonSecondary};
+export let UIButtonPrimary          = {properties: TypeFaces.UIButtonPrimary};
+export let UIButtonPrimaryLight     = {properties: TypeFaces.UIButtonPrimaryLight};
+export let UIButtonSecondary        = {properties: TypeFaces.UIButtonSecondary};
+export let UIButtonSecondaryLight   = {properties: TypeFaces.UIButtonSecondaryLight};
 export let TextBody                 = {properties: TypeFaces.TextBody};
 export let TextH1                   = {properties: TypeFaces.TextH1};
 export let TextH2                   = {properties: TypeFaces.TextH2};
 export let TextH3                   = {properties: TypeFaces.TextH3};
 export let TextCaptions             = {properties: TypeFaces.TextCaptions};
-export let TextQuotes               = {properties: TypeFaces.TextQuotes};
-export let TextLabel                = {properties: TypeFaces.TextLabel};
+export let TextQuote                = {properties: TypeFaces.TextQuote};
+export let TextInfoLabel            = {properties: TypeFaces.TextInfoLabel};
 export let ImpactHuge               = {properties: TypeFaces.ImpactHuge};
 export let ImpactBig                = {properties: TypeFaces.ImpactBig};
 

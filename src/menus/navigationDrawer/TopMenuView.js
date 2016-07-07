@@ -17,7 +17,7 @@ import {ArrowleftIcon}          from '../../icons/angular/bold/ArrowleftIcon.js'
 import {HamburgerIcon}          from '../../icons/angular/bold/HamburgerIcon.js';
 import {InfoIcon}               from '../../icons/angular/bold/InfoIcon.js';
 
-import {UIBarTitle}             from '../../defaults/DefaultTypefaces.js';
+import {UITitle}             from '../../defaults/DefaultTypefaces.js';
 
 @layout.margins([0, 18, 0, 18])
 export class TopMenuView extends View {
@@ -30,8 +30,8 @@ export class TopMenuView extends View {
         content: this.options.defaultTitle || 'Mijn dashboard',
         properties: {
             color: NavigationDrawerColors.whiteColor,
-            fontSize: UIBarTitle.fontSize,
-            fontFamily: UIBarTitle.fontFamily,
+            fontSize: UITitle.fontSize,
+            fontFamily: UITitle.fontFamily,
             textAlign: 'center',
             fontWeight: 'bold'
         }
