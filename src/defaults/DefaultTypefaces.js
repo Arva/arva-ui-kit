@@ -4,6 +4,7 @@
 
 import _                        from 'lodash';
 import Avenir                   from '../fonts/Avenir.js';
+import {Colors}                 from './DefaultColors.js'
 
 // Designer's notes (charilaos@bizboard.nl):
 //
@@ -33,27 +34,27 @@ import Avenir                   from '../fonts/Avenir.js';
 // - [ ] Big
 
 export let TypeFaces = _.merge({
-    UITitle: {fontSize: 18, fontWeight: 'bold', color: 'rgb(0, 0, 0)'},
-    UIRegular: {fontSize: 18, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    UISmall: {fontSize: 14, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    UISmallGrey: {fontSize: 14, fontWeight: 'normal', color: 'rgb(170, 170, 170)'},
-    UITiny: {fontSize: 10, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    UIButtonPrimary: {fontSize: 18, fontWeight: 'bold', color: 'rgb(0, 0, 0)'},
-    UIButtonPrimaryLight: {fontSize: 18, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
-    UIButtonSecondary: {fontSize: 18, fontWeight: 'bold', color: 'rgb(0, 0, 0)'},
-    UIButtonSecondaryLight: {fontSize: 18, fontWeight: 'normal', color: 'rgb(0, 0, 0)'},
+    UITitle: {fontSize: 18, fontWeight: 'bold', color: Colors.BasicTextColor},
+    UIRegular: {fontSize: 18, fontWeight: 'normal', color: Colors.BasicTextColor},
+    UISmall: {fontSize: 14, fontWeight: 'normal', color: Colors.BasicTextColor},
+    UISmallGrey: {fontSize: 14, fontWeight: 'normal', color: Colors.ModestTextColor},
+    UITiny: {fontSize: 10, fontWeight: 'normal', color: Colors.BasicTextColor},
+    UIButtonPrimary: {fontSize: 18, fontWeight: 'bold', color: Colors.PrimaryUIColor},
+    UIButtonPrimaryLight: {fontSize: 18, fontWeight: 'normal', color: Colors.PrimaryUIColor},
+    UIButtonSecondary: {fontSize: 18, fontWeight: 'bold', color: Colors.SecondaryUIColor},
+    UIButtonSecondaryLight: {fontSize: 18, fontWeight: 'normal', color: Colors.SecondaryUIColor},
 
-    TextBody: {fontSize: 18, fontWeight: 'normal', color: 'rgb(20, 20, 20)'},
-    TextH1: {fontSize: 64, fontWeight: 'bold', color: 'rgb(20, 20, 20)' },
-    TextH2: {fontSize: 32, fontWeight: 'bold', color: 'rgb(20, 20, 20)'},
-    TextH3: {fontSize: 18, fontWeight: 'bold', color: 'rgb(20, 20, 20)'},
-    TextCaptions: {fontSize: 14, fontWeight: 'normal', color: 'rgb(170, 170, 170)'},
-    TextQuote: {fontSize: 18, fontWeight: 'bold', color: 'rgb(170, 170, 170)'},
-    TextQuoteEmphasis: {fontSize: 24, fontWeight: 'normal', fontStyle: 'italic', color: 'rgb(170, 170, 170)'},
-    TextInfoLabel: {fontSize: 14, fontWeight: 'normal', color: 'rgb(170, 170, 170)', textTransform: 'uppercase'},
+    TextBody: {fontSize: 18, fontWeight: 'normal', color: Colors.ArticleTextColor},
+    TextH1: {fontSize: 64, fontWeight: 'bold', color: Colors.ArticleTextColor },
+    TextH2: {fontSize: 32, fontWeight: 'bold', color: Colors.ArticleTextColor},
+    TextH3: {fontSize: 18, fontWeight: 'bold', color: Colors.ArticleTextColor},
+    TextCaptions: {fontSize: 14, fontWeight: 'normal', color: Colors.ModestTextColor},
+    TextQuote: {fontSize: 18, fontWeight: 'bold', color: Colors.ModestTextColor},
+    TextQuoteEmphasis: {fontSize: 24, fontWeight: 'normal', fontStyle: 'italic', color: Colors.PrimaryUIColor},
+    TextInfoLabel: {fontSize: 14, fontWeight: 'normal', color: Colors.ModestTextColor, textTransform: 'uppercase'},
 
-    ImpactHuge: {fontSize: 64, fontWeight: 'bold', color: 'rgb(255, 255, 255)'},
-    ImpactBig: {fontSize: 32, fontWeight: 'bold', color: 'rgb(255, 255, 255)'}
+    ImpactHuge: {fontSize: 64, fontWeight: 'bold', color: Colors.ImageTextColor},
+    ImpactBig: {fontSize: 32, fontWeight: 'bold', color: Colors.ImageTextColor}
 }, Avenir.UI, Avenir.Text, Avenir.Impact);
 
 export function useTypefaces(...faces) {
