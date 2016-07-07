@@ -9,7 +9,8 @@
   },
   "jspm": {
     "directories": {
-      "lib": "src"
+      "lib": "src",
+      "dist": "src"
     },
     "dependencies": {
       "arva-js": "github:bizboard/arva-js@develop",
