@@ -9,15 +9,15 @@ import TabBar                   from 'famous-flex/widgets/TabBar.js';
 import {MenuItem}               from './MenuItem.js';
 import {NameDisplay}            from './NameDisplay.js';
 import {layout, options}        from 'arva-js/layout/decorators.js';
-import {Text}                   from '../../surfaces/text/Text.js';
-import {NavigationDrawerColors} from '../../defaults/DefaultColors.js';
-import {Dimensions}             from '../../defaults/DefaultDimensions.js';
+import {Text}                   from '../../../surfaces/text/Text.js';
+import {NavigationDrawerColors} from '../../../defaults/DefaultColors.js';
+import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 
-import {ArrowleftIcon}          from '../../icons/angular/bold/ArrowleftIcon.js';
-import {HamburgerIcon}          from '../../icons/angular/bold/HamburgerIcon.js';
-import {InfoIcon}               from '../../icons/angular/bold/InfoIcon.js';
+import {ArrowleftIcon}          from '../../../icons/angular/bold/ArrowleftIcon.js';
+import {HamburgerIcon}          from '../../../icons/angular/bold/HamburgerIcon.js';
+import {InfoIcon}               from '../../../icons/angular/bold/InfoIcon.js';
 
-import {UIBarTitle}             from '../../defaults/DefaultTypefaces.js';
+import {UIBarTitle}             from '../../../defaults/DefaultTypefaces.js';
 
 @layout.margins([0, 18, 0, 18])
 export class TopMenuView extends View {

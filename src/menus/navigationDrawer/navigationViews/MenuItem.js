@@ -3,7 +3,7 @@
  */
 import Surface          from 'famous/core/Surface.js';
 import {View}           from 'arva-js/core/View.js';
-import {UIRegular}     from '../../defaults/DefaultTypefaces.js';
+import {UIRegular}     from '../../../defaults/DefaultTypefaces.js';
 
 export class MenuItem extends View {
     constructor(options = {}, data = {}) {

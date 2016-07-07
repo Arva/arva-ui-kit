@@ -1,5 +1,30 @@
 /**
- * Created by tom on 12/10/15.
+ * Created by Manuel on 05/06/16.
+ *
+ * Sample Usage:
+ * Injector.get(NavigationDrawer, {
+ *     topMenuOptions: {
+ *         defaultTitle: 'Title'    // default top menu title
+ *     },
+ *     sideMenuOptions: {           // default side menu renderables dimensions
+ *         itemMargin: 10,
+ *         itemHeight: 44,
+ *         direction: 1
+ *     },
+ *     draggableSideMenuRenderable: DraggableSideMenu,    // draggable side menu renderable, defaults to DraggableSideMenu
+ *     topMenuRenderable: TopMenu,                        // top menu renderable, defaults to TopMenu
+ *     sideMenuRenderable: MenuItem,                      // side menu item's renderable, defaults to MenuItem
+ *     showTopMenu: true,                                 // if the top menu shows
+ *     showInitial: true,                                 // if the navigationDrawer shows on startup of the app
+ *     enabled: true,                                     // if the side menu draggable is enabled
+ *     hideOnRoutes: [{controller: 'Home',methods:['Index','Register']}],       // route's that will auto hide the top & side menu
+ *     menuItems: [{
+ *         text: 'Index',
+ *         controller: 'Home',
+ *         method: 'Index'
+ *     }, {text: 'Register', controller: 'Home', method: 'Register'}]
+ *    }
+ * });
  */
 import _                        from 'lodash';
 import Surface                  from 'famous/core/Surface.js';
@@ -9,9 +34,9 @@ import {Router}                 from 'arva-js/core/Router.js';
 import {View}                   from 'arva-js/core/View.js';
 import {layout, options}        from 'arva-js/layout/decorators.js';
 import AnimationController      from 'famous-flex/AnimationController.js';
-import {DraggableSideMenu}      from './DraggableSideMenu.js';
-import {TopMenu}                from './TopMenu.js';
-import {MenuItem}               from './MenuItem.js';
+import {DraggableSideMenu}      from './navigationViews/DraggableSideMenu.js';
+import {TopMenu}                from './navigationViews/TopMenu.js';
+import {MenuItem}               from './navigationViews/MenuItem.js';
 import {Dimensions}             from '../../defaults/DefaultDimensions.js';
 
 export class NavigationDrawer extends View {
@@ -29,14 +54,14 @@ export class NavigationDrawer extends View {
             draggableSideMenuRenderable: DraggableSideMenu,
             topMenuRenderable: TopMenu,
             sideMenuRenderable: MenuItem,
+            showTopMenu: false,
             showInitial: true,
             enabled: true,
             hideOnRoutes: [],
             menuItems: [{
                 text: 'Title 1',
                 controller: 'Home',
-                method: 'Boo',
-                arguments: {}
+                method: 'Boo'
             }, {text: 'Title 2', controller: 'Home', method: 'Baa'}]
         };
 
@@ -69,10 +94,15 @@ export class NavigationDrawer extends View {
         show: {animation: AnimationController.Animation.Slide.Down},
         hide: {animation: AnimationController.Animation.Slide.Up}
     })
-    topBar = this.options.topMenuRenderable ? new this.options.topMenuRenderable(this.options.topMenuOptions || {}) : new TopMenu(this.options.topMenuOptions)
+    topBar = this._createTopBar();
 
     @layout.fullscreen
     sideMenu = this.options.draggableSideMenuRenderable ? new this.options.draggableSideMenuRenderable(this.options.sideMenuOptions) : new DraggableSideMenu(this.options.sideMenuOptions)
+
+    _createTopBar(){
+        if(!this.options.showTopMenu) return new Surface({properties: {backgroundColor: 'transparent'}});
+        return this.options.topMenuRenderable ? new this.options.topMenuRenderable(this.options.topMenuOptions || {}) : new TopMenu(this.options.topMenuOptions)
+    }
 
     /**
      * Hide the topbar for specific routechanges and change the title according the routechanges
@@ -81,7 +111,7 @@ export class NavigationDrawer extends View {
     onRouteChange(route) {
 
         /* Hide the menu on specific route changes */
-        if (this.options.hideOnRoutes) {
+        if (this.options.showTopMenu && this.options.hideOnRoutes) {
             if (_.find(this.options.hideOnRoutes, (hideRoute)=> {
                     return hideRoute.controller === route.controller && (~hideRoute.methods.indexOf(route.method) || hideRoute.methods.length === 0);
                 }) !== undefined) {
@@ -96,7 +126,7 @@ export class NavigationDrawer extends View {
             return menuItem.controller && menuItem.controller === route.controller && menuItem.method && menuItem.method === route.method;
         });
         if (currentMenuIndex !== undefined) {
-            this.topBar.setTitle(this.options.menuItems[currentMenuIndex].text);
+            if(this.topBar.setTitle) this.topBar.setTitle(this.options.menuItems[currentMenuIndex].text);
             this.sideMenu.setTabIndexSelected(currentMenuIndex);
         }
 
@@ -115,7 +145,7 @@ export class NavigationDrawer extends View {
      * @param animation
      */
     hideTopBar(animation = false) {
-        if (this.showingTopBar) {
+        if (this.options.showTopMenu && this.showingTopBar) {
             this.showingTopBar = false;
             this._hideTopBar(animation);
         }
@@ -125,7 +155,7 @@ export class NavigationDrawer extends View {
      * Show the top bar when it's currently not being shown, and the navigationdrawer is enabled
      */
     showTopBar() {
-        if (!this.showingTopBar && this._enabled) {
+        if (this.options.showTopMenu && !this.showingTopBar && this._enabled) {
             this.showingTopBar = true;
             this._revealTopBar();
         }
@@ -219,13 +249,13 @@ export class NavigationDrawer extends View {
     _initSideMenuListeners() {
         this.sideMenu.on('close', ()=> {
             this._eventOutput.emit('sideMenuClose');
-            this.topBar.close();
+            if(this.topBar.close) this.topBar.close();
         });
 
         this.sideMenu.on('open', ()=> {
             this._eventOutput.emit('sideMenuOpen');
             this.showTopBar();
-            this.topBar.open();
+            if(this.topBar.open) this.topBar.open();
         });
 
         this.sideMenu.on('update', (event) => {
@@ -250,7 +280,7 @@ export class NavigationDrawer extends View {
         });
 
         this.sideMenu.on('changeTitle', (newTitle) => {
-            this.topBar.setTitle(newTitle);
+            if(this.topBar.setTitle) this.topBar.setTitle(newTitle);
         });
 
         this.sideMenu.on('changeRouter', (menuItem) => {
@@ -270,7 +300,7 @@ export class NavigationDrawer extends View {
      * Update the TopTitle to the current active Tab within the side menu
      */
     setCorrectTopTitle() {
-        this.topBar.setTitle(this.sideMenu.getSelectedTabText());
+        if(this.topBar.setTitle) this.topBar.setTitle(this.sideMenu.getSelectedTabText());
     }
 
     /**
@@ -278,7 +308,7 @@ export class NavigationDrawer extends View {
      * @private
      */
     _closeMenu() {
-        this.topBar.topMenuView.close();
+        if(this.topBar.topMenuView) this.topBar.topMenuView.close();
         this.sideMenu.close()
     }
 
@@ -286,7 +316,7 @@ export class NavigationDrawer extends View {
      * Open the top menu and side menu
      */
     openMenu() {
-        this.topBar.topMenuView.open();
+        if(this.topBar.topMenuView) this.topBar.topMenuView.open();
         this.sideMenu.open();
     }
 
@@ -308,7 +338,7 @@ export class NavigationDrawer extends View {
      */
     setScreenName(screenName) {
         this.sideMenu.setScreenName(screenName);
-        this.topBar.setNewUser();
+        if(this.topBar.setNewUser) this.topBar.setNewUser();
     }
 
     /**
