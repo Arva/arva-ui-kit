@@ -1,8 +1,8 @@
 import {BaseIcon}                  from '../../BaseIcon.js';
-        import iconImage                   from '../../resources/circlecross_rounded_bold.svg';
+        import iconImage                   from '../../resources/circlecross_rounded_bold.txt';
         
         export class CirclecrossIcon extends BaseIcon {
             constructor(options){
-                super({...options, iconPath: iconImage});
+                super({...options, icon: iconImage});
             }
         }

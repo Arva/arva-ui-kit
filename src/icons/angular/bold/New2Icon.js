@@ -1,8 +1,8 @@
 import {BaseIcon}                  from '../../BaseIcon.js';
-        import iconImage                   from '../../resources/new2_angular_bold.svg';
+        import iconImage                   from '../../resources/new2_angular_bold.txt';
         
         export class New2Icon extends BaseIcon {
             constructor(options){
-                super({...options, iconPath: iconImage});
+                super({...options, icon: iconImage});
             }
         }

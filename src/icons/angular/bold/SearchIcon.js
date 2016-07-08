@@ -1,8 +1,8 @@
 import {BaseIcon}                  from '../../BaseIcon.js';
-        import iconImage                   from '../../resources/search_angular_bold.svg';
+        import iconImage                   from '../../resources/search_angular_bold.txt';
         
         export class SearchIcon extends BaseIcon {
             constructor(options){
-                super({...options, iconPath: iconImage});
+                super({...options, icon: iconImage});
             }
         }

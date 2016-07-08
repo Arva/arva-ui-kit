@@ -1,7 +1,7 @@
 {
   "name": "arva-kit",
   "version": "1.0.0",
-  "description": "A collection of private Arva UI components for usage in Bizboard projects.",
+  "description": "A collection of private Arva components for usage in Bizboard projects.",
   "main": false,
   "homepage": "http://arva.io",
   "scripts": {
@@ -9,7 +9,8 @@
   },
   "jspm": {
     "directories": {
-      "lib": "src"
+      "lib": "src",
+      "dist": "src"
     },
     "dependencies": {
       "arva-js": "github:bizboard/arva-js@develop",

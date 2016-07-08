@@ -3,14 +3,17 @@
  */
 
 import _                                from 'lodash';
-import BkImageSurface                   from 'famous-bkimagesurface/BkImageSurface.js';
+import BkImageSurface                   from 'bkimagesurface';
+import Surface                          from 'famous/core/Surface.js';
+import ImageSurface                     from 'famous/surfaces/ImageSurface.js';
 
-export class BaseIcon extends BkImageSurface {
+import {IconColor}                      from '../defaults/DefaultColors.js';
+import {replaceColors}                  from './ReplaceColors.js';
+
+export class BaseIcon extends Surface {
     constructor(options){
         super(_.merge({
-            content: options.iconPath,
-            sizeMode: BkImageSurface.SizeMode.ASPECTFILL,
-            positionMode: BkImageSurface.PositionMode.CENTER
+           content: replaceColors(options.icon, IconColor)
         }, options));
     }
 }

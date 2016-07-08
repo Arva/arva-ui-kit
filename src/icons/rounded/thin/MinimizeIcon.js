@@ -1,8 +1,8 @@
 import {BaseIcon}                  from '../../BaseIcon.js';
-        import iconImage                   from '../../resources/minimize_rounded_thin.svg';
+        import iconImage                   from '../../resources/minimize_rounded_thin.txt';
         
         export class MinimizeIcon extends BaseIcon {
             constructor(options){
-                super({...options, iconPath: iconImage});
+                super({...options, icon: iconImage});
             }
         }

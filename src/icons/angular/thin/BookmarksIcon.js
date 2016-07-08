@@ -1,8 +1,8 @@
 import {BaseIcon}                  from '../../BaseIcon.js';
-        import iconImage                   from '../../resources/bookmarks_angular_thin.svg';
+        import iconImage                   from '../../resources/bookmarks_angular_thin.txt';
         
         export class BookmarksIcon extends BaseIcon {
             constructor(options){
-                super({...options, iconPath: iconImage});
+                super({...options, icon: iconImage});
             }
         }
