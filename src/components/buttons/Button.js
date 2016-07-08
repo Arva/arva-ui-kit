@@ -9,7 +9,7 @@ import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 import {layout, options}    from 'arva-js/layout/decorators.js';
-import {Clickable}          from './Clickable.js'
+import {Clickable}          from './../Clickable.js'
 import {Ripple}             from './Ripple.js';
 
 @layout.translate(0, 0, 30)
