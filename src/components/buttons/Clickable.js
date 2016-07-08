@@ -7,17 +7,16 @@ import Surface              from 'famous/core/Surface.js';
 import Transform            from 'famous/core/Transform';
 import AnimationController  from 'famous-flex/AnimationController.js';
 import {View}               from 'arva-js/core/View.js';
-
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-
-import insertRule           from 'insert-rule';
 import {layout, options}    from 'arva-js/layout/decorators.js';
-
-
 
 @layout.margins([0, 12, 0, 12])
 export class Clickable extends View {
-    
+
+    enabled = true;
+    alwaysEnabled = false;
+    easyPress = true;
+
     constructor(options = {}) {
         options = combineOptions({
             easyPress: false,
@@ -35,16 +34,10 @@ export class Clickable extends View {
 
         super(options);
 
-        /* Center text vertically by setting lineheight (better for performance) */
-        this.layout.on('layoutstart', ({size}) => {
-            let newLineHeight = `${size[1]}px`;
-            let {text} = this;
-            if (text.getProperties().lineHeight !== newLineHeight) {
-                text.setProperties({lineHeight: newLineHeight});
-            }
-        });
+        this.enabled = options.enabled;
+        this.alwaysEnabled = options.alwaysEnabled;
+        this.easyPress = options.easyPress;
 
-        this._enabled = options.enabled;
         this._setupListeners();
     }
 
@@ -56,8 +49,8 @@ export class Clickable extends View {
         this.on('click', this._onClick);
         if (this.options.autoEnable) {
             this.text.on('deploy', () => {
-                /* Automatically enable button when coming into the view or something */
-                if (!this._enabled) {
+                /* Automatically enable button when the view is deployed to the DOM */
+                if (!this.enabled) {
                     this.enable();
                 }
             });
@@ -67,7 +60,7 @@ export class Clickable extends View {
     _onTapEnd() {
         this._doTapEnd();
     }
-    
+
     _doTapEnd() {
         /* To be inherited */
     }
@@ -79,13 +72,13 @@ export class Clickable extends View {
     }
 
     _doTapStart() {
-        if (this.options.easyPress) {
+        if (this.easyPress) {
             this._doClick();
         }
     }
-    
-    _onClick () {
-        if (!this.options.easyPress && this._isEnabled()) {
+
+    _onClick() {
+        if (!this.easyPress && this._isEnabled()) {
             this._doClick();
         }
     }
@@ -97,13 +90,13 @@ export class Clickable extends View {
 
     }
 
-    _isEnabled(){
-        return this._enabled || this.options.alwaysEnabled;
+    _isEnabled() {
+        return this.enabled || this.alwaysEnabled;
     }
 
     _setEnabled(enabled) {
-        if(!this.options.alwaysEnabled){
-            this._enabled = enabled;
+        if (!this.alwaysEnabled) {
+            this.enabled = enabled;
             let {options} = this;
             this.text.setOptions(enabled ? options : options.disabledOptions);
         }
@@ -113,7 +106,7 @@ export class Clickable extends View {
         this._setEnabled(true);
     }
 
-    disable(){
+    disable() {
         this._setEnabled(false);
     }
 }
