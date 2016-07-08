@@ -2,7 +2,7 @@
  * Created by tom on 23/06/16.
  */
 
-import '../resources/avenir-medium.css';
+import './resources/avenir-medium.css';
 
 let avenirMedium = 'avenir-medium';
 export default avenirMedium;
