@@ -47,14 +47,6 @@ export class Clickable extends View {
         this.on('mouseup', this._onTapEnd);
         this.on('mouseout', this._onTapEnd);
         this.on('click', this._onClick);
-        if (this.options.autoEnable) {
-            this.text.on('deploy', () => {
-                /* Automatically enable button when the view is deployed to the DOM */
-                if (!this.enabled) {
-                    this.enable();
-                }
-            });
-        }
     }
 
     _onTapEnd() {
@@ -97,8 +89,6 @@ export class Clickable extends View {
     _setEnabled(enabled) {
         if (!this.alwaysEnabled) {
             this.enabled = enabled;
-            let {options} = this;
-            this.text.setOptions(enabled ? options : options.disabledOptions);
         }
     }
 
