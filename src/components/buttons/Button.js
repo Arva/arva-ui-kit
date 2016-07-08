@@ -79,6 +79,15 @@ export class Button extends Clickable {
             this.ripple.on('click', this._onClick);
         }
 
+        /* Center text vertically by setting lineheight (better for performance) */
+        this.layout.on('layoutstart', ({size}) => {
+            let newLineHeight = `${size[1]}px`;
+            let {text} = this;
+            if (text.getProperties().lineHeight !== newLineHeight) {
+                text.setProperties({lineHeight: newLineHeight});
+            }
+        });
+
     }
 
     _doClick(mouseEvent) {
