@@ -152,7 +152,7 @@ export class NavigationDrawer extends View {
     }
 
     /**
-     * Show the top bar when it's currently not being shown, and the navigationdrawer is enabled
+     * Show the top bar when it's currently not being shown, and the navigationdrawer is _enabled
      */
     showTopBar() {
         if (this.options.showTopMenu && !this.showingTopBar && this._enabled) {
@@ -205,7 +205,7 @@ export class NavigationDrawer extends View {
     }
 
     /**
-     * Set the enabled state of the NavigationDrawer
+     * Set the _enabled state of the NavigationDrawer
      * @param enabled
      */
     setNavigationDrawerEnabled(enabled) {
