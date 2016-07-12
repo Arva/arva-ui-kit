@@ -12,15 +12,24 @@ import {TextButton}         from './TextButton.js';
 import {Colors}             from '../../defaults/DefaultColors.js';
 
 export class SolidTextButton extends TextButton {
-    constructor(options) {
-        super(combineOptions({
+    
+    static generateOptions(options){
+        return {
             backgroundProperties: {
                 backgroundColor: Colors.PrimaryUIColor
             },
+            useBoxShadow: options.variation === 'noShadow' ? false : true,
+            boxShadowType: options.variation,
             properties: {
                 color: 'white'
             }
-        }, options));
+        }
+    }
+    
+    constructor(options) {
+        super(combineOptions(
+            SolidTextButton.generateOptions(options)
+        , options));
         console.log(options);
         console.log(this.options);
 

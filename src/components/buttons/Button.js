@@ -28,7 +28,8 @@ export class Button extends Clickable {
     pressedIndication = new Surface({
         properties: {
             /*boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.5) inset, 0px 0px 5px rgba(255, 255, 255, 0.5)',*/
-            backgroundColor: 'rgb(240, 240, 240)'
+            backgroundColor: 'rgba(230, 230, 230, 0.8)',
+            borderRadius: this.options.backgroundProperties.borderRadius
         }
     });
 
@@ -49,7 +50,7 @@ export class Button extends Clickable {
         if (this.options.makeRipple) {
             this.addRenderable(new Ripple(), 'ripple',
                 layout.size(undefined, undefined),
-                layout.clip(undefined, undefined));
+                layout.clip(undefined, undefined, {borderRadius: this.options.backgroundProperties.borderRadius}));
             /* Detect click on ripple as well, otherwise we'll miss some clicks */
         }
 
@@ -64,15 +65,16 @@ export class Button extends Clickable {
         }
 
         if (this.options.useBoxShadow) {
+            let isHardShadow = this.options.boxShadowType === 'hardShadow';
             this.addRenderable(
                 new Surface({
                     properties: {
-                        boxShadow: '0px 0px 8px 6px rgba(0,0,0,0.12)',
+                        boxShadow: `${isHardShadow ? '0px 2px 0px 0px' : '0px 0px 8px 6px'} rgba(0,0,0,0.12)`,
                         borderRadius: this.options.backgroundProperties.borderRadius
                     }
                 }), 'boxshadow', layout.place('bottom'),
                 layout.translate(0, 0, -20),
-                layout.size((size) => size - 16, (size) => size - 8));
+                layout.size(...(isHardShadow ? [undefined, undefined] : [(size) => size - 16, (size) => size - 8] )));
         }
 
     }

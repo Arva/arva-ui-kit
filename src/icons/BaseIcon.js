@@ -13,7 +13,8 @@ import {replaceColors}                  from './ReplaceColors.js';
 export class BaseIcon extends Surface {
     constructor(options){
         super({
-           content: replaceColors(options.icon, options.color || IconColor)
+           content: replaceColors(options.icon, options.color || IconColor),
+            ...options
         });
     }
 }
