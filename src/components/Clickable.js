@@ -2,10 +2,6 @@
  * Created by lundfall on 07/07/16.
  */
 
-import _                    from 'lodash';
-import Surface              from 'famous/core/Surface.js';
-import Transform            from 'famous/core/Transform';
-import AnimationController  from 'famous-flex/AnimationController.js';
 import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {layout, options}    from 'arva-js/layout/decorators.js';
