@@ -9,12 +9,12 @@
   },
   "jspm": {
     "directories": {
-      "lib": "src",
-      "dist": "src"
+      "dist": "src",
+      "lib": "src"
     },
     "dependencies": {
       "arva-js": "github:bizboard/arva-js@develop",
-      "famous": "github:bizboard/famous@master",
+      "famous": "github:bizboard/famous@0.3.6",
       "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
       "famous-flex": "github:bizboard/famous-flex@master",
       "lodash": "npm:lodash@^4.13.1"
