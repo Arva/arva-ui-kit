@@ -9,13 +9,12 @@ import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 import {layout, options}    from 'arva-js/layout/decorators.js';
-import {Clickable}          from './../Clickable.js'
+import {Clickable}          from '../Clickable.js'
 import {Ripple}             from './Ripple.js';
 import AnimationController  from 'famous-flex/AnimationController.js';
 
 
 @layout.translate(0, 0, 30)
-
 export class Button extends Clickable {
     @layout.fullscreen
     @layout.translate(0, 0, -10)
@@ -24,7 +23,7 @@ export class Button extends Clickable {
     @layout.animate({
         showInitially: false,
         animation: AnimationController.Animation.Fade,
-        transition:{duration: 220}
+        transition:{duration: 75}
     })
     @layout.fullscreen
     pressedIndication = new Surface({
@@ -44,10 +43,11 @@ export class Button extends Clickable {
         }
     });
 
-    @layout.size(~300, undefined)
-    @layout.translate(0, 0, 30)
-    @layout.dock('top')
-    text = new Surface(this.options);
+
+
+    @layout.fullscreen
+    @layout.translate(0, 0, 40)
+    clickableOverlay = new Surface();
 
 
     constructor(options) {
@@ -76,7 +76,6 @@ export class Button extends Clickable {
                 layout.size(undefined, undefined),
                 layout.clip(undefined, undefined));
             /* Detect click on ripple as well, otherwise we'll miss some clicks */
-            this.ripple.on('click', this._onClick);
         }
 
         /* Center text vertically by setting lineheight (better for performance) */
@@ -90,18 +89,18 @@ export class Button extends Clickable {
 
     }
 
-    _doClick(mouseEvent) {
-        super._doClick(mouseEvent);
+    _handleClick(mouseEvent) {
+        super._handleClick(mouseEvent);
         if (this.ripple) {
             this.ripple.show(mouseEvent.offsetX, mouseEvent.offsetY);
         }
     }
 
-    _doTapStart() {
+    _handleTapStart() {
         this.showRenderable('pressedIndication');
     }
 
-    _doTapEnd() {
+    _handleTapEnd() {
         /* Cancelling animation causes ugly hack:
          * The AnimationController doesn't want to abort the animation without first showing the
          * renderable, therefore we must hack the state a bit
