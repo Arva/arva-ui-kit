@@ -18,7 +18,7 @@ System.config({
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.6",
-    "famous": "github:bizboard/famous@0.3.6",
+    "famous": "github:bizboard/famous@0.3.7",
     "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
     "famous-flex": "github:bizboard/famous-flex@master",
     "lodash": "npm:lodash@4.13.1",
