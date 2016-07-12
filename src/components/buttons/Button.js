@@ -2,7 +2,6 @@
  * Created by lundfall on 07/07/16.
  */
 
-import _                    from 'lodash';
 import Surface              from 'famous/core/Surface.js';
 import {View}               from 'arva-js/core/View.js';
 
@@ -23,7 +22,7 @@ export class Button extends Clickable {
     @layout.animate({
         showInitially: false,
         animation: AnimationController.Animation.Fade,
-        transition:{duration: 75}
+        transition: {duration: 75}
     })
     @layout.fullscreen
     pressedIndication = new Surface({
@@ -33,39 +32,15 @@ export class Button extends Clickable {
         }
     });
 
-    @layout.place('bottom')
-    @layout.translate(0, 0, -20)
-    @layout.size((size) => size - 16, (size) => size - 8)
-    boxShadow = new Surface({
-        properties: {
-            boxShadow: '0px 0px 8px 6px rgba(0,0,0,0.12)',
-            borderRadius: this.options.backgroundProperties.borderRadius
-        }
-    });
-
-
-
     @layout.fullscreen
     @layout.translate(0, 0, 40)
-    clickableOverlay = new Surface();
+    overlay = new Surface({properties: {cursor: 'pointer'}});
 
 
     constructor(options) {
         super(combineOptions({
             makeRipple: true,
-            properties: {
-                '-webkit-touch-callout': 'none', /* iOS Safari */
-                '-webkit-user-select': 'none', /* Chrome/Safari/Opera */
-                '-khtml-user-select': 'none', /* Konqueror */
-                '-moz-user-select': 'none', /* Firefox */
-                '-ms-user-select': 'noe', /* Internet Explorer/Edge */
-                /* Non-prefixed version, currently
-                 not supported by any browser */
-                'user-select': 'none',
-                fontWeight: 'bold',
-                textAlign: 'center',
-                color: 'black'
-            },
+            useBoxShadow: true,
             backgroundProperties: {
                 backgroundColor: 'white',
                 borderRadius: '4px'
@@ -78,14 +53,27 @@ export class Button extends Clickable {
             /* Detect click on ripple as well, otherwise we'll miss some clicks */
         }
 
-        /* Center text vertically by setting lineheight (better for performance) */
-        this.layout.on('layoutstart', ({size}) => {
-            let newLineHeight = `${size[1]}px`;
-            let {text} = this;
-            if (text.getProperties().lineHeight !== newLineHeight) {
-                text.setProperties({lineHeight: newLineHeight});
-            }
-        });
+
+        if (this.options.autoEnable) {
+            this.overlay.on('deploy', () => {
+                /* Automatically enable button when coming into the view or something */
+                if (!this._enabled) {
+                    this.enable();
+                }
+            });
+        }
+
+        if (this.options.useBoxShadow) {
+            this.addRenderable(
+                new Surface({
+                    properties: {
+                        boxShadow: '0px 0px 8px 6px rgba(0,0,0,0.12)',
+                        borderRadius: this.options.backgroundProperties.borderRadius
+                    }
+                }), 'boxshadow', layout.place('bottom'),
+                layout.translate(0, 0, -20),
+                layout.size((size) => size - 16, (size) => size - 8));
+        }
 
     }
 
@@ -100,12 +88,20 @@ export class Button extends Clickable {
         this.showRenderable('pressedIndication');
     }
 
+    _setEnabled(enabled) {
+        super._setEnabled(enabled);
+        this.overlay.setProperties({
+            backgroundColor: enabled ? 'none' : 'rgba(230, 230, 230, 0.6)',
+            cursor: enabled ? 'pointer' : 'inherit'
+        });
+    }
+
     _handleTapEnd() {
         /* Cancelling animation causes ugly hack:
          * The AnimationController doesn't want to abort the animation without first showing the
          * renderable, therefore we must hack the state a bit
          */
-        if(this.renderables.pressedIndication.get()){
+        if (this.renderables.pressedIndication.get()) {
             this.renderables.pressedIndication._viewStack[0].state = 1;
         }
         this.hideRenderable('pressedIndication');

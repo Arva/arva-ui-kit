@@ -17,8 +17,7 @@ export class Clickable extends View {
             easyPress: false,
             alwaysEnabled: false,
             autoEnable: true,
-            clickEventName: 'buttonClick',
-            disabledOptions: {content: options.content, properties: {color: '#aaa'}}
+            clickEventName: 'buttonClick'
         }, options);
         if (options.enabled === false) {
             /* Merge options in two rounds since there are dependencies within the options */
@@ -47,14 +46,7 @@ export class Clickable extends View {
         this.on('touchmove', this._onTapEnd);
         this.on('mouseout', this._onTapEnd);
         this.on('click', this._onClick);
-        if (this.options.autoEnable) {
-            this.text.on('deploy', () => {
-                /* Automatically enable button when coming into the view or something */
-                if (!this._enabled) {
-                    this.enable();
-                }
-            });
-        }
+        
     }
 
     _onTapEnd(mouseEvent) {
@@ -101,7 +93,9 @@ export class Clickable extends View {
      */
     _handleClick(mouseEvent) {
         let {options} = this;
-        this.disable();
+        if(!options.alwaysEnabled){
+            this.disable();
+        }
         this._eventOutput.emit(options.clickEventName, ...(options.clickEventData || []));
     }
 
@@ -110,10 +104,6 @@ export class Clickable extends View {
     }
 
     _setEnabled(enabled) {
-        if (!this.options.alwaysEnabled) {
-            this._enabled = enabled;
-            let {options} = this;
-            this.text.setOptions(enabled ? options : options.disabledOptions);
-        }
+        this._enabled = enabled;
     }
 }
