@@ -18,11 +18,10 @@ export class SolidTextButton extends TextButton {
             backgroundProperties: {
                 backgroundColor: Colors.PrimaryUIColor
             },
-            useBoxShadow: options.variation === 'noShadow' ? false : true,
-            boxShadowType: options.variation,
             properties: {
                 color: 'white'
-            }
+            },
+            ...TextButton.generateBoxShadowVariations(options.variation)
         }
     }
     

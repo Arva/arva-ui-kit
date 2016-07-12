@@ -13,10 +13,15 @@ import {Colors}             from '../../defaults/DefaultColors.js';
 
 
 export class OutlineTextButton extends TextButton {
-    constructor(options) {
-        super(combineOptions({
-            backgroundProperties: {backgroundColor: 'none', border: `2px solid ${Colors.PrimaryUIColor}`},
+
+    static generateOptions(options){
+        return {
+            backgroundProperties: {backgroundColor: 'none', border: `${options.variation === 'bold' ? '2px' : '1px'} solid ${Colors.PrimaryUIColor}`},
             useBoxShadow: false
-        }, options));
+        }
+    }
+
+    constructor(options) {
+        super(combineOptions(OutlineTextButton.generateOptions(options), options));
     }
 }

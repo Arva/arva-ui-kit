@@ -24,7 +24,8 @@ export class TextButton extends Button {
             disabledOptions: {
                 content: options.content
             },
-            properties: UIButtonPrimary.properties
+            properties: UIButtonPrimary.properties,
+            ...TextButton.generateBoxShadowVariations(options.variation)
         }, options));
         this.layout.on('layoutstart', ({size}) => {
             let newLineHeight = size[1] + 'px';
@@ -35,12 +36,16 @@ export class TextButton extends Button {
                 });
             }
         });
-
     }
 
     _setEnabled(enabled) {
         super._setEnabled(enabled);
         var options = this.options;
         this.text.setOptions(enabled ? options : options.disabledOptions);
+    }
+
+    static generateBoxShadowVariations(variation) {
+        return {useBoxShadow: variation === 'noShadow' ? false : true,
+            boxShadowType: variation}
     }
 }

@@ -28,7 +28,7 @@ export class Button extends Clickable {
     pressedIndication = new Surface({
         properties: {
             /*boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.5) inset, 0px 0px 5px rgba(255, 255, 255, 0.5)',*/
-            backgroundColor: 'rgba(230, 230, 230, 0.8)',
+            backgroundColor: 'rgba(230, 230, 230, 0.5)',
             borderRadius: this.options.backgroundProperties.borderRadius
         }
     });

@@ -17,10 +17,10 @@ import {SolidTextButton}    from './SolidTextButton.js';
 
 
 export class FloatingImageButton extends ImageButton {
-    constructor(options){
-        super(combineOptions({backgroundProperties: {backgroundColor: Colors.PrimaryUIColor, borderRadius: '50%'}, ...SolidTextButton.generateOptions(options)}, options));
+    constructor(options) {
+        super(combineOptions({
+            ...SolidTextButton.generateOptions(options),
+            backgroundProperties: {backgroundColor: Colors.PrimaryUIColor, borderRadius: '50%'}
+        }, options));
     }
 }
-
-
-e

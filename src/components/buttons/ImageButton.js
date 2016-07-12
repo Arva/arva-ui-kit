@@ -8,9 +8,8 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 import {layout, options}    from 'arva-js/layout/decorators.js';
 import {Button}             from './Button.js';
-import {UIButtonPrimary}    from '../../defaults/DefaultTypefaces.js';
 import {Colors}             from '../../defaults/DefaultColors.js';
-
+import {TextButton}         from './TextButton.js';
 import {ArrowleftIcon}      from '../../icons/rounded/thin/ArrowleftIcon.js';
 
 export class ImageButton extends Button {
@@ -19,16 +18,19 @@ export class ImageButton extends Button {
     @layout.place('center')
     image = this.options.image ? new ImageSurface(this.options.image) : new this.options.icon({color: this.options.properties.color});
 
-    /* Default if nothing specified */
+    /* Default if true size specified */
     getSize() {
         return [48, 48];
     }
 
-    constructor(options = {}){
-        if(!options.image && !options.icon){
+    constructor(options = {}) {
+        if (!options.image && !options.icon) {
             options.icon = ArrowleftIcon;
         }
-        super(combineOptions({properties:{color:Colors.PrimaryUIColor}}, options));
+        super(combineOptions({
+            properties: {color: Colors.PrimaryUIColor},
+            ...TextButton.generateBoxShadowVariations(options.variation)
+        }, options));
 
     }
 
