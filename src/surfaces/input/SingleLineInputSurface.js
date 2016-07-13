@@ -10,12 +10,6 @@ export class SingleLineInputSurface extends InputSurface {
     constructor(options = {}) {
         options = combineOptions({
             placeholder: 'Enter comment',
-            properties: {
-                border: 'none',
-                borderRadius: '2px',
-                boxShadow: '0px 2px 4px 0px rgba(50, 50, 50, 0.08)',
-                padding: '0 16px 0 16px'
-            },
             clearOnEnter: true
         }, options);
         super(options);
