@@ -6,8 +6,19 @@ import FamousInputSurface           from 'famous/surfaces/InputSurface';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 export class InputSurface extends FamousInputSurface {
-    constructor(options){
-        super(options);
+    constructor(options) {
+        super(combineOptions(
+            {
+                properties: {
+                    outline: 'none',
+                    borderBottom: '1px solid gray',
+                    borderTop: 'none',
+                    borderLeft: 'none',
+                    borderRight: 'none',
+                    boxShadow: '0px 2px 4px 0px rgba(50, 50, 50, 0.08)',
+                    padding: '0 16px 0 16px'
+                }
+            }, options));
         this.on('paste', this._onFieldChange);
         this.on('input', this._onFieldChange);
         this.on('propertychange', this._onFieldChange);
@@ -25,11 +36,21 @@ export class InputSurface extends FamousInputSurface {
         target.name = this._name;
     }
 
+    setValue(value) {
+        this._setBorderBottomColor(value);
+        return super.setValue(...arguments);
+    }
+
+    _setBorderBottomColor(textInput) {
+        this.setProperties({borderBottom: `1px solid ${!textInput.length ? 'gray' : 'black'}`})
+
+    }
 
     _onFieldChange() {
         let currentValue = this.getValue();
         if (currentValue != this._value) {
             this._value = currentValue;
+            this._setBorderBottomColor(currentValue);
             this.emit('valueChange', currentValue);
         }
     }
