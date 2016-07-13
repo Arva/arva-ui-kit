@@ -3,7 +3,7 @@
  */
 
 import _                        from 'lodash';
-import Avenir                   from '../fonts/Avenir.js';
+import {Avenir}                 from '../fonts/Avenir.js';
 import {Colors}                 from './DefaultColors.js'
 
 // Designer's notes (charilaos@bizboard.nl):
