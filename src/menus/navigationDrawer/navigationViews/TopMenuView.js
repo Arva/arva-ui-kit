@@ -2,7 +2,7 @@
  * Created by manuel on 09-09-15.
  */
 import Surface                  from 'famous/core/Surface.js';
-import Bkimagesurface           from 'bkimagesurface';
+import Bkimagesurface           from 'famous-bkimagesurface';
 import AnimationController      from 'famous-flex/AnimationController.js';
 import {View}                   from 'arva-js/core/View.js';
 import TabBar                   from 'famous-flex/widgets/TabBar.js';

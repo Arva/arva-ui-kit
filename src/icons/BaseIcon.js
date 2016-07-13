@@ -3,7 +3,7 @@
  */
 
 import _                                from 'lodash';
-import BkImageSurface                   from 'bkimagesurface';
+import BkImageSurface                   from 'famous-bkimagesurface';
 import Surface                          from 'famous/core/Surface.js';
 import ImageSurface                     from 'famous/surfaces/ImageSurface.js';
 
