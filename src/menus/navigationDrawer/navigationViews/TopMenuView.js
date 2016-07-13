@@ -2,22 +2,19 @@
  * Created by manuel on 09-09-15.
  */
 import Surface                  from 'famous/core/Surface.js';
-import Bkimagesurface           from 'famous-bkimagesurface';
 import AnimationController      from 'famous-flex/AnimationController.js';
 import {View}                   from 'arva-js/core/View.js';
-import TabBar                   from 'famous-flex/widgets/TabBar.js';
-import {MenuItem}               from './MenuItem.js';
 import {NameDisplay}            from './NameDisplay.js';
-import {layout, options}        from 'arva-js/layout/decorators.js';
+import {layout}                 from 'arva-js/layout/decorators.js';
 import {Text}                   from '../../../surfaces/text/Text.js';
-import {NavigationDrawerColors} from '../../../defaults/DefaultColors.js';
+import {Colors}                 from '../../../defaults/DefaultColors.js';
 import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 
 import {ArrowleftIcon}          from '../../../icons/angular/bold/ArrowleftIcon.js';
 import {HamburgerIcon}          from '../../../icons/angular/bold/HamburgerIcon.js';
 import {InfoIcon}               from '../../../icons/angular/bold/InfoIcon.js';
 
-import {UITitle}             from '../../../defaults/DefaultTypefaces.js';
+import {UITitle}                from '../../../defaults/DefaultTypefaces.js';
 
 @layout.margins([0, 18, 0, 18])
 export class TopMenuView extends View {
@@ -29,7 +26,7 @@ export class TopMenuView extends View {
     title = new Text({
         content: this.options.defaultTitle || 'Mijn dashboard',
         properties: {
-            color: NavigationDrawerColors.whiteColor,
+            color: Colors.UIBarTextColor,
             fontSize: UITitle.fontSize,
             fontFamily: UITitle.fontFamily,
             textAlign: 'center',
@@ -75,7 +72,7 @@ export class TopMenuView extends View {
     @layout.fullscreen
     background = new Surface({
         properties: {
-            'background-color': NavigationDrawerColors.darkColor
+            'background-color': Colors.PrimaryUIColor
         }
     });
 
@@ -148,9 +145,9 @@ export class TopMenuView extends View {
      * @param colors
      */
     setColors(colors) {
-        let {MenuBackgroundColor = NavigationDrawerColors.darkColor} = colors;
+        let {MenuBackgroundColor = Colors.SecondaryUIColor} = colors;
         this.background.setProperties({backgroundColor: MenuBackgroundColor});
-        this.title.setProperties({properties: {color: colors.TitleBarTextColor || NavigationDrawerColors.whiteColor}});
+        this.title.setProperties({properties: {color: colors.TitleBarTextColor || Colors.UIBarTextColor}});
         if (window.StatusBar) {
             window.StatusBar.backgroundColorByHexString(MenuBackgroundColor);
         }
