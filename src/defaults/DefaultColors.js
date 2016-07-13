@@ -31,6 +31,10 @@ export let Colors = {
     UIBarTextColor: 'rgb(255,255,255)'
 };
 
+export function setColors(...colors) {
+    _.merge(Colors, ...colors);
+}
+
 export let PrimaryUIColor     = Colors.PrimaryUIColor;
 export let SecondaryUIColor   = Colors.SecondaryUIColor;
 export let TertiaryUIColor    = Colors.TertiaryUIColor;
