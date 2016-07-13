@@ -29,7 +29,7 @@ for(let filePath of fs.readdirSync('./src/icons/resources')){
         
         export class ${icon}Icon extends BaseIcon {
             constructor(options){
-                super({...options, iconPath: iconImage});
+                super({...options, icon: iconImage});
             }
         }`);
 }

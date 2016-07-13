@@ -3,6 +3,6 @@ import {BaseIcon}                  from '../../BaseIcon.js';
         
         export class New3Icon extends BaseIcon {
             constructor(options){
-                super({...options, iconPath: iconImage});
+                super({...options, icon: iconImage});
             }
         }

@@ -3,6 +3,6 @@ import {BaseIcon}                  from '../../BaseIcon.js';
         
         export class Arrowup2Icon extends BaseIcon {
             constructor(options){
-                super({...options, iconPath: iconImage});
+                super({...options, icon: iconImage});
             }
         }

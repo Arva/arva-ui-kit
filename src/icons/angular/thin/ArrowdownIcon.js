@@ -3,6 +3,6 @@ import {BaseIcon}                  from '../../BaseIcon.js';
         
         export class ArrowdownIcon extends BaseIcon {
             constructor(options){
-                super({...options, iconPath: iconImage});
+                super({...options, icon: iconImage});
             }
         }
