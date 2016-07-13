@@ -102,7 +102,7 @@ export class NavigationDrawer extends View {
         let currentMenuIndex = _.findIndex(this.options.menuItems, (menuItem)=> {
             return menuItem.controller && menuItem.controller === route.controller && menuItem.method && menuItem.method === route.method;
         });
-        if (currentMenuIndex !== undefined) {
+        if (currentMenuIndex !== undefined && ~currentMenuIndex) {
             if(this.topBar.setTitle) this.topBar.setTitle(this.options.menuItems[currentMenuIndex].text);
             this.sideMenu.setTabIndexSelected(currentMenuIndex);
         }
