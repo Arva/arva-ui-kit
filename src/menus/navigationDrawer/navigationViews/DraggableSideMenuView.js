@@ -60,14 +60,14 @@ export class DraggableSideMenuView extends View {
                 size: [context.size[0], Math.max(window.innerHeight, this.getSize()[1])],
                 origin: [0, 0],
                 align: [0, 0],
-                translate: [0, -Dimensions.topBarHeight, 20]
+                translate: [0, -Dimensions.topBarHeight, 10]
             });
 
             context.set('navigationItems', {
-                size: [context.size[0], this.options.headerVisible ? context.size[1] - 44 : context.size[1]],
+                size: [context.size[0], this.options.showTopMenu ? context.size[1] - options.topBarHeight : context.size[1]],
                 origin: [0, 0],
                 align: [0, 0],
-                translate: [0, 0, Dimensions.topBarHeight]
+                translate: [0, 0, 20]
             });
         });
     }
