@@ -1,7 +1,7 @@
 /**
  * Created by Manuel on 28/06/16.
  */
-
+import _   from 'lodash';
 
 export let Dimensions = {
     topBarHeight: 30,
@@ -13,3 +13,8 @@ export let Dimensions = {
 };
 
 export let TopBarHeight = Dimensions.topBarHeight;
+
+
+export function setDimensions(...dimensions) {
+    _.merge(Dimensions, ...dimensions);
+}
