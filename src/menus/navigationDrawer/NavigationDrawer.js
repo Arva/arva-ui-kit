@@ -42,29 +42,6 @@ import {Dimensions}             from '../../defaults/DefaultDimensions.js';
 export class NavigationDrawer extends View {
 
     constructor(options = {}) {
-        options = {
-            topMenuOptions: {
-                defaultTitle: 'Title'
-            },
-            sideMenuOptions: {
-                itemMargin: 10,
-                itemHeight: 44,
-                direction: 1
-            },
-            draggableSideMenuRenderable: DraggableSideMenu,
-            topMenuRenderable: TopMenu,
-            sideMenuRenderable: MenuItem,
-            showTopMenu: false,
-            showInitial: true,
-            enabled: true,
-            hideOnRoutes: [],
-            menuItems: [{
-                text: 'Title 1',
-                controller: 'Home',
-                method: 'Boo'
-            }, {text: 'Title 2', controller: 'Home', method: 'Baa'}]
-        };
-
         super(options);
 
         let famousContext = Injection.get(FamousContext);
