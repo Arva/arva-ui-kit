@@ -1,11 +1,10 @@
 /**
  * Created by lundfall on 07/07/16.
  */
+import Timer                from 'famous/utilities/Timer.js';
 
 import {View}               from 'arva-js/core/View.js';
-
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-
 import {layout, options}    from 'arva-js/layout/decorators.js';
 
 
@@ -46,7 +45,7 @@ export class Clickable extends View {
         this.on('touchmove', this._onTapEnd);
         this.on('mouseout', this._onTapEnd);
         this.on('click', this._onClick);
-        
+
     }
 
     _onTapEnd(mouseEvent) {
@@ -93,10 +92,14 @@ export class Clickable extends View {
      */
     _handleClick(mouseEvent) {
         let {options} = this;
-        if(!options.alwaysEnabled){
-            this.disable();
+        let {delay} = options;
+        this.disable();
+        let emit = () => this._eventOutput.emit(options.clickEventName, ...(options.clickEventData || []));
+        if (delay) {
+            Timer.setTimeout(emit, delay)
+        } else {
+            emit();
         }
-        this._eventOutput.emit(options.clickEventName, ...(options.clickEventData || []));
     }
 
     _isEnabled() {

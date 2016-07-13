@@ -4,6 +4,8 @@
 
 import Surface              from 'famous/core/Surface.js';
 import {View}               from 'arva-js/core/View.js';
+import Timer                from 'famous/utilities/Timer.js';
+
 
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
@@ -42,6 +44,7 @@ export class Button extends Clickable {
         super(combineOptions({
             makeRipple: true,
             useBoxShadow: true,
+            delay: 100,
             backgroundProperties: {
                 backgroundColor: 'white',
                 borderRadius: '4px'
@@ -92,8 +95,9 @@ export class Button extends Clickable {
 
     _setEnabled(enabled) {
         super._setEnabled(enabled);
+
         this.overlay.setProperties({
-            backgroundColor: enabled ? 'none' : 'rgba(230, 230, 230, 0.6)',
+            backgroundColor: enabled ? 'none' : 'rgba(255, 255, 255, 0.6)',
             cursor: enabled ? 'pointer' : 'inherit'
         });
     }
