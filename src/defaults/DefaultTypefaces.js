@@ -39,7 +39,7 @@ export let TypeFaces = _.merge({
     UISmall: {fontSize: 14, fontWeight: 'normal', color: Colors.BasicTextColor},
     UISmallGrey: {fontSize: 14, fontWeight: 'normal', color: Colors.ModestTextColor},
     UITiny: {fontSize: 10, fontWeight: 'normal', color: Colors.BasicTextColor},
-    UIButtonPrimary: {fontSize: 18, fontWeight: 'bold', color: Colors.PrimaryUIColor},
+    UIButtonPrimary: {fontSize: 18, fontWeight: 'bold', color: Colors.PrimaryUIColor, whiteSpace: 'nowrap'},
     UIButtonPrimaryLight: {fontSize: 18, fontWeight: 'normal', color: Colors.PrimaryUIColor},
     UIButtonSecondary: {fontSize: 18, fontWeight: 'bold', color: Colors.SecondaryUIColor},
     UIButtonSecondaryLight: {fontSize: 18, fontWeight: 'normal', color: Colors.SecondaryUIColor},
