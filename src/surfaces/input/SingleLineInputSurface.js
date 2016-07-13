@@ -8,7 +8,7 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 export class SingleLineInputSurface extends InputSurface {
     constructor(options = {}) {
-        super(combineOptions({
+        options = combineOptions({
             placeholder: 'Enter comment',
             properties: {
                 border: 'none',
@@ -17,8 +17,9 @@ export class SingleLineInputSurface extends InputSurface {
                 padding: '0 16px 0 16px'
             },
             clearOnEnter: true
-        }, options));
-
+        }, options);
+        super(options);
+        this.options = options;
         this.on('keyup', this._onKeyUp);
     }
 
