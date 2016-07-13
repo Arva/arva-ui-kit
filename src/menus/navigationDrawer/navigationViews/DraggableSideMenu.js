@@ -17,7 +17,7 @@ import StateModifier            from 'famous/modifiers/StateModifier';
 import Transitionable           from 'famous/transitions/Transitionable';
 import SnapTransition           from 'famous/transitions/SnapTransition';
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
-import {FullScreenBackground}   from '../../../backgrounds/FullScreenBackground.js';
+import {FullScreenBackground}   from '../../../surfaces/backgrounds/FullScreenBackground.js';
 import {NavigationDrawerColors} from '../../../defaults/DefaultColors.js';
 import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 
