@@ -1,17 +1,13 @@
 /**
  * Created by lundfall on 08/07/16.
  */
-import _                    from 'lodash';
 import Surface              from 'famous/core/Surface.js';
 import Transform            from 'famous/core/Transform';
-import AnimationController  from 'famous-flex/AnimationController.js';
 import {View}               from 'arva-js/core/View.js';
 
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
-import insertRule           from 'insert-rule';
 import {layout, options}    from 'arva-js/layout/decorators.js';
-import Easing                   from 'famous/transitions/Easing.js';
 
 let rippleSize = 10;
 
