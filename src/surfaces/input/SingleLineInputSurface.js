@@ -2,7 +2,7 @@
  * Created by Manuel on 12/07/16.
  */
 
-import InputSurface                 from 'famous/surfaces/InputSurface';
+import {InputSurface}               from './InputSurface.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 
