@@ -14,8 +14,8 @@ export class MenuItem extends View {
             content: data.text,
             properties: {
                 color: options.colors.MenuTextColor,
-                fontSize: UIRegular.fontSize,
-                fontFamily: UIRegular.fontFamily,
+                fontSize: UIRegular.properties.fontSize,
+                fontFamily: UIRegular.properties.fontFamily,
                 lineHeight: `${options.sideMenuOptions.itemHeight-4}px`,
                 pointerEvents: data.separation ? 'none' : 'initial'
 
