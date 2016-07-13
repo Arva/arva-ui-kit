@@ -35,7 +35,7 @@ export class TopMenuView extends View {
 
     });
 
-    @layout.size(50, undefined)
+    @layout.size(()=> this.options.topMenuOptions.rightIconSize, this.options.topMenuOptions.rightIconSize)
     @layout.dock('right')
     @layout.translate(0, 0, 25)
     rightButton = new InfoIcon({
