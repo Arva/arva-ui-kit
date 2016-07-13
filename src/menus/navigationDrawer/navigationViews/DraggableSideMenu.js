@@ -14,11 +14,9 @@ import RenderNode               from 'famous/core/RenderNode';
 import Easing                   from 'famous/transitions/Easing';
 import Draggable                from 'famous/modifiers/Draggable';
 import StateModifier            from 'famous/modifiers/StateModifier';
-import Transitionable           from 'famous/transitions/Transitionable';
-import SnapTransition           from 'famous/transitions/SnapTransition';
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
 import {FullScreenBackground}   from '../../../surfaces/backgrounds/FullScreenBackground.js';
-import {NavigationDrawerColors} from '../../../defaults/DefaultColors.js';
+import {Colors}                 from '../../../defaults/DefaultColors.js';
 import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 
 export class DraggableSideMenu extends View {
@@ -84,11 +82,11 @@ export class DraggableSideMenu extends View {
      */
     _createRenderables(options) {
         options.colors = options.colors || {
-                MenuBackgroundColor: NavigationDrawerColors.darkColor,
-                MenuTextColor: NavigationDrawerColors.whiteColor,
-                MenuTextColorHighlight: 'white',
-                TitleBarColor: NavigationDrawerColors.redColor,
-                MenuBackgroundHighLightColor: NavigationDrawerColors.redColor
+                MenuBackgroundColor: Colors.PrimaryUIColor,
+                MenuTextColor: Colors.UIBarTextColor,
+                MenuTextColorHighlight: Colors.UIBarTextColor,
+                TitleBarColor: Colors.UIBarTextColor,
+                MenuBackgroundHighLightColor: Colors.SecondaryUIColor
             };
 
         this.renderables.sideMenuView = new AnimationController({

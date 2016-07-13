@@ -2,20 +2,11 @@
  * Created by manuel on 09-09-15.
  */
 
-import Surface                  from 'famous/core/Surface.js';
-import {View}                   from 'arva-js/core/View.js';
+import AnimationController      from 'famous-flex/AnimationController';
 
+import {View}                   from 'arva-js/core/View.js';
 import {Router}                 from 'arva-js/core/Router.js';
 import {Injection}              from 'arva-js/utils/Injection.js';
-
-import AnimationController      from 'famous-flex/AnimationController';
-import RenderNode               from 'famous/core/RenderNode';
-import Easing                   from 'famous/transitions/Easing';
-import Draggable                from 'famous/modifiers/Draggable';
-import StateModifier            from 'famous/modifiers/StateModifier';
-import Transitionable           from 'famous/transitions/Transitionable';
-import SnapTransition           from 'famous/transitions/SnapTransition';
-
 import {TopMenuView}            from './TopMenuView.js';
 
 export class TopMenu extends View {

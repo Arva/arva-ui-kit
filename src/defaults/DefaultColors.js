@@ -16,12 +16,6 @@ export let Black = colors.Black;
 export let Dark  = colors.Dark;
 export let Grey  = colors.Grey;
 
-export let NavigationDrawerColors = {
-    darkColor: Dark,
-    whiteColor: White,
-    redColor: Red
-};
-
 export let IconColor = colors.White;
 
 export let Colors = {
@@ -30,10 +24,11 @@ export let Colors = {
     TertiaryUIColor: 'rgb(170, 170, 170)',
     QuaternaryUIColor: 'rgb(170, 170, 170)',
 
-    BasicTextColor: 'rgb(0, 0, 0,)',
+    BasicTextColor: 'rgb(0, 0, 0)',
     ModestTextColor: 'rgb(170, 170, 170,)',
     ArticleTextColor: 'rgb(20, 20, 20,)',
-    ImageTextColor: 'rgb(255, 255, 255,)'
+    ImageTextColor: 'rgb(255, 255, 255,)',
+    UIBarTextColor: 'rgb(255,255,255)'
 };
 
 export let PrimaryUIColor     = Colors.PrimaryUIColor;
