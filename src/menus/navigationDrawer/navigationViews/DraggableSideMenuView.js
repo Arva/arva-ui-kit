@@ -6,6 +6,7 @@ import Surface              from 'famous/core/Surface.js';
 import {View}               from 'arva-js/core/View.js';
 import TabBar               from 'famous-flex/widgets/TabBar.js';
 import {Dimensions}         from '../../../defaults/DefaultDimensions.js';
+import {MenuItem}           from './MenuItem.js';
 
 export class DraggableSideMenuView extends View {
     constructor(options = {}) {
@@ -39,7 +40,7 @@ export class DraggableSideMenuView extends View {
                     });
                 },
                 item: (id, data)=> {
-                    let item = new this.options.sideMenuRenderable(options, data);
+                    let item = this.options.sideMenuRenderable ? new this.options.sideMenuRenderable(options, data) : new MenuItem(options, data);
                     item.pipe(this._eventOutput);
                     return item;
                 }
