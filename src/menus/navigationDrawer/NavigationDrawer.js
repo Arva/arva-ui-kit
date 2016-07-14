@@ -43,7 +43,7 @@ import {Dimensions}             from '../../defaults/DefaultDimensions.js';
 export class NavigationDrawer extends View {
 
     constructor(options = {}) {
-        super(combineOptions(options, {
+        super(combineOptions({
             topBarHeight: 44,
             sideMenuOptions: {
                 itemMargin: 10,
@@ -56,7 +56,7 @@ export class NavigationDrawer extends View {
             enabled: true,
             hideOnRoutes: [],
             menuItems: []
-        }));
+        }, options));
 
         let famousContext = Injection.get(FamousContext);
         this.router = Injection.get(Router);
@@ -69,9 +69,9 @@ export class NavigationDrawer extends View {
         this.showingTopBar = true;
 
         /* Set the options */
-        if (options.menuItems) this.sideMenu.setData(options);
-        if (options.enabled != undefined) this.setNavigationDrawerEnabled(options.enabled);
-        if (options.showInitial != undefined && !options.showInitial) this.hideTopBar();
+        if (this.options.menuItems) this.sideMenu.setData(this.options);
+        if (this.options.enabled != undefined) this.setNavigationDrawerEnabled(this.options.enabled);
+        if (this.options.showInitial != undefined && !this.options.showInitial) this.hideTopBar();
         this.router.on('routechange', this.onRouteChange);
 
     }
