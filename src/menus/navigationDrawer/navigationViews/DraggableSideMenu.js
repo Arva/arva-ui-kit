@@ -247,6 +247,10 @@ export class DraggableSideMenu extends View {
      */
     setTabIndexSelected(index) {
         let {navigationItems} = this.sideMenuView.renderables;
+        
+        if(!navigationItems || !(navigationItems instanceof Array)) {
+            return;
+        }
 
         this._explicitTabSelect = true;
         navigationItems.setSelectedItemIndex(index);
