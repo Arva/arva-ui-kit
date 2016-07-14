@@ -105,7 +105,7 @@ export class DraggableSideMenu extends View {
             transition: {duration: 250, curve: Easing.outQuint}
         });
 
-        this.sideMenuView = this.options.draggableSideMenuViewRenderablene ? new this.options.draggableSideMenuViewRenderablene(options) : new DraggableSideMenuView(options);
+        this.sideMenuView = this.options.draggableSideMenuViewRenderable ? new this.options.draggableSideMenuViewRenderable(options) : new DraggableSideMenuView(options);
         this.sideMenuScrollController = new ScrollController({
             layout: ListLayout,
             dataSource: [this.sideMenuView],
