@@ -3,11 +3,10 @@
  */
 
 import Surface              from 'famous/core/Surface.js';
-import {View}               from 'arva-js/core/View.js';
 
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
-import {layout, options}    from 'arva-js/layout/decorators.js';
+import {layout}    from 'arva-js/layout/decorators.js';
 import {Button}             from './Button.js';
 import {UIButtonPrimary}    from '../../defaults/DefaultTypefaces.js';
 import {Colors}             from '../../defaults/DefaultColors.js';
