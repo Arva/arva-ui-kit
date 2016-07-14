@@ -102,7 +102,7 @@ export class NavigationDrawer extends View {
         /* Change the menu on route changes */
         let currentMenuIndex = _.findIndex(this.options.menuItems, (menuItem)=> {
             return menuItem.controller && menuItem.controller === route.controller && menuItem.method && menuItem.method === route.method  &&
-                ((menuItem.arguments && route.values.length) ? _.every(menuItems.arguments,(entry)=>{return ~route.values.indexOf(entry)}) : true)
+                ((menuItem.arguments && route.values.length) ? _.every(menuItem.arguments,(entry)=>{return ~route.values.indexOf(entry)}) : true)
         });
 
         if (currentMenuIndex !== undefined && ~currentMenuIndex) {
