@@ -13,13 +13,12 @@ export class BaseDialog extends View {
 
     @layout.dock('top', ~50)
     @layout.place('top')
-    title = new Surface({content: this.options.title, properties: {textAlign: 'center'}});
+    title = new Surface({content: this.options.title, properties: {textAlign: 'center', whitespace: 'nowrap'}});
 
     @layout.place('top')
     @layout.dock('top', ~50, 8)
     body = new Surface({content: this.options.body, properties: {textAlign: 'center'}});
-
-
+    
     constructor(options){
         super(options);
         this.layout.on('layoutstart', ({size}) => {
@@ -27,8 +26,6 @@ export class BaseDialog extends View {
             /*Set the inner size of the items */
             this.title.decorations.size = [Math.min(size[0] - 32, 320), ~50];
             this.body.decorations.size = [Math.min(size[0] - 32, 320), ~50];
-            /* Set the top margin */
-            this.decorations.viewMargins = [marginSize, 0, 0, 0];
             /* If any child classes need to know about the new margin, call this function */
             this.onNewMargin(marginSize);
         });
@@ -39,6 +36,6 @@ export class BaseDialog extends View {
      * @param newMargin
      */
     onNewMargin(newMargin) {
-        /* To be inherited */
+        this.decorations.viewMargins = [newMargin, 0, newMargin, 0];
     }
 }
