@@ -80,7 +80,6 @@ export class Clickable extends View {
 
     _onClick(mouseEvent) {
         if (!this.options.easyPress && this._isEnabled()) {
-            console.log(`mouseEvent: ${mouseEvent}`);
             this._handleClick(mouseEvent);
         }
     }
@@ -93,7 +92,9 @@ export class Clickable extends View {
     _handleClick(mouseEvent) {
         let {options} = this;
         let {delay} = options;
-        this.disable();
+        if(!options.alwaysEnabled){
+            this.disable();
+        }
         let emit = () => this._eventOutput.emit(options.clickEventName, ...(options.clickEventData || []));
         if (delay) {
             Timer.setTimeout(emit, delay)

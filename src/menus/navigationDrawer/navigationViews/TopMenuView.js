@@ -13,10 +13,11 @@ import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 import {ArrowleftIcon}          from '../../../icons/angular/bold/ArrowleftIcon.js';
 import {HamburgerIcon}          from '../../../icons/angular/bold/HamburgerIcon.js';
 import {InfoIcon}               from '../../../icons/angular/bold/InfoIcon.js';
+import {ImageButton}            from '../../../components/buttons/ImageButton.js';
 
 import {UITitle}                from '../../../defaults/DefaultTypefaces.js';
 
-@layout.margins([0, 18, 0, 18])
+@layout.margins([0, 0, 0, 18])
 export class TopMenuView extends View {
 
     @layout.size(~100, ~17)
@@ -34,16 +35,12 @@ export class TopMenuView extends View {
 
     });
 
-    @layout.size(function(){return this.options.rightIconSize}, function(){return this.options.rightIconSize})
     @layout.dock('right')
-    @layout.align(0,0.5)
-    @layout.origin(0,0.5)
+    @layout.size(50, (size) => Math.min(size, 100))
+    @layout.align(0.5,0.5)
+    @layout.origin(0.5,0.5)
     @layout.translate(0, 0, 25)
-    rightButton = new InfoIcon({
-        properties: {
-            cursor: 'pointer'
-        }
-    });
+    rightButton = new ImageButton({clickEventName: 'rightButtonClick', alwaysEnabled: true, properties: {color: 'white'}, icon:InfoIcon, imageOnly: true});
 
     @layout.animate({showInitially: false})
     @layout.size(~300, undefined)
