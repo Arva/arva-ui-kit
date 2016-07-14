@@ -184,7 +184,7 @@ export class DraggableSideMenu extends View {
                 size: [this.controlHeight, window.innerHeight],
                 origin: [0, 0],
                 align: [0, 0],
-                translate: [-this.controlHeight, Dimensions.topBarHeight, 20]
+                translate: [-this.controlHeight, 0, 20]
             });
 
             context.set('fullScreenOverlay', {
@@ -248,7 +248,7 @@ export class DraggableSideMenu extends View {
     setTabIndexSelected(index) {
         let {navigationItems} = this.sideMenuView.renderables;
 
-        if(!navigationItems || !(navigationItems instanceof Array)) {
+        if (!navigationItems || !(navigationItems instanceof Array)) {
             return;
         }
 
@@ -284,7 +284,7 @@ export class DraggableSideMenu extends View {
                 /* Request that the menu changes title */
                 this._eventOutput.emit('changeTitle', tabSpec.text);
 
-                if(tabSpec.controller) this._eventOutput.emit('changeRouter', tabSpec);
+                if (tabSpec.controller) this._eventOutput.emit('changeRouter', tabSpec);
             }
         })
     }
@@ -318,7 +318,7 @@ export class DraggableSideMenu extends View {
      * Add a new item to the side menu
      * @param item
      */
-    addItem(item){
+    addItem(item) {
         this.renderables.sideMenuView.setItem(item);
     }
 }

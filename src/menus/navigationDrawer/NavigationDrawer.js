@@ -73,12 +73,12 @@ export class NavigationDrawer extends View {
     })
     topBar = this._createTopBar();
 
-    @layout.fullscreen
+    @layout.dock('fill')
     @layout.translate(0, 0, 450)
     sideMenu = this.options.draggableSideMenuRenderable ? new this.options.draggableSideMenuRenderable(this.options.sideMenuOptions) : new DraggableSideMenu(this.options.sideMenuOptions)
 
-    _createTopBar(){
-        if(!this.options.showTopMenu) return new Surface({properties: {backgroundColor: 'transparent'}});
+    _createTopBar() {
+        if (!this.options.showTopMenu) return new Surface({properties: {backgroundColor: 'transparent'}});
         return this.options.topMenuRenderable ? new this.options.topMenuRenderable(this.options.topMenuOptions || {}) : new TopMenu(this.options.topMenuOptions)
     }
 
@@ -101,16 +101,18 @@ export class NavigationDrawer extends View {
 
         /* Change the menu on route changes */
         let currentMenuIndex = _.findIndex(this.options.menuItems, (menuItem)=> {
-            return menuItem.controller && menuItem.controller === route.controller && menuItem.method && menuItem.method === route.method  &&
-                ((menuItem.arguments && route.values.length) ? _.every(menuItem.arguments,(entry)=>{return ~route.values.indexOf(entry)}) : true)
+            return menuItem.controller && menuItem.controller === route.controller && menuItem.method && menuItem.method === route.method &&
+                ((menuItem.arguments && route.values.length) ? _.every(menuItem.arguments, (entry)=> {
+                    return ~route.values.indexOf(entry)
+                }) : true)
         });
 
         if (currentMenuIndex !== undefined && ~currentMenuIndex) {
-            if(this.topBar.setTitle) this.topBar.setTitle(this.options.menuItems[currentMenuIndex].text);
+            if (this.topBar.setTitle) this.topBar.setTitle(this.options.menuItems[currentMenuIndex].text);
             this.sideMenu.setTabIndexSelected(currentMenuIndex);
         }
 
-        if(this.options.closeOnRouteChange){
+        if (this.options.closeOnRouteChange) {
             this._closeMenu();
         }
 
@@ -212,7 +214,7 @@ export class NavigationDrawer extends View {
         this.topBar.on('requestMenuOpen', ()=> {
             this.openMenu();
         });
-        
+
         this.topBar.on('requestMenuClose', ()=> {
             this._onBackButton();
         });
@@ -231,13 +233,13 @@ export class NavigationDrawer extends View {
     _initSideMenuListeners() {
         this.sideMenu.on('close', ()=> {
             this._eventOutput.emit('sideMenuClose');
-            if(this.topBar.close) this.topBar.close();
+            if (this.topBar.close) this.topBar.close();
         });
 
         this.sideMenu.on('open', ()=> {
             this._eventOutput.emit('sideMenuOpen');
             this.showTopBar();
-            if(this.topBar.open) this.topBar.open();
+            if (this.topBar.open) this.topBar.open();
         });
 
         this.sideMenu.on('update', (event) => {
@@ -262,7 +264,7 @@ export class NavigationDrawer extends View {
         });
 
         this.sideMenu.on('changeTitle', (newTitle) => {
-            if(this.topBar.setTitle) this.topBar.setTitle(newTitle);
+            if (this.topBar.setTitle) this.topBar.setTitle(newTitle);
         });
 
         this.sideMenu.on('changeRouter', (menuItem) => {
@@ -282,7 +284,7 @@ export class NavigationDrawer extends View {
      * Update the TopTitle to the current active Tab within the side menu
      */
     setCorrectTopTitle() {
-        if(this.topBar.setTitle) this.topBar.setTitle(this.sideMenu.getSelectedTabText());
+        if (this.topBar.setTitle) this.topBar.setTitle(this.sideMenu.getSelectedTabText());
     }
 
     /**
@@ -290,7 +292,7 @@ export class NavigationDrawer extends View {
      * @private
      */
     _closeMenu() {
-        if(this.topBar.topMenuView) this.topBar.topMenuView.close();
+        if (this.topBar.topMenuView) this.topBar.topMenuView.close();
         this.sideMenu.close()
     }
 
@@ -298,7 +300,7 @@ export class NavigationDrawer extends View {
      * Open the top menu and side menu
      */
     openMenu() {
-        if(this.topBar.topMenuView) this.topBar.topMenuView.open();
+        if (this.topBar.topMenuView) this.topBar.topMenuView.open();
         this.sideMenu.open();
     }
 
@@ -320,7 +322,7 @@ export class NavigationDrawer extends View {
      */
     setScreenName(screenName) {
         this.sideMenu.setScreenName(screenName);
-        if(this.topBar.setNewUser) this.topBar.setNewUser();
+        if (this.topBar.setNewUser) this.topBar.setNewUser();
     }
 
     /**
