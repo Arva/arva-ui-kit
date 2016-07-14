@@ -14,7 +14,7 @@ import {ArrowleftIcon}      from '../../icons/rounded/thin/ArrowleftIcon.js';
 
 export class ImageButton extends Button {
     @layout.translate(0, 0, 30)
-    @layout.size((size) => Math.max(size-16,32), (size) => Math.max(size-16,32))
+    @layout.size(function(size) {return size-this.options.imagePadding}, function(size) {return size-this.options.imagePadding})
     @layout.place('center')
     image = this.options.image ? new ImageSurface(this.options.image) : new this.options.icon({color: this.options.properties.color});
 
@@ -32,6 +32,7 @@ export class ImageButton extends Button {
             options.variation = 'noShadow';
         }
         super(combineOptions({
+            imagePadding: 16,
             properties: {color: Colors.PrimaryUIColor},
             ...TextButton.generateBoxShadowVariations(options.variation)
         }, options));
