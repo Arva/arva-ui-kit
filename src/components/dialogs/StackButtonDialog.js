@@ -21,7 +21,7 @@ export class StackButtonDialog extends BaseDialog {
                     content: buttonText,
                     disableBoxShadow: true,
                     clickEventName: 'closeDialog',
-                    clickEventData: index,
+                    clickEventData: [index],
                     backgroundProperties: {
                         borderTop: '1px #E6e6e6 solid'
                     }
