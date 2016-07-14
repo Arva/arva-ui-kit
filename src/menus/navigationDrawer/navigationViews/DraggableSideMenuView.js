@@ -77,6 +77,7 @@ export class DraggableSideMenuView extends View {
      * @param items
      */
     setItems(items) {
+        this.options.menuItems = items;
         this.renderables.navigationItems.setItems(items);
         this.menuItems = items;
     }
