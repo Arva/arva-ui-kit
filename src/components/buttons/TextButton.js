@@ -10,6 +10,7 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {layout, options}    from 'arva-js/layout/decorators.js';
 import {Button}             from './Button.js';
 import {UIButtonPrimary}    from '../../defaults/DefaultTypefaces.js';
+import {Colors}             from '../../defaults/DefaultColors.js';
 
 export class TextButton extends Button {
     @layout.translate(0, 0, 30)
@@ -24,7 +25,7 @@ export class TextButton extends Button {
             disabledOptions: {
                 content: options.content
             },
-            properties: UIButtonPrimary.properties,
+            properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor},
             ...TextButton.generateBoxShadowVariations(options.variation)
         }, options));
         this.layout.on('layoutstart', ({size}) => {

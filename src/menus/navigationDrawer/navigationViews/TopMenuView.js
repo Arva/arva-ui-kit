@@ -19,9 +19,8 @@ import {UITitle}                from '../../../defaults/DefaultTypefaces.js';
 @layout.margins([0, 18, 0, 18])
 export class TopMenuView extends View {
 
-    @layout.size(~100, 17)
-    @layout.align(0.5, 0.5)
-    @layout.origin(0.5, 0.5)
+    @layout.size(~100, ~17)
+    @layout.place('center')
     @layout.translate(0, 0, 25)
     title = new Text({
         content: this.options.defaultTitle || 'Mijn dashboard',
