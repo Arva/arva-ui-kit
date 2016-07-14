@@ -108,6 +108,10 @@ export class NavigationDrawer extends View {
             this.sideMenu.setTabIndexSelected(currentMenuIndex);
         }
 
+        if(this.options.closeOnRouteChange){
+            this._closeMenu();
+        }
+
     }
 
     /**
