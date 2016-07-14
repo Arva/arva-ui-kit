@@ -210,13 +210,11 @@ export class NavigationDrawer extends View {
         this.topBar.on('requestMenuOpen', ()=> {
             this.openMenu();
         });
+        
         this.topBar.on('requestMenuClose', ()=> {
             this._onBackButton();
         });
 
-        this.topBar.on('rightButtonClick', ()=> {
-            this._eventOutput.emit('rightButtonClick');
-        });
         this.topBar.on('titleClick', ()=> {
             this._handleOpenClose();
         });
