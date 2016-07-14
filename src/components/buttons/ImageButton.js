@@ -28,7 +28,7 @@ export class ImageButton extends Button {
             options.icon = ArrowleftIcon;
         }
         if (options.imageOnly) {
-            options.backgroundProperties = {backgroundColor: 'none'};
+            options.backgroundProperties = {...options.backgroundProperties, backgroundColor: 'none'};
             options.variation = 'noShadow';
         }
         super(combineOptions({
