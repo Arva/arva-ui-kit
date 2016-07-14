@@ -29,6 +29,7 @@
 import _                        from 'lodash';
 import Surface                  from 'famous/core/Surface.js';
 import {Injection}              from 'arva-js/utils/Injection.js';
+import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import FamousContext            from 'famous/core/Context.js';
 import {Router}                 from 'arva-js/core/Router.js';
 import {View}                   from 'arva-js/core/View.js';
@@ -42,7 +43,20 @@ import {Dimensions}             from '../../defaults/DefaultDimensions.js';
 export class NavigationDrawer extends View {
 
     constructor(options = {}) {
-        super(options);
+        super(combineOptions(options, {
+            topBarHeight: 44,
+            sideMenuOptions: {
+                itemMargin: 10,
+                itemHeight: 44,
+                direction: 1
+            },
+            showTopMenu: true,
+            showInitial: true,
+            closeOnRouteChange: true,
+            enabled: true,
+            hideOnRoutes: [],
+            menuItems: []
+        }));
 
         let famousContext = Injection.get(FamousContext);
         this.router = Injection.get(Router);
