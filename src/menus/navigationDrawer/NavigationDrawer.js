@@ -65,7 +65,7 @@ export class NavigationDrawer extends View {
     @layout.dock('top', function () {
         return this.options.topBarHeight ? this.options.topBarHeight : Dimensions.topBarHeight
     })
-    @layout.translate(0, 0, 30)
+    @layout.translate(0, 0, 500)
     @layout.animate({
         showInitially: true,
         show: {animation: AnimationController.Animation.Slide.Down},
@@ -74,6 +74,7 @@ export class NavigationDrawer extends View {
     topBar = this._createTopBar();
 
     @layout.fullscreen
+    @layout.translate(0, 0, 450)
     sideMenu = this.options.draggableSideMenuRenderable ? new this.options.draggableSideMenuRenderable(this.options.sideMenuOptions) : new DraggableSideMenu(this.options.sideMenuOptions)
 
     _createTopBar(){
