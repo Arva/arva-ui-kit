@@ -32,6 +32,7 @@ export class StackButtonDialog extends BaseDialog {
 
     onNewMargin(newMargin) {
         /* Set the space between text and buttons the same as the upper, left, and right margins */
+        this.decorations.viewMargins = [newMargin, 0, 0, 0];
         if (this.button0) {
             this.button0.decorations.dock.space = newMargin;
         }

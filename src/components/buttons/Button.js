@@ -37,7 +37,7 @@ export class Button extends Clickable {
 
     @layout.fullscreen
     @layout.translate(0, 0, 40)
-    overlay = new Surface({properties: {cursor: 'pointer'}});
+    overlay = new Surface({properties: {cursor: 'pointer', borderRadius: this.options.backgroundProperties.borderRadius}});
 
 
     constructor(options) {

@@ -2,7 +2,6 @@
  * Created by manuel on 09-09-15.
  */
 import Surface                  from 'famous/core/Surface.js';
-import AnimationController      from 'famous-flex/AnimationController.js';
 import {View}                   from 'arva-js/core/View.js';
 import {NameDisplay}            from './NameDisplay.js';
 import {layout}                 from 'arva-js/layout/decorators.js';
@@ -14,10 +13,11 @@ import {ArrowleftIcon}          from '../../../icons/angular/bold/ArrowleftIcon.
 import {HamburgerIcon}          from '../../../icons/angular/bold/HamburgerIcon.js';
 import {InfoIcon}               from '../../../icons/angular/bold/InfoIcon.js';
 import {ImageButton}            from '../../../components/buttons/ImageButton.js';
+import {FloatingImageButton}    from '../../../components/buttons/FloatingImageButton.js';
 
 import {UITitle}                from '../../../defaults/DefaultTypefaces.js';
 
-@layout.margins([0, 0, 0, 18])
+@layout.margins([0, 0, 0, 0])
 export class TopMenuView extends View {
 
     @layout.size(~100, ~17)
@@ -37,10 +37,10 @@ export class TopMenuView extends View {
 
     @layout.dock('right')
     @layout.size(50, (size) => Math.min(size, 100))
-    @layout.align(0.5,0.5)
-    @layout.origin(0.5,0.5)
+    @layout.place('center')
     @layout.translate(0, 0, 25)
-    rightButton = new ImageButton({clickEventName: 'rightButtonClick', alwaysEnabled: true, properties: {color: 'white'}, icon:InfoIcon, imageOnly: true});
+    rightButton = new FloatingImageButton({clickEventName: 'rightButtonClick', alwaysEnabled: true, properties: {color: 'white'},
+        icon:InfoIcon, imageOnly: true, variation: 'noShadow'});
 
     @layout.animate({showInitially: false})
     @layout.size(~300, undefined)
@@ -48,11 +48,19 @@ export class TopMenuView extends View {
     @layout.translate(0, 0, 25)
     nameDisplay = new NameDisplay();
 
-    @layout.size(26.88, 22)
-    @layout.place('left')
+
+    @layout.animate()
+    @layout.size(50, (size) => Math.min(size, 100))
+    @layout.place('center')
     @layout.dock('left')
     @layout.translate(0, 0, 20)
-    menuButton = new AnimationController();
+    /* Getter will be overwritten by the decorators, so won't be called twice */
+    get menuButton() {
+        this.hamburgerButton = new ImageButton({clickEventName: 'requestMenuOpen', imageOnly: true, icon: HamburgerIcon, properties: {color: 'white'}, alwaysEnabled: true});
+        this.arrowLeftButton = new ImageButton({clickEventName: 'requestMenuClose', imageOnly: true, icon: ArrowleftIcon, properties: {color: 'white'}, alwaysEnabled: true});
+        return this.hamburgerButton;
+    }
+
 
     @layout.size(65, Dimensions.topBarHeight)
     @layout.align(0, 0)
@@ -77,30 +85,16 @@ export class TopMenuView extends View {
     constructor(options = {}) {
         super(options);
 
-        this.hamburgerButton = new HamburgerIcon({
-            properties: {
-                cursor: 'pointer'
-            }
-        });
-
-        this.backButton = new ArrowleftIcon({
-            properties: {
-                cursor: 'pointer'
-            }
-        });
 
         this.clickableSurface.on('click', () => {
-            if (this.menuButton.get() === this.hamburgerButton) {
+            if (this.renderables.menuButton.get().options.icon === HamburgerIcon) {
                 this._eventOutput.emit('requestMenuOpen');
             } else {
                 this._eventOutput.emit('requestMenuClose');
             }
         });
 
-        this.menuButton.show(this.hamburgerButton);
 
-        this.hamburgerButton.pipe(this.menuButton._eventOutput);
-        this.backButton.pipe(this.menuButton._eventOutput);
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');
         });
@@ -155,16 +149,23 @@ export class TopMenuView extends View {
      * Open the top menu
      */
     open() {
-        this.isOpen = true;
-        this.menuButton.show(this.backButton, ...arguments);
+        if(!this.isOpen){
+            this.isOpen = true;
+            this.replaceRenderable('menuButton', this.arrowLeftButton);
+            this.showRenderable('menuButton');
+        }
     }
 
     /**
      * Close the top menu
      */
     close() {
-        this.isOpen = false;
-        this.menuButton.show(this.hamburgerButton, ...arguments);
+        if(this.isOpen){
+            this.isOpen = false;
+            this.replaceRenderable('menuButton', this.hamburgerButton);
+            this.showRenderable('menuButton');
+        }
+
     }
 
     /**

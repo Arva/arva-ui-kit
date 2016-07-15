@@ -34,27 +34,27 @@ import {Colors}                 from './DefaultColors.js'
 // - [ ] Big
 
 export let TypeFaces = _.merge({
-    UITitle: {fontSize: 18, fontWeight: 'bold', color: Colors.BasicTextColor},
-    UIRegular: {fontSize: 18, fontWeight: 'normal', color: Colors.BasicTextColor},
-    UISmall: {fontSize: 14, fontWeight: 'normal', color: Colors.BasicTextColor},
-    UISmallGrey: {fontSize: 14, fontWeight: 'normal', color: Colors.ModestTextColor},
-    UITiny: {fontSize: 10, fontWeight: 'normal', color: Colors.BasicTextColor},
-    UIButtonPrimary: {fontSize: 18, fontWeight: 'bold', color: Colors.PrimaryUIColor, whiteSpace: 'nowrap'},
-    UIButtonPrimaryLight: {fontSize: 18, fontWeight: 'normal', color: Colors.PrimaryUIColor},
-    UIButtonSecondary: {fontSize: 18, fontWeight: 'bold', color: Colors.SecondaryUIColor},
-    UIButtonSecondaryLight: {fontSize: 18, fontWeight: 'normal', color: Colors.SecondaryUIColor},
+    UITitle: {fontSize: '18px', fontWeight: 'bold', color: Colors.BasicTextColor},
+    UIRegular: {fontSize: '18px', fontWeight: 'normal', color: Colors.BasicTextColor},
+    UISmall: {fontSize: '14px', fontWeight: 'normal', color: Colors.BasicTextColor},
+    UISmallGrey: {fontSize: '14px', fontWeight: 'normal', color: Colors.ModestTextColor},
+    UITiny: {fontSize: '10px', fontWeight: 'normal', color: Colors.BasicTextColor},
+    UIButtonPrimary: {fontSize: '18px', fontWeight: 'bold', color: Colors.PrimaryUIColor, whiteSpace: 'nowrap'},
+    UIButtonPrimaryLight: {fontSize: '18px', fontWeight: 'normal', color: Colors.PrimaryUIColor},
+    UIButtonSecondary: {fontSize: '18px', fontWeight: 'bold', color: Colors.SecondaryUIColor},
+    UIButtonSecondaryLight: {fontSize: '18px', fontWeight: 'normal', color: Colors.SecondaryUIColor},
 
-    TextBody: {fontSize: 18, fontWeight: 'normal', color: Colors.ArticleTextColor},
-    TextH1: {fontSize: 64, fontWeight: 'bold', color: Colors.ArticleTextColor },
-    TextH2: {fontSize: 32, fontWeight: 'bold', color: Colors.ArticleTextColor},
-    TextH3: {fontSize: 18, fontWeight: 'bold', color: Colors.ArticleTextColor},
-    TextCaptions: {fontSize: 14, fontWeight: 'normal', color: Colors.ModestTextColor},
-    TextQuote: {fontSize: 18, fontWeight: 'bold', color: Colors.ModestTextColor},
-    TextQuoteEmphasis: {fontSize: 24, fontWeight: 'normal', fontStyle: 'italic', color: Colors.PrimaryUIColor},
-    TextInfoLabel: {fontSize: 14, fontWeight: 'normal', color: Colors.ModestTextColor, textTransform: 'uppercase'},
+    TextBody: {fontSize: '18px', fontWeight: 'normal', color: Colors.ArticleTextColor},
+    TextH1: {fontSize: '64px', fontWeight: 'bold', color: Colors.ArticleTextColor },
+    TextH2: {fontSize: '32px', fontWeight: 'bold', color: Colors.ArticleTextColor},
+    TextH3: {fontSize: '18px', fontWeight: 'bold', color: Colors.ArticleTextColor},
+    TextCaptions: {fontSize: '14px', fontWeight: 'normal', color: Colors.ModestTextColor},
+    TextQuote: {fontSize: '18px', fontWeight: 'bold', color: Colors.ModestTextColor},
+    TextQuoteEmphasis: {fontSize: '24px', fontWeight: 'normal', fontStyle: 'italic', color: Colors.PrimaryUIColor},
+    TextInfoLabel: {fontSize: '14px', fontWeight: 'normal', color: Colors.ModestTextColor, textTransform: 'uppercase'},
 
-    ImpactHuge: {fontSize: 64, fontWeight: 'bold', color: Colors.ImageTextColor},
-    ImpactBig: {fontSize: 32, fontWeight: 'bold', color: Colors.ImageTextColor}
+    ImpactHuge: {fontSize: '64px', fontWeight: 'bold', color: Colors.ImageTextColor},
+    ImpactBig: {fontSize: '32px', fontWeight: 'bold', color: Colors.ImageTextColor}
 }, Avenir.UI, Avenir.Text, Avenir.Impact);
 
 export function useTypefaces(...faces) {
@@ -79,6 +79,3 @@ export let TextQuote                = {properties: TypeFaces.TextQuote};
 export let TextInfoLabel            = {properties: TypeFaces.TextInfoLabel};
 export let ImpactHuge               = {properties: TypeFaces.ImpactHuge};
 export let ImpactBig                = {properties: TypeFaces.ImpactBig};
-
-
-
