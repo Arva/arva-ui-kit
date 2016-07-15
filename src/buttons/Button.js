@@ -4,11 +4,8 @@
 
 import Surface              from 'famous/core/Surface.js';
 import AnimationController  from 'famous-flex/AnimationController.js';
-
-import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {layout, options}    from 'arva-js/layout/decorators.js';
-
+import {layout}    from 'arva-js/layout/decorators.js';
 import {Clickable}          from './components/Clickable.js'
 import {Ripple}             from './components/Ripple.js';
 

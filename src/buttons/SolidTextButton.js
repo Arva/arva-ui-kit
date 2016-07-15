@@ -4,7 +4,7 @@
 
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {TextButton}         from './TextButton.js';
-import {Colors}             from '../../defaults/DefaultColors.js';
+import {Colors}             from '../defaults/DefaultColors.js';
 
 export class SolidTextButton extends TextButton {
 

@@ -2,15 +2,13 @@
  * Created by lundfall on 12/07/16.
  */
 import ImageSurface         from 'famous/Surfaces/ImageSurface.js';
-import {View}               from 'arva-js/core/View.js';
-
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
-import {layout, options}    from 'arva-js/layout/decorators.js';
+import {layout}    from 'arva-js/layout/decorators.js';
 import {Button}             from './Button.js';
-import {Colors}             from '../../defaults/DefaultColors.js';
+import {Colors}             from '../defaults/DefaultColors.js';
 import {TextButton}         from './TextButton.js';
-import {ArrowleftIcon}      from '../../icons/rounded/thin/ArrowleftIcon.js';
+import {ArrowleftIcon}      from '../icons/rounded/thin/ArrowleftIcon.js';
 
 export class ImageButton extends Button {
     @layout.translate(0, 0, 30)
