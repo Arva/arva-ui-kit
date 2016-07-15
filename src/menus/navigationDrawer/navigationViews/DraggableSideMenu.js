@@ -17,7 +17,6 @@ import StateModifier            from 'famous/modifiers/StateModifier';
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
 import {FullScreenBackground}   from '../../../surfaces/backgrounds/FullScreenBackground.js';
 import {Colors}                 from '../../../defaults/DefaultColors.js';
-import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 
 export class DraggableSideMenu extends View {
 

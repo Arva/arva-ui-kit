@@ -2,10 +2,7 @@
  * Created by tom on 16/06/16.
  */
 
-import _                                from 'lodash';
-import BkImageSurface                   from 'famous-bkimagesurface';
 import Surface                          from 'famous/core/Surface.js';
-import ImageSurface                     from 'famous/surfaces/ImageSurface.js';
 
 import {IconColor}                      from '../defaults/DefaultColors.js';
 import {replaceColors}                  from './ReplaceColors.js';

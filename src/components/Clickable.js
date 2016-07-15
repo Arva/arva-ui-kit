@@ -5,7 +5,7 @@ import Timer                from 'famous/utilities/Timer.js';
 
 import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {layout, options}    from 'arva-js/layout/decorators.js';
+import {layout}             from 'arva-js/layout/decorators.js';
 
 
 @layout.margins([0, 12, 0, 12])

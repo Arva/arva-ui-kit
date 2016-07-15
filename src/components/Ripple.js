@@ -4,12 +4,8 @@
 import Surface              from 'famous/core/Surface.js';
 import Transform            from 'famous/core/Transform';
 import {View}               from 'arva-js/core/View.js';
-
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-
-import {layout, options}    from 'arva-js/layout/decorators.js';
-
-let rippleSize = 10;
+import {layout}             from 'arva-js/layout/decorators.js';
 
 export class Ripple extends View {
 
@@ -31,7 +27,7 @@ export class Ripple extends View {
         },
             transition: {duration: 500, curve: (x) => x}},
     })
-    @layout.size(rippleSize, rippleSize)
+    @layout.size(function(){return this.options.rippleSize}, function(){return this.options.rippleSize})
     ripple = new Surface({
         properties: {
             borderRadius: '100%',
@@ -42,6 +38,12 @@ export class Ripple extends View {
             /*boxShadow: '0px 0px 35px rgba(0, 0, 0, 0.65) inset, 0px 0px 5px rgba(255, 255, 255, 0.5)'*/
         }
     });
+
+    constructor(options){
+        super(combineOptions(options, {
+            rippleSize: 10
+        }));
+    }
 
 
     show(x, y) {

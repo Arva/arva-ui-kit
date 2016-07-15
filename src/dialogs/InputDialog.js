@@ -6,7 +6,7 @@ import {layout}                 from 'arva-js/layout/decorators.js';
 
 import {BaseDialog}             from './BaseDialog.js';
 import {TextButton}             from '../buttons/TextButton.js';
-import {SingleLineInputSurface} from "../../surfaces/input/SingleLineInputSurface";
+import {SingleLineInputSurface} from "../surfaces/input/SingleLineInputSurface";
 
 @layout.margins([10,10,10,10])
 export class InputDialog extends BaseDialog {

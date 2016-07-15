@@ -4,7 +4,7 @@
 
 import Surface            from 'famous/core/Surface.js';
 import {combineOptions}   from 'arva-js/utils/CombineOptions.js';
-import {TextBody}         from '../../defaults/DefaultTypefaces.js';
+import {TextBody}         from '../defaults/DefaultTypefaces.js';
 
 export class Text extends Surface {
     constructor(options){
