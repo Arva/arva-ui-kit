@@ -17,7 +17,7 @@ import {FloatingImageButton}    from '../../../components/buttons/FloatingImageB
 
 import {UITitle}                from '../../../defaults/DefaultTypefaces.js';
 
-@layout.margins([0, 0, 0, 0])
+@layout.margins([0, 0, 0, 5])
 export class TopMenuView extends View {
 
     @layout.size(~100, ~17)
