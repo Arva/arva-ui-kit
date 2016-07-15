@@ -3,16 +3,14 @@
  */
 
 import Surface              from 'famous/core/Surface.js';
-import {View}               from 'arva-js/core/View.js';
-import Timer                from 'famous/utilities/Timer.js';
-
-
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-
-import {layout, options}    from 'arva-js/layout/decorators.js';
-import {Clickable}          from '../Clickable.js'
-import {Ripple}             from './Ripple.js';
 import AnimationController  from 'famous-flex/AnimationController.js';
+
+import {View}               from 'arva-js/core/View.js';
+import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
+import {layout, options}    from 'arva-js/layout/decorators.js';
+
+import {Clickable}          from './components/Clickable.js'
+import {Ripple}             from './components/Ripple.js';
 
 
 @layout.translate(0, 0, 30)
