@@ -37,13 +37,12 @@ import {layout, options}        from 'arva-js/layout/decorators.js';
 import AnimationController      from 'famous-flex/AnimationController.js';
 import {DraggableSideMenu}      from './navigationViews/DraggableSideMenu.js';
 import {TopMenu}                from './navigationViews/TopMenu.js';
-import {MenuItem}               from './navigationViews/MenuItem.js';
 import {Dimensions}             from '../../defaults/DefaultDimensions.js';
 
 export class NavigationDrawer extends View {
 
     constructor(options = {}) {
-        super(combineOptions(options, {
+        super(combineOptions({
             topBarHeight: 44,
             sideMenuOptions: {
                 itemMargin: 10,
@@ -56,7 +55,7 @@ export class NavigationDrawer extends View {
             enabled: true,
             hideOnRoutes: [],
             menuItems: []
-        }));
+        },options));
 
         let famousContext = Injection.get(FamousContext);
         this.router = Injection.get(Router);
@@ -69,7 +68,7 @@ export class NavigationDrawer extends View {
         this.showingTopBar = true;
 
         /* Set the options */
-        if (options.menuItems) this.sideMenu.setData(options);
+        this.sideMenu.setData(this.options);
         if (options.enabled != undefined) this.setNavigationDrawerEnabled(options.enabled);
         if (options.showInitial != undefined && !options.showInitial) this.hideTopBar();
         this.router.on('routechange', this.onRouteChange);
