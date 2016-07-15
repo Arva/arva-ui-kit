@@ -49,8 +49,8 @@ export class Ripple extends View {
     show(x, y) {
         let {decorations} = this.ripple;
         /* Shift it because origin/align is 0.5 */
-        decorations.translate[0] = x - rippleSize/2;
-        decorations.translate[1] = y - rippleSize/2;
+        decorations.translate[0] = x - this.options.rippleSize/2;
+        decorations.translate[1] = y - this.options.rippleSize/2;
         this.layout.reflowLayout();
         this.showRenderable('ripple');
         this.renderables.ripple.hide( null,() => {
