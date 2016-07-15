@@ -16,13 +16,14 @@ export class InputDialog extends BaseDialog {
         placeholder: this.options.inputText || 'input'
     });
 
-    @layout.dock('top', function(){return this.options.buttonHeight || 64})
+    @layout.dock('bottom', function(){return this.options.buttonHeight || 64})
     button = new TextButton({
         content: this.options.buttonText,
         disableBoxShadow: true,
         clickEventName: 'submit',
         backgroundProperties: {
-            borderTop: '1px #E6e6e6 solid'
+            borderTop: '1px #E6e6e6 solid',
+            boxShadow: 'none'
         }
     });
 
