@@ -1,12 +1,11 @@
 /**
  * Created by lundfall on 6/1/16.
  */
-import Surface               from 'famous/core/Surface.js';
 
 import {View}                from 'arva-js/core/View.js';
 import {layout, options}     from 'arva-js/layout/decorators.js';
 
-import {Text}                from '../../../surfaces/text/Text.js';
+import {Text}                from '../../../text/Text.js';
 
 var Settings = {
     smallFontSize: '12px'

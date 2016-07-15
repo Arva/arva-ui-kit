@@ -15,7 +15,7 @@ import Easing                   from 'famous/transitions/Easing';
 import Draggable                from 'famous/modifiers/Draggable';
 import StateModifier            from 'famous/modifiers/StateModifier';
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
-import {FullScreenBackground}   from '../../../surfaces/backgrounds/FullScreenBackground.js';
+import {FullScreenBackground}   from '../../../backgrounds/FullScreenBackground.js';
 import {Colors}                 from '../../../defaults/DefaultColors.js';
 
 export class DraggableSideMenu extends View {
