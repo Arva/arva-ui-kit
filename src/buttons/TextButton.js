@@ -6,10 +6,10 @@ import Surface              from 'famous/core/Surface.js';
 
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
-import {layout}    from 'arva-js/layout/decorators.js';
+import {layout}             from 'arva-js/layout/decorators.js';
 import {Button}             from './Button.js';
-import {UIButtonPrimary}    from '../../defaults/DefaultTypefaces.js';
-import {Colors}             from '../../defaults/DefaultColors.js';
+import {UIButtonPrimary}    from '../defaults/DefaultTypefaces.js';
+import {Colors}             from '../defaults/DefaultColors.js';
 
 export class TextButton extends Button {
     @layout.translate(0, 0, 30)

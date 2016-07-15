@@ -2,7 +2,6 @@
  * Created by lundfall on 12/07/16.
  */
 
-import {View}               from 'arva-js/core/View.js';
 import {layout}             from 'arva-js/layout/decorators.js';
 
 import {BaseDialog}         from './BaseDialog.js';
