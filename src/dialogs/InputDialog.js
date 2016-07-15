@@ -8,9 +8,15 @@ import {BaseDialog}             from './BaseDialog.js';
 import {TextButton}             from '../buttons/TextButton.js';
 import {SingleLineInputSurface} from "../../surfaces/input/SingleLineInputSurface";
 
+@layout.margins([10,10,10,10])
 export class InputDialog extends BaseDialog {
 
-    @layout.dock('top', ()=> this.options.buttonHeight || 64)
+    @layout.dock('top', function(){return this.options.buttonHeight || 64})
+    input = new SingleLineInputSurface({
+        placeholder: this.options.inputText || 'input'
+    });
+
+    @layout.dock('top', function(){return this.options.buttonHeight || 64})
     button = new TextButton({
         content: this.options.buttonText,
         disableBoxShadow: true,
@@ -20,8 +26,4 @@ export class InputDialog extends BaseDialog {
         }
     });
 
-    @layout.dock('top', ()=> this.options.buttonHeight || 64)
-    input = new SingleLineInputSurface({
-        placeholder: this.options.inputText || 'input'
-    });
 }
