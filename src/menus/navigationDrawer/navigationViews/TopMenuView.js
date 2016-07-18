@@ -39,7 +39,7 @@ export class TopMenuView extends View {
     @layout.size(50, (size) => Math.min(size, 100))
     @layout.place('center')
     @layout.translate(0, 0, 25)
-    rightButton = new FloatingImageButton({clickEventName: 'rightButtonClick', disableAfterClick: false, properties: {color: 'white'},
+    rightButton = new FloatingImageButton({clickEventName: 'rightButtonClick', properties: {color: 'white'},
         icon:InfoIcon, imageOnly: true, variation: 'noShadow'});
 
     @layout.animate({showInitially: false})
@@ -56,8 +56,8 @@ export class TopMenuView extends View {
     @layout.translate(0, 0, 20)
     /* Getter will be overwritten by the decorators, so won't be called twice */
     get menuButton() {
-        this.hamburgerButton = new ImageButton({clickEventName: 'requestMenuOpen', imageOnly: true, icon: HamburgerIcon, properties: {color: 'white'}, disableAfterClick: false});
-        this.arrowLeftButton = new ImageButton({clickEventName: 'requestMenuClose', imageOnly: true, icon: ArrowleftIcon, properties: {color: 'white'}, disableAfterClick: false});
+        this.hamburgerButton = new ImageButton({clickEventName: 'requestMenuOpen', imageOnly: true, icon: HamburgerIcon, properties: {color: 'white'}});
+        this.arrowLeftButton = new ImageButton({clickEventName: 'requestMenuClose', imageOnly: true, icon: ArrowleftIcon, properties: {color: 'white'}});
         return this.hamburgerButton;
     }
 
