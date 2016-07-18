@@ -14,7 +14,7 @@ export class Clickable extends View {
     constructor(options = {}) {
         options = combineOptions({
             easyPress: false,
-            alwaysEnabled: false,
+            disableAfterClick: false,
             autoEnable: true,
             clickEventName: 'buttonClick'
         }, options);
@@ -92,7 +92,7 @@ export class Clickable extends View {
     _handleClick(mouseEvent) {
         let {options} = this;
         let {delay} = options;
-        if(!options.alwaysEnabled){
+        if(options.disableAfterClick){
             this.disable();
         }
         let emit = () => this._eventOutput.emit(options.clickEventName, ...(options.clickEventData || []));
@@ -104,7 +104,7 @@ export class Clickable extends View {
     }
 
     _isEnabled() {
-        return this._enabled || this.options.alwaysEnabled;
+        return this._enabled || !this.options.disableAfterClick;
     }
 
     _setEnabled(enabled) {
