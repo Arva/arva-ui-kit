@@ -2,6 +2,7 @@
  * Created by manuel on 09-09-15.
  */
 import Surface                  from 'famous/core/Surface.js';
+import TabBar                   from 'famous-flex/widgets/TabBar.js';
 import ScrollController         from 'famous-flex/ScrollController.js';
 import ListLayout               from 'famous-flex/layouts/ListLayout.js';
 
