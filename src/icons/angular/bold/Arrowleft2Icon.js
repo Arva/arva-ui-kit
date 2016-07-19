@@ -1,8 +1,8 @@
-import {BaseIcon}                  from '../../BaseIcon.js';
-        import iconImage                   from '../../resources/arrowleft2_angular_bold.svg.txt!text';
-        
-        export class Arrowleft2Icon extends BaseIcon {
-            constructor(options){
-                super({...options, icon: iconImage});
-            }
-        }
+import {BaseIcon}					from '../../BaseIcon.js';
+import iconImage					from '../../resources/arrowleft2_angular_bold.svg.txt!text';
+
+export class Arrowleft2Icon extends BaseIcon {
+    constructor(options){
+        super({...options, icon: iconImage});
+    }
+}
