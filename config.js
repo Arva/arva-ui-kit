@@ -14,7 +14,7 @@ System.config({
   },
 
   map: {
-    "arva-js": "github:bizboard/arva-js@develop",
+    "arva-js": "github:bizboard/arva-js@1.0.7",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.6",
@@ -22,20 +22,20 @@ System.config({
     "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
     "famous-flex": "github:bizboard/famous-flex@master",
     "lodash": "npm:lodash@4.13.1",
-    "github:bizboard/arva-js@develop": {
-      "bowser": "npm:bowser@1.3.0",
+    "github:bizboard/arva-js@1.0.7": {
+      "bowser": "npm:bowser@1.4.1",
       "camelcase": "npm:camelcase@2.1.1",
       "di": "github:bizboard/di.js@master",
       "eventemitter3": "npm:eventemitter3@1.2.0",
-      "famous": "github:bizboard/famous@develop",
+      "famous": "github:bizboard/famous@0.3.7",
       "famous-flex": "github:bizboard/famous-flex@master",
-      "firebase": "github:firebase/firebase-bower@3.0.5",
+      "firebase": "github:firebase/firebase-bower@3.2.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "lodash": "npm:lodash@4.13.1",
       "ordered-hashmap": "npm:ordered-hashmap@1.0.0",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "request-animation-frame-mock": "github:erykpiast/request-animation-frame-mock@0.1.8",
-      "xml2js": "npm:xml2js@0.4.16"
+      "xml2js": "npm:xml2js@0.4.17"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
@@ -145,7 +145,7 @@ System.config({
     "npm:vm-browserify@0.0.4": {
       "indexof": "npm:indexof@0.0.1"
     },
-    "npm:xml2js@0.4.16": {
+    "npm:xml2js@0.4.17": {
       "events": "github:jspm/nodelibs-events@0.1.1",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "sax": "npm:sax@1.2.1",

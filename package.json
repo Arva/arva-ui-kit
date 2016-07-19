@@ -13,7 +13,7 @@
       "lib": "src"
     },
     "dependencies": {
-      "arva-js": "github:bizboard/arva-js@develop",
+      "arva-js": "github:bizboard/arva-js@1.0.7",
       "famous": "github:bizboard/famous@0.3.7",
       "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
       "famous-flex": "github:bizboard/famous-flex@master",
