@@ -17,13 +17,13 @@ export class TextButton extends Button {
     @layout.align(0.5, 0)
     text = new Surface(this.options);
 
-    constructor(options){
+    constructor(options) {
         super(combineOptions({
             disabledOptions: {
                 content: options.content
             },
             properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor},
-            ...TextButton.generateBoxShadowVariations(options.variation)
+            ...TextButton.generateBoxShadowVariations(options.variation, options.disableBoxShadow)
         }, options));
         this.layout.on('layoutstart', ({size}) => {
             let newLineHeight = size[1] + 'px';
@@ -42,8 +42,10 @@ export class TextButton extends Button {
         this.text.setOptions(enabled ? options : options.disabledOptions);
     }
 
-    static generateBoxShadowVariations(variation) {
-        return {useBoxShadow: variation === 'noShadow' ? false : true,
-            boxShadowType: variation}
+    static generateBoxShadowVariations(variation, disableBoxShadow) {
+        return {
+            useBoxShadow: (variation === 'noShadow' || disableBoxShadow) ? false : true,
+            boxShadowType: variation
+        }
     }
 }

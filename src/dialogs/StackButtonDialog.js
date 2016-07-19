@@ -22,7 +22,8 @@ export class StackButtonDialog extends BaseDialog {
                     clickEventName: 'closeDialog',
                     clickEventData: [index],
                     backgroundProperties: {
-                        borderTop: '1px #E6e6e6 solid'
+                        borderTop: '1px #E6e6e6 solid',
+                        borderRadius: index !== buttons.length - 1 ? '0px' : '0px 0px 4px 4px'
                     }
                 }
             ), `button${index}`, layout.dock('top', buttonHeight));
