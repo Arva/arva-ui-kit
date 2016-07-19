@@ -2,6 +2,7 @@
  * Created by manuel on 09-09-15.
  */
 import Surface                  from 'famous/core/Surface.js';
+import TabBar                   from 'famous-flex/widgets/TabBar.js';
 import ScrollController         from 'famous-flex/ScrollController.js';
 import ListLayout               from 'famous-flex/layouts/ListLayout.js';
 
@@ -247,7 +248,7 @@ export class DraggableSideMenu extends View {
     setTabIndexSelected(index) {
         let {navigationItems} = this.sideMenuView.renderables;
 
-        if (!navigationItems || !(navigationItems instanceof Array)) {
+        if (!navigationItems || !(navigationItems instanceof TabBar) || (navigationItems instanceof  TabBar && !navigationItems.getItems().length)) {
             return;
         }
 
@@ -285,7 +286,8 @@ export class DraggableSideMenu extends View {
 
                 if (tabSpec.controller) this._eventOutput.emit('changeRouter', tabSpec);
             }
-        })
+        });
+
     }
 
     /**
