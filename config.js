@@ -22,6 +22,7 @@ System.config({
     "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
     "famous-flex": "github:bizboard/famous-flex@master",
     "lodash": "npm:lodash@4.13.1",
+    "text": "github:systemjs/plugin-text@0.0.8",
     "github:bizboard/arva-js@develop": {
       "bowser": "npm:bowser@1.3.0",
       "camelcase": "npm:camelcase@2.1.1",
