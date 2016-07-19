@@ -3,9 +3,9 @@
  */
 
 import Surface              from 'famous/core/Surface.js';
+import TabBar               from 'famous-flex/widgets/TabBar.js';
 import {View}               from 'arva-js/core/View.js';
 import {layout}             from 'arva-js/layout/decorators.js';
-import TabBar               from 'famous-flex/widgets/TabBar.js';
 import {Dimensions}         from '../../../defaults/DefaultDimensions.js';
 import {MenuItem}           from './MenuItem.js';
 

@@ -14,7 +14,7 @@
     },
     "dependencies": {
       "arva-js": "github:bizboard/arva-js@develop",
-      "famous": "github:bizboard/famous@0.3.7",
+      "famous": "github:bizboard/famous@^0.3.7",
       "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
       "famous-flex": "github:bizboard/famous-flex@master",
       "lodash": "npm:lodash@^4.13.1"
@@ -22,7 +22,8 @@
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4"
+      "core-js": "npm:core-js@^1.1.4",
+      "text": "github:systemjs/plugin-text@^0.0.8"
     }
   }
 }
