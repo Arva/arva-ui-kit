@@ -30,7 +30,7 @@ export class ImageButton extends Button {
             options.variation = 'noShadow';
         }
         super(combineOptions({
-            imagePadding: 16,
+            imagePadding: 24,
             properties: {color: Colors.PrimaryUIColor},
             ...TextButton.generateBoxShadowVariations(options.variation)
         }, options));

@@ -43,7 +43,7 @@ export class NavigationDrawer extends View {
 
     constructor(options = {}) {
         super(combineOptions({
-            topBarHeight: 44,
+            topBarHeight: 48,
             sideMenuOptions: {
                 itemMargin: 10,
                 itemHeight: 44,
