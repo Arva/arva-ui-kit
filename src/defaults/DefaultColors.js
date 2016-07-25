@@ -2,6 +2,8 @@
  * Created by Manuel on 28/06/16.
  */
 
+import _                    from 'lodash';
+
 export let colors = {
     Red: '#F00',
     White: '#FFF',
