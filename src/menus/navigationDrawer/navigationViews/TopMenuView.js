@@ -5,6 +5,7 @@ import Surface                  from 'famous/core/Surface.js';
 import {View}                   from 'arva-js/core/View.js';
 import {NameDisplay}            from './NameDisplay.js';
 import {layout}                 from 'arva-js/layout/decorators.js';
+import {combineOptions}         from 'arva-js/utils/CombineOptions';
 import {Text}                   from '../../../text/Text.js';
 import {Colors}                 from '../../../defaults/DefaultColors.js';
 import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
@@ -23,24 +24,22 @@ export class TopMenuView extends View {
     @layout.size(~100, ~17)
     @layout.place('center')
     @layout.translate(0, 0, 25)
-    title = new Text({
-        content: this.options.defaultTitle || 'Mijn dashboard',
+    title = new Text(combineOptions(UITitle, {
+        content: this.options.defaultTitle || 'Dashboard',
         properties: {
             color: Colors.UIBarTextColor,
-            fontSize: UITitle.fontSize,
-            fontFamily: UITitle.fontFamily,
-            textAlign: 'center',
-            fontWeight: 'bold'
+            textAlign: 'center'
         }
-
-    });
+    }));
 
     @layout.dock('right')
     @layout.size(50, (size) => Math.min(size, 100))
     @layout.place('center')
     @layout.translate(0, 0, 25)
-    rightButton = new FloatingImageButton({clickEventName: 'rightButtonClick', properties: {color: 'white'},
-        icon:InfoIcon, imageOnly: true, variation: 'noShadow'});
+    rightButton = new FloatingImageButton({
+        clickEventName: 'rightButtonClick', properties: {color: Colors.UIBarTextColor},
+        icon: InfoIcon, imageOnly: true, variation: 'noShadow', makeRipple: false
+    });
 
     @layout.animate({showInitially: false})
     @layout.size(~300, undefined)
@@ -56,8 +55,14 @@ export class TopMenuView extends View {
     @layout.translate(0, 0, 20)
     /* Getter will be overwritten by the decorators, so won't be called twice */
     get menuButton() {
-        this.hamburgerButton = new ImageButton({clickEventName: 'requestMenuOpen', imageOnly: true, icon: HamburgerIcon, properties: {color: 'white'}});
-        this.arrowLeftButton = new ImageButton({clickEventName: 'requestMenuClose', imageOnly: true, icon: ArrowleftIcon, properties: {color: 'white'}});
+        this.hamburgerButton = new ImageButton({
+            clickEventName: 'requestMenuOpen', imageOnly: true, icon: HamburgerIcon,
+            properties: {color: 'white'}, makeRipple: false
+        });
+        this.arrowLeftButton = new ImageButton({
+            clickEventName: 'requestMenuClose', imageOnly: true, icon: ArrowleftIcon,
+            properties: {color: 'white'}, makeRipple: false
+        });
         return this.hamburgerButton;
     }
 
@@ -149,7 +154,7 @@ export class TopMenuView extends View {
      * Open the top menu
      */
     open() {
-        if(!this.isOpen){
+        if (!this.isOpen) {
             this.isOpen = true;
             this.replaceRenderable('menuButton', this.arrowLeftButton);
             this.showRenderable('menuButton');
@@ -160,7 +165,7 @@ export class TopMenuView extends View {
      * Close the top menu
      */
     close() {
-        if(this.isOpen){
+        if (this.isOpen) {
             this.isOpen = false;
             this.replaceRenderable('menuButton', this.hamburgerButton);
             this.showRenderable('menuButton');

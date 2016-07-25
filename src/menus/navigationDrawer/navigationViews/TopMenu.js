@@ -6,15 +6,17 @@ import AnimationController      from 'famous-flex/AnimationController';
 
 import {View}                   from 'arva-js/core/View.js';
 import {Router}                 from 'arva-js/core/Router.js';
+import {layout}                 from 'arva-js/layout/Decorators';
 import {Injection}              from 'arva-js/utils/Injection.js';
 import {TopMenuView}            from './TopMenuView.js';
 
+
 export class TopMenu extends View {
+    @layout.fullscreen
+    topMenuView = new TopMenuView(this.options);
+    
     constructor(options = {}) {
         super(options);
-
-        this._createRenderables(options);
-        this.renderables.topMenuView.show(this.topMenuView);
 
         this.router = Injection.get(Router);
     }
@@ -53,22 +55,5 @@ export class TopMenu extends View {
 
     get isOpen() {
         return this.topMenuView.isOpen;
-    }
-
-    _createRenderables(options) {
-        this.addRenderable(new AnimationController(),'topMenuView');
-        this.topMenuView = new TopMenuView(options);
-        this.topMenuView.pipe(this);
-        this.topMenuView.pipe(this._eventOutput);
-
-        this.layouts.push((context) => {
-            context.set('topMenuView', {
-                size: [context.size[0], context.size[1]],
-                origin: [0, 0],
-                align: [0, 0],
-                translate: [0, 0, 50]
-            });
-
-        });
     }
 }

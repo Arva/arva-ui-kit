@@ -4,7 +4,6 @@
 
 import Surface                  from 'famous/core/Surface.js';
 import ImageSurface             from 'famous/Surfaces/ImageSurface.js';
-
 import {layout}                 from 'arva-js/layout/Decorators.js';
 
 import {Button}                 from './Button.js';
@@ -24,5 +23,9 @@ export class IconButton extends Button {
     @layout.align(0,0.5)
     @layout.origin(0,0.5)
     text = new Surface(this.options);
+    
+    setContent(iconConstructor) {
+        this.icon.setContent(new iconConstructor({color: this.options.properties.color}).getContent());
+    }
 
 }
