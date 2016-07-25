@@ -8,7 +8,7 @@ import {BaseDialog}         from './BaseDialog.js';
 import {TextButton}         from '../buttons/TextButton.js';
 
 export class StackButtonDialog extends BaseDialog {
-    constructor(options) {
+    constructor(options = {}) {
         super(options);
         let {buttons} = options;
         if (!buttons) {

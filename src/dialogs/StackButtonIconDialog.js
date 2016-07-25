@@ -13,7 +13,7 @@ export class StackButtonIconDialog extends BaseDialog {
 
     _buttons = [];
 
-    constructor(options) {
+    constructor(options = {}) {
         super(options);
 
         let {buttons} = options;

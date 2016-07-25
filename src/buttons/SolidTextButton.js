@@ -8,7 +8,7 @@ import {Colors}             from '../defaults/DefaultColors.js';
 
 export class SolidTextButton extends TextButton {
 
-    static generateOptions(options) {
+    static generateOptions(options = {}) {
         return {
             backgroundProperties: {
                 backgroundColor: Colors.PrimaryUIColor

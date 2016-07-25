@@ -5,7 +5,7 @@
 import {Router}             from 'arva-js/core/Router';
 import {ArvaRouter}         from 'arva-js/routers/ArvaRouter';
 import {DataSource}         from 'arva-js/data/DataSource';
-import {provide, inject}    from 'di';
+import {provide, inject}    from 'arva-js/utils/di/Decorators.js';
 
 @provide(Router)
 @inject(DataSource)

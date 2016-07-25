@@ -13,7 +13,7 @@ export class TwoButtonDialog extends BaseDialog {
     @layout.dock('top', 64, 0, 0)
     bottomView = new BottomButtonView(this.options);
 
-    constructor(options) {
+    constructor(options = {}) {
         super(options);
         let {buttonLeft, buttonRight} = options;
         if (!buttonLeft || !buttonRight) {
