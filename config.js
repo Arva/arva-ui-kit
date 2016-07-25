@@ -1,8 +1,9 @@
 System.config({
-  baseURL: "/",
+  baseURL: "./",
   defaultJSExtensions: true,
   transpiler: "babel",
   babelOptions: {
+    "stage": 0,
     "optional": [
       "runtime",
       "optimisation.modules.system"
@@ -18,6 +19,7 @@ System.config({
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.6",
+    "css": "github:systemjs/plugin-css@0.1.23",
     "famous": "github:bizboard/famous@0.3.7",
     "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
     "famous-flex": "github:bizboard/famous-flex@master",

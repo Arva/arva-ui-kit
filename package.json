@@ -5,7 +5,8 @@
   "main": false,
   "homepage": "http://arva.io",
   "scripts": {
-    "gen-icons": "node scripts/create_icon_classes.js"
+    "gen-icons": "node scripts/create_icon_classes.js",
+    "test": "mocha --compilers js:babel/register --recursive --timeout 15000"
   },
   "jspm": {
     "directories": {
@@ -23,7 +24,20 @@
       "babel": "npm:babel-core@^5.8.24",
       "babel-runtime": "npm:babel-runtime@^5.8.24",
       "core-js": "npm:core-js@^1.1.4",
+      "css": "github:systemjs/plugin-css@^0.1.23",
       "text": "github:systemjs/plugin-text@^0.0.8"
     }
+  },
+  "devDependencies": {
+    "babel": "^5.8.38",
+    "babel-runtime": "^6.9.2",
+    "chai": "^3.5.0",
+    "isparta": "^3.5.3",
+    "jspm": "^0.16.39",
+    "lodash": "^4.13.1",
+    "mocha": "^2.5.3",
+    "request-animation-frame-mock": "git+https://github.com/erykpiast/request-animation-frame-mock.git",
+    "sinon": "^1.17.4",
+    "systemjs": "^0.19.31"
   }
 }
