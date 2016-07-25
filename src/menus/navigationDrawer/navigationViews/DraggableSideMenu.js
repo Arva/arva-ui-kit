@@ -49,7 +49,7 @@ export class DraggableSideMenu extends View {
         }
 
         if (this.draggable) {
-            this.draggable.setPosition([this.controlHeight, 0, 0], {duration: 250, curve: Easing.outQuint});
+            this.draggable.setPosition([this.controlWidth, 0, 0], {duration: 250, curve: Easing.outQuint});
             this.ShowSideBar();
         }
 
@@ -106,16 +106,6 @@ export class DraggableSideMenu extends View {
         });
 
         this.sideMenuView = this.options.draggableSideMenuViewRenderable ? new this.options.draggableSideMenuViewRenderable(options) : new DraggableSideMenuView(options);
-        this.sideMenuScrollController = new ScrollController({
-            layout: ListLayout,
-            dataSource: [this.sideMenuView],
-            autoPipeEvents: true,
-            overscroll: false,
-            scrollSync: {
-                rails: true
-            },
-            touchMoveDirectionThreshold: 0.2
-        });
         this.fullScreenOverlay = new FullScreenBackground({color: 'rgba(0, 0, 0, 0.25)'});
         this.maxRange = 200;
 
@@ -146,17 +136,17 @@ export class DraggableSideMenu extends View {
 
         let mod = new StateModifier();
         let dragNode = new RenderNode();
-        dragNode.add(mod).add(this.draggable).add(this.sideMenuScrollController);
+        dragNode.add(mod).add(this.draggable).add(this.sideMenuView);
         this.renderables.control = dragNode;
 
-        this.sideMenuScrollController.pipe(this.draggable);
+        this.sideMenuView.pipe(this.draggable);
         this.fullScreenOverlay.pipe(this.draggable);
 
         this.draggable.on('end', (dragEvent) => {
             if (this.direction) {
-                (dragEvent.position[0] < this.controlHeight / 3) ? this.close() : this.open();
+                (dragEvent.position[0] < this.controlWidth / 3) ? this.close() : this.open();
             } else {
-                (dragEvent.position[0] > this.controlHeight * (2 / 3)) ? this.open() : this.close();
+                (dragEvent.position[0] > this.controlWidth * (2 / 3)) ? this.open() : this.close();
             }
 
         });
@@ -171,31 +161,31 @@ export class DraggableSideMenu extends View {
 
         this.layouts.push((context) => {
 
-            this.controlHeight = Math.min(320, context.size[0] * ( options.width || 0.75 ));
+            this.controlWidth = Math.min(320, context.size[0] * ( options.width || 0.75 ));
 
             // update xRange of draggable, as context is now definedcor
             this.draggable.setOptions({
-                xRange: [0, this.controlHeight]
+                xRange: [0, this.controlWidth]
             });
 
 
             //TODO: replace window.size things with proper definitions
             context.set('control', {
-                size: [this.controlHeight, window.innerHeight],
+                size: [this.controlWidth, undefined],
                 origin: [0, 0],
                 align: [0, 0],
-                translate: [-this.controlHeight, 0, 20]
+                translate: [-this.controlWidth, 0, 20]
             });
 
             context.set('fullScreenOverlay', {
-                size: [window.innerWidth, window.innerHeight],
+                size: [undefined, undefined],
                 origin: [0, 0],
                 align: [0, 0],
                 translate: [0, 0, 5]
             });
 
             context.set('hiddenSurface', {
-                size: [20, window.innerHeight],
+                size: [20, undefined],
                 align: [0, 0],
                 origin: [0, 0],
                 translate: [0, 0, 50]
@@ -221,7 +211,7 @@ export class DraggableSideMenu extends View {
      * @param screenName
      */
     setScreenName(screenName) {
-        this.sideMenuView.renderables.navigationItems.getItems().slice(-1)[0].renderables.textSurface.setContent(screenName);
+        this.sideMenuView.navigationItems.getItems().slice(-1)[0].renderables.textSurface.setContent(screenName);
     }
 
     /**
@@ -237,7 +227,7 @@ export class DraggableSideMenu extends View {
      * @returns {*}
      */
     getSelectedTabText() {
-        let {navigationItems} = this.sideMenuView.renderables;
+        let {navigationItems} = this.sideMenuView;
         return navigationItems.getItems()[navigationItems.getSelectedItemIndex()].data.text;
     }
 
@@ -246,7 +236,7 @@ export class DraggableSideMenu extends View {
      * @param index
      */
     setTabIndexSelected(index) {
-        let {navigationItems} = this.sideMenuView.renderables;
+        let {navigationItems} = this.sideMenuView;
 
         if (!navigationItems || !(navigationItems instanceof TabBar) || (navigationItems instanceof  TabBar && !navigationItems.getItems().length)) {
             return;
@@ -273,12 +263,12 @@ export class DraggableSideMenu extends View {
         /* The side menu has to close even if the resulting click did not change the selected tab,
          therefore we have to listen for click events and not only tabchange events
          */
-        for (let item of this.sideMenuView.renderables.navigationItems.getItems()) {
+        for (let item of this.sideMenuView.navigationItems.getItems()) {
             item.on('click', () => {
                 this.close();
             });
         }
-        this.sideMenuView.renderables.navigationItems.on('tabchange', (event) => {
+        this.sideMenuView.navigationItems.on('tabchange', (event) => {
             if (!this._explicitTabSelect) {
                 let tabSpec = this.options.menuItems[event.index];
                 /* Request that the menu changes title */
