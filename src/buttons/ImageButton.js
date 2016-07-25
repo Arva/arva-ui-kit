@@ -3,11 +3,11 @@
  */
 import ImageSurface         from 'famous/Surfaces/ImageSurface.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
+import {layout}             from 'arva-js/layout/decorators.js';
 
-import {layout}    from 'arva-js/layout/decorators.js';
 import {Button}             from './Button.js';
-import {Colors}             from '../defaults/DefaultColors.js';
 import {TextButton}         from './TextButton.js';
+import {Colors}             from '../defaults/DefaultColors.js';
 import {ArrowleftIcon}      from '../icons/rounded/thin/ArrowleftIcon.js';
 
 export class ImageButton extends Button {
@@ -34,7 +34,9 @@ export class ImageButton extends Button {
             properties: {color: Colors.PrimaryUIColor},
             ...TextButton.generateBoxShadowVariations(options.variation)
         }, options));
-
     }
-
+    
+    setContent(iconConstructor) {
+        this.image.setContent(new iconConstructor({color: this.options.properties.color}).getContent());
+    }
 }

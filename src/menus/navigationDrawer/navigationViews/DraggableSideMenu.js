@@ -161,9 +161,10 @@ export class DraggableSideMenu extends View {
 
         this.layouts.push((context) => {
 
-            this.controlWidth = Math.min(320, context.size[0] * ( options.width || 0.75 ));
+            /* value | 0 makes value an integer, if it is a float */
+            this.controlWidth = Math.min(320, context.size[0] * ( options.width || 0.75 )) | 0;
 
-            // update xRange of draggable, as context is now definedcor
+            /* Update xRange of draggable, as context is now defined */
             this.draggable.setOptions({
                 xRange: [0, this.controlWidth]
             });
