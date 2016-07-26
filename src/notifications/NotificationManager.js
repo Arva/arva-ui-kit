@@ -21,9 +21,6 @@ export class NotificationManager {
         let notifications = this.notifications = options.notificationsArray || new LocalPrioritisedArray(LocalModel);
         let notificationWrapper = this.notificationWrapper = new NotificationWrapper({dataSource: notifications, delay: options.delay || 4000});
         famousContext.add(notificationWrapper);
-
-        // todo remove
-        window.add = this.add.bind(this);
     }
 
     /**
