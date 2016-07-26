@@ -37,6 +37,7 @@ export class Button extends Clickable {
     constructor(options) {
         super(combineOptions({
             makeRipple: true,
+            indicatePress: true,
             useBoxShadow: true,
             delay: 100,
             backgroundProperties: {
@@ -45,7 +46,7 @@ export class Button extends Clickable {
             }
         }, options));
         if (this.options.makeRipple) {
-            this.addRenderable(new Ripple(), 'ripple',
+            this.addRenderable(new Ripple(this.options.rippleOptions), 'ripple',
                 layout.size(undefined, undefined),
                 layout.clip(undefined, undefined, {borderRadius: this.options.backgroundProperties.borderRadius}));
             /* Detect click on ripple as well, otherwise we'll miss some clicks */
@@ -84,7 +85,9 @@ export class Button extends Clickable {
     }
 
     _handleTapStart() {
-        this.showRenderable('pressedIndication');
+        if (this.options.indicatePress) {
+            this.showRenderable('pressedIndication');
+        }
     }
 
     _setEnabled(enabled) {

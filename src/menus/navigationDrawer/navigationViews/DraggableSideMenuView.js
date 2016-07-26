@@ -7,7 +7,7 @@ import TabBar               from 'famous-flex/widgets/TabBar.js';
 import ScrollController     from 'famous-flex/ScrollController.js';
 import ListLayout           from 'famous-flex/layouts/ListLayout.js';
 import {View}               from 'arva-js/core/View.js';
-import {layout}             from 'arva-js/layout/decorators.js';
+import {layout, event}      from 'arva-js/layout/decorators.js';
 import {Dimensions}         from '../../../defaults/DefaultDimensions.js';
 import {MenuItem}           from './MenuItem.js';
 
@@ -65,6 +65,7 @@ export class DraggableSideMenuView extends View {
 
         this.menuItems = options.menuItems;
         this.background.pipe(this._eventOutput);
+        this.background.pipe(this.scrollController);
 
         this.navigationItems.on('tabchange', ({item, oldItem}) => {
             oldItem.setSelected(false);
@@ -72,6 +73,10 @@ export class DraggableSideMenuView extends View {
         });
 
         this.navigationItems.setItems(options.menuItems);
+        
+        this.scrollController.on('scrollstart', () => {
+            debugger;
+        });
 
     }
 
