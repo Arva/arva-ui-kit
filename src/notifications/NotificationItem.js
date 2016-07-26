@@ -13,7 +13,7 @@ export class NotificationItem extends View {
             type: notificationModel.type,
             title: notificationModel.title,
             body: notificationModel.body
-        }), 'notification', layout.dock('right', ~50, 0, 50), layout.draggableVelocity({
+        }), 'notification', layout.dock('top', ~50, 0, 50), layout.draggableVelocity({
             snapY: 1,
             snapX: notificationModel.type === 'auto' ? 0 : 1,
             xRange: [0, 600],
@@ -21,9 +21,5 @@ export class NotificationItem extends View {
             scale: 0.5,
             transition: {duration: 500}
         }));
-    }
-
-    getSize(){
-        return [320, this.notification.getSize()[1]]
     }
 }

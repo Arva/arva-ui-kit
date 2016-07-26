@@ -45,8 +45,7 @@ class NotificationWrapper extends View {
 
     dataSource = [];
 
-    @layout.dock('fill')
-    @layout.translate(0, 0, 5000)
+    @layout.dock('right', 352, 0, 5000)
     scrollView = new DataBoundScrollView({
         layoutOptions: {
             spacing: 24,
