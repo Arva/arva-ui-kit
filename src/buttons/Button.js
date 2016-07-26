@@ -43,7 +43,8 @@ export class Button extends Clickable {
             backgroundProperties: {
                 backgroundColor: 'white',
                 borderRadius: '4px'
-            }
+            },
+            properties: {}
         }, options));
         if (this.options.makeRipple) {
             this.addRenderable(new Ripple(this.options.rippleOptions), 'ripple',

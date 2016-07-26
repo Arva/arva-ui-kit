@@ -3,8 +3,8 @@
  */
 
 import {ImageButton}            from './ImageButton.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {OutlineTextButton}  from './OutlineTextButton.js';
+import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
+import {OutlineTextButton}      from './OutlineTextButton.js';
 
 export class OutlineImageButton extends ImageButton {
     constructor(options) {

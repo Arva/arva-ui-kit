@@ -7,7 +7,7 @@ import {Colors}             from '../defaults/DefaultColors.js';
 
 export class OutlineTextButton extends TextButton {
 
-    static generateOptions(options){
+    static generateOptions(options = {}){
         return {
             backgroundProperties: {backgroundColor: 'none', border: `${options.variation === 'bold' ? '2px' : '1px'} solid ${Colors.PrimaryUIColor}`},
             useBoxShadow: false

@@ -17,7 +17,7 @@ export class TextButton extends Button {
     @layout.align(0.5, 0)
     text = new Surface(this.options);
 
-    constructor(options) {
+    constructor(options = {}) {
         super(combineOptions({
             disabledOptions: {
                 content: options.content

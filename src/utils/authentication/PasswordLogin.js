@@ -2,10 +2,9 @@
  * Created by tom on 29/09/15.
  */
 
-import {inject}                 from 'di';
+import {inject}                 from 'arva-js/utils/di/Decorators.js';
 import {BaseLogin}              from './BaseLogin';
 import {DataSource}             from 'arva-js/data/DataSource.js';
-import {GetRequest}             from 'arva-js/utils/request/RequestClient.js';
 
 @inject(DataSource)
 export class PasswordLogin extends BaseLogin {
@@ -18,22 +17,9 @@ export class PasswordLogin extends BaseLogin {
         this._dataSource = dataSource;
     }
 
-    authenticateToDataSource(email, password) {
-
-        return new Promise(async function (resolve, reject) {
-            try {
-                this._dataSource.authWithPassword({email: email, password: password}, (error, authData) => {
-                    if (!error) {
-                        resolve({uid: authData.uid, profile: {email, password}});
-                    } else {
-                        reject(error);
-                    }
-                });
-            } catch (error) {
-                reject(error)
-            }
-        }.bind(this));
-
+    async authenticateToDataSource(email, password) {
+        let authData = await this._dataSource.authWithPassword({email: email, password: password});
+        return {uid: authData.uid, profile: {email, password}};
     }
 
     deauthenticateFromDataSource() {

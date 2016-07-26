@@ -2,28 +2,15 @@
  * Created by tom on 26/05/15.
  */
 
-import {inject}                 from 'di';
+import {inject}                 from 'arva-js/utils/di/Decorators.js';
 import {BaseLogin}              from './BaseLogin';
 import {DataSource}             from 'arva-js/data/DataSource.js';
 import {GetRequest}             from 'arva-js/utils/request/RequestClient';
 
+import {Settings}               from '../../defaults/DefaultSettings.js';
+
 @inject(DataSource)
 export class MoodleLogin extends BaseLogin {
-    get organisationID() {
-        return this._organisationID;
-    }
-
-    set organisationID(value) {
-        this._organisationID = value;
-    }
-
-    get requestURI() {
-        return this._requestURI;
-    }
-
-    set requestURI(value) {
-        this._requerstURI = value;
-    }
 
     /**
      *
@@ -31,51 +18,29 @@ export class MoodleLogin extends BaseLogin {
      */
     constructor(dataSource) {
         super();
+        if(!Settings.moodleOrganisationID) { throw new Error('You need to specify moodleOrganisationID in DefatultSettings.js'); }
+        if(!Settings.moodleRequestURI) { throw new Error('You need to specify moodleRequestURI in DefatultSettings.js'); }
         this._dataSource = dataSource;
     }
 
+    async authenticate(username, password) {
+        let uri = `${Settings.moodleRequestURI}&username=${username}&password=${password}` +
+                  `&provider=moodle&organisation=${Settings.moodleOrganisationID}`;
 
-    authenticate(username, password) {
-        let uri = this.requestURI || '';
-        uri += `&username=${username}`;
-        uri += `&password=${password}`;
-        uri += `&provider=moodle`;
-        uri += `&organisation=${this.organisationID}`;
-
-        return new Promise((resolve, reject) => {
-            if (!this.organisationID || this.requestURI) reject("Please set the organisationID or requestURI");
-            GetRequest(uri)
-                .then(function (response) {
-                    let data = JSON.parse(response);
-                    if (data.token) {
-                        resolve(data)
-                    } else {
-                        reject('The username or password you entered was incorrect')
-                    }
-                }, function (error) {
-                    reject(error);
-                });
-        });
+        let data = await JSON.parse(GetRequest(uri));
+        if (data.token) {
+            return data;
+        } else {
+            throw new Error('The username or password you entered was incorrect');
+        }
     }
 
-    authenticateToDataSource(username, password) {
-        return new Promise(async function (resolve, reject) {
-            try {
-                let data = await this.authenticate(username, password);
-                if (data && data.token) {
-                    this._dataSource.authWithCustomToken(data.token, (error, authData) => {
-                        if (!error) {
-                            resolve({uid: authData.uid, profile: data});
-                        } else {
-                            reject(error);
-                        }
-                    });
-                }
-            } catch (error) {
-                reject(error)
-            }
-        }.bind(this));
-
+    async authenticateToDataSource(username, password) {
+        let data = await this.authenticate(username, password);
+        if (data && data.token) {
+            let authData = await this._dataSource.authWithCustomToken(data.token);
+            return {uid: authData.uid, profile: data};
+        }
     }
 
     deauthenticateFromDataSource() {
