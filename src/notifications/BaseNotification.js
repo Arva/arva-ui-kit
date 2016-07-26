@@ -54,10 +54,7 @@ export class BaseNotification extends View {
 
         this.layout.on('layoutstart', ({size}) => {
             /*Set the inner size of the items */
-            // this.title.decorations.size = [Math.max((size[0]-100) - (BaseNotification.DEFAULT_SIZES.textMargin[1]*2), BaseNotification.DEFAULT_SIZES.maxTextSize[0] - 100), ~BaseNotification.DEFAULT_SIZES.size[1]];
-            // this.body.decorations.size = this.title.decorations.size;
             let marginSize = Math.max(((size[0]) - this.title.decorations.size[0]) / 2, BaseNotification.DEFAULT_SIZES.margins[1]);
-
             /* If any child classes need to know about the new margin, call this function */
             this.onNewMargin(marginSize);
         });
