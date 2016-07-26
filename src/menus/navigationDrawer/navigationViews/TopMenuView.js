@@ -37,8 +37,8 @@ export class TopMenuView extends View {
     @layout.place('center')
     @layout.translate(0, 0, 25)
     rightButton = new FloatingImageButton({
-        clickEventName: 'rightButtonClick', properties: {color: Colors.UIBarTextColor},
-        icon: InfoIcon, imageOnly: true, variation: 'noShadow', makeRipple: false
+        clickEventName: 'rightButtonClick', icon: InfoIcon,
+        properties: {color: Colors.UIBarTextColor}, variation: 'noShadow', makeRipple: false, indicatePress: true, backgroundProperties: {borderRadius: 0}
     });
 
     @layout.animate({showInitially: false})
@@ -57,11 +57,11 @@ export class TopMenuView extends View {
     get menuButton() {
         this.hamburgerButton = new ImageButton({
             clickEventName: 'requestMenuOpen', imageOnly: true, icon: HamburgerIcon,
-            properties: {color: 'white'}, makeRipple: false
+            properties: {color: Colors.UIBarTextColor}, variation: 'noShadow', makeRipple: false, indicatePress: true, backgroundProperties: {borderRadius: 0}
         });
         this.arrowLeftButton = new ImageButton({
             clickEventName: 'requestMenuClose', imageOnly: true, icon: ArrowleftIcon,
-            properties: {color: 'white'}, makeRipple: false
+            properties: {color: Colors.UIBarTextColor}, variation: 'noShadow', makeRipple: false, indicatePress: true, backgroundProperties: {borderRadius: 0}
         });
         return this.hamburgerButton;
     }

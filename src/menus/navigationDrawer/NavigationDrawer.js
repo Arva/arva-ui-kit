@@ -55,13 +55,14 @@ export class NavigationDrawer extends View {
             enabled: true,
             hideOnRoutes: [],
             menuItems: []
-        },options));
+        }, options));
 
         let famousContext = Injection.get(FamousContext);
         this.router = Injection.get(Router);
 
         /* Hijack Famous Context's add() method */
         famousContext.add(this);
+        if (!famousContext.addToRoot) {famousContext.addToRoot = famousContext.add.bind(famousContext);}
         famousContext.add = this.addToContent;
         this._initSideMenuTopBarConnection();
         this.idCounter = 0;

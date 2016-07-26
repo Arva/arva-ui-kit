@@ -7,7 +7,7 @@ import TabBar               from 'famous-flex/widgets/TabBar.js';
 import ScrollController     from 'famous-flex/ScrollController.js';
 import ListLayout           from 'famous-flex/layouts/ListLayout.js';
 import {View}               from 'arva-js/core/View.js';
-import {layout}             from 'arva-js/layout/decorators.js';
+import {layout, event}      from 'arva-js/layout/decorators.js';
 import {Dimensions}         from '../../../defaults/DefaultDimensions.js';
 import {MenuItem}           from './MenuItem.js';
 
@@ -47,6 +47,7 @@ export class DraggableSideMenuView extends View {
                     item: (id, data)=> {
                         let item = this.options.sideMenuRenderable ? new this.options.sideMenuRenderable(this.options, data) : new MenuItem(this.options, data);
                         item.pipe(this._eventOutput);
+                        item.pipe(this.scrollController);
                         return item;
                     }
                 }
@@ -65,6 +66,16 @@ export class DraggableSideMenuView extends View {
 
         this.menuItems = options.menuItems;
         this.background.pipe(this._eventOutput);
+        this.background.pipe(this.scrollController);
+        
+        /* TabBar returns size 0 for our true sized MenuItems, so we override its getSize() method to calc it ourselves. */
+        this.navigationItems.getSize = () => {
+            let totalHeight = _.reduce(this.navigationItems._renderables.items, (accumulator, item) => {
+                accumulator += item.getSize()[1] || 0;
+                return accumulator;
+            }, 0);
+            return [undefined, totalHeight || true];
+        };
 
         this.navigationItems.on('tabchange', ({item, oldItem}) => {
             oldItem.setSelected(false);
@@ -72,7 +83,6 @@ export class DraggableSideMenuView extends View {
         });
 
         this.navigationItems.setItems(options.menuItems);
-
     }
 
     /**
