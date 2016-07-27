@@ -19,7 +19,10 @@ export class NotificationManager {
     constructor(options = {}) {
         let famousContext = Injection.get(FamousContext);
         let notifications = this.notifications = options.notificationsArray || new LocalPrioritisedArray(LocalModel);
-        let notificationWrapper = this.notificationWrapper = new NotificationWrapper({dataSource: notifications, delay: options.delay || 4000});
+        let notificationWrapper = this.notificationWrapper = new NotificationWrapper({
+            dataSource: notifications,
+            delay: options.delay || 6000
+        });
         famousContext.add(notificationWrapper);
     }
 
@@ -44,17 +47,20 @@ export class NotificationManager {
 class NotificationWrapper extends View {
 
     dataSource = [];
-
-    @layout.dock('right', 352, 0, 5000)
+    @layout.dock('right', function (size) {
+        window.isTablet = this.isTablet = size >= 480;
+        this.scrollView.setOptions({flowOptions:{
+            spring: {dampingRatio: 0.8, period: 650},
+            insertSpec: {transform: Transform.translate(this.isTablet ? 300 : 0, this.isTablet ? 0 : -300, 50), opacity: 0},
+            removeSpec: {transform: Transform.translate(this.isTablet ? 300 : 0, this.isTablet ? 0 : -300, -5000), opacity: 0}
+        }});
+        return Math.min(size, 384)
+    }, 0, 6000)
+    @layout.translate(0, 16, 6000)
     scrollView = new DataBoundScrollView({
         layoutOptions: {
-            spacing: 24,
-            margins: [16, 16, 16, 16]
-        },
-        flowOptions: {
-            spring: {dampingRatio: 0.8, period: 650},
-            insertSpec: {transform: Transform.translate(0, -300, 0), opacity: 0},
-            removeSpec: {opacity: 0}
+            spacing: 16,
+            margins: [0, 16, 16, 16]
         },
         dataStore: this.options.dataSource,
         sortingDirection: 'descending',
@@ -62,9 +68,7 @@ class NotificationWrapper extends View {
         enabled: false,
         mouseMove: false,
         dataFilter: (item) => {
-
-            /* Don't wait for type === auto, render view immediately */
-            if (item.type === 'auto') return true;
+            if (this.options.multipleNotifications) return true;
 
             /* Special case for the first item and an empty queue, render view immediately */
             if (!this.queue || this.queue.length === 0) {
@@ -85,7 +89,10 @@ class NotificationWrapper extends View {
             });
         },
         itemTemplate: (item)=> {
-            let notificationItem = new NotificationItem(item, {});
+
+            let notificationItem = new NotificationItem(item, {
+                isTablet: this.isTablet
+            });
             this.hideEventsListeners(item, notificationItem);
             if (item.type === 'auto') {
                 this._autoHide(item, notificationItem);
@@ -100,8 +107,11 @@ class NotificationWrapper extends View {
     }
 
     hideEventsListeners(item, renderable) {
-        renderable.on('swipeCloseX', ()=> {
-            this._removeItem(item);
+
+        renderable.on('swiped', (event)=> {
+            if (event.direction === 0 && event.displacement === 'right') {
+                this._removeItem(item);
+            }
         });
 
         renderable.on('close', ()=> {
@@ -113,7 +123,7 @@ class NotificationWrapper extends View {
     _autoHide(item, renderable) {
         let timeOut = setTimeout(()=> {
             this._removeItem(item);
-        }, this.options.delay || 4000);
+        }, this.options.delay || 6000);
         renderable.on('click', ()=> {
             clearTimeout(timeOut);
         });
@@ -134,23 +144,27 @@ class NotificationWrapper extends View {
         }
 
         this.scrollView._removeItem({id: item.id});
-        if(this.queue && this.queue.length) this.queue.shift();
+        if (this.queue && this.queue.length) this.queue.shift();
 
         setTimeout(()=> {
             this._eventOutput.emit('removeItem');
-        }, 50)
+        }, 650)
     }
 }
 
 
 class Notification extends LocalModel {
-    get title() {}
+    get title() {
+    }
 
-    get body() {}
+    get body() {
+    }
 
-    get action() {}
+    get action() {
+    }
 
-    get type() {}
+    get type() {
+    }
 
     _buildFromDataSource() {
     }
