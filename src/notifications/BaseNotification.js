@@ -34,9 +34,9 @@ export class BaseNotification extends View {
         }
     });
 
-    @layout.dock('top', ~50, 8, 200)
+    @layout.dock('top', ~18, 8, 200)
     @layout.size(function () {
-            return this.options.usesIcon ? 196 : 260
+            return this.options.usesIcon ? 260 : 324
         }
         , ~50)
     title = new Surface(combineOptions({
@@ -44,9 +44,9 @@ export class BaseNotification extends View {
         properties: {textAlign: "left", whitespace: "nowrap", wordBreak: 'break-word'}
     }, UITitle));
 
-    @layout.dock('top', ~50, 8, 200)
+    @layout.dock('top', ~18, 8, 200)
     @layout.size(function () {
-            return this.options.usesIcon ? 196 : 260
+            return this.options.usesIcon ? 260 : 324
         }
         , ~50)
     body = new Surface(combineOptions({
