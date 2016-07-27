@@ -100,8 +100,11 @@ class NotificationWrapper extends View {
     }
 
     hideEventsListeners(item, renderable) {
-        renderable.on('swipeCloseX', ()=> {
-            this._removeItem(item);
+
+        renderable.on('swiped', (event)=>{
+            if(event.direction === 0 && event.displacement === 'right'){
+                this._removeItem(item);
+            }
         });
 
         renderable.on('close', ()=> {

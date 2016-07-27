@@ -16,7 +16,9 @@ export class NotificationItem extends View {
         }), 'notification', layout.dock('top', ~50, 0, 50), layout.draggableVelocity({
             snapY: 1,
             snapX: notificationModel.type === 'auto' ? 0 : 1,
-            xRange: [0, 600],
+            xThreshold: [undefined, 150],
+            yThreshold: [undefined, undefined],
+            xRange: [0, 300],
             yRange: [0, 0],
             scale: 0.5,
             transition: {duration: 500}
