@@ -3,61 +3,85 @@
  */
 import Surface              from 'famous/core/Surface.js';
 import Transform            from 'famous/core/Transform';
+import Easing               from 'famous/transitions/Easing.js';
+
+
 import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {layout}             from 'arva-js/layout/decorators.js';
+import {limit}              from 'arva-js/utils/Limiter.js';
 
 export class Ripple extends View {
 
-    /* Because Animationcontrollers have some serious flaws, a major workaround has been made: we call hide to show the
-     * ripple and we show and css property display none on hide
-     */
     @layout.translate(0, 0, 10)
     @layout.animate({
-        show: {animation: function(show, size) {
-            return {opacity: 0.5, origin: [0.5, 0.5], align: [0.5, 0.5]}
-        }, transition: {duration: 1}},
-        hide: {animation: function()  {
+        showInitially: false,
+        show: {
+            transition: {duration: 350, curve: Easing.inSine}
+        },
+        animation: function () {
             return {
-                transform: Transform.scale(15, 15, 1),
+                transform: Transform.scale(0.05, 0.05, 1),
                 align: [0.5, 0.5],
-                opacity: 0,
                 origin: [0.5, 0.5]
             }
         },
-            transition: {duration: 500, curve: (x) => x}},
+        hide: {
+            transition: {duration: 100},
+            animation: function () {
+                return {
+                    opacity: 0
+                }
+            }
+        }
     })
-    @layout.size(function(){return this.options.rippleSize}, function(){return this.options.rippleSize})
+    @layout.size(function() {return this._rippleSize}, function() {return this._rippleSize})
     ripple = new Surface({
         properties: {
             borderRadius: '100%',
             /* Center it aligned to the clipping surface */
             margins: '-12.5% -12.5%',
-            backgroundColor: 'rgba(230, 230, 230, 0.8)',
-            display:"none"
+            backgroundColor: 'rgba(0, 0, 0, 0.1)'
             /*boxShadow: '0px 0px 35px rgba(0, 0, 0, 0.65) inset, 0px 0px 5px rgba(255, 255, 255, 0.5)'*/
         }
     });
 
-    constructor(options){
-        super(combineOptions(options, {
-            rippleSize: 10
-        }));
-    }
-
-
-    show(x, y) {
-        let {decorations} = this.ripple;
-        /* Shift it because origin/align is 0.5 */
-        decorations.translate[0] = x - this.options.rippleSize/2;
-        decorations.translate[1] = y - this.options.rippleSize/2;
-        this.layout.reflowLayout();
-        this.showRenderable('ripple');
-        this.renderables.ripple.hide( null,() => {
-            this.ripple.setProperties({display:'none'});
-            this.showRenderable('ripple');
+    constructor(options) {
+        super(options);
+        this.layout.once('layoutstart', ({size: [width, height]}) => {
+            this._rippleSize = 2*1.41421356237*Math.max(width, height);
+            this.renderables.ripple.setOptions({show: {transition: {duration:0.5*this._rippleSize}}});
         });
-        this.ripple.setProperties({display:'inherit'});
     }
+
+
+    /**
+     * Shows the ripple
+     * @param {Number} x The x position of the ripple
+     * @param {Number} y The y position of the ripple
+     * @returns {Promise} a promise that resolves when the ripple is fully shown
+     */
+    show(x, y) {
+        return new Promise((resolve) => {
+            let {decorations} = this.ripple;
+            let rippleSize = this._rippleSize;
+            /* Shift it because origin/align is 0.5 */
+            decorations.translate[0] = x - rippleSize / 2;
+            decorations.translate[1] = y - rippleSize / 2;
+            this.layout.reflowLayout();
+
+            this.renderables.ripple.show(this.ripple, null, () => {
+                resolve();
+            });
+        });
+    }
+
+    hide() {
+        if (this.renderables.ripple.get()) {
+            this.renderables.ripple._viewStack[0].state = 1;
+        }
+        this.hideRenderable('ripple');
+    }
+
 
 }
