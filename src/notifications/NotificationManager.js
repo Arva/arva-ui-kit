@@ -89,7 +89,10 @@ class NotificationWrapper extends View {
             });
         },
         itemTemplate: (item)=> {
-            let notificationItem = new NotificationItem(item, {});
+
+            let notificationItem = new NotificationItem(item, {
+                isTablet: this.isTablet
+            });
             this.hideEventsListeners(item, notificationItem);
             if (item.type === 'auto') {
                 this._autoHide(item, notificationItem);
