@@ -64,7 +64,9 @@ export class Clickable extends View {
 
     _onTapStart(mouseEvent) {
         if (this._isEnabled()) {
-            this._handleTapStart(mouseEvent);
+            let args = mouseEvent.touches ? {x: mouseEvent.touches[0].clientX, y: mouseEvent.touches[0].clientY} :
+                {x: mouseEvent.offsetX, y: mouseEvent.offsetY};
+            this._handleTapStart(args);
         }
     }
 
