@@ -10,9 +10,9 @@ import {Text}                   from '../../../text/Text.js';
 import {Colors}                 from '../../../defaults/DefaultColors.js';
 import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 
-import {ArrowleftIcon}          from '../../../icons/angular/bold/ArrowleftIcon.js';
-import {HamburgerIcon}          from '../../../icons/angular/bold/HamburgerIcon.js';
-import {InfoIcon}               from '../../../icons/angular/bold/InfoIcon.js';
+import {ArrowleftIcon}          from '../../../icons/ArrowleftIcon.js';
+import {HamburgerIcon}          from '../../../icons/HamburgerIcon.js';
+import {InfoIcon}               from '../../../icons/InfoIcon.js';
 import {ImageButton}            from '../../../buttons/ImageButton.js';
 import {FloatingImageButton}    from '../../../buttons/FloatingImageButton.js';
 

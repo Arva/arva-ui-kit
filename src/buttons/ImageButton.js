@@ -8,7 +8,7 @@ import {layout}             from 'arva-js/layout/decorators.js';
 import {Button}             from './Button.js';
 import {TextButton}         from './TextButton.js';
 import {Colors}             from '../defaults/DefaultColors.js';
-import {ArrowleftIcon}      from '../icons/rounded/thin/ArrowleftIcon.js';
+import {ArrowleftIcon}      from '../icons/ArrowleftIcon.js';
 
 export class ImageButton extends Button {
     @layout.translate(0, 0, 30)
