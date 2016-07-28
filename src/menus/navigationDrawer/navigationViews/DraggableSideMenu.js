@@ -3,8 +3,6 @@
  */
 import Surface                  from 'famous/core/Surface.js';
 import TabBar                   from 'famous-flex/widgets/TabBar.js';
-import ScrollController         from 'famous-flex/ScrollController.js';
-import ListLayout               from 'famous-flex/layouts/ListLayout.js';
 
 import {View}                   from 'arva-js/core/View.js';
 import {Router}                 from 'arva-js/core/Router.js';
@@ -20,6 +18,11 @@ import {FullScreenBackground}   from '../../../backgrounds/FullScreenBackground.
 import {Colors}                 from '../../../defaults/DefaultColors.js';
 
 export class DraggableSideMenu extends View {
+
+
+    static get transition(){
+        return {duration: 200, curve: Easing.inOutQuad}
+    }
 
     constructor(options = {}) {
         super(options);
@@ -100,13 +103,14 @@ export class DraggableSideMenu extends View {
             }
         });
 
-        this.renderables.fullScreenOverlay = new AnimationController({
-            animation: AnimationController.Animation.Fade,
-            transition: {duration: 250, curve: Easing.outQuint}
-        });
+        this.renderables.fullScreenOverlay = new RenderNode();
+        this.fullScreenOverlayModifier = new StateModifier({opacity:0});
 
         this.sideMenuView = this.options.draggableSideMenuViewRenderable ? new this.options.draggableSideMenuViewRenderable(options) : new DraggableSideMenuView(options);
         this.fullScreenOverlay = new FullScreenBackground({color: 'rgba(0, 0, 0, 0.25)'});
+
+        this.renderables.fullScreenOverlay.add(this.fullScreenOverlayModifier).add(this.fullScreenOverlay);
+
         this.maxRange = 200; /* Gets set properly after 1 render tick, by layout function below. */
 
         /* Hidden draggable renderable for opening the sidebar menu */
@@ -152,6 +156,7 @@ export class DraggableSideMenu extends View {
         });
 
         this.draggable.on('update', (dragEvent)=> {
+            this.fullScreenOverlayModifier.setOpacity(dragEvent.position[0]/this.controlWidth);
             this.direction = (dragEvent.position[0] > this.lastPosition);
             this.lastPosition = dragEvent.position[0];
         });
@@ -294,7 +299,7 @@ export class DraggableSideMenu extends View {
      */
     ShowSideBar() {
         this.renderables.sideMenuView.show(this.sideMenuScrollController);
-        this.renderables.fullScreenOverlay.show(this.fullScreenOverlay);
+        this.fullScreenOverlayModifier.setOpacity(1, DraggableSideMenu.transition);
     }
 
     /**
@@ -302,8 +307,8 @@ export class DraggableSideMenu extends View {
      * @private
      */
     _hideSideBar() {
+        this.fullScreenOverlayModifier.setOpacity(0);
         this.renderables.sideMenuView.hide(this.sideMenuScrollController);
-        this.renderables.fullScreenOverlay.hide(this.fullScreenOverlay);
     }
 
     /**
