@@ -18,23 +18,24 @@ System.config({
     "arva-js": "github:bizboard/arva-js@develop",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
-    "core-js": "npm:core-js@1.2.6",
-    "css": "github:systemjs/plugin-css@0.1.23",
+    "core-js": "npm:core-js@1.2.7",
+    "css": "github:systemjs/plugin-css@0.1.25",
     "famous": "github:bizboard/famous@0.3.7",
     "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
     "famous-flex": "github:bizboard/famous-flex@master",
-    "lodash": "npm:lodash@4.13.1",
+    "lodash": "npm:lodash@4.14.0",
+    "rgbcolor": "npm:rgbcolor@0.0.4",
     "text": "github:systemjs/plugin-text@0.0.8",
     "github:bizboard/arva-js@develop": {
-      "bowser": "npm:bowser@1.4.1",
+      "bowser": "npm:bowser@1.4.3",
       "camelcase": "npm:camelcase@2.1.1",
       "eventemitter3": "npm:eventemitter3@1.2.0",
       "famous": "github:bizboard/famous@0.3.7",
       "famous-flex": "github:bizboard/famous-flex@master",
       "fastclick": "npm:fastclick@1.0.6",
-      "firebase": "github:firebase/firebase-bower@3.2.0",
+      "firebase": "github:firebase/firebase-bower@3.2.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "lodash": "npm:lodash@4.13.1",
+      "lodash": "npm:lodash@4.14.0",
       "ordered-hashmap": "npm:ordered-hashmap@1.0.0",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "request-animation-frame-mock": "github:erykpiast/request-animation-frame-mock@0.1.8",
@@ -53,7 +54,7 @@ System.config({
       "path-browserify": "npm:path-browserify@0.0.0"
     },
     "github:jspm/nodelibs-process@0.1.2": {
-      "process": "npm:process@0.11.5"
+      "process": "npm:process@0.11.6"
     },
     "github:jspm/nodelibs-stream@0.1.0": {
       "stream-browserify": "npm:stream-browserify@1.0.0"
@@ -87,7 +88,7 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:core-js@1.2.6": {
+    "npm:core-js@1.2.7": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
@@ -102,14 +103,10 @@ System.config({
     "npm:isarray@1.0.0": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:lodash@4.13.1": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2"
-    },
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:process@0.11.5": {
+    "npm:process@0.11.6": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
@@ -123,6 +120,9 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "stream-browserify": "npm:stream-browserify@1.0.0",
       "string_decoder": "npm:string_decoder@0.10.31"
+    },
+    "npm:rgbcolor@0.0.4": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:sax@1.2.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -139,7 +139,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
     "npm:timers-browserify@1.4.2": {
-      "process": "npm:process@0.11.5"
+      "process": "npm:process@0.11.6"
     },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",
@@ -156,7 +156,7 @@ System.config({
       "xmlbuilder": "npm:xmlbuilder@4.2.1"
     },
     "npm:xmlbuilder@4.2.1": {
-      "lodash": "npm:lodash@4.13.1",
+      "lodash": "npm:lodash@4.14.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     }
   }

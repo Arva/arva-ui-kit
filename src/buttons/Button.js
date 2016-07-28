@@ -5,7 +5,7 @@
 import Surface              from 'famous/core/Surface.js';
 import AnimationController  from 'famous-flex/AnimationController.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {layout}             from 'arva-js/layout/decorators.js';
+import {layout}             from 'arva-js/layout/Decorators.js';
 import {Clickable}          from '../components/Clickable.js'
 import {Ripple}             from '../components/Ripple.js';
 
@@ -20,7 +20,6 @@ export class Button extends Clickable {
     @layout.translate(0, 0, 40)
     overlay = new Surface({properties: {cursor: 'pointer', borderRadius: this.options.backgroundProperties.borderRadius}});
 
-
     constructor(options) {
         super(combineOptions({
             makeRipple: true,
@@ -32,6 +31,7 @@ export class Button extends Clickable {
             },
             properties: {}
         }, options));
+
         if (this.options.makeRipple) {
             this.addRenderable(new Ripple(this.options.rippleOptions), 'ripple',
                 layout.size(undefined, undefined),

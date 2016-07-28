@@ -2,7 +2,7 @@
  * Created by manuel on 12/07/16.
  */
 
-import {layout}                 from 'arva-js/layout/decorators.js';
+import {layout}                 from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}             from './BaseDialog.js';
 import {IconButton}             from '../buttons/IconButton.js';

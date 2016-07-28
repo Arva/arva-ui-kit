@@ -8,7 +8,7 @@ import Easing               from 'famous/transitions/Easing.js';
 
 import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {layout}             from 'arva-js/layout/decorators.js';
+import {layout}             from 'arva-js/layout/Decorators.js';
 import {limit}              from 'arva-js/utils/Limiter.js';
 
 export class Ripple extends View {
