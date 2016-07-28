@@ -26,7 +26,6 @@ export class Button extends Clickable {
             useBoxShadow: true,
             delay: 100,
             backgroundProperties: {
-                backgroundColor: 'white',
                 borderRadius: '4px'
             },
             properties: {}

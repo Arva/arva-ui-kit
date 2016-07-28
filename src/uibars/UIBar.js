@@ -21,19 +21,19 @@ const rgbToRgba = (rgbString, alpha) => {
 @layout.margins([0, UIBarPadding])
 export class UIBar extends View {
     static backgroundSettings = {
-        'colored': {
-            shadows: {
-                'softShadow': {boxShadow: `0px 0px 8px 0px rgba(0,0,0,0.12), 0px 0px 8px 0px ${rgbToRgba(PrimaryUIColor, 0.12)}`},
-                'hardShadow': {boxShadow: `0px 2px 0px 0px rgba(0,0,0,0.08), 0px 2px 0px 0px ${rgbToRgba(PrimaryUIColor, 0.08)}`}
-            },
-            backgroundColor: {backgroundColor: PrimaryUIColor}
-        },
         'white': {
             shadows: {
                 'softShadow': {boxShadow: '0px 0px 8px 0px rgba(0,0,0,0.12)'},
                 'hardShadow': {boxShadow: '0px 2px 0px 0px rgba(0,0,0,0.12)'}
             },
             backgroundColor: {backgroundColor: 'rgb(255, 255, 255)'}
+        },
+        'colored': {
+            shadows: {
+                'softShadow': {boxShadow: `0px 0px 8px 0px rgba(0,0,0,0.12), 0px 0px 8px 0px ${rgbToRgba(PrimaryUIColor, 0.12)}`},
+                'hardShadow': {boxShadow: `0px 2px 0px 0px rgba(0,0,0,0.08), 0px 2px 0px 0px ${rgbToRgba(PrimaryUIColor, 0.08)}`}
+            },
+            backgroundColor: {backgroundColor: PrimaryUIColor}
         }
     };
 
@@ -44,7 +44,7 @@ export class UIBar extends View {
      * Container that can be placed at the top or bottom of the view, in which you can put a collection of components like buttons, etc.
      *
      * @param {Object} options Construction options
-     * @param {String} [options.variation] The variation of the UIBar ('colored' [default], 'white')
+     * @param {String} [options.variation] The variation of the UIBar ('white' [default], 'colored')
      * @param {String} [options.shadowType] The type of shadow to use ('noShadow' [default], 'softShadow', 'hardShadow')
      * @param {Boolean} [options.topLine] Add topLine
      * @param {Boolean} [options.bottomLine] Add bottomLine
@@ -62,7 +62,6 @@ export class UIBar extends View {
      *              ]
      *          })
      */
-
     constructor(options = {}) {
         let backgroundProperties = UIBar._computeSettings(options);
 
@@ -87,15 +86,15 @@ export class UIBar extends View {
     static _computeSettings(options) {
         /**
          * Selects which variation settings the UIBar should use.
-         * variation option can be set to 'colored' [default] or 'white'.
+         * variation option can be set to 'white' [default] or 'colored'.
          */
         let settings;
         if (options.variation in UIBar.backgroundSettings) {
             settings = UIBar.backgroundSettings[options.variation];
         } else {
-            settings = UIBar.backgroundSettings.colored;
+            settings = UIBar.backgroundSettings.white;
             if (options.variation) {
-                console.log('Invalid variation selected. Falling back to default settings (colored).');
+                console.log('Invalid variation selected. Falling back to default settings (white).');
             }
         }
 
