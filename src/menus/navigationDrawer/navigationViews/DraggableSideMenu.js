@@ -107,7 +107,7 @@ export class DraggableSideMenu extends View {
 
         this.sideMenuView = this.options.draggableSideMenuViewRenderable ? new this.options.draggableSideMenuViewRenderable(options) : new DraggableSideMenuView(options);
         this.fullScreenOverlay = new FullScreenBackground({color: 'rgba(0, 0, 0, 0.25)'});
-        this.maxRange = 200;
+        this.maxRange = 200; /* Gets set properly after 1 render tick, by layout function below. */
 
         /* Hidden draggable renderable for opening the sidebar menu */
         this.draggable = new Draggable({

@@ -1,7 +1,7 @@
-import {BaseIcon}					from '../../BaseIcon.js';
-import iconImage					from '../../resources/bookmark_angular_bold.svg.txt!text';
+import {BaseIcon}					from '../../views/BaseIcon.js';
+ import iconImage					from '../../resources/bookmark_angular_bold.svg.txt!text';
 
-export class BookmarkIcon extends BaseIcon {
+ export class BookmarkIcon extends BaseIcon {
     constructor(options){
         super({...options, icon: iconImage});
     }

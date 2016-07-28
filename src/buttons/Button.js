@@ -16,21 +16,6 @@ export class Button extends Clickable {
     @layout.translate(0, 0, -10)
     background = new Surface({properties: this.options.backgroundProperties});
 
-    @layout.animate({
-        showInitially: false,
-        animation: AnimationController.Animation.Fade,
-        transition: {duration: 75}
-    })
-
-    @layout.fullscreen
-    pressedIndication = new Surface({
-        properties: {
-            /*boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.5) inset, 0px 0px 5px rgba(255, 255, 255, 0.5)',*/
-            backgroundColor: 'rgba(230, 230, 230, 0.5)',
-            borderRadius: this.options.backgroundProperties.borderRadius
-        }
-    });
-
     @layout.fullscreen
     @layout.translate(0, 0, 40)
     overlay = new Surface({properties: {cursor: 'pointer', borderRadius: this.options.backgroundProperties.borderRadius}});
@@ -38,7 +23,6 @@ export class Button extends Clickable {
     constructor(options) {
         super(combineOptions({
             makeRipple: true,
-            indicatePress: true,
             useBoxShadow: true,
             delay: 100,
             backgroundProperties: {
@@ -52,7 +36,6 @@ export class Button extends Clickable {
             this.addRenderable(new Ripple(this.options.rippleOptions), 'ripple',
                 layout.size(undefined, undefined),
                 layout.clip(undefined, undefined, {borderRadius: this.options.backgroundProperties.borderRadius}));
-            /* Detect click on ripple as well, otherwise we'll miss some clicks */
         }
 
 
@@ -70,7 +53,7 @@ export class Button extends Clickable {
             this.addRenderable(
                 new Surface({
                     properties: {
-                        boxShadow: `${isHardShadow ? '0px 2px 0px 0px' : '0px 0px 8px 6px'} rgba(0,0,0,0.12)`,
+                        boxShadow: `${isHardShadow ? '0px 2px 0px 0px' : '0px 0px 12px 0px'} rgba(0,0,0,0.12)`,
                         borderRadius: this.options.backgroundProperties.borderRadius
                     }
                 }), 'boxshadow', layout.place('bottom'),
@@ -82,20 +65,17 @@ export class Button extends Clickable {
 
     _handleClick(mouseEvent) {
         super._handleClick(mouseEvent);
-        if (this.ripple) {
-            this.ripple.show(mouseEvent.offsetX, mouseEvent.offsetY);
-        }
+
     }
 
-    _handleTapStart() {
-        if (this.options.indicatePress) {
-            this.showRenderable('pressedIndication');
+    _handleTapStart({x, y}) {
+        if (this.options.makeRipple) {
+            this.ripple.show(x, y);
         }
     }
 
     _setEnabled(enabled) {
         super._setEnabled(enabled);
-
         this.overlay.setProperties({
             backgroundColor: enabled ? 'none' : 'rgba(255, 255, 255, 0.6)',
             cursor: enabled ? 'pointer' : 'inherit'
@@ -103,13 +83,8 @@ export class Button extends Clickable {
     }
 
     _handleTapEnd() {
-        /* Cancelling animation causes ugly hack:
-         * The AnimationController doesn't want to abort the animation without first showing the
-         * renderable, therefore we must hack the state a bit
-         */
-        if (this.renderables.pressedIndication.get()) {
-            this.renderables.pressedIndication._viewStack[0].state = 1;
+        if (this.options.makeRipple) {
+            this.ripple.hide();
         }
-        this.hideRenderable('pressedIndication');
     }
 }

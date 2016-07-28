@@ -1,7 +1,7 @@
-import {BaseIcon}					from '../../BaseIcon.js';
-import iconImage					from '../../resources/cloud_angular_bold.svg.txt!text';
+import {BaseIcon}					from '../../views/BaseIcon.js';
+ import iconImage					from '../../resources/cloud_angular_bold.svg.txt!text';
 
-export class CloudIcon extends BaseIcon {
+ export class CloudIcon extends BaseIcon {
     constructor(options){
         super({...options, icon: iconImage});
     }

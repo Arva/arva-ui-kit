@@ -5,8 +5,8 @@
 import {layout}                 from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}             from './BaseDialog.js';
-import {IconButton}        from '../buttons/IconButton.js';
-import {LocationIcon}           from '../icons/angular/bold/LocationIcon.js';
+import {IconButton}             from '../buttons/IconButton.js';
+import {LocationIcon}           from '../icons/LocationIcon.js';
 import {PrimaryUIColor}         from '../defaults/DefaultColors.js';
 
 export class StackButtonIconDialog extends BaseDialog {
@@ -52,8 +52,8 @@ export class StackButtonIconDialog extends BaseDialog {
             this.button0.decorations.dock.space = newMargin;
         }
 
-        for(let button of this._buttons){
-            this[button].icon.decorations.translate = [newMargin-12, 0, 0];
+        for (let button of this._buttons) {
+            this[button].icon.decorations.translate = [newMargin - 12, 0, 0];
             this[button].text.decorations.translate = [newMargin, 0, 0];
 
         }

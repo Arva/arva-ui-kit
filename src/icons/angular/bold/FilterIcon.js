@@ -1,7 +1,7 @@
-import {BaseIcon}					from '../../BaseIcon.js';
-import iconImage					from '../../resources/filter_angular_bold.svg.txt!text';
+import {BaseIcon}					from '../../views/BaseIcon.js';
+ import iconImage					from '../../resources/filter_angular_bold.svg.txt!text';
 
-export class FilterIcon extends BaseIcon {
+ export class FilterIcon extends BaseIcon {
     constructor(options){
         super({...options, icon: iconImage});
     }

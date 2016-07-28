@@ -1,7 +1,7 @@
-import {BaseIcon}					from '../../BaseIcon.js';
-import iconImage					from '../../resources/circleminus_rounded_thin.svg.txt!text';
+import {BaseIcon}					from '../../views/BaseIcon.js';
+ import iconImage					from '../../resources/circleminus_rounded_thin.svg.txt!text';
 
-export class CircleminusIcon extends BaseIcon {
+ export class CircleminusIcon extends BaseIcon {
     constructor(options){
         super({...options, icon: iconImage});
     }

@@ -20,14 +20,28 @@ for(let filePath of fs.readdirSync('./src/icons/resources')){
     let icon = nameComponents[0], form = nameComponents[1], thickness = nameComponents[2];
 
     icon = icon[0].toUpperCase() + icon.substring(1);
+    let defaultFilePath = filePath.split('_')[0] + '_default.svg.txt';
 
     console.log(icon, form, thickness);
 
-    fs.writeFileSync(`./src/icons/${form}/${thickness}/${icon}Icon.js`,
-`import {BaseIcon}\t\t\t\t\tfrom '../../BaseIcon.js';
-import iconImage\t\t\t\t\tfrom '../../resources/${filePath}!text';
+    /* Write default icon file */
+    fs.writeFileSync(`./src/icons/${icon}Icon.js`,
+        `import {BaseIcon}\t\t\t\t\tfrom './views/BaseIcon.js';
+import iconImage\t\t\t\t\tfrom './resources/${defaultFilePath}!text';
 
 export class ${icon}Icon extends BaseIcon {
+    constructor(options){
+        super({...options, icon: iconImage});
+    }
+ }`);
+
+
+    /* Write form and thickness icon file */
+    fs.writeFileSync(`./src/icons/${form}/${thickness}/${icon}Icon.js`,
+`import {BaseIcon}\t\t\t\t\tfrom '../../views/BaseIcon.js';
+ import iconImage\t\t\t\t\tfrom '../../resources/${filePath}!text';
+
+ export class ${icon}Icon extends BaseIcon {
     constructor(options){
         super({...options, icon: iconImage});
     }
