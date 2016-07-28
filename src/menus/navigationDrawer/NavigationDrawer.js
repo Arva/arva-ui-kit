@@ -33,7 +33,7 @@ import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import FamousContext            from 'famous/core/Context.js';
 import {Router}                 from 'arva-js/core/Router.js';
 import {View}                   from 'arva-js/core/View.js';
-import {layout, options}        from 'arva-js/layout/decorators.js';
+import {layout, options}        from 'arva-js/layout/Decorators.js';
 import AnimationController      from 'famous-flex/AnimationController.js';
 import {DraggableSideMenu}      from './navigationViews/DraggableSideMenu.js';
 import {TopMenu}                from './navigationViews/TopMenu.js';

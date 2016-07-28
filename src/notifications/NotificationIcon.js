@@ -1,4 +1,4 @@
-import {layout}             from 'arva-js/layout/decorators.js';
+import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {Button}             from '../buttons/Button.js';
 import {DoneIcon}           from '../icons/angular/bold/DoneIcon.js';

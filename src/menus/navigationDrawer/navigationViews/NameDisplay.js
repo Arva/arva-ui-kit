@@ -3,7 +3,7 @@
  */
 
 import {View}                from 'arva-js/core/View.js';
-import {layout, options}     from 'arva-js/layout/decorators.js';
+import {layout, options}     from 'arva-js/layout/Decorators.js';
 
 import {Text}                from '../../../text/Text.js';
 

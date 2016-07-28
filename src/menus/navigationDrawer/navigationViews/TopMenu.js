@@ -2,8 +2,6 @@
  * Created by manuel on 09-09-15.
  */
 
-import AnimationController      from 'famous-flex/AnimationController';
-
 import {View}                   from 'arva-js/core/View.js';
 import {Router}                 from 'arva-js/core/Router.js';
 import {layout}                 from 'arva-js/layout/Decorators';

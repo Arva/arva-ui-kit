@@ -4,7 +4,7 @@
 import Surface                  from 'famous/core/Surface.js';
 import {View}                   from 'arva-js/core/View.js';
 import {NameDisplay}            from './NameDisplay.js';
-import {layout}                 from 'arva-js/layout/decorators.js';
+import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions';
 import {Text}                   from '../../../text/Text.js';
 import {Colors}                 from '../../../defaults/DefaultColors.js';
@@ -47,7 +47,6 @@ export class TopMenuView extends View {
     @layout.translate(0, 0, 25)
     nameDisplay = new NameDisplay();
 
-
     @layout.animate()
     @layout.size(50, (size) => Math.min(size, 100))
     @layout.place('center')
@@ -65,7 +64,6 @@ export class TopMenuView extends View {
         });
         return this.hamburgerButton;
     }
-
 
     @layout.size(65, Dimensions.topBarHeight)
     @layout.align(0, 0)
