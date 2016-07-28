@@ -35,8 +35,8 @@ import {Router}                 from 'arva-js/core/Router.js';
 import {View}                   from 'arva-js/core/View.js';
 import {layout, options}        from 'arva-js/layout/Decorators.js';
 import AnimationController      from 'famous-flex/AnimationController.js';
-import {DraggableSideMenu}      from './navigationViews/DraggableSideMenu.js';
-import {TopMenu}                from './navigationViews/TopMenu.js';
+import {DraggableSideMenu}      from './sideMenus/DraggableSideMenu.js';
+import {TopMenu}                from './topMenus/TopMenu.js';
 import {Dimensions}             from '../../defaults/DefaultDimensions.js';
 
 export class NavigationDrawer extends View {

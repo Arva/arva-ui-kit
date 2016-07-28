@@ -103,14 +103,24 @@ export class DraggableSideMenu extends View {
             }
         });
 
-        this.renderables.fullScreenOverlay = new RenderNode();
+        this.renderables.fullScreenOverlay = new AnimationController({
+            show: {
+                transition: {duration: 0, curve: Easing.inOutQuint},
+                animation: AnimationController.Animation.Slide.Right
+            },
+            hide: {
+                transition: {duration: 0, curve: Easing.inOutQuint},
+                animation: AnimationController.Animation.Slide.Left
+            }
+        });
+        this.fullScreenOverlayNode = new RenderNode();
         this.fullScreenOverlayModifier = new StateModifier({opacity:0});
 
-        this.sideMenuView = this.options.draggableSideMenuViewRenderable ? new this.options.draggableSideMenuViewRenderable(options) : new DraggableSideMenuView(options);
         this.fullScreenOverlay = new FullScreenBackground({color: 'rgba(0, 0, 0, 0.25)'});
 
-        this.renderables.fullScreenOverlay.add(this.fullScreenOverlayModifier).add(this.fullScreenOverlay);
+        this.fullScreenOverlayNode.add(this.fullScreenOverlayModifier).add(this.fullScreenOverlay);
 
+        this.sideMenuView = this.options.draggableSideMenuViewRenderable ? new this.options.draggableSideMenuViewRenderable(options) : new DraggableSideMenuView(options);
         this.maxRange = 200; /* Gets set properly after 1 render tick, by layout function below. */
 
         /* Hidden draggable renderable for opening the sidebar menu */
@@ -144,7 +154,7 @@ export class DraggableSideMenu extends View {
         this.renderables.control = dragNode;
 
         this.sideMenuView.pipe(this.draggable);
-        this.fullScreenOverlay.pipe(this.draggable);
+        // this.fullScreenOverlay.pipe(this.draggable);
 
         this.draggable.on('end', (dragEvent) => {
             if (this.direction) {
@@ -156,6 +166,7 @@ export class DraggableSideMenu extends View {
         });
 
         this.draggable.on('update', (dragEvent)=> {
+            this.renderables.fullScreenOverlay.show(this.fullScreenOverlayNode);
             this.fullScreenOverlayModifier.setOpacity(dragEvent.position[0]/this.controlWidth);
             this.direction = (dragEvent.position[0] > this.lastPosition);
             this.lastPosition = dragEvent.position[0];
@@ -298,6 +309,7 @@ export class DraggableSideMenu extends View {
      * @constructor
      */
     ShowSideBar() {
+        this.renderables.fullScreenOverlay.show(this.fullScreenOverlayNode);
         this.renderables.sideMenuView.show(this.sideMenuScrollController);
         this.fullScreenOverlayModifier.setOpacity(1, DraggableSideMenu.transition);
     }
@@ -307,6 +319,7 @@ export class DraggableSideMenu extends View {
      * @private
      */
     _hideSideBar() {
+        this.renderables.fullScreenOverlay.hide();
         this.fullScreenOverlayModifier.setOpacity(0);
         this.renderables.sideMenuView.hide(this.sideMenuScrollController);
     }
