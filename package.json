@@ -18,7 +18,8 @@
       "famous": "github:bizboard/famous@^0.3.7",
       "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
       "famous-flex": "github:bizboard/famous-flex@master",
-      "lodash": "npm:lodash@^4.13.1"
+      "lodash": "npm:lodash@^4.13.1",
+      "rgbcolor": "npm:rgbcolor@^0.0.4"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",

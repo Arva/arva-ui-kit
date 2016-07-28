@@ -4,6 +4,13 @@
 import _   from 'lodash';
 
 export let Dimensions = {
+    ComponentHeight: 48,
+    ComponentPadding: 12,
+
+    UIBarHeight: 48,
+    UIBarThickHeight: 64,
+    UIBarPadding: 4,
+
     topBarHeight: 30,
     sideMenuOptions: {
         itemHeight: 44,
@@ -11,6 +18,13 @@ export let Dimensions = {
         direction: 1
     }
 };
+
+export let ComponentHeight = Dimensions.ComponentHeight;
+export let ComponentPadding = Dimensions.ComponentPadding;
+
+export let UIBarHeight = Dimensions.UIBarHeight;
+export let UIBarThickHeight = Dimensions.UIBarThickHeight;
+export let UIBarPadding = Dimensions.UIBarPadding;
 
 export let TopBarHeight = Dimensions.topBarHeight;
 

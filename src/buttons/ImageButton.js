@@ -1,24 +1,30 @@
 /**
  * Created by lundfall on 12/07/16.
  */
-import ImageSurface         from 'famous/Surfaces/ImageSurface.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {layout}             from 'arva-js/layout/decorators.js';
+import {layout}                             from 'arva-js/layout/Decorators.js';
+import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
+import ImageSurface                         from 'famous/Surfaces/ImageSurface.js';
 
-import {Button}             from './Button.js';
-import {TextButton}         from './TextButton.js';
-import {Colors}             from '../defaults/DefaultColors.js';
-import {ArrowleftIcon}      from '../icons/rounded/thin/ArrowleftIcon.js';
+import {Button}                             from './Button.js';
+import {TextButton}                         from './TextButton.js';
+import {Colors}                             from '../defaults/DefaultColors.js';
+import {ArrowleftIcon}                      from '../icons/rounded/thin/ArrowleftIcon.js';
+import {ComponentHeight,
+        ComponentPadding}                   from '../defaults/DefaultDimensions.js';
 
 export class ImageButton extends Button {
     @layout.translate(0, 0, 30)
-    @layout.size(function(size) {return size-this.options.imagePadding}, function(size) {return size-this.options.imagePadding})
+    @layout.size(function (size) {
+        return size - this.options.imagePadding
+    }, function (size) {
+        return size - this.options.imagePadding
+    })
     @layout.place('center')
-    image = this.options.image ? new ImageSurface({ content: this.options.image }) : new this.options.icon({color: this.options.properties.color});
+    image = this.options.image ? new ImageSurface({content: this.options.image}) : new this.options.icon({color: this.options.properties.color});
 
     /* Default if true size specified */
     getSize() {
-        return [48, 48];
+        return [ComponentHeight, ComponentHeight];
     }
 
     constructor(options = {}) {
@@ -30,12 +36,12 @@ export class ImageButton extends Button {
             options.variation = 'noShadow';
         }
         super(combineOptions({
-            imagePadding: 24,
+            imagePadding: ComponentPadding,
             properties: {color: Colors.PrimaryUIColor},
             ...TextButton.generateBoxShadowVariations(options.variation)
         }, options));
     }
-    
+
     setContent(iconConstructor) {
         this.image.setContent(new iconConstructor({color: this.options.properties.color}).getContent());
     }
