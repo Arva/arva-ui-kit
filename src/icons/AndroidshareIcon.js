@@ -1,8 +1,8 @@
-import {BaseIcon}                    from './views/BaseIcon.js';
-import iconImage                    from './resources/androidshare_rounded_thin.svg.txt!text';
+import {BaseIcon}					from './views/BaseIcon.js';
+import iconImage					from './resources/androidshare_default.svg.txt!text';
 
 export class AndroidshareIcon extends BaseIcon {
-    constructor(options) {
+    constructor(options){
         super({...options, icon: iconImage});
     }
-}
+ }

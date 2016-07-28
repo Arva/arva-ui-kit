@@ -1,5 +1,5 @@
 import {BaseIcon}					from './views/BaseIcon.js';
-import iconImage					from './resources/trash_rounded_thin.svg.txt!text';
+import iconImage					from './resources/trash_default.svg.txt!text';
 
 export class TrashIcon extends BaseIcon {
     constructor(options){

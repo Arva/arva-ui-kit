@@ -1,5 +1,5 @@
 import {BaseIcon}					from './views/BaseIcon.js';
-import iconImage					from './resources/location_rounded_thin.svg.txt!text';
+import iconImage					from './resources/location_default.svg.txt!text';
 
 export class LocationIcon extends BaseIcon {
     constructor(options){

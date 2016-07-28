@@ -1,5 +1,5 @@
 import {BaseIcon}					from './views/BaseIcon.js';
-import iconImage					from './resources/search_rounded_thin.svg.txt!text';
+import iconImage					from './resources/search_default.svg.txt!text';
 
 export class SearchIcon extends BaseIcon {
     constructor(options){

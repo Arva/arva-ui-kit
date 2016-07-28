@@ -1,5 +1,5 @@
 import {BaseIcon}					from './views/BaseIcon.js';
-import iconImage					from './resources/list_rounded_thin.svg.txt!text';
+import iconImage					from './resources/list_default.svg.txt!text';
 
 export class ListIcon extends BaseIcon {
     constructor(options){
