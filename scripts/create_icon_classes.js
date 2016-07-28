@@ -23,11 +23,25 @@ for(let filePath of fs.readdirSync('./src/icons/resources')){
 
     console.log(icon, form, thickness);
 
-    fs.writeFileSync(`./src/icons/${form}/${thickness}/${icon}Icon.js`,
-`import {BaseIcon}\t\t\t\t\tfrom '../../BaseIcon.js';
-import iconImage\t\t\t\t\tfrom '../../resources/${filePath}!text';
+
+    /* Write default icon file */
+    fs.writeFileSync(`./src/icons/${icon}Icon.js`,
+        `import {BaseIcon}\t\t\t\t\tfrom './views/BaseIcon.js';
+import iconImage\t\t\t\t\tfrom './resources/${filePath}!text';
 
 export class ${icon}Icon extends BaseIcon {
+    constructor(options){
+        super({...options, icon: iconImage});
+    }
+ }`);
+
+
+    /* Write form and thickness icon file */
+    fs.writeFileSync(`./src/icons/${form}/${thickness}/${icon}Icon.js`,
+`import {BaseIcon}\t\t\t\t\tfrom '../../views/BaseIcon.js';
+ import iconImage\t\t\t\t\tfrom '../../resources/${filePath}!text';
+
+ export class ${icon}Icon extends BaseIcon {
     constructor(options){
         super({...options, icon: iconImage});
     }

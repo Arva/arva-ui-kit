@@ -3,8 +3,7 @@
  */
 
 import Surface                          from 'famous/core/Surface.js';
-
-import {IconColor}                      from '../defaults/DefaultColors.js';
+import {IconColor}                      from '../../defaults/DefaultColors.js';
 import {replaceColors}                  from './ReplaceColors.js';
 
 export class BaseIcon extends Surface {

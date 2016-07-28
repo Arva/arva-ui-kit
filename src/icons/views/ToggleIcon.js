@@ -5,10 +5,10 @@
 import AnimationController      from 'famous-flex/AnimationController.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {layout, options}        from 'arva-js/layout/decorators.js';
-import {Clickable}              from '../components/Clickable.js';
+import {Clickable}              from '../../components/Clickable.js';
 
-import {HamburgerIcon}          from './angular/bold/HamburgerIcon.js';
-import {ArrowleftIcon}          from './angular/bold/ArrowleftIcon.js';
+import {HamburgerIcon}          from '../angular/bold/HamburgerIcon.js';
+import {ArrowleftIcon}          from '../angular/bold/ArrowleftIcon.js';
 
 
 export class ToggleIcon extends Clickable {
