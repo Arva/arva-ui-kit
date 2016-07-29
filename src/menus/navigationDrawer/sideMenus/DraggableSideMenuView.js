@@ -13,7 +13,7 @@ import {MenuItem}           from './MenuItem.js';
 
 export class DraggableSideMenuView extends View {
 
-    @layout.fullscreen
+    @layout.fullSize()
     background = new Surface({
         properties: {
             'background-color': (this.options.colors.MenuBackgroundColor)
@@ -21,7 +21,7 @@ export class DraggableSideMenuView extends View {
     });
 
     @layout.translate(0, 0, 20)
-    @layout.fullscreen
+    @layout.fullSize()
     scrollController = new ScrollController({
         layout: ListLayout,
         dataSource: [

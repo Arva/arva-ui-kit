@@ -76,7 +76,7 @@ export class NavigationDrawer extends View {
 
     }
 
-    @layout.dock('top', function () {
+    @layout.dock.top( function () {
         return this.options.topBarHeight ? this.options.topBarHeight : Dimensions.topBarHeight
     })
     @layout.translate(0, 0, 500)
@@ -87,7 +87,7 @@ export class NavigationDrawer extends View {
     })
     topBar = this._createTopBar();
 
-    @layout.dock('fill')
+    @layout.dock.fill()
     @layout.translate(0, 0, 450)
     sideMenu = this.options.draggableSideMenuRenderable ? new this.options.draggableSideMenuRenderable(this.options.sideMenuOptions) : new DraggableSideMenu(this.options.sideMenuOptions)
 
@@ -137,7 +137,7 @@ export class NavigationDrawer extends View {
      * @param renderable
      */
     addToContent(renderable) {
-        this.addRenderable(renderable, `renderable${this.idCounter++}`, layout.dock('fill'));
+        this.addRenderable(renderable, `renderable${this.idCounter++}`, layout.dock.fill());
     }
 
     /**

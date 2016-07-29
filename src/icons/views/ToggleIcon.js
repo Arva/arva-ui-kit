@@ -13,7 +13,7 @@ import {ArrowleftIcon}          from '../angular/bold/ArrowleftIcon.js';
 
 export class ToggleIcon extends Clickable {
 
-    @layout.fullscreen
+    @layout.fullSize()
     @layout.translate(0, 0, 20)
     toggleIcon = new AnimationController();
 

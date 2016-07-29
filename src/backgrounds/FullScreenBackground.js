@@ -7,7 +7,7 @@ import Surface              from 'famous/core/Surface.js';
 
 export class FullScreenBackground extends View {
 
-    @layout.fullscreen
+    @layout.fullSize()
     background = new Surface({properties: {'background-color':this.options.color}});
 
     constructor(options = {}){

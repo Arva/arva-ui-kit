@@ -24,7 +24,7 @@ export class OneButtonDialog extends BaseDialog {
                     borderRadius: '0px 0px 4px 4px'
                 }
             }
-        ), `button0`, layout.dock('top', button.buttonHeight || 64));
+        ), `button0`, layout.dock.top( button.buttonHeight || 64));
     }
 
     onNewMargin(newMargin) {

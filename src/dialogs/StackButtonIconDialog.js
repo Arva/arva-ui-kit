@@ -39,7 +39,7 @@ export class StackButtonIconDialog extends BaseDialog {
                         borderRadius: index !== buttons.length - 1 ? '0px' : '0px 0px 4px 4px'
                     }
                 }
-            ), `button${index}`, layout.dock('top', buttonHeight));
+            ), `button${index}`, layout.dock.top( buttonHeight));
         }
     }
 

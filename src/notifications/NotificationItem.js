@@ -13,7 +13,7 @@ export class NotificationItem extends View {
             type: notificationModel.type,
             title: notificationModel.title,
             body: notificationModel.body
-        }), 'notification', layout.dock('top', ~92, 0, 50), layout.swipable({
+        }), 'notification', layout.dock.top( ~92, 0, 50), layout.swipable({
             snapY: (notificationModel.type === 'action' || this.isTablet) ? 1 : 0,
             snapX: (notificationModel.type !== 'action' && this.isTablet) ? 0 : 1,
             xThreshold: [undefined, 150],

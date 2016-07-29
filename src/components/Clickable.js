@@ -8,7 +8,7 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
 
 
-@layout.margins([0, 12, 0, 12])
+@layout.dockPadding(0, 12, 0, 12)
 export class Clickable extends View {
 
     constructor(options = {}) {

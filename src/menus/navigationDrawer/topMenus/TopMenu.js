@@ -10,7 +10,7 @@ import {TopMenuView}            from './TopMenuView.js';
 
 
 export class TopMenu extends View {
-    @layout.fullscreen
+    @layout.fullSize()
     topMenuView = new TopMenuView(this.options);
     
     constructor(options = {}) {

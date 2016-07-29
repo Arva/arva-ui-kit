@@ -12,7 +12,7 @@ import {ComponentHeight}        from '../defaults/DefaultDimensions.js';
 
 export class TextButton extends Button {
     @layout.translate(0, 0, 30)
-    @layout.dock('top')
+    @layout.dock.top()
     @layout.size(~300, undefined)
     @layout.origin(0.5, 0)
     @layout.align(0.5, 0)
