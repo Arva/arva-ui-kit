@@ -3,7 +3,6 @@
  */
 import Surface          from 'famous/core/Surface.js';
 
-import {View}           from 'arva-js/core/View.js';
 import {layout}         from 'arva-js/layout/Decorators.js';
 import {combineOptions} from 'arva-js/utils/CombineOptions.js';
 import {Button}         from '../../../buttons/Button.js';
@@ -14,23 +13,23 @@ import {UIRegular}      from '../../../defaults/DefaultTypefaces.js';
 export class IconMenuItem extends Button {
 
     @layout.size(undefined, true)
-    @layout.place('center')
+    @layout.stick.center()
     textSurface = new Surface({
-        content: data.text,
+        content: this.options.text,
         properties: {
             color: this.options.colors.MenuTextColor,
             fontSize: UIRegular.properties.fontSize,
             fontFamily: UIRegular.properties.fontFamily,
             lineHeight: `${this.options.sideMenuOptions.itemHeight-4}px`,
-            pointerEvents: data.separation ? 'none' : 'initial'
+            pointerEvents: this.options.separation ? 'none' : 'initial'
 
         }
     });
 
-    @layout.fullscreen
+    @layout.fullSize()
     clickOverlay = new Surface({
         properties: {
-            pointerEvents: data.separation ? 'none' : 'initial'
+            pointerEvents: this.options.separation ? 'none' : 'initial'
         }
     });
 
@@ -44,8 +43,11 @@ export class IconMenuItem extends Button {
             },
             colors: {
                 MenuTextColor: PrimaryUIColor
-            }
+            },
+            text: data.text || '',
+            separation: data.separation || 'none'
         }));
+
         this.data = data;
     }
 
