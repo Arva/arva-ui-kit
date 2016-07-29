@@ -7,7 +7,7 @@ import {PrimaryUIColor}     from '../defaults/DefaultColors.js';
 export class NotificationIcon extends Button {
 
     @layout.size(24, 24)
-    @layout.stick('center')
+    @layout.stick.center()
     icon = new DoneIcon({
         color: PrimaryUIColor
     });

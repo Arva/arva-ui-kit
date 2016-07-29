@@ -16,10 +16,10 @@ export class ImageButton extends Button {
     @layout.translate(0, 0, 30)
     @layout.size(function (width) {
         return width - this.options.imagePadding
-    }, function (_,height) {
+    }, function (width,height) {
         return height- this.options.imagePadding
     })
-    @layout.stick('center')
+    @layout.stick.center()
     image = this.options.image ? new ImageSurface({content: this.options.image}) : new this.options.icon({color: this.options.properties.color});
     
     /* Default if true size specified */

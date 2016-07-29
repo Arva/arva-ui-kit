@@ -26,10 +26,10 @@ export class BaseDialog extends View {
     background = new Surface({properties: {backgroundColor: 'white', borderRadius: '4px'}});
 
     @layout.dock.top( ~50)
-    @layout.stick('top')
+    @layout.stick.top()
     title = new Surface(combineOptions({content: this.options.title, properties: {textAlign: "left", whitespace: "nowrap"}}, UITitle));
 
-    @layout.stick('top')
+    @layout.stick.top()
     @layout.dock.top( ~50, 8)
     body = new Surface(combineOptions({content: this.options.body, properties: {textAlign: 'left'}}, UIRegular));
 

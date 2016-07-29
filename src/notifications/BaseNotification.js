@@ -63,7 +63,7 @@ export class BaseNotification extends View {
         this.usesIcon = this.options.usesIcon;
 
         if (this.usesIcon) {
-            this.addRenderable(new NotificationIcon(), 'icon', layout.stick('right'), layout.size(64, (_,height)=>height), layout.translate(0, 0, 220));
+            this.addRenderable(new NotificationIcon(), 'icon', layout.stick.right(), layout.size(64, (_,height)=>height), layout.translate(0, 0, 220));
             this.icon.on('click', ()=> {
                 this._eventOutput.emit('close');
             });

@@ -55,7 +55,7 @@ export class Button extends Clickable {
                         boxShadow: `${isHardShadow ? '0px 2px 0px 0px' : '0px 0px 12px 0px'} rgba(0,0,0,0.12)`,
                         borderRadius: this.options.backgroundProperties.borderRadius
                     }
-                }), 'boxshadow', layout.stick('bottom'),
+                }), 'boxshadow', layout.stick.bottom(),
                 layout.translate(0, 0, -20),
                 layout.size(...(isHardShadow ? [undefined, undefined] : [(size) => size - 16, (size) => size - 8] )));
         }
