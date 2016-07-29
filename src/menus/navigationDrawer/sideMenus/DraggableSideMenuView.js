@@ -39,10 +39,7 @@ export class DraggableSideMenuView extends View {
                     background: false,
                     selectedItemOverlay: ()=>{
                         return new Surface({
-                            size: [undefined, this.options.sideMenuOptions.itemHeight || Dimensions.sideMenuOptions.itemHeight],
-                            properties: {
-                                backgroundColor: this.options.colors.MenuBackgroundHighLightColor
-                            }
+                            size: [undefined, this.options.sideMenuOptions.itemHeight || Dimensions.sideMenuOptions.itemHeight]
                         });
                     },
                     item: (id, data)=> {

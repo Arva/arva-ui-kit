@@ -3,13 +3,11 @@
  */
 import Surface                  from 'famous/core/Surface.js';
 
-import {View}                   from 'arva-js/core/View.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
 
-import {PrimaryUIColor}         from '../../../defaults/DefaultColors.js';
-import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
+import {IconMenuItem}           from './IconMenuItem.js';
 
 export class ImageSideMenuView extends DraggableSideMenuView {
 
@@ -23,7 +21,11 @@ export class ImageSideMenuView extends DraggableSideMenuView {
 
     constructor(options = {}) {
         super(combineOptions(options, {
-            bgColor: 'rgba(255,255,255,1)'
+            bgColor: 'rgba(255,255,255,1)',
+            sideMenuRenderable: IconMenuItem,
+            colors: {
+                MenuBackgroundColor: 'white'
+            }
         }));
 
         // workaround to determine half the width
