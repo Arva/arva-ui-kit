@@ -13,8 +13,8 @@ export let Dimensions = {
 
     topBarHeight: 30,
     sideMenuOptions: {
-        itemHeight: 44,
-        itemMargin: 10,
+        itemHeight: 48,
+        itemMargin: 0,
         direction: 1
     }
 };

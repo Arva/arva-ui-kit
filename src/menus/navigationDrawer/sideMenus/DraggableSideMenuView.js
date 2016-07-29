@@ -20,8 +20,9 @@ export class DraggableSideMenuView extends View {
         }
     });
 
+    /* Dock fill as DraggableSideMenuView can be extended with extra dockable renderables */
+    @layout.dock('fill')
     @layout.translate(0, 0, 20)
-    @layout.fullSize()
     scrollController = new ScrollController({
         layout: ListLayout,
         dataSource: [
@@ -38,10 +39,7 @@ export class DraggableSideMenuView extends View {
                     background: false,
                     selectedItemOverlay: ()=>{
                         return new Surface({
-                            size: [undefined, this.options.sideMenuOptions.itemHeight || Dimensions.sideMenuOptions.itemHeight],
-                            properties: {
-                                backgroundColor: this.options.colors.MenuBackgroundHighLightColor
-                            }
+                            size: [undefined, this.options.sideMenuOptions.itemHeight || Dimensions.sideMenuOptions.itemHeight]
                         });
                     },
                     item: (id, data)=> {

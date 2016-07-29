@@ -27,9 +27,9 @@ export let Colors = {
     QuaternaryUIColor: 'rgb(170, 170, 170)',
 
     BasicTextColor: 'rgb(0, 0, 0)',
-    ModestTextColor: 'rgb(170, 170, 170,)',
-    ArticleTextColor: 'rgb(20, 20, 20,)',
-    ImageTextColor: 'rgb(255, 255, 255,)',
+    ModestTextColor: 'rgb(170, 170, 170)',
+    ArticleTextColor: 'rgb(20, 20, 20)',
+    ImageTextColor: 'rgb(255, 255, 255)',
     UIBarTextColor: 'rgb(255,255,255)'
 };
 
