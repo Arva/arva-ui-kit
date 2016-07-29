@@ -12,14 +12,10 @@ import {ArrowleftIcon}                      from '../icons/rounded/thin/Arrowlef
 import {ComponentHeight,
         ComponentPadding}                   from '../defaults/DefaultDimensions.js';
 
+
 export class ImageButton extends Button {
     @layout.translate(0, 0, 30)
-    @layout.size(function (width) {
-        return width - this.options.imagePadding
-    }, function (width,height) {
-        return height- this.options.imagePadding
-    })
-    @layout.stick.center()
+    @layout.dock.fill()
     image = this.options.image ? new ImageSurface({content: this.options.image}) : new this.options.icon({color: this.options.properties.color});
     
     /* Default if true size specified */
@@ -36,7 +32,6 @@ export class ImageButton extends Button {
             options.variation = 'noShadow';
         }
         super(combineOptions({
-            imagePadding: ComponentPadding,
             properties: {color: Colors.PrimaryUIColor},
             ...TextButton.generateBoxShadowVariations(options.variation)
         }, options));

@@ -8,8 +8,10 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
 import {Clickable}          from '../components/Clickable.js'
 import {Ripple}             from '../components/Ripple.js';
+import {ComponentPadding}   from '../defaults/DefaultDimensions.js';
 
 
+@layout.dockPadding(0, ComponentPadding, 0, ComponentPadding)
 @layout.translate(0, 0, 30)
 export class Button extends Clickable {
     @layout.fullSize()
@@ -20,17 +22,18 @@ export class Button extends Clickable {
     @layout.translate(0, 0, 40)
     overlay = new Surface({properties: {cursor: 'pointer', borderRadius: this.options.backgroundProperties.borderRadius}});
 
+
     constructor(options) {
         super(combineOptions({
             makeRipple: true,
             useBoxShadow: true,
             delay: 100,
             backgroundProperties: {
-                borderRadius: '4px'
+                borderRadius: '4px',
+                backgroundColor: 'white'
             },
             properties: {}
         }, options));
-
         if (this.options.makeRipple) {
             this.addRenderable(new Ripple(this.options.rippleOptions), 'ripple',
                 layout.size(undefined, undefined),
@@ -57,7 +60,7 @@ export class Button extends Clickable {
                     }
                 }), 'boxshadow', layout.stick.bottom(),
                 layout.translate(0, 0, -20),
-                layout.size(...(isHardShadow ? [undefined, undefined] : [(size) => size - 16, (size) => size - 8] )));
+                layout.size(...(isHardShadow ? [undefined, undefined] : [(width) => width - 16, (_,height) => height - 8] )));
         }
 
     }
