@@ -18,11 +18,11 @@ import {FloatingImageButton}    from '../../../buttons/FloatingImageButton.js';
 
 import {UITitle}                from '../../../defaults/DefaultTypefaces.js';
 
-@layout.margins([0, 0, 0, 5])
+@layout.dockPadding(0, 0, 0, 5)
 export class TopMenuView extends View {
 
     @layout.size(~100, ~17)
-    @layout.place('center')
+    @layout.stick.center()
     @layout.translate(0, 0, 25)
     title = new Text(combineOptions(UITitle, {
         content: this.options.defaultTitle || 'Dashboard',
@@ -32,35 +32,51 @@ export class TopMenuView extends View {
         }
     }));
 
-    @layout.dock('right')
-    @layout.size(50, (size) => Math.min(size, 100))
-    @layout.place('center')
+    @layout.dock.right()
+    @layout.size(50, (_, height) => Math.min(height, 100))
+    @layout.stick.center()
     @layout.translate(0, 0, 25)
     rightButton = new FloatingImageButton({
         clickEventName: 'rightButtonClick', icon: InfoIcon,
-        properties: {color: Colors.UIBarTextColor}, variation: 'noShadow', makeRipple: false, indicatePress: true, backgroundProperties: {borderRadius: 0}
+        properties: {color: Colors.UIBarTextColor},
+        variation: 'noShadow',
+        makeRipple: false,
+        indicatePress: true,
+        backgroundProperties: {borderRadius: 0}
     });
 
     @layout.animate({showInitially: false})
     @layout.size(~300, undefined)
-    @layout.dock('right')
+    @layout.dock.right()
     @layout.translate(0, 0, 25)
     nameDisplay = new NameDisplay();
 
     @layout.animate()
-    @layout.size(50, (size) => Math.min(size, 100))
-    @layout.place('center')
-    @layout.dock('left')
+    @layout.size(50, (_, height) => Math.min(height, 100))
+    @layout.stick.center()
+    @layout.dock.left()
     @layout.translate(0, 0, 20)
     /* Getter will be overwritten by the decorators, so won't be called twice */
     get menuButton() {
         this.hamburgerButton = new ImageButton({
-            clickEventName: 'requestMenuOpen', imageOnly: true, icon: HamburgerIcon,
-            properties: {color: Colors.UIBarTextColor}, variation: 'noShadow', makeRipple: false, indicatePress: true, backgroundProperties: {borderRadius: 0}
+            clickEventName: 'requestMenuOpen',
+            imageOnly: true,
+            icon: HamburgerIcon,
+            properties: {color: Colors.UIBarTextColor},
+            variation: 'noShadow',
+            makeRipple: false,
+            indicatePress: true,
+            backgroundProperties: {borderRadius: 0}
         });
         this.arrowLeftButton = new ImageButton({
-            clickEventName: 'requestMenuClose', imageOnly: true, icon: ArrowleftIcon,
-            properties: {color: Colors.UIBarTextColor}, variation: 'noShadow', makeRipple: false, indicatePress: true, backgroundProperties: {borderRadius: 0}
+            clickEventName: 'requestMenuClose',
+            imageOnly: true,
+            icon: ArrowleftIcon,
+            properties: {color: Colors.UIBarTextColor},
+            variation: 'noShadow',
+            makeRipple: false,
+            indicatePress: true,
+            backgroundProperties: {borderRadius: 0}
         });
         return this.hamburgerButton;
     }
@@ -78,7 +94,7 @@ export class TopMenuView extends View {
     clickableRightButtonSurface = new Surface();
 
 
-    @layout.fullscreen
+    @layout.fullSize()
     background = new Surface({
         properties: {
             'background-color': Colors.PrimaryUIColor

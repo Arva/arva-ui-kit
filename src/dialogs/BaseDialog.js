@@ -22,15 +22,15 @@ export class BaseDialog extends View {
     }
 
     @layout.translate(0, 0, -10)
-    @layout.fullscreen
+    @layout.fullSize()
     background = new Surface({properties: {backgroundColor: 'white', borderRadius: '4px'}});
 
-    @layout.dock('top', ~50)
-    @layout.place('top')
+    @layout.dock.top( ~50)
+    @layout.stick.top()
     title = new Surface(combineOptions({content: this.options.title, properties: {textAlign: "left", whitespace: "nowrap"}}, UITitle));
 
-    @layout.place('top')
-    @layout.dock('top', ~50, 8)
+    @layout.stick.top()
+    @layout.dock.top( ~50, 8)
     body = new Surface(combineOptions({content: this.options.body, properties: {textAlign: 'left'}}, UIRegular));
 
     constructor(options) {

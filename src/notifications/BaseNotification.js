@@ -12,7 +12,7 @@ import {UIRegular}          from '../defaults/DefaultTypefaces.js';
 
 import {NotificationIcon}   from './NotificationIcon.js';
 
-@layout.margins([24, 0, 24, 24])
+@layout.dockPadding(24, 0, 24, 24)
 export class BaseNotification extends View {
 
     static get DEFAULT_SIZES() {
@@ -26,7 +26,7 @@ export class BaseNotification extends View {
     }
 
     @layout.translate(0, 0, -10)
-    @layout.fullscreen
+    @layout.fullSize()
     background = new Surface({
         properties: {
             backgroundColor: 'white', borderRadius: '4px',
@@ -34,7 +34,7 @@ export class BaseNotification extends View {
         }
     });
 
-    @layout.dock('top', ~18, 8, 200)
+    @layout.dock.top( ~18, 8, 200)
     @layout.size(function () {
             return this.options.usesIcon ? 260 : 324
         }
@@ -44,7 +44,7 @@ export class BaseNotification extends View {
         properties: {textAlign: "left", whitespace: "nowrap", wordBreak: 'break-word'}
     }, UITitle));
 
-    @layout.dock('top', ~18, 8, 200)
+    @layout.dock.top( ~18, 8, 200)
     @layout.size(function () {
             return this.options.usesIcon ? 260 : 324
         }
@@ -63,7 +63,7 @@ export class BaseNotification extends View {
         this.usesIcon = this.options.usesIcon;
 
         if (this.usesIcon) {
-            this.addRenderable(new NotificationIcon(), 'icon', layout.place('right'), layout.size(64, (size)=>size), layout.translate(0, 0, 220));
+            this.addRenderable(new NotificationIcon(), 'icon', layout.stick.right(), layout.size(64, (_,height)=>height), layout.translate(0, 0, 220));
             this.icon.on('click', ()=> {
                 this._eventOutput.emit('close');
             });

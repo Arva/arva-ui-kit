@@ -13,7 +13,7 @@ import {MenuItem}           from './MenuItem.js';
 
 export class DraggableSideMenuView extends View {
 
-    @layout.fullscreen
+    @layout.fullSize()
     background = new Surface({
         properties: {
             'background-color': (this.options.colors.MenuBackgroundColor)

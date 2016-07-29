@@ -47,14 +47,14 @@ export class NotificationManager {
 class NotificationWrapper extends View {
 
     dataSource = [];
-    @layout.dock('right', function (size) {
-        window.isTablet = this.isTablet = size >= 480;
+    @layout.dock.right(function (width) {
+        window.isTablet = this.isTablet = width >= 480;
         this.scrollView.setOptions({flowOptions:{
             spring: {dampingRatio: 0.8, period: 650},
             insertSpec: {transform: Transform.translate(this.isTablet ? 300 : 0, this.isTablet ? 0 : -300, 50), opacity: 0},
             removeSpec: {transform: Transform.translate(this.isTablet ? 300 : 0, this.isTablet ? 0 : -300, -5000), opacity: 0}
         }});
-        return Math.min(size, 384)
+        return Math.min(width, 384)
     }, 0, 6000)
     @layout.translate(0, 16, 6000)
     scrollView = new DataBoundScrollView({

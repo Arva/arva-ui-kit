@@ -11,17 +11,17 @@ var Settings = {
     smallFontSize: '12px'
 };
 
-@layout.margins([3])
+@layout.dockPadding(3)
 export class NameDisplay extends View {
 
     @layout.dockSpace(3)
     @layout.size(400,~30)
-    @layout.dock('bottom')
+    @layout.dock.bottom()
     lastLogin = new Text({properties:{fontSize: Settings.smallFontSize, textAlign: 'right'}});
 
     @layout.dockSpace(1)
     @layout.size(400,~30)
-    @layout.dock('bottom')
+    @layout.dock.bottom()
     name = new Text({properties: {textAlign: 'right', fontWeight: 'bold'}});
 
 

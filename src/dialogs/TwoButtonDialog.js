@@ -10,7 +10,7 @@ import {TextButton}         from '../buttons/TextButton.js';
 
 export class TwoButtonDialog extends BaseDialog {
 
-    @layout.dock('top', 64, 0, 0)
+    @layout.dock.top( 64, 0, 0)
     bottomView = new BottomButtonView(this.options);
 
     constructor(options = {}) {
@@ -32,7 +32,7 @@ export class TwoButtonDialog extends BaseDialog {
 
 class BottomButtonView extends View{
 
-    @layout.dock('left')
+    @layout.dock.left()
     @layout.size((size)=>(Math.floor(size/2)), 64)
     buttonLeft = new TextButton({
         content: this.options.buttonLeft.buttonText,
@@ -46,7 +46,7 @@ class BottomButtonView extends View{
         }
     });
 
-    @layout.dock('right')
+    @layout.dock.right()
     @layout.size((size)=>(Math.floor(size/2)), 64)
     buttonRight = new TextButton({
         content: this.options.buttonRight.buttonText,

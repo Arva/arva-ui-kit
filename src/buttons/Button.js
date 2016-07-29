@@ -12,11 +12,11 @@ import {Ripple}             from '../components/Ripple.js';
 
 @layout.translate(0, 0, 30)
 export class Button extends Clickable {
-    @layout.fullscreen
+    @layout.fullSize()
     @layout.translate(0, 0, -10)
     background = new Surface({properties: this.options.backgroundProperties});
 
-    @layout.fullscreen
+    @layout.fullSize()
     @layout.translate(0, 0, 40)
     overlay = new Surface({properties: {cursor: 'pointer', borderRadius: this.options.backgroundProperties.borderRadius}});
 
@@ -55,7 +55,7 @@ export class Button extends Clickable {
                         boxShadow: `${isHardShadow ? '0px 2px 0px 0px' : '0px 0px 12px 0px'} rgba(0,0,0,0.12)`,
                         borderRadius: this.options.backgroundProperties.borderRadius
                     }
-                }), 'boxshadow', layout.place('bottom'),
+                }), 'boxshadow', layout.stick.bottom(),
                 layout.translate(0, 0, -20),
                 layout.size(...(isHardShadow ? [undefined, undefined] : [(size) => size - 16, (size) => size - 8] )));
         }
