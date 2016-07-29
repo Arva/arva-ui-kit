@@ -20,8 +20,9 @@ export class DraggableSideMenuView extends View {
         }
     });
 
+    /* Dock fill as DraggableSideMenuView can be extended with extra dockable renderables */
+    @layout.dock('fill')
     @layout.translate(0, 0, 20)
-    @layout.fullscreen
     scrollController = new ScrollController({
         layout: ListLayout,
         dataSource: [

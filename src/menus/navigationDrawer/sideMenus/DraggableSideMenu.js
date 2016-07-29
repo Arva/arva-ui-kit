@@ -202,7 +202,7 @@ export class DraggableSideMenu extends View {
             });
 
             context.set('hiddenSurface', {
-                size: [20, undefined],
+                size: [16, undefined],
                 align: [0, 0],
                 origin: [0, 0],
                 translate: [0, 0, 50]
@@ -253,7 +253,7 @@ export class DraggableSideMenu extends View {
      * @param index
      */
     setTabIndexSelected(index) {
-        let {navigationItems} = this.sideMenuView;
+        let {navigationItems, options} = this.sideMenuView;
 
         if (!navigationItems || !(navigationItems instanceof TabBar) || (navigationItems instanceof  TabBar && !navigationItems.getItems().length)) {
             return;
@@ -264,7 +264,7 @@ export class DraggableSideMenu extends View {
         navigationItems.getItems()[index].setSelected(true);
 
         /* Request that the menu changes title */
-        this._eventOutput.emit('changeTitle', this.options.menuItems[index].text);
+        this._eventOutput.emit('changeTitle', options.menuItems[index].text);
         this._explicitTabSelect = false;
     }
 
@@ -277,17 +277,19 @@ export class DraggableSideMenu extends View {
             this.close();
         });
 
+        let {navigationItems, options} = this.sideMenuView;
         /* The side menu has to close even if the resulting click did not change the selected tab,
          therefore we have to listen for click events and not only tabchange events
          */
-        for (let item of this.sideMenuView.navigationItems.getItems()) {
+        for (let item of navigationItems.getItems()) {
             item.on('click', () => {
                 this.close();
             });
         }
-        this.sideMenuView.navigationItems.on('tabchange', (event) => {
+
+        navigationItems.on('tabchange', (event) => {
             if (!this._explicitTabSelect) {
-                let tabSpec = this.options.menuItems[event.index];
+                let tabSpec = options.menuItems[event.index];
                 /* Request that the menu changes title */
                 this._eventOutput.emit('changeTitle', tabSpec.text);
 
