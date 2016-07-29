@@ -5,6 +5,7 @@ import Surface                  from 'famous/core/Surface.js';
 
 import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
+import {ListIcon}               from '../../../icons/ListIcon.js';
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
 
 import {IconMenuItem}           from './IconMenuItem.js';
@@ -23,6 +24,7 @@ export class ImageSideMenuView extends DraggableSideMenuView {
         console.log(options);
         super(combineOptions(options, {
             bgColor: 'rgba(255,255,255,1)',
+            iconRenderable: ListIcon,
             sideMenuRenderable: IconMenuItem,
             colors: {
                 MenuBackgroundColor: 'white'

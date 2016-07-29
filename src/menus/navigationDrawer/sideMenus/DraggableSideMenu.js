@@ -20,8 +20,8 @@ import {Colors}                 from '../../../defaults/DefaultColors.js';
 export class DraggableSideMenu extends View {
 
 
-    static get transition(){
-        return {duration: 200, curve: Easing.inOutQuad}
+    static get transition() {
+        return {duration: 300, curve: Easing.outCubic}
     }
 
     constructor(options = {}) {
@@ -52,7 +52,7 @@ export class DraggableSideMenu extends View {
         }
 
         if (this.draggable) {
-            this.draggable.setPosition([this.controlWidth, 0, 0], {duration: 250, curve: Easing.outQuint});
+            this.draggable.setPosition([this.controlWidth, 0, 0], {duration: 400, curve: Easing.outCubic});
             this.ShowSideBar();
         }
 
@@ -63,15 +63,9 @@ export class DraggableSideMenu extends View {
      * Close the sideMenu
      */
     close() {
-        let trans = {
-            method: 'snap',
-            period: 1,
-            dampingRatio: 0,
-            velocity: 0
-        };
-
+        return;
         if (this.draggable) {
-            this.draggable.setPosition([0, 0, 0], {duration: 250, curve: Easing.outQuint});
+            this.draggable.setPosition([0, 0, 0], {duration: 400, curve: Easing.inCubic});
             this._hideSideBar();
         }
 
@@ -114,14 +108,15 @@ export class DraggableSideMenu extends View {
             }
         });
         this.fullScreenOverlayNode = new RenderNode();
-        this.fullScreenOverlayModifier = new StateModifier({opacity:0});
+        this.fullScreenOverlayModifier = new StateModifier({opacity: 0});
 
         this.fullScreenOverlay = new FullScreenBackground({color: 'rgba(0, 0, 0, 0.25)'});
 
         this.fullScreenOverlayNode.add(this.fullScreenOverlayModifier).add(this.fullScreenOverlay);
 
         this.sideMenuView = this.options.draggableSideMenuViewRenderable ? new this.options.draggableSideMenuViewRenderable(options) : new DraggableSideMenuView(options);
-        this.maxRange = 200; /* Gets set properly after 1 render tick, by layout function below. */
+        this.maxRange = 200;
+        /* Gets set properly after 1 render tick, by layout function below. */
 
         /* Hidden draggable renderable for opening the sidebar menu */
         this.draggable = new Draggable({
@@ -154,7 +149,6 @@ export class DraggableSideMenu extends View {
         this.renderables.control = dragNode;
 
         this.sideMenuView.pipe(this.draggable);
-        // this.fullScreenOverlay.pipe(this.draggable);
 
         this.draggable.on('end', (dragEvent) => {
             if (this.direction) {
@@ -167,12 +161,15 @@ export class DraggableSideMenu extends View {
 
         this.draggable.on('update', (dragEvent)=> {
             this.renderables.fullScreenOverlay.show(this.fullScreenOverlayNode);
-            this.fullScreenOverlayModifier.setOpacity(dragEvent.position[0]/this.controlWidth);
+            this.fullScreenOverlayModifier.setOpacity(dragEvent.position[0] / this.controlWidth);
             this.direction = (dragEvent.position[0] > this.lastPosition);
             this.lastPosition = dragEvent.position[0];
         });
 
-        this.setTabIndexSelected(0);
+        setTimeout(()=> {
+            this.setTabIndexSelected(0);
+        }, 450);
+
         this.layout.reflowLayout();
 
         this.layouts.push((context) => {
@@ -185,8 +182,6 @@ export class DraggableSideMenu extends View {
                 xRange: [0, this.controlWidth]
             });
 
-
-            //TODO: replace window.size things with proper definitions
             context.set('control', {
                 size: [this.controlWidth, undefined],
                 origin: [0, 0],
@@ -255,7 +250,7 @@ export class DraggableSideMenu extends View {
     setTabIndexSelected(index) {
         let {navigationItems, options} = this.sideMenuView;
 
-        if (!navigationItems || !(navigationItems instanceof TabBar) || (navigationItems instanceof  TabBar && !navigationItems.getItems().length)) {
+        if (!navigationItems || !(navigationItems instanceof TabBar) || (navigationItems instanceof TabBar && !navigationItems.getItems().length)) {
             return;
         }
 
