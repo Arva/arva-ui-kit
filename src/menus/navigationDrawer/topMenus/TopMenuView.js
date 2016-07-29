@@ -22,7 +22,7 @@ import {UITitle}                from '../../../defaults/DefaultTypefaces.js';
 export class TopMenuView extends View {
 
     @layout.size(~100, ~17)
-    @layout.stick('center')
+    @layout.stick.center()
     @layout.translate(0, 0, 25)
     title = new Text(combineOptions(UITitle, {
         content: this.options.defaultTitle || 'Dashboard',
@@ -34,7 +34,7 @@ export class TopMenuView extends View {
 
     @layout.dock.right()
     @layout.size(50, (_, height) => Math.min(height, 100))
-    @layout.stick('center')
+    @layout.stick.center()
     @layout.translate(0, 0, 25)
     rightButton = new FloatingImageButton({
         clickEventName: 'rightButtonClick', icon: InfoIcon,
@@ -53,7 +53,7 @@ export class TopMenuView extends View {
 
     @layout.animate()
     @layout.size(50, (_, height) => Math.min(height, 100))
-    @layout.stick('center')
+    @layout.stick.center()
     @layout.dock.left()
     @layout.translate(0, 0, 20)
     /* Getter will be overwritten by the decorators, so won't be called twice */
