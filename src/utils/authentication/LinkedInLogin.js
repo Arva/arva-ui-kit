@@ -14,17 +14,12 @@ import {Settings}               from '../../defaults/DefaultSettings.js';
  */
 @inject(DataSource)
 export class LinkedInLogin extends BaseLogin {
-
-    /**
-     *
-     * @param {DataSource} dataSource
-     */
+    
     constructor(dataSource) {
         super();
         if(!Settings.linkedInAuthServerUrl || !Settings.linkedInClientID) {
             throw new Error('You need to specify linkedInAuthServerUrl and linkedInClientID in DefaultSettings.js');
         }
-        this._dataSource = dataSource;
     }
 
     async authenticate() {

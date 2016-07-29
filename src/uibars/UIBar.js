@@ -18,7 +18,7 @@ const rgbToRgba = (rgbString, alpha) => {
     return color.toRGBA();
 };
 
-@layout.margins([0, UIBarPadding])
+@layout.dockPadding(0, UIBarPadding)
 export class UIBar extends View {
     static backgroundSettings = {
         'white': {

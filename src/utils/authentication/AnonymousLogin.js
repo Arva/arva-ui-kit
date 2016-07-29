@@ -8,14 +8,6 @@ import {DataSource}             from 'arva-js/data/DataSource.js';
 
 @inject(DataSource)
 export class AnonymousLogin extends BaseLogin {
-    /**
-     *
-     * @param {DataSource} dataSource
-     */
-    constructor(dataSource) {
-        super();
-        this._dataSource = dataSource;
-    }
 
     async authenticateToDataSource(options) {
         let authData = await this._dataSource.authAnonymously(options);

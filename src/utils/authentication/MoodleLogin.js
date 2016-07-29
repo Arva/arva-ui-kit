@@ -12,15 +12,10 @@ import {Settings}               from '../../defaults/DefaultSettings.js';
 @inject(DataSource)
 export class MoodleLogin extends BaseLogin {
 
-    /**
-     *
-     * @param {DataSource} dataSource
-     */
     constructor(dataSource) {
         super();
         if(!Settings.moodleOrganisationID) { throw new Error('You need to specify moodleOrganisationID in DefatultSettings.js'); }
         if(!Settings.moodleRequestURI) { throw new Error('You need to specify moodleRequestURI in DefatultSettings.js'); }
-        this._dataSource = dataSource;
     }
 
     async authenticate(username, password) {
