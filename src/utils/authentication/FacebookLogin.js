@@ -19,13 +19,9 @@ import {Settings}               from '../../defaults/DefaultSettings.js';
 @inject(DataSource)
 export class FacebookLogin extends BaseLogin {
 
-    /**
-     *
-     * @param {DataSource} dataSource
-     */
+    
     constructor(dataSource) {
         super();
-        this._dataSource = dataSource;
 
         if (!Settings.facebookBrowserModule) {
             throw new Error('You need to both install the Cordova ' +
