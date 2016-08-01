@@ -86,7 +86,7 @@ export class DraggableSideMenu extends View {
     _createRenderables(options) {
         options.colors = options.colors || {
                 MenuBackgroundColor: Colors.PrimaryUIColor,
-                MenuTextColor: Colors.PrimaryUIColor,
+                MenuTextColor: Colors.UIBarTextColor,
                 MenuTextColorHighlight: Colors.ModestTextColor,
                 TitleBarColor: Colors.UIBarTextColor,
                 MenuBackgroundHighLightColor: Colors.SecondaryUIColor
