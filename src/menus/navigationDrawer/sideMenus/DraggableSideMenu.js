@@ -154,7 +154,7 @@ export class DraggableSideMenu extends View {
         this.renderables.control = dragNode;
 
         this.sideMenuView.pipe(this.draggable);
-        // this.fullScreenOverlay.pipe(this.draggable);
+        this.fullScreenOverlay.pipe(this.draggable);
 
         this.draggable.on('end', (dragEvent) => {
             if (this.direction) {
