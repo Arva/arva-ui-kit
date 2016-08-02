@@ -72,9 +72,9 @@ export class UIBar extends View {
         let components = options.components;
         for (let [renderable, renderableName, position] of components) {
             if (position === 'center') {
-                this.addRenderable(renderable, renderableName, layout.place('center'), layout.size(true, true));
+                this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(true, true));
             } else {
-                this.addRenderable(renderable, renderableName, layout.dock(position, true));
+                this.addRenderable(renderable, renderableName, layout.dock[position](true));
             }
         }
     }

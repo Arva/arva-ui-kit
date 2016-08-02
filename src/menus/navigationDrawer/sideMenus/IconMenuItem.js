@@ -14,7 +14,7 @@ import {UIRegular}      from '../../../defaults/DefaultTypefaces.js';
 export class IconMenuItem extends Button {
 
     @layout.size(undefined, true)
-    @layout.place('center')
+    @layout.stick.center()
     textSurface = new Surface({
         content: data.text,
         properties: {
@@ -27,7 +27,7 @@ export class IconMenuItem extends Button {
         }
     });
 
-    @layout.fullscreen
+    @layout.fullSize()
     clickOverlay = new Surface({
         properties: {
             pointerEvents: data.separation ? 'none' : 'initial'
