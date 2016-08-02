@@ -79,7 +79,7 @@ export class Button extends Clickable {
     _setEnabled(enabled) {
         super._setEnabled(enabled);
         this.overlay.setProperties({
-            backgroundColor: enabled ? 'none' : 'rgba(255, 255, 255, 0.6)',
+            backgroundColor: enabled ? 'inherit' : 'rgba(255, 255, 255, 0.6)',
             cursor: enabled ? 'pointer' : 'inherit'
         });
     }
