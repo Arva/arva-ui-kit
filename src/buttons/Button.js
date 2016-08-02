@@ -71,7 +71,7 @@ export class Button extends Clickable {
     }
 
     _handleTapStart({x, y}) {
-        if (this.options.makeRipple) {
+        if (this.options.makeRipple && this._isEnabled()) {
             this.ripple.show(x, y);
         }
     }
