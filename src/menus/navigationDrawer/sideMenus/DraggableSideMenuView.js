@@ -6,8 +6,11 @@ import Surface              from 'famous/core/Surface.js';
 import TabBar               from 'famous-flex/widgets/TabBar.js';
 import ScrollController     from 'famous-flex/ScrollController.js';
 import ListLayout           from 'famous-flex/layouts/ListLayout.js';
+
 import {View}               from 'arva-js/core/View.js';
 import {layout, event}      from 'arva-js/layout/Decorators.js';
+import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
+
 import {Dimensions}         from '../../../defaults/DefaultDimensions.js';
 import {MenuItem}           from './MenuItem.js';
 
@@ -16,7 +19,7 @@ export class DraggableSideMenuView extends View {
     @layout.fullSize()
     background = new Surface({
         properties: {
-            'background-color': (this.options.colors.MenuBackgroundColor)
+            backgroundColor: this.options.backgroundColor
         }
     });
 
@@ -28,22 +31,25 @@ export class DraggableSideMenuView extends View {
         dataSource: [
             this.navigationItems = new TabBar({
                 layoutController: {
-                    direction: this.options.sideMenuOptions.direction || Dimensions.sideMenuOptions.direction
+                    direction: this.options.direction
                 },
                 tabBarLayout: {
-                    margins: [this.options.sideMenuOptions.itemMargin || Dimensions.sideMenuOptions.itemMargin, 0],
+                    margins: [this.options.itemMargin, 0],
                     spacing: 0,
                     itemSize: true
                 },
                 createRenderables: {
                     background: false,
-                    selectedItemOverlay: ()=>{
+                    selectedItemOverlay: ()=> {
                         return new Surface({
-                            size: [undefined, this.options.sideMenuOptions.itemHeight || Dimensions.sideMenuOptions.itemHeight]
+                            size: [undefined, this.options.itemHeight]
                         });
                     },
-                    item: (id, data)=> {
-                        let item = this.options.sideMenuRenderable ? new this.options.sideMenuRenderable(this.options, data) : new MenuItem(this.options, data);
+                    item: (id, options) => {
+                        /* Shallow-merge the options for the menuItem that came from the parent draggableSideMenu */
+                        let item = new this.options.itemClass({
+                            ...this.options.menuItem, ...options
+                        });
                         item.pipe(this._eventOutput);
                         item.pipe(this.scrollController);
                         return item;
@@ -60,12 +66,14 @@ export class DraggableSideMenuView extends View {
     });
 
     constructor(options = {}) {
-        super(options);
+        super(combineOptions({
+            itemClass: MenuItem
+        },options));
 
         this.menuItems = options.menuItems;
         this.background.pipe(this._eventOutput);
         this.background.pipe(this.scrollController);
-        
+
         /* TabBar returns size 0 for our true sized MenuItems, so we override its getSize() method to calc it ourselves. */
         this.navigationItems.getSize = () => {
             let totalHeight = _.reduce(this.navigationItems._renderables.items, (accumulator, item) => {
@@ -101,6 +109,6 @@ export class DraggableSideMenuView extends View {
 
     getSize() {
         return [undefined, this.navigationItems.getItems().reduce(((total, {getSize, size}) => total + 0 + (size ? size[1] : getSize()[1] )), 0)
-        + 2 * this.options.sideMenuOptions.itemMargin || Dimensions.sideMenuOptions.itemMargin + Dimensions.topBarHeight];
+        + 2 * this.options.itemMargin + this.options.topBarHeight];
     }
 }

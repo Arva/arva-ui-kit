@@ -7,6 +7,7 @@ import TabBar                   from 'famous-flex/widgets/TabBar.js';
 import {View}                   from 'arva-js/core/View.js';
 import {Router}                 from 'arva-js/core/Router.js';
 import {Injection}              from 'arva-js/utils/Injection.js';
+import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 
 import AnimationController      from 'famous-flex/AnimationController';
 import RenderNode               from 'famous/core/RenderNode';
@@ -20,13 +21,16 @@ import {Colors}                 from '../../../defaults/DefaultColors.js';
 export class DraggableSideMenu extends View {
 
 
-    static get transition(){
+    static get transition() {
         return {duration: 200, curve: Easing.inOutQuad}
     }
 
-    constructor(options = {}) {
-        super(options);
-
+    /** The renderables of the draggableSideMenu is only initialised on initWithOptions()
+     *
+     * @param options
+     */
+    constructor() {
+        super();
         this.toggle = false;
         this.direction = true;
         this.router = Injection.get(Router);
@@ -36,7 +40,16 @@ export class DraggableSideMenu extends View {
      *
      * @param options
      */
-    setData(options) {
+    initWithOptions(options) {
+        options = combineOptions({
+            backgroundColor: Colors.PrimaryUIColor,
+            viewClass: DraggableSideMenuView,
+            menuItem: {
+                textColor: Colors.PrimaryUIColor,
+                highlightedTextColor: Colors.ModestTextColor,
+                highlightedBackgroundColor: Colors.SecondaryUIColor
+            }
+        }, options);
         this.initialised = true;
         this.options = options;
         this._createRenderables(options);
@@ -84,14 +97,6 @@ export class DraggableSideMenu extends View {
      * @private
      */
     _createRenderables(options) {
-        options.colors = options.colors || {
-                MenuBackgroundColor: Colors.PrimaryUIColor,
-                MenuTextColor: Colors.UIBarTextColor,
-                MenuTextColorHighlight: Colors.ModestTextColor,
-                TitleBarColor: Colors.UIBarTextColor,
-                MenuBackgroundHighLightColor: Colors.SecondaryUIColor
-            };
-
         this.renderables.sideMenuView = new AnimationController({
             show: {
                 transition: {duration: 500, curve: Easing.inOutQuint},
@@ -114,14 +119,15 @@ export class DraggableSideMenu extends View {
             }
         });
         this.fullScreenOverlayNode = new RenderNode();
-        this.fullScreenOverlayModifier = new StateModifier({opacity:0});
+        this.fullScreenOverlayModifier = new StateModifier({opacity: 0});
 
         this.fullScreenOverlay = new FullScreenBackground({color: 'rgba(0, 0, 0, 0.25)'});
 
         this.fullScreenOverlayNode.add(this.fullScreenOverlayModifier).add(this.fullScreenOverlay);
 
-        this.sideMenuView = this.options.draggableSideMenuViewRenderable ? new this.options.draggableSideMenuViewRenderable(options) : new DraggableSideMenuView(options);
-        this.maxRange = 200; /* Gets set properly after 1 render tick, by layout function below. */
+        this.sideMenuView = new this.options.viewClass(this.options);
+        this.maxRange = 200;
+        /* Gets set properly after 1 render tick, by layout function below. */
 
         /* Hidden draggable renderable for opening the sidebar menu */
         this.draggable = new Draggable({
@@ -167,7 +173,7 @@ export class DraggableSideMenu extends View {
 
         this.draggable.on('update', (dragEvent)=> {
             this.renderables.fullScreenOverlay.show(this.fullScreenOverlayNode);
-            this.fullScreenOverlayModifier.setOpacity(dragEvent.position[0]/this.controlWidth);
+            this.fullScreenOverlayModifier.setOpacity(dragEvent.position[0] / this.controlWidth);
             this.direction = (dragEvent.position[0] > this.lastPosition);
             this.lastPosition = dragEvent.position[0];
         });
@@ -255,7 +261,7 @@ export class DraggableSideMenu extends View {
     setTabIndexSelected(index) {
         let {navigationItems, options} = this.sideMenuView;
 
-        if (!navigationItems || !(navigationItems instanceof TabBar) || (navigationItems instanceof  TabBar && !navigationItems.getItems().length)) {
+        if (!navigationItems || !(navigationItems instanceof TabBar) || (navigationItems instanceof TabBar && !navigationItems.getItems().length)) {
             return;
         }
 
