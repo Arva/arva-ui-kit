@@ -47,6 +47,12 @@ export class BaseDialog extends View {
         });
     }
 
+
+    getSize() {
+        /* Specifies the size to be undefined on the width to make a full width dialog with wrapped height */
+        return [undefined, super.getSize()[1]];
+    }
+
     /**
      * Called when the margin is (re)calculated that is needed for the dialog
      * @param newMargin
