@@ -41,7 +41,7 @@ export class ImageButton extends Button {
         this.image.setContent(new iconConstructor({color: this.options.properties.color}).getContent());
     }
 
-    changeColor() {
+    setColor() {
         return this.image.changeColor(...arguments);
     }
 }

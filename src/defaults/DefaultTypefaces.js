@@ -34,15 +34,15 @@ import {Colors}                 from './DefaultColors.js'
 // - [ ] Big
 
 export let TypeFaces = _.merge({
-    UITitle: {fontSize: '18px', fontWeight: 'bold', color: Colors.BasicTextColor},
+    UITitle: {fontSize: '18px', fontWeight: 'bold', color: Colors.BasicTextColor, whiteSpace: 'nowrap'},
     UIRegular: {fontSize: '18px', fontWeight: 'normal', color: Colors.BasicTextColor},
     UISmall: {fontSize: '14px', fontWeight: 'normal', color: Colors.BasicTextColor},
     UISmallGrey: {fontSize: '14px', fontWeight: 'normal', color: Colors.ModestTextColor},
     UITiny: {fontSize: '10px', fontWeight: 'normal', color: Colors.BasicTextColor},
     UIButtonPrimary: {fontSize: '18px', fontWeight: 'bold', color: Colors.PrimaryUIColor, whiteSpace: 'nowrap'},
-    UIButtonPrimaryLight: {fontSize: '18px', fontWeight: 'normal', color: Colors.PrimaryUIColor},
-    UIButtonSecondary: {fontSize: '18px', fontWeight: 'bold', color: Colors.SecondaryUIColor},
-    UIButtonSecondaryLight: {fontSize: '18px', fontWeight: 'normal', color: Colors.SecondaryUIColor},
+    UIButtonPrimaryLight: {fontSize: '18px', fontWeight: 'normal', color: Colors.PrimaryUIColor, whiteSpace: 'nowrap'},
+    UIButtonSecondary: {fontSize: '18px', fontWeight: 'bold', color: Colors.SecondaryUIColor, whiteSpace: 'nowrap'},
+    UIButtonSecondaryLight: {fontSize: '18px', fontWeight: 'normal', color: Colors.SecondaryUIColor, whiteSpace: 'nowrap'},
 
     TextBody: {fontSize: '18px', fontWeight: 'normal', color: Colors.ArticleTextColor},
     TextH1: {fontSize: '64px', fontWeight: 'bold', color: Colors.ArticleTextColor },

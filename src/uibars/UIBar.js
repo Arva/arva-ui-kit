@@ -38,6 +38,7 @@ export class UIBar extends View {
     };
 
     @layout.size(undefined, undefined)
+    @layout.translate(0, 0, -10)
     background = new Surface({properties: this.options.backgroundProperties});
 
     /**
@@ -63,16 +64,25 @@ export class UIBar extends View {
      *          })
      */
     constructor(options = {}) {
-        let backgroundProperties = UIBar._computeSettings(options);
+        let {backgroundProperties, opposingColor} = UIBar._computeSettings(options);
 
         super(combineOptions({
-            backgroundProperties
+            backgroundProperties,
+            autoColoring: true,
+            opposingColor
         }, options));
 
         let components = options.components;
         for (let [renderable, renderableName, position] of components) {
+            if(this.options.autoColoring){
+                if(renderable.setColor) {
+                    renderable.setColor(opposingColor);
+                } else if (renderable.setProperties) {
+                    renderable.setProperties({color: opposingColor});
+                }
+            }
             if (position === 'center') {
-                this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(true, true));
+                this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(~300, ~30));
             } else {
                 this.addRenderable(renderable, renderableName, layout.dock[position](true));
             }
@@ -89,10 +99,13 @@ export class UIBar extends View {
          * variation option can be set to 'white' [default] or 'colored'.
          */
         let settings;
+        let opposingColor;
         if (options.variation in UIBar.backgroundSettings) {
             settings = UIBar.backgroundSettings[options.variation];
+            opposingColor = options.variation === 'colored' ?  'rgb(255, 255, 255)' : PrimaryUIColor;
         } else {
             settings = UIBar.backgroundSettings.white;
+            opposingColor = PrimaryUIColor;
             if (options.variation) {
                 console.log('Invalid variation selected. Falling back to default settings (white).');
             }
@@ -121,6 +134,6 @@ export class UIBar extends View {
         let topLine = options.topLine ? {borderTop: '1px solid rgba(0, 0, 0, 0.1)'} : {};
         let bottomLine = options.bottomLine ? {borderBottom: '1px solid rgba(0, 0, 0, 0.1)'} : {};
 
-        return {...shadow, ...topLine, ...bottomLine, ...settings.backgroundColor};
+        return {backgroundProperties: {...shadow, ...topLine, ...bottomLine, ...settings.backgroundColor}, opposingColor};
     }
 }

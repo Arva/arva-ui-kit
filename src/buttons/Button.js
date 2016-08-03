@@ -89,4 +89,11 @@ export class Button extends Clickable {
             this.ripple.hide();
         }
     }
+
+    /**
+     * @abstract
+     */
+    setColor() {
+
+    }
 }

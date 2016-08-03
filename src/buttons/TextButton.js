@@ -42,6 +42,10 @@ export class TextButton extends Button {
         return [actualSize[0], ComponentHeight];
     }
 
+    setColor(color) {
+        this.text.setProperties({color});
+    }
+
     _setEnabled(enabled) {
         super._setEnabled(enabled);
         var options = this.options;
