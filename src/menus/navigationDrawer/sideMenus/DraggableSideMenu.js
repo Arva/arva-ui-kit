@@ -17,8 +17,6 @@ import Draggable                from 'famous/modifiers/Draggable';
 import StateModifier            from 'famous/modifiers/StateModifier';
 
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
-import {FullScreenBackground}   from '../../../backgrounds/FullScreenBackground.js';
-import {Colors}                 from '../../../defaults/DefaultColors.js';
 
 export class DraggableSideMenu extends View {
 
@@ -54,15 +52,6 @@ export class DraggableSideMenu extends View {
      * @param options
      */
     initWithOptions(options) {
-        options = combineOptions({
-            backgroundColor: Colors.PrimaryUIColor,
-            viewClass: DraggableSideMenuView,
-            menuItem: {
-                textColor: Colors.PrimaryUIColor,
-                highlightedTextColor: Colors.ModestTextColor,
-                highlightedBackgroundColor: Colors.SecondaryUIColor
-            }
-        }, options);
         this.initialised = true;
         this.options = options;
         this._createRenderables(options);

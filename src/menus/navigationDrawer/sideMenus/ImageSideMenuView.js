@@ -24,34 +24,12 @@ export class ImageSideMenuView extends DraggableSideMenuView {
     });
 
     constructor(options = {}) {
-        super(combineOptions(options, {
+        super(combineOptions({
             backgroundColor: 'white',
             itemClass: IconMenuItem
-        }));
+        },options));
 
 
-        this.setItems([{
-            text: 'Test1',
-            controller: 'Home',
-            method: 'Index',
-            icon: AccountIcon
-        }, {
-            text: 'Test2',
-            controller: 'Home',
-            method: 'Index',
-            icon: AndroidshareIcon
-        }, {
-            text: 'Test2',
-            controller: 'Home',
-            method: 'Index',
-            icon: ArrowleftIcon
-        }, {
-            text: 'Test3',
-            controller: 'Home',
-            method: 'Index',
-            icon: CloudIcon
-
-        }]);
 
     }
 }   

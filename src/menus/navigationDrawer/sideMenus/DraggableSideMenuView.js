@@ -1,6 +1,7 @@
 /**
  * Created by manuel on 13-09-15.
  */
+import _                     from 'lodash';
 
 import Surface              from 'famous/core/Surface.js';
 import TabBar               from 'famous-flex/widgets/TabBar.js';
@@ -11,6 +12,7 @@ import {View}               from 'arva-js/core/View.js';
 import {layout, event}      from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
+import {Colors}             from '../../../defaults/DefaultColors.js';
 import {Dimensions}         from '../../../defaults/DefaultDimensions.js';
 import {MenuItem}           from './MenuItem.js';
 
@@ -67,7 +69,14 @@ export class DraggableSideMenuView extends View {
 
     constructor(options = {}) {
         super(combineOptions({
-            itemClass: MenuItem
+            itemClass: MenuItem,
+            backgroundColor: Colors.PrimaryUIColor,
+            viewClass: DraggableSideMenuView,
+            menuItem: {
+                textColor: Colors.PrimaryUIColor,
+                highlightedTextColor: Colors.ModestTextColor,
+                highlightedBackgroundColor: Colors.SecondaryUIColor
+            }
         },options));
 
         this.menuItems = options.menuItems;
