@@ -7,54 +7,59 @@ import {View}           from 'arva-js/core/View.js';
 import {layout}         from 'arva-js/layout/Decorators.js';
 import {combineOptions} from 'arva-js/utils/CombineOptions.js';
 import {Button}         from '../../../buttons/Button.js';
+import {Text}           from 'arva-kit/text/Text.js';
 
-import {PrimaryUIColor} from '../../../defaults/DefaultColors.js';
-import {UIRegular}      from '../../../defaults/DefaultTypefaces.js';
 
+@layout.dockPadding(0, 0, 0, 16)
 export class IconMenuItem extends Button {
 
-    @layout.size(undefined, true)
+    @layout.dock.left()
+    @layout.size(24, 24)
     @layout.stick.center()
-    textSurface = new Surface({
-        content: data.text,
-        properties: {
-            color: this.options.colors.MenuTextColor,
-            fontSize: UIRegular.properties.fontSize,
-            fontFamily: UIRegular.properties.fontFamily,
-            lineHeight: `${this.options.sideMenuOptions.itemHeight-4}px`,
-            pointerEvents: data.separation ? 'none' : 'initial'
+    icon = new this.options.icon({color: this.options.textColor});
 
+    @layout.size(~30, undefined)
+    @layout.dock.left()
+    @layout.dockSpace(12)
+    @layout.stick.center()
+    text = new Text({
+        content: this.options.text,
+        properties: {
+            color: this.options.textColor,
+            pointerEvents: this.options.separation ? 'none' : 'initial'
         }
     });
 
     @layout.fullSize()
     clickOverlay = new Surface({
         properties: {
-            pointerEvents: data.separation ? 'none' : 'initial'
+            pointerEvents: this.options.separation ? 'none' : 'initial'
         }
     });
 
-    constructor(options = {}, data = {}) {
+    constructor(options = {}) {
         super(combineOptions(options, {
             makeRipple: true,
             useBoxShadow: false,
             delay: 0,
             backgroundProperties: {
                 borderRadius: '0px'
-            },
-            colors: {
-                MenuTextColor: PrimaryUIColor
             }
         }));
-        this.data = data;
+
+        this.layout.once('layoutstart', ({size: [_,height]}) => {
+            this.text.setProperties({lineHeight: `${height}px`});
+        });
     }
 
     setSelected(selected) {
-        this.renderables.textSurface.setProperties({color: selected ? this.options.colors.MenuTextColorHighlight : this.options.colors.MenuTextColor});
+        let color = selected ? this.options.highlightedTextColor : this.options.textColor;
+        this.text.setProperties({color});
+        this.icon.changeColor(color);
     }
 
     getSize() {
-        return [undefined, this.data.separation ? 15 : 44];
+        return [undefined, this.options.separation ? 15 : 44];
     }
 
 }

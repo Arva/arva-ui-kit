@@ -1,7 +1,7 @@
 /**
  * Created by Manuel on 05/06/16.
  *
- * Sample Usage:
+ * @example
  * Injector.get(NavigationDrawer, {
  *     topMenuOptions: {
  *         defaultTitle: 'Title'    // default top menu title
@@ -9,11 +9,12 @@
  *     sideMenuOptions: {           // default side menu renderables dimensions
  *         itemMargin: 10,
  *         itemHeight: 44,
- *         direction: 1
+ *         direction: 1,
+ *         viewClass: DraggableSideMenu    // draggable side menu renderable, defaults to DraggableSideMenu
+ *         itemClass: : MenuItem,          // side menu item's renderable, defaults to MenuItem
  *     },
- *     draggableSideMenuRenderable: DraggableSideMenu,    // draggable side menu renderable, defaults to DraggableSideMenu
- *     topMenuRenderable: TopMenu,                        // top menu renderable, defaults to TopMenu
- *     sideMenuRenderable: MenuItem,                      // side menu item's renderable, defaults to MenuItem
+ *     sideMenuClass: DraggableSideMenu                   // The class used for the side menu, defaults to DraggableSideMenu
+ *     topMenuClass: TopMenu,                             // top menu renderable, defaults to TopMenu
  *     showTopMenu: true,                                 // if the top menu shows
  *     showInitial: true,                                 // if the navigationDrawer shows on startup of the app
  *     enabled: true,                                     // if the side menu draggable is enabled
@@ -43,18 +44,17 @@ export class NavigationDrawer extends View {
 
     constructor(options = {}) {
         super(combineOptions({
+            sideMenu: Dimensions.sideMenu,
+            closeOnRouteChange: true,
             topBarHeight: 48,
-            sideMenuOptions: {
-                itemMargin: 10,
-                itemHeight: 44,
-                direction: 1
-            },
             showTopMenu: true,
             showInitial: true,
-            closeOnRouteChange: true,
-            enabled: true,
             hideOnRoutes: [],
-            menuItems: []
+            enabled: true,
+            menuItems: [],
+            topMenuClass: TopMenu,
+            topMenuOptions: {},
+            sideMenuClass: DraggableSideMenu
         }, options));
 
         let famousContext = Injection.get(FamousContext);
@@ -69,7 +69,7 @@ export class NavigationDrawer extends View {
         this.showingTopBar = true;
 
         /* Set the options */
-        this.sideMenu.setData(this.options);
+        this.sideMenu.initWithOptions({...this.options.sideMenu, ...{topBarHeight: this.options.topBarHeight}});
         if (options.enabled != undefined) this.setNavigationDrawerEnabled(options.enabled);
         if (options.showInitial != undefined && !options.showInitial) this.hideTopBar();
         this.router.on('routechange', this.onRouteChange);
@@ -89,11 +89,11 @@ export class NavigationDrawer extends View {
 
     @layout.dock.fill()
     @layout.translate(0, 0, 450)
-    sideMenu = this.options.draggableSideMenuRenderable ? new this.options.draggableSideMenuRenderable(this.options.sideMenuOptions) : new DraggableSideMenu(this.options.sideMenuOptions)
+    sideMenu = new this.options.sideMenuClass();
 
     _createTopBar() {
         if (!this.options.showTopMenu) return new Surface({properties: {backgroundColor: 'transparent'}});
-        return this.options.topMenuRenderable ? new this.options.topMenuRenderable(this.options.topMenuOptions || {}) : new TopMenu(this.options.topMenuOptions)
+        return new this.options.topMenuClass(this.options.topMenuOptions);
     }
 
     /**

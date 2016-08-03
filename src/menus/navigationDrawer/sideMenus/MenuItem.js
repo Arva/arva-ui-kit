@@ -6,25 +6,24 @@ import {View}           from 'arva-js/core/View.js';
 import {UIRegular}     from '../../../defaults/DefaultTypefaces.js';
 
 export class MenuItem extends View {
-    constructor(options = {}, data = {}) {
+    constructor(options = {}) {
         super(options);
-        this.data = data;
 
         this.addRenderable(new Surface({
-            content: data.text,
+            content: options.text,
             properties: {
-                color: options.colors.MenuTextColor,
+                color: options.textColor,
                 fontSize: UIRegular.properties.fontSize,
                 fontFamily: UIRegular.properties.fontFamily,
                 lineHeight: `${options.sideMenuOptions.itemHeight-4}px`,
-                pointerEvents: data.separation ? 'none' : 'initial'
+                pointerEvents: options.separation ? 'none' : 'initial'
 
             }
         }), 'textSurface');
 
         this.addRenderable(new Surface({
             properties: {
-                pointerEvents: data.separation ? 'none' : 'initial'
+                pointerEvents: options.separation ? 'none' : 'initial'
             }
         }), 'clickOverlay');
 
@@ -54,7 +53,7 @@ export class MenuItem extends View {
     }
 
     getSize() {
-        return [undefined, this.data.separation ? 15 : 44];
+        return [undefined, this.options.separation ? 15 : 44];
     }
 
 }
