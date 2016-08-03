@@ -17,22 +17,8 @@ export class ModalViewDialog extends View {
     @layout.fullSize()
     background = new Surface({properties: {backgroundColor: 'white', borderRadius: '4px'}});
 
-    @layout.dock.top(true)
-    uibar = new UIBar({bottomLine: true, ...this.options.UIBarOptions});
-
     /**
-     * Container that can be placed at the top or bottom of the view, in which you can put a collection of components like buttons, etc.
-     *
-     * @param {Object} options Construction options
-     * @param {String} [options.variation] The variation of the UIBar inside the ModalViewDialog ('white' [default], 'colored')
-     * @param {String} [options.title] The title to be displayed in the center of the UIBar
-     * @param {Boolean} [options.leftButton] Add a button on the left side of the ModalViewDialog's UIBar.
-     *          Contains the sub-options 'content', which specifies the text inside the button, and 'variation', which can
-     *          be set to 'light' in order to set button text typeface to UIButtonPrimaryLight instead of UIButtonPrimary.
-     * @param {Boolean} [options.rightButton] Add a button on the right side of the ModalViewDialog's UIBar.
-     *          Contains the sub-options 'content', which specifies the text inside the button, and 'variation', which can
-     *          be set to 'light' in order to set button text typeface to UIButtonPrimaryLight instead of UIButtonPrimary.
-     * An example of how to create a ModalViewDialog:
+     * @example
      * modal = new ModalViewDialog({
      *     variation: 'colored',
      *     title: 'Movie info',
@@ -45,7 +31,22 @@ export class ModalViewDialog extends View {
      *         variation: 'default'
      *     }
      * });
+     *
+     * Container that can be placed at the top or bottom of the view, in which you can put a collection of components like buttons, etc.
+     *
+     * @param {Object} options Construction options
+     * @param {String} [options.variation] The variation of the UIBar inside the ModalViewDialog ('white' [default], 'colored')
+     * @param {String} [options.title] The title to be displayed in the center of the UIBar
+     * @param {Boolean} [options.leftButton] Add a button on the left side of the ModalViewDialog's UIBar.
+     *          Contains the sub-options 'content', which specifies the text inside the button, and 'variation', which can
+     *          be set to 'light' in order to set button text typeface to UIButtonPrimaryLight instead of UIButtonPrimary.
+     * @param {Boolean} [options.rightButton] Add a button on the right side of the ModalViewDialog's UIBar.
+     *          Contains the sub-options 'content', which specifies the text inside the button, and 'variation', which can
+     *          be set to 'light' in order to set button text typeface to UIButtonPrimaryLight instead of UIButtonPrimary.
      */
+    @layout.dock.top(true)
+    uibar = new UIBar({bottomLine: true, ...this.options.UIBarOptions});
+
     constructor(options = {}) {
         let UIBarOptions = ModalViewDialog._setOptions(options);
 
