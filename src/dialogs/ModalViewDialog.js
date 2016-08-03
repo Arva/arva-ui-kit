@@ -65,19 +65,13 @@ export class ModalViewDialog extends View {
         let components = [];
         
         if(leftButton) {
-            components.push([new UIBarTextButton(combineOptions(
-                leftButton.variation === 'light' ? UIButtonPrimaryLight : UIButtonPrimary, {
-                    content: leftButton.content
-                })), 'leftButton', 'left']);
+            components.push([new UIBarTextButton(leftButton), 'leftButton', 'left']);
         }
         if(title) {
             components.push([new Text(combineOptions(UITitle, {content: title})), 'title', 'center']);
         }
         if(rightButton){
-            components.push([new UIBarTextButton(combineOptions(
-                rightButton.variation === 'light' ? UIButtonPrimaryLight : UIButtonPrimary, {
-                    content: rightButton.content
-                })), 'rightButton', 'right']);
+            components.push([new UIBarTextButton(rightButton), 'rightButton', 'right']);
         }
 
         return {variation, components};
