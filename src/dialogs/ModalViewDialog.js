@@ -30,6 +30,7 @@ export class ModalViewDialog extends View {
      *         content: 'Done',
      *         variation: 'default'
      *     }
+     *     content: new Surface()
      * });
      *
      * Container that can be placed at the top or bottom of the view, in which you can put a collection of components like buttons, etc.
@@ -53,6 +54,11 @@ export class ModalViewDialog extends View {
         super(combineOptions({
             UIBarOptions
         }, options));
+
+        if(options.content){
+            let {content} = options;
+            this.addRenderable(content, 'mainContent', layout.dock.fill());
+        }
     }
 
     getSize(){

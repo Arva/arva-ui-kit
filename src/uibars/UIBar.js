@@ -92,7 +92,7 @@ export class UIBar extends View {
         }, options));
 
         let components = options.components;
-        for (let [renderable, renderableName, position] of components) {
+        for (let [renderable, renderableName, position] of components || []) {
             if (this.options.autoColoring) {
                 if (renderable.setColor) {
                     renderable.setColor(opposingColor);
