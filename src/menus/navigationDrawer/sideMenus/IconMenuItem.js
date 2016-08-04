@@ -6,9 +6,10 @@ import Surface          from 'famous/core/Surface.js';
 import {View}           from 'arva-js/core/View.js';
 import {layout}         from 'arva-js/layout/Decorators.js';
 import {combineOptions} from 'arva-js/utils/CombineOptions.js';
-import {Button}         from '../../../buttons/Button.js';
-import {Text}           from 'arva-kit/text/Text.js';
 
+import {Text}           from '../../../text/Text.js';
+
+import {Button}         from '../../../buttons/Button.js';
 
 @layout.dockPadding(0, 0, 0, 16)
 export class IconMenuItem extends Button {

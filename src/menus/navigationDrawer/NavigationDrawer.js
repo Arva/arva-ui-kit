@@ -6,7 +6,7 @@
  *     topMenuOptions: {
  *         defaultTitle: 'Title'    // default top menu title
  *     },
- *     sideMenuOptions: {           // default side menu renderables dimensions
+ *     sideMenuOptions: {           // Options for the side menu. Return promise to delay creation
  *         itemMargin: 10,
  *         itemHeight: 44,
  *         direction: 1,
@@ -44,7 +44,7 @@ export class NavigationDrawer extends View {
 
     constructor(options = {}) {
         super(combineOptions({
-            sideMenu: Dimensions.sideMenu,
+            sideMenu: {},
             closeOnRouteChange: true,
             topBarHeight: 48,
             showTopMenu: true,
@@ -69,11 +69,17 @@ export class NavigationDrawer extends View {
         this.showingTopBar = true;
 
         /* Set the options */
-        this.sideMenu.initWithOptions({...this.options.sideMenu, ...{topBarHeight: this.options.topBarHeight}});
+        let initSideMenu = (options) => this.sideMenu.initWithOptions(options);
+        let sideMenuOptions = this.options.sideMenu;
+        if(sideMenuOptions instanceof Promise){
+            sideMenuOptions.then(initSideMenu);
+        } else {
+            initSideMenu(sideMenuOptions);
+        }
+
         if (options.enabled != undefined) this.setNavigationDrawerEnabled(options.enabled);
         if (options.showInitial != undefined && !options.showInitial) this.hideTopBar();
         this.router.on('routechange', this.onRouteChange);
-
     }
 
     @layout.dock.top( function () {
@@ -162,6 +168,70 @@ export class NavigationDrawer extends View {
     }
 
     /**
+     * Enable the Side Menu
+     * @param enabled
+     */
+    setSideMenuEnabled(enabled) {
+        this.sideMenu.enabled = enabled;
+        if (!enabled) {
+            this.sideMenu.close();
+        }
+    }
+
+    /**
+     * Set the _enabled state of the NavigationDrawer
+     * @param enabled
+     */
+    setNavigationDrawerEnabled(enabled) {
+        this._enabled = enabled;
+        if (enabled) {
+            this.showTopBar();
+        } else {
+            this.hideTopBar();
+        }
+        this.setSideMenuEnabled(enabled);
+    }
+
+    /**
+     *
+     * @param screenName
+     */
+    setScreenName(screenName) {
+        this.sideMenu.setScreenName(screenName);
+        if (this.topBar.setNewUser) this.topBar.setNewUser();
+    }
+
+    /**
+     *
+     */
+    resetState() {
+        this.sideMenu.resetState();
+    }
+
+    /**
+     *
+     * @param index
+     */
+    setTabIndexSelected(index) {
+        this.sideMenu.setTabIndexSelected(index);
+    }
+
+    /**
+     * Update the TopTitle to the current active Tab within the side menu
+     */
+    setCorrectTopTitle() {
+        if (this.topBar.setTitle) this.topBar.setTitle(this.sideMenu.getSelectedTabText());
+    }
+
+    /**
+     * Open the top menu and side menu
+     */
+    openMenu() {
+        if (this.topBar.topMenuView) this.topBar.topMenuView.open();
+        this.sideMenu.open();
+    }
+
+    /**
      * Hide the top bar, canceling any animations that are in progress
      * @param animation
      * @private
@@ -191,31 +261,6 @@ export class NavigationDrawer extends View {
         this.topBar.decorations.dock.size[1] = Dimensions.topBarHeight;
         this.renderables.topBar.show(this.topBar, animation ? undefined : {transition: {duration: 0}});
         this.layout.reflowLayout();
-    }
-
-    /**
-     * Enable the Side Menu
-     * @param enabled
-     */
-    setSideMenuEnabled(enabled) {
-        this.sideMenu.enabled = enabled;
-        if (!enabled) {
-            this.sideMenu.close();
-        }
-    }
-
-    /**
-     * Set the _enabled state of the NavigationDrawer
-     * @param enabled
-     */
-    setNavigationDrawerEnabled(enabled) {
-        this._enabled = enabled;
-        if (enabled) {
-            this.showTopBar();
-        } else {
-            this.hideTopBar();
-        }
-        this.setSideMenuEnabled(enabled);
     }
 
     /**
@@ -295,27 +340,12 @@ export class NavigationDrawer extends View {
     }
 
     /**
-     * Update the TopTitle to the current active Tab within the side menu
-     */
-    setCorrectTopTitle() {
-        if (this.topBar.setTitle) this.topBar.setTitle(this.sideMenu.getSelectedTabText());
-    }
-
-    /**
      * Close the top menu and side menu
      * @private
      */
     _closeMenu() {
         if (this.topBar.topMenuView) this.topBar.topMenuView.close();
         this.sideMenu.close()
-    }
-
-    /**
-     * Open the top menu and side menu
-     */
-    openMenu() {
-        if (this.topBar.topMenuView) this.topBar.topMenuView.open();
-        this.sideMenu.open();
     }
 
     /**
@@ -328,30 +358,6 @@ export class NavigationDrawer extends View {
         } else {
             this.openMenu();
         }
-    }
-
-    /**
-     *
-     * @param screenName
-     */
-    setScreenName(screenName) {
-        this.sideMenu.setScreenName(screenName);
-        if (this.topBar.setNewUser) this.topBar.setNewUser();
-    }
-
-    /**
-     *
-     */
-    resetState() {
-        this.sideMenu.resetState();
-    }
-
-    /**
-     *
-     * @param index
-     */
-    setTabIndexSelected(index) {
-        this.sideMenu.setTabIndexSelected(index);
     }
 
 }

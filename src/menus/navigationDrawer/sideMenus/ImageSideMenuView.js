@@ -12,6 +12,8 @@ import {AndroidshareIcon}       from 'arva-kit/icons/AndroidshareIcon.js';
 
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
 import {IconMenuItem}           from './IconMenuItem.js';
+import {Colors}                 from '../../../defaults/DefaultColors.js';
+
 
 export class ImageSideMenuView extends DraggableSideMenuView {
 
@@ -26,7 +28,10 @@ export class ImageSideMenuView extends DraggableSideMenuView {
     constructor(options = {}) {
         super(combineOptions({
             backgroundColor: 'white',
-            itemClass: IconMenuItem
+            itemClass: IconMenuItem,
+            textColor: Colors.PrimaryUIColor,
+            highlightedTextColor: Colors.ModestTextColor,
+            highlightedBackgroundColor: Colors.SecondaryUIColor
         },options));
 
 

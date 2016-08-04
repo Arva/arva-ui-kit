@@ -17,6 +17,7 @@ import Draggable                from 'famous/modifiers/Draggable';
 import StateModifier            from 'famous/modifiers/StateModifier';
 
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
+import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 
 export class DraggableSideMenu extends View {
 
@@ -53,9 +54,10 @@ export class DraggableSideMenu extends View {
      */
     initWithOptions(options) {
         this.initialised = true;
-        this.options = options;
+        options = combineOptions({...Dimensions.sideMenu, viewClass: DraggableSideMenuView},options);
         this._createRenderables(options);
         this._createListeners();
+        this.options = options;
     }
 
     /**
@@ -113,7 +115,7 @@ export class DraggableSideMenu extends View {
             }
         });
 
-        this.sideMenuView = new this.options.viewClass(this.options);
+        this.sideMenuView = new options.viewClass(options);
         this.maxRange = 200;
         /* Gets set properly after 1 render tick, by layout function below. */
 

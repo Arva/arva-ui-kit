@@ -71,12 +71,7 @@ export class DraggableSideMenuView extends View {
         super(combineOptions({
             itemClass: MenuItem,
             backgroundColor: Colors.PrimaryUIColor,
-            viewClass: DraggableSideMenuView,
-            menuItem: {
-                textColor: Colors.PrimaryUIColor,
-                highlightedTextColor: Colors.ModestTextColor,
-                highlightedBackgroundColor: Colors.SecondaryUIColor
-            }
+            viewClass: DraggableSideMenuView
         },options));
 
         this.menuItems = options.menuItems;
@@ -118,6 +113,6 @@ export class DraggableSideMenuView extends View {
 
     getSize() {
         return [undefined, this.navigationItems.getItems().reduce(((total, {getSize, size}) => total + 0 + (size ? size[1] : getSize()[1] )), 0)
-        + 2 * this.options.itemMargin + this.options.topBarHeight];
+        + 2 * this.options.itemMargin ];
     }
 }
