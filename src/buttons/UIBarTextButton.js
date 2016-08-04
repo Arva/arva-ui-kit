@@ -10,7 +10,7 @@ export class UIBarTextButton extends TextButton {
 
     constructor(options = {}) {
         super(combineOptions(
-            options.variation === 'light' ? TypeFaces.UIButtonPrimaryLight : TypeFaces.UIButtonPrimary,
+            {properties: options.variation === 'light' ? TypeFaces.UIButtonPrimaryLight : TypeFaces.UIButtonPrimary},
             combineOptions({
             backgroundProperties: {
                 backgroundColor: 'none'
