@@ -12,7 +12,7 @@ import {
     UIBarHeight,
     UIBarThickHeight,
     UIBarPadding
-}                               from '../defaults/DefaultDimensions.js';
+}                                                   from '../defaults/DefaultDimensions.js';
 
 const rgbToRgba = (rgbString, alpha) => {
     let color = new RGBColor(rgbString);

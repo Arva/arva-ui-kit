@@ -5,6 +5,7 @@ import Surface                  from 'famous/core/Surface.js';
 import TabBar                   from 'famous-flex/widgets/TabBar.js';
 
 import {View}                   from 'arva-js/core/View.js';
+import {layout}                 from 'arva-js/layout/Decorators.js';
 import {Router}                 from 'arva-js/core/Router.js';
 import {Injection}              from 'arva-js/utils/Injection.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
@@ -14,16 +15,26 @@ import RenderNode               from 'famous/core/RenderNode';
 import Easing                   from 'famous/transitions/Easing';
 import Draggable                from 'famous/modifiers/Draggable';
 import StateModifier            from 'famous/modifiers/StateModifier';
+
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
-import {FullScreenBackground}   from '../../../backgrounds/FullScreenBackground.js';
-import {Colors}                 from '../../../defaults/DefaultColors.js';
 
 export class DraggableSideMenu extends View {
-
 
     static get transition() {
         return {duration: 200, curve: Easing.inOutQuad}
     }
+
+    @layout.fullSize()
+    @layout.animate({
+        showInitially: false,
+        transition: {duration: 200, curve: Easing.inOutQuad},
+        animation: AnimationController.Animation.Fade
+    })
+    fullScreenOverlay = new Surface({
+        properties: {
+            background: 'radial-gradient(ellipse at left, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%)'
+        }
+    });
 
     /** The renderables of the draggableSideMenu is only initialised on initWithOptions()
      *
@@ -41,15 +52,6 @@ export class DraggableSideMenu extends View {
      * @param options
      */
     initWithOptions(options) {
-        options = combineOptions({
-            backgroundColor: Colors.PrimaryUIColor,
-            viewClass: DraggableSideMenuView,
-            menuItem: {
-                textColor: Colors.PrimaryUIColor,
-                highlightedTextColor: Colors.ModestTextColor,
-                highlightedBackgroundColor: Colors.SecondaryUIColor
-            }
-        }, options);
         this.initialised = true;
         this.options = options;
         this._createRenderables(options);
@@ -68,6 +70,7 @@ export class DraggableSideMenu extends View {
             this.draggable.setPosition([this.controlWidth, 0, 0], {duration: 250, curve: Easing.outQuint});
             this.ShowSideBar();
         }
+        this._isOpen = true;
 
         this._eventOutput.emit('open');
     }
@@ -82,11 +85,13 @@ export class DraggableSideMenu extends View {
             dampingRatio: 0,
             velocity: 0
         };
+        this._isOpen = false;
 
         if (this.draggable) {
             this.draggable.setPosition([0, 0, 0], {duration: 250, curve: Easing.outQuint});
             this._hideSideBar();
         }
+        this.hideRenderable('fullScreenOverlay');
 
         this._eventOutput.emit('close');
     }
@@ -107,23 +112,6 @@ export class DraggableSideMenu extends View {
                 animation: AnimationController.Animation.Slide.Left
             }
         });
-
-        this.renderables.fullScreenOverlay = new AnimationController({
-            show: {
-                transition: {duration: 0, curve: Easing.inOutQuint},
-                animation: AnimationController.Animation.Slide.Right
-            },
-            hide: {
-                transition: {duration: 0, curve: Easing.inOutQuint},
-                animation: AnimationController.Animation.Slide.Left
-            }
-        });
-        this.fullScreenOverlayNode = new RenderNode();
-        this.fullScreenOverlayModifier = new StateModifier({opacity: 0});
-
-        this.fullScreenOverlay = new FullScreenBackground({color: 'rgba(0, 0, 0, 0.25)'});
-
-        this.fullScreenOverlayNode.add(this.fullScreenOverlayModifier).add(this.fullScreenOverlay);
 
         this.sideMenuView = new this.options.viewClass(this.options);
         this.maxRange = 200;
@@ -172,8 +160,17 @@ export class DraggableSideMenu extends View {
         });
 
         this.draggable.on('update', (dragEvent)=> {
-            this.renderables.fullScreenOverlay.show(this.fullScreenOverlayNode);
-            this.fullScreenOverlayModifier.setOpacity(dragEvent.position[0] / this.controlWidth);
+            let ratio = 1 - dragEvent.position[0] / this.controlWidth;
+            /* Because AnimationController....... */
+            if (this.renderables.fullScreenOverlay.get()) {
+                this.hideRenderable('fullScreenOverlay');
+            } else if(!this._isOpen) {
+                this.showRenderable('fullScreenOverlay');
+            }
+            if(!this._isOpen){
+                ratio = 1 - ratio;
+            }
+            this.renderables.fullScreenOverlay.halt(true, ratio);
             this.direction = (dragEvent.position[0] > this.lastPosition);
             this.lastPosition = dragEvent.position[0];
         });
@@ -191,8 +188,6 @@ export class DraggableSideMenu extends View {
                 xRange: [0, this.controlWidth]
             });
 
-
-            //TODO: replace window.size things with proper definitions
             context.set('control', {
                 size: [this.controlWidth, undefined],
                 origin: [0, 0],
@@ -200,12 +195,6 @@ export class DraggableSideMenu extends View {
                 translate: [-this.controlWidth, 0, 20]
             });
 
-            context.set('fullScreenOverlay', {
-                size: [undefined, undefined],
-                origin: [0, 0],
-                align: [0, 0],
-                translate: [0, 0, 5]
-            });
 
             context.set('hiddenSurface', {
                 size: [16, undefined],
@@ -298,7 +287,6 @@ export class DraggableSideMenu extends View {
                 let tabSpec = options.menuItems[event.index];
                 /* Request that the menu changes title */
                 this._eventOutput.emit('changeTitle', tabSpec.text);
-
                 if (tabSpec.controller) this._eventOutput.emit('changeRouter', tabSpec);
             }
         });
@@ -317,9 +305,8 @@ export class DraggableSideMenu extends View {
      * @constructor
      */
     ShowSideBar() {
-        this.renderables.fullScreenOverlay.show(this.fullScreenOverlayNode);
+        this.showRenderable('fullScreenOverlay');
         this.renderables.sideMenuView.show(this.sideMenuScrollController);
-        this.fullScreenOverlayModifier.setOpacity(1, DraggableSideMenu.transition);
     }
 
     /**
@@ -327,8 +314,10 @@ export class DraggableSideMenu extends View {
      * @private
      */
     _hideSideBar() {
-        this.renderables.fullScreenOverlay.hide();
-        this.fullScreenOverlayModifier.setOpacity(0);
+        if (this.renderables.fullScreenOverlay.get()) {
+            this.renderables.fullScreenOverlay._viewStack[0].state = 6;
+            this.hideRenderable('fullScreenOverlay');
+        }
         this.renderables.sideMenuView.hide(this.sideMenuScrollController);
     }
 
