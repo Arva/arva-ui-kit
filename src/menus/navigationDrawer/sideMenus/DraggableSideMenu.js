@@ -54,7 +54,11 @@ export class DraggableSideMenu extends View {
      */
     initWithOptions(options) {
         this.initialised = true;
-        options = combineOptions({...Dimensions.sideMenu, viewClass: DraggableSideMenuView},options);
+        options = combineOptions({
+                ...Dimensions.sideMenu,
+                viewClass: DraggableSideMenuView
+            },
+            options);
         this._createRenderables(options);
         this._createListeners();
         this.options = options;
@@ -104,6 +108,8 @@ export class DraggableSideMenu extends View {
      * @private
      */
     _createRenderables(options) {
+
+        /* Due to complex interaction between components, the legacy way of defining layout is used */
         this.renderables.sideMenuView = new AnimationController({
             show: {
                 transition: {duration: 500, curve: Easing.inOutQuint},
@@ -166,10 +172,10 @@ export class DraggableSideMenu extends View {
             /* Because AnimationController....... */
             if (this.renderables.fullScreenOverlay.get()) {
                 this.hideRenderable('fullScreenOverlay');
-            } else if(!this._isOpen) {
+            } else if (!this._isOpen) {
                 this.showRenderable('fullScreenOverlay');
             }
-            if(!this._isOpen){
+            if (!this._isOpen) {
                 ratio = 1 - ratio;
             }
             this.renderables.fullScreenOverlay.halt(true, ratio);
@@ -180,15 +186,15 @@ export class DraggableSideMenu extends View {
         this.setTabIndexSelected(0);
         this.layout.reflowLayout();
 
-        this.layouts.push((context) => {
-
-            /* value | 0 makes value an integer, if it is a float */
-            this.controlWidth = Math.min(320, context.size[0] * ( options.width || 0.75 )) | 0;
-
-            /* Update xRange of draggable, as context is now defined */
+        this.layout.on('layoutstart', ({size: [width]}) => {
+            this.controlWidth = Math.min(320, width * ( options.width || 0.75 )) | 0;
+            /* Update xRange of draggable, as size is now defined */
             this.draggable.setOptions({
                 xRange: [0, this.controlWidth]
             });
+        });
+
+        this.layouts.push((context) => {
 
             context.set('control', {
                 size: [this.controlWidth, undefined],
