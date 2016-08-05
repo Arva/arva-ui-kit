@@ -28,6 +28,7 @@ export class IconMenuItem extends Button {
         content: this.options.text,
         properties: {
             color: this.options.textColor,
+            whiteSpace: 'nowrap',
             pointerEvents: this.options.separation ? 'none' : 'initial'
         }
     });
