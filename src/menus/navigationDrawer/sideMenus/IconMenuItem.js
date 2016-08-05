@@ -8,6 +8,7 @@ import {layout}         from 'arva-js/layout/Decorators.js';
 import {combineOptions} from 'arva-js/utils/CombineOptions.js';
 
 import {Text}           from '../../../text/Text.js';
+import {Colors}         from '../../../defaults/DefaultColors.js';
 
 import {Button}         from '../../../buttons/Button.js';
 
@@ -39,14 +40,17 @@ export class IconMenuItem extends Button {
     });
 
     constructor(options = {}) {
-        super(combineOptions(options, {
+        super(combineOptions({
+            textColor: Colors.PrimaryUIColor,
+            highlightedTextColor: Colors.ModestTextColor,
+            highlightedBackgroundColor: Colors.SecondaryUIColor,
             makeRipple: true,
             useBoxShadow: false,
             delay: 0,
             backgroundProperties: {
                 borderRadius: '0px'
             }
-        }));
+        }, options));
 
         this.layout.once('layoutstart', ({size: [_,height]}) => {
             this.text.setProperties({lineHeight: `${height}px`});

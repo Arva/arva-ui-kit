@@ -20,18 +20,15 @@ export class ImageSideMenuView extends DraggableSideMenuView {
     @layout.dock.top((width, height) => width/2, 12, 20)
     image = new Surface({
         properties: {
-            'background-image': "url('http://www.jcraft.nl/wp-content/uploads/2016/03/High-tech-plaatje-gallery.jpg')",
-            'background-size': 'cover'
+            backgroundImage: `url('${this.options.image}')`,
+            backgroundSize: 'cover'
         }
     });
 
     constructor(options = {}) {
         super(combineOptions({
             backgroundColor: 'white',
-            itemClass: IconMenuItem,
-            textColor: Colors.PrimaryUIColor,
-            highlightedTextColor: Colors.ModestTextColor,
-            highlightedBackgroundColor: Colors.SecondaryUIColor
+            itemClass: IconMenuItem
         },options));
 
 
