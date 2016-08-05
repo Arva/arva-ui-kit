@@ -12,7 +12,13 @@
  *         direction: 1,
  *         viewClass: DraggableSideMenu    // draggable side menu renderable, defaults to DraggableSideMenu
  *         itemClass: : MenuItem,          // side menu item's renderable, defaults to MenuItem
- *         menuItem: {}                    // Options for each menu item, defaults to {}
+ *         menuItems: [{                   // Options for the menu items
+ *           text: 'Index',                // The text of the menu item
+ *           controller: 'Home',           // The associated controller of the menu item, defaults to 'Home'
+ *           method: 'Index',              // The associated method of the menu item, defaults to 'Index'
+ *           arguments: {banana: true}     // The arguments passed to the controller, defaults to {}
+ *         }],
+ *         menuItem: {}                    // Options for every menu item (textColor, highlightedTextColor, etc) , defaults to {}
  *     },
  *     sideMenuClass: DraggableSideMenu                   // The class used for the side menu, defaults to DraggableSideMenu
  *     topMenuClass: TopMenu,                             // top menu renderable, defaults to TopMenu
@@ -20,11 +26,7 @@
  *     showInitial: true,                                 // if the navigationDrawer shows on startup of the app
  *     enabled: true,                                     // if the side menu draggable is enabled
  *     hideOnRoutes: [{controller: 'Home',methods:['Index','Register']}],       // route's that will auto hide the top & side menu
- *     menuItems: [{
- *         text: 'Index',
- *         controller: 'Home',
- *         method: 'Index'
- *     }, {text: 'Register', controller: 'Home', method: 'Register'}]
+
  *    }
  * });
  */
