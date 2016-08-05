@@ -214,11 +214,9 @@ export class NavigationDrawer extends View {
         this.sideMenu.setTabIndexSelected(index);
     }
 
-    /**
-     * Update the TopTitle to the current active Tab within the side menu
-     */
-    setCorrectTopTitle() {
-        if (this.topBar.setTitle) this.topBar.setTitle(this.sideMenu.getSelectedTabText());
+
+    getSelectedTabOptions() {
+        return this.sideMenu.getSelectedTabOptions();
     }
 
     /**

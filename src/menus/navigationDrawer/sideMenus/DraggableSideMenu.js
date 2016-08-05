@@ -246,9 +246,9 @@ export class DraggableSideMenu extends View {
      *
      * @returns {*}
      */
-    getSelectedTabText() {
+    getSelectedTabOptions() {
         let {navigationItems} = this.sideMenuView;
-        return navigationItems.getItems()[navigationItems.getSelectedItemIndex()].data.text;
+        return navigationItems.getItems()[navigationItems.getSelectedItemIndex()].options;
     }
 
     /**
