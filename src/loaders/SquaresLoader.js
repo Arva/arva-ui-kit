@@ -10,7 +10,7 @@ import Transform                        from 'famous/core/Transform.js';
 import Surface                          from 'famous/core/Surface.js';
 import radians                          from 'degrees-radians';
 
-import {PrimaryUIColor}                 from '../defaults/DefaultColors.js';
+import {Colors}                         from '../defaults/DefaultColors.js';
 
 /* Needs to be a ContainerSurface because we need to set a "perspective" property relative to a parent element. */
 export class SquaresLoader extends ContainerSurface {
@@ -40,7 +40,7 @@ export class SquaresLoader extends ContainerSurface {
         this.context.setPerspective(100);
 
         let surfaceProperties = {
-            properties: {backgroundColor: PrimaryUIColor, perspective: '500px', backfaceVisibility: 'visible'}
+            properties: {backgroundColor: Colors.PrimaryUIColor, perspective: '500px', backfaceVisibility: 'visible'}
         };
         this.squareOne = new Surface(surfaceProperties);
         this.squareTwo = new Surface(surfaceProperties);
