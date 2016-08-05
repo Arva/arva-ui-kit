@@ -49,7 +49,7 @@ export class NavigationDrawer extends View {
         super(combineOptions({
             sideMenu: {},
             closeOnRouteChange: true,
-            topBarHeight: 48,
+            topBarHeight: Dimensions.topBarHeight,
             showTopMenu: true,
             showInitial: true,
             hideOnRoutes: [],
@@ -86,7 +86,7 @@ export class NavigationDrawer extends View {
     }
 
     @layout.dock.top( function () {
-        return this.options.topBarHeight ? this.options.topBarHeight : Dimensions.topBarHeight
+        return this.options.topBarHeight
     })
     @layout.translate(0, 0, 500)
     @layout.animate({
@@ -99,11 +99,6 @@ export class NavigationDrawer extends View {
     @layout.dock.fill()
     @layout.translate(0, 0, 450)
     sideMenu = new this.options.sideMenuClass();
-
-    _createTopBar() {
-        if (!this.options.showTopMenu) return new Surface({properties: {backgroundColor: 'transparent'}});
-        return new this.options.topMenuClass(this.options.topMenuOptions);
-    }
 
     /**
      * Hide the topbar for specific routechanges and change the title according the routechanges
@@ -234,6 +229,11 @@ export class NavigationDrawer extends View {
         this.sideMenu.open();
     }
 
+    _createTopBar() {
+        if (!this.options.showTopMenu) return new Surface({properties: {backgroundColor: 'transparent'}});
+        return new this.options.topMenuClass(this.options.topMenuOptions);
+    }
+
     /**
      * Hide the top bar, canceling any animations that are in progress
      * @param animation
@@ -261,7 +261,7 @@ export class NavigationDrawer extends View {
      */
     _revealTopBar(animation = true) {
         this.immediateAnimations = [];
-        this.topBar.decorations.dock.size[1] = Dimensions.topBarHeight;
+        this.topBar.decorations.dock.size[1] = this.options.topBarHeight;
         this.renderables.topBar.show(this.topBar, animation ? undefined : {transition: {duration: 0}});
         this.layout.reflowLayout();
     }
