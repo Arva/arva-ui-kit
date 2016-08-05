@@ -295,7 +295,7 @@ export class DraggableSideMenu extends View {
                 let tabSpec = options.menuItems[event.index];
                 /* Request that the menu changes title */
                 this._eventOutput.emit('changeTitle', tabSpec.text);
-                if (tabSpec.controller) this._eventOutput.emit('changeRouter', tabSpec);
+                if (tabSpec.controller || tabSpec.method || tabSpec.arguments) this._eventOutput.emit('changeRouter', tabSpec);
             }
         });
 
