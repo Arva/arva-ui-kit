@@ -40,7 +40,8 @@ export class UIBar extends View {
                             'hardShadow': {boxShadow: '0px 2px 0px 0px rgba(0,0,0,0.12)'}
                         },
                         backgroundColor: {backgroundColor: 'rgb(255, 255, 255)'}
-                    }, opposingColor: Colors.PrimaryUIColor
+                    },
+                    opposingColor: Colors.PrimaryUIColor
                 };
             case 'colored':
                 return {
@@ -97,7 +98,7 @@ export class UIBar extends View {
                 if (renderable.setColor) {
                     renderable.setColor(opposingColor);
                 } else if (renderable.setProperties) {
-                    renderable.setProperties({color: opposingColor});
+                    renderable.setProperties({color: `${rgbToRgba(opposingColor, 0.6)}`});
                 }
             }
             if (position === 'center') {

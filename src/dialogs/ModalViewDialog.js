@@ -2,14 +2,14 @@
  * Created by vlad on 29/07/16.
  */
 
-import Surface                                          from 'famous/core/Surface.js';
-import {combineOptions}                                 from "arva-js/utils/CombineOptions.js";
-import {layout}                                         from 'arva-js/layout/Decorators.js';
-import {View}                                           from 'arva-js/core/View.js';
-import {UITitle, UIButtonPrimary, UIButtonPrimaryLight} from '../defaults/DefaultTypefaces.js';
-import {UIBarTextButton}                                from '../buttons/UIBarTextButton.js';
-import {UIBar}                                          from '../uibars/UIBar.js';
-import {Text}                                           from '../text/Text.js';
+import Surface                                              from 'famous/core/Surface.js';
+import {combineOptions}                                     from "arva-js/utils/CombineOptions.js";
+import {layout}                                             from 'arva-js/layout/Decorators.js';
+import {View}                                               from 'arva-js/core/View.js';
+import {UITitle, UIButtonPrimary, UIButtonPrimaryLight}     from '../defaults/DefaultTypefaces.js';
+import {UIBarTextButton}                                    from '../buttons/UIBarTextButton.js';
+import {UIBar}                                              from '../uibars/UIBar.js';
+import {Text}                                               from '../text/Text.js';
 
 export class ModalViewDialog extends View {
 
