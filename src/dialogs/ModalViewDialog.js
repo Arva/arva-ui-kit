@@ -17,6 +17,9 @@ export class ModalViewDialog extends View {
     @layout.fullSize()
     background = new Surface({properties: {backgroundColor: 'white', borderRadius: '4px'}});
 
+    @layout.dock.top(true)
+    uibar = new UIBar({bottomLine: true, ...this.options.UIBarOptions});
+
     /**
      * @example
      * modal = new ModalViewDialog({
@@ -45,9 +48,6 @@ export class ModalViewDialog extends View {
      *          Contains the sub-options 'content', which specifies the text inside the button, and 'variation', which can
      *          be set to 'light' in order to set button text typeface to UIButtonPrimaryLight instead of UIButtonPrimary.
      */
-    @layout.dock.top(true)
-    uibar = new UIBar({bottomLine: true, ...this.options.UIBarOptions});
-
     constructor(options = {}) {
         let UIBarOptions = ModalViewDialog._setOptions(options);
 
