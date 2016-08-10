@@ -4,6 +4,7 @@
 import FamousInputSurface           from 'famous/surfaces/InputSurface';
 
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
+import {replaceEmojiAtEnd}          from './Emoji.js';
 
 export class InputSurface extends FamousInputSurface {
     constructor(options) {
@@ -54,6 +55,12 @@ export class InputSurface extends FamousInputSurface {
     _onFieldChange() {
         let currentValue = this.getValue();
         if (currentValue != this._value) {
+
+            if(this.options.emojiEnabled) {
+                currentValue = replaceEmojiAtEnd(currentValue);
+                this.setValue(currentValue);
+            }
+
             this._value = currentValue;
             if (this.options.isFormField) {
                 this._setBorderBottomColor(currentValue);
