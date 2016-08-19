@@ -12,7 +12,7 @@ export let Dimensions = {
     UIBarPadding: 4,
 
     topBarHeight: 30,
-    sideMenuOptions: {
+    sideMenu: {
         itemHeight: 48,
         itemMargin: 0,
         direction: 1

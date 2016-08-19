@@ -2,14 +2,14 @@ import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {Button}             from '../buttons/Button.js';
 import {DoneIcon}           from '../icons/DoneIcon.js';
-import {PrimaryUIColor}     from '../defaults/DefaultColors.js';
+import {Colors}             from '../defaults/DefaultColors.js';
 
 export class NotificationIcon extends Button {
 
     @layout.size(24, 24)
     @layout.stick.center()
     icon = new DoneIcon({
-        color: PrimaryUIColor
+        color: Colors.PrimaryUIColor
     });
 
     constructor(options = {}) {

@@ -20,6 +20,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "core-js": "npm:core-js@1.2.7",
     "css": "github:systemjs/plugin-css@0.1.25",
+    "degrees-radians": "npm:degrees-radians@1.0.3",
     "famous": "github:bizboard/famous@0.3.7",
     "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
     "famous-flex": "github:bizboard/famous-flex@master",
@@ -96,6 +97,9 @@ System.config({
     },
     "npm:core-util-is@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
+    },
+    "npm:degrees-radians@1.0.3": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0"
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"

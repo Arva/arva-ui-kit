@@ -5,28 +5,44 @@ import Surface                  from 'famous/core/Surface.js';
 import TabBar                   from 'famous-flex/widgets/TabBar.js';
 
 import {View}                   from 'arva-js/core/View.js';
+import {layout}                 from 'arva-js/layout/Decorators.js';
 import {Router}                 from 'arva-js/core/Router.js';
 import {Injection}              from 'arva-js/utils/Injection.js';
+import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 
 import AnimationController      from 'famous-flex/AnimationController';
 import RenderNode               from 'famous/core/RenderNode';
 import Easing                   from 'famous/transitions/Easing';
 import Draggable                from 'famous/modifiers/Draggable';
 import StateModifier            from 'famous/modifiers/StateModifier';
+
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
-import {FullScreenBackground}   from '../../../backgrounds/FullScreenBackground.js';
-import {Colors}                 from '../../../defaults/DefaultColors.js';
+import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 
 export class DraggableSideMenu extends View {
 
-
     static get transition() {
-        return {duration: 300, curve: Easing.outCubic}
+        return {duration: 200, curve: Easing.inOutQuad}
     }
 
-    constructor(options = {}) {
-        super(options);
+    @layout.fullSize()
+    @layout.animate({
+        showInitially: false,
+        transition: {duration: 200, curve: Easing.inOutQuad},
+        animation: AnimationController.Animation.Fade
+    })
+    fullScreenOverlay = new Surface({
+        properties: {
+            background: 'radial-gradient(ellipse at left, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%)'
+        }
+    });
 
+    /** The renderables of the draggableSideMenu is only initialised on initWithOptions()
+     *
+     * @param options
+     */
+    constructor() {
+        super();
         this.toggle = false;
         this.direction = true;
         this.router = Injection.get(Router);
@@ -36,11 +52,16 @@ export class DraggableSideMenu extends View {
      *
      * @param options
      */
-    setData(options) {
+    initWithOptions(options) {
         this.initialised = true;
-        this.options = options;
+        options = combineOptions({
+                ...Dimensions.sideMenu,
+                viewClass: DraggableSideMenuView
+            },
+            options);
         this._createRenderables(options);
         this._createListeners();
+        this.options = options;
     }
 
     /**
@@ -52,9 +73,10 @@ export class DraggableSideMenu extends View {
         }
 
         if (this.draggable) {
-            this.draggable.setPosition([this.controlWidth, 0, 0], {duration: 400, curve: Easing.outCubic});
+            this.draggable.setPosition([this.controlWidth, 0, 0], {duration: 250, curve: Easing.outQuint});
             this.ShowSideBar();
         }
+        this._isOpen = true;
 
         this._eventOutput.emit('open');
     }
@@ -63,11 +85,19 @@ export class DraggableSideMenu extends View {
      * Close the sideMenu
      */
     close() {
-        return;
+        let trans = {
+            method: 'snap',
+            period: 1,
+            dampingRatio: 0,
+            velocity: 0
+        };
+        this._isOpen = false;
+
         if (this.draggable) {
-            this.draggable.setPosition([0, 0, 0], {duration: 400, curve: Easing.inCubic});
+            this.draggable.setPosition([0, 0, 0], {duration: 250, curve: Easing.outQuint});
             this._hideSideBar();
         }
+        this.hideRenderable('fullScreenOverlay');
 
         this._eventOutput.emit('close');
     }
@@ -78,14 +108,8 @@ export class DraggableSideMenu extends View {
      * @private
      */
     _createRenderables(options) {
-        options.colors = options.colors || {
-                MenuBackgroundColor: Colors.PrimaryUIColor,
-                MenuTextColor: Colors.PrimaryUIColor,
-                MenuTextColorHighlight: Colors.ModestTextColor,
-                TitleBarColor: Colors.UIBarTextColor,
-                MenuBackgroundHighLightColor: Colors.SecondaryUIColor
-            };
 
+        /* Due to complex interaction between components, the legacy way of defining layout is used */
         this.renderables.sideMenuView = new AnimationController({
             show: {
                 transition: {duration: 500, curve: Easing.inOutQuint},
@@ -97,24 +121,7 @@ export class DraggableSideMenu extends View {
             }
         });
 
-        this.renderables.fullScreenOverlay = new AnimationController({
-            show: {
-                transition: {duration: 0, curve: Easing.inOutQuint},
-                animation: AnimationController.Animation.Slide.Right
-            },
-            hide: {
-                transition: {duration: 0, curve: Easing.inOutQuint},
-                animation: AnimationController.Animation.Slide.Left
-            }
-        });
-        this.fullScreenOverlayNode = new RenderNode();
-        this.fullScreenOverlayModifier = new StateModifier({opacity: 0});
-
-        this.fullScreenOverlay = new FullScreenBackground({color: 'rgba(0, 0, 0, 0.25)'});
-
-        this.fullScreenOverlayNode.add(this.fullScreenOverlayModifier).add(this.fullScreenOverlay);
-
-        this.sideMenuView = this.options.draggableSideMenuViewRenderable ? new this.options.draggableSideMenuViewRenderable(options) : new DraggableSideMenuView(options);
+        this.sideMenuView = new options.viewClass(options);
         this.maxRange = 200;
         /* Gets set properly after 1 render tick, by layout function below. */
 
@@ -149,6 +156,7 @@ export class DraggableSideMenu extends View {
         this.renderables.control = dragNode;
 
         this.sideMenuView.pipe(this.draggable);
+        this.fullScreenOverlay.pipe(this.draggable);
 
         this.draggable.on('end', (dragEvent) => {
             if (this.direction) {
@@ -160,27 +168,33 @@ export class DraggableSideMenu extends View {
         });
 
         this.draggable.on('update', (dragEvent)=> {
-            this.renderables.fullScreenOverlay.show(this.fullScreenOverlayNode);
-            this.fullScreenOverlayModifier.setOpacity(dragEvent.position[0] / this.controlWidth);
+            let ratio = 1 - dragEvent.position[0] / this.controlWidth;
+            /* Because AnimationController....... */
+            if (this.renderables.fullScreenOverlay.get()) {
+                this.hideRenderable('fullScreenOverlay');
+            } else if (!this._isOpen) {
+                this.showRenderable('fullScreenOverlay');
+            }
+            if (!this._isOpen) {
+                ratio = 1 - ratio;
+            }
+            this.renderables.fullScreenOverlay.halt(true, ratio);
             this.direction = (dragEvent.position[0] > this.lastPosition);
             this.lastPosition = dragEvent.position[0];
         });
 
-        setTimeout(()=> {
-            this.setTabIndexSelected(0);
-        }, 450);
-
+        this.setTabIndexSelected(0);
         this.layout.reflowLayout();
 
-        this.layouts.push((context) => {
-
-            /* value | 0 makes value an integer, if it is a float */
-            this.controlWidth = Math.min(320, context.size[0] * ( options.width || 0.75 )) | 0;
-
-            /* Update xRange of draggable, as context is now defined */
+        this.layout.on('layoutstart', ({size: [width]}) => {
+            this.controlWidth = Math.min(320, width * ( options.width || 0.75 )) | 0;
+            /* Update xRange of draggable, as size is now defined */
             this.draggable.setOptions({
                 xRange: [0, this.controlWidth]
             });
+        });
+
+        this.layouts.push((context) => {
 
             context.set('control', {
                 size: [this.controlWidth, undefined],
@@ -189,12 +203,6 @@ export class DraggableSideMenu extends View {
                 translate: [-this.controlWidth, 0, 20]
             });
 
-            context.set('fullScreenOverlay', {
-                size: [undefined, undefined],
-                origin: [0, 0],
-                align: [0, 0],
-                translate: [0, 0, 5]
-            });
 
             context.set('hiddenSurface', {
                 size: [16, undefined],
@@ -238,9 +246,9 @@ export class DraggableSideMenu extends View {
      *
      * @returns {*}
      */
-    getSelectedTabText() {
+    getSelectedTabOptions() {
         let {navigationItems} = this.sideMenuView;
-        return navigationItems.getItems()[navigationItems.getSelectedItemIndex()].data.text;
+        return navigationItems.getItems()[navigationItems.getSelectedItemIndex()].options;
     }
 
     /**
@@ -287,8 +295,7 @@ export class DraggableSideMenu extends View {
                 let tabSpec = options.menuItems[event.index];
                 /* Request that the menu changes title */
                 this._eventOutput.emit('changeTitle', tabSpec.text);
-
-                if (tabSpec.controller) this._eventOutput.emit('changeRouter', tabSpec);
+                if (tabSpec.controller || tabSpec.method || tabSpec.arguments) this._eventOutput.emit('changeRouter', tabSpec);
             }
         });
 
@@ -306,9 +313,8 @@ export class DraggableSideMenu extends View {
      * @constructor
      */
     ShowSideBar() {
-        this.renderables.fullScreenOverlay.show(this.fullScreenOverlayNode);
+        this.showRenderable('fullScreenOverlay');
         this.renderables.sideMenuView.show(this.sideMenuScrollController);
-        this.fullScreenOverlayModifier.setOpacity(1, DraggableSideMenu.transition);
     }
 
     /**
@@ -316,8 +322,10 @@ export class DraggableSideMenu extends View {
      * @private
      */
     _hideSideBar() {
-        this.renderables.fullScreenOverlay.hide();
-        this.fullScreenOverlayModifier.setOpacity(0);
+        if (this.renderables.fullScreenOverlay.get()) {
+            this.renderables.fullScreenOverlay._viewStack[0].state = 6;
+            this.hideRenderable('fullScreenOverlay');
+        }
         this.renderables.sideMenuView.hide(this.sideMenuScrollController);
     }
 

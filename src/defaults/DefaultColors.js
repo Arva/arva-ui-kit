@@ -36,12 +36,3 @@ export let Colors = {
 export function setColors(...colors) {
     _.merge(Colors, ...colors);
 }
-
-export let PrimaryUIColor     = Colors.PrimaryUIColor;
-export let SecondaryUIColor   = Colors.SecondaryUIColor;
-export let TertiaryUIColor    = Colors.TertiaryUIColor;
-export let QuaternaryUIColor  = Colors.QuaternaryUIColor;
-export let BasicTextColor     = Colors.BasicTextColor;
-export let ModestTextColor    = Colors.ModestTextColor;
-export let ArticleTextColor   = Colors.ArticleTextColor;
-export let ImageTextColor     = Colors.ImageTextColor;

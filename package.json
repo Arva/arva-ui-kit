@@ -15,6 +15,7 @@
     },
     "dependencies": {
       "arva-js": "github:bizboard/arva-js@develop",
+      "degrees-radians": "npm:degrees-radians@^1.0.3",
       "famous": "github:bizboard/famous@^0.3.7",
       "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
       "famous-flex": "github:bizboard/famous-flex@master",

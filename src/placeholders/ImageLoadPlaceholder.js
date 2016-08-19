@@ -36,7 +36,7 @@ export class ImageLoadPlaceholder extends View {
      */
     static PositionMode = BkImageSurface.PositionMode;
 
-    @layout.fullscreen
+    @layout.fullSize()
     @layout.translate(0, 0, 10)
     @layout.animate({
         showInitially: false,
@@ -48,7 +48,7 @@ export class ImageLoadPlaceholder extends View {
         properties: this.options.imageProperties
     });
 
-    @layout.fullscreen
+    @layout.fullSize()
     placeholder = new ImageSurface({content: this.options.placeholderContent, properties: this.options.placeholderProperties});
 
     /**

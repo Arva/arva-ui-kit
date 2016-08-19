@@ -5,50 +5,33 @@ import Surface                  from 'famous/core/Surface.js';
 
 import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {ListIcon}               from '../../../icons/ListIcon.js';
-import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
+import {AccountIcon}            from 'arva-kit/icons/AccountIcon.js';
+import {CloudIcon}              from 'arva-kit/icons/CloudIcon.js';
+import {ArrowleftIcon}          from 'arva-kit/icons/ArrowleftIcon.js';
+import {AndroidshareIcon}       from 'arva-kit/icons/AndroidshareIcon.js';
 
+import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
 import {IconMenuItem}           from './IconMenuItem.js';
+import {Colors}                 from '../../../defaults/DefaultColors.js';
+
 
 export class ImageSideMenuView extends DraggableSideMenuView {
 
-    @layout.dock.top(function () {return this._halfWidth}, 12, 20)
+    @layout.dock.top((width, height) => width/2, 12, 20)
     image = new Surface({
         properties: {
-            'background-image': "url('https://firebasestorage.googleapis.com/v0/b/bizboard-chat.appspot.com/o/photo.jpg?alt=media&token=cefbe1a9-b0b5-4961-9b73-5ef7c60482a4')",
-            'background-size': 'cover'
+            backgroundImage: `url('${this.options.image}')`,
+            backgroundSize: 'cover'
         }
     });
 
     constructor(options = {}) {
-        console.log(options);
-        super(combineOptions(options, {
-            bgColor: 'rgba(255,255,255,1)',
-            iconRenderable: ListIcon,
-            sideMenuRenderable: IconMenuItem,
-            colors: {
-                MenuBackgroundColor: 'white'
-            }
-        }));
+        super(combineOptions({
+            backgroundColor: 'white',
+            itemClass: IconMenuItem
+        },options));
 
-        // workaround to determine half the width
-        this.layout.on('layoutstart', ({size: [width]}) => {
-            this._halfWidth = width / 2;
-        });
 
-        this.setItems([{
-            text: 'Test1',
-            controller: 'Home',
-            method: 'Index'
-        }, {
-            text: 'Test2',
-            controller: 'Home',
-            method: 'Index'
-        }, {
-            text: 'Test3',
-            controller: 'Home',
-            method: 'Index'
-        }]);
 
     }
 }   

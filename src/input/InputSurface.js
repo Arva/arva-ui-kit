@@ -4,21 +4,25 @@
 import FamousInputSurface           from 'famous/surfaces/InputSurface';
 
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
+import {replaceEmojiAtEnd}          from './Emoji.js';
 
 export class InputSurface extends FamousInputSurface {
     constructor(options) {
-        super(combineOptions(
-            {
-                properties: {
-                    outline: 'none',
-                    borderBottom: '1px solid gray',
-                    borderTop: 'none',
-                    borderLeft: 'none',
-                    borderRight: 'none',
-                    boxShadow: '0px 2px 4px 0px rgba(50, 50, 50, 0.08)',
-                    padding: '0 16px 0 16px'
-                }
-            }, options));
+        let properties = {
+            outline: 'none',
+            borderBottom: 'none',
+            borderTop: 'none',
+            borderLeft: 'none',
+            borderRight: 'none',
+            padding: '0 16px 0 16px'
+        }
+        if (options.isFormField) {
+            Object.assign(properties, {borderBottom: '1px solid gray', boxShadow: '0px 2px 4px 0px rgba(50, 50, 50, 0.08)'});
+        }
+
+        super(combineOptions({
+            properties
+        }, options));
         this.on('paste', this._onFieldChange);
         this.on('input', this._onFieldChange);
         this.on('propertychange', this._onFieldChange);
@@ -37,7 +41,9 @@ export class InputSurface extends FamousInputSurface {
     }
 
     setValue(value) {
-        this._setBorderBottomColor(value);
+        if (this.options.isFormField) {
+            this._setBorderBottomColor(value);
+        }
         return super.setValue(...arguments);
     }
 
@@ -49,8 +55,16 @@ export class InputSurface extends FamousInputSurface {
     _onFieldChange() {
         let currentValue = this.getValue();
         if (currentValue != this._value) {
+
+            if(this.options.emojiEnabled) {
+                currentValue = replaceEmojiAtEnd(currentValue);
+                this.setValue(currentValue);
+            }
+
             this._value = currentValue;
-            this._setBorderBottomColor(currentValue);
+            if (this.options.isFormField) {
+                this._setBorderBottomColor(currentValue);
+            }
             this.emit('valueChange', currentValue);
         }
     }

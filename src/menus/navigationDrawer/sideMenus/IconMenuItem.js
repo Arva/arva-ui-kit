@@ -1,68 +1,71 @@
 /**
  * Created by rbu on 06-11-15.
  */
-import Surface              from 'famous/core/Surface.js';
+import Surface          from 'famous/core/Surface.js';
 
-import {layout}             from 'arva-js/layout/Decorators.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {AccountIcon}        from '../../../icons/AccountIcon.js';
-import {Button}             from '../../../buttons/Button.js';
+import {View}           from 'arva-js/core/View.js';
+import {layout}         from 'arva-js/layout/Decorators.js';
+import {combineOptions} from 'arva-js/utils/CombineOptions.js';
 
-import {PrimaryUIColor}     from '../../../defaults/DefaultColors.js';
-import {ModestTextColor}    from '../../../defaults/DefaultColors.js';
-import {UIRegular}          from '../../../defaults/DefaultTypefaces.js';
+import {Text}           from '../../../text/Text.js';
+import {Colors}         from '../../../defaults/DefaultColors.js';
 
-@layout.dockPadding(0,0,0,12)
+import {Button}         from '../../../buttons/Button.js';
+
+@layout.dockPadding(0, 0, 0, 16)
 export class IconMenuItem extends Button {
 
-    @layout.animate({showInitially: true, animation: null, show: {duration: 0}, hide: {duration: 0}})
-    @layout.dock.left(24,12,50)
-    icon = this.options.iconRenderable ? new this.options.iconRenderable({color: this.options.iconColor || PrimaryUIColor}) : new AccountIcon({color: this.options.iconColor || PrimaryUIColor});
-
-    @layout.dockSpace(12)
     @layout.dock.left()
-    @layout.translate(0,2,60)
-    @layout.size(~30,~17)
-    @layout.align(0,0.5)
-    @layout.origin(0,0.5)
-    textSurface = new Surface({
+    @layout.size(24, 24)
+    @layout.stick.center()
+    icon = new this.options.icon({color: this.options.textColor});
+
+    @layout.size(~30, undefined)
+    @layout.dock.left()
+    @layout.dockSpace(12)
+    @layout.stick.center()
+    text = new Text({
         content: this.options.text,
         properties: {
-            color: this.options.colors.MenuTextColor,
-            fontSize: UIRegular.properties.fontSize,
-            fontFamily: UIRegular.properties.fontFamily,
+            color: this.options.textColor,
+            whiteSpace: 'nowrap',
             pointerEvents: this.options.separation ? 'none' : 'initial'
-
         }
     });
 
-    constructor(options = {}, data = {}) {
-        super(combineOptions(options, {
+    @layout.fullSize()
+    clickOverlay = new Surface({
+        properties: {
+            pointerEvents: this.options.separation ? 'none' : 'initial'
+        }
+    });
+
+    constructor(options = {}) {
+        super(combineOptions({
+            textColor: Colors.PrimaryUIColor,
+            highlightedTextColor: Colors.ModestTextColor,
+            highlightedBackgroundColor: Colors.SecondaryUIColor,
             makeRipple: true,
             useBoxShadow: false,
             delay: 0,
             backgroundProperties: {
                 borderRadius: '0px'
-            },
-            colors: {
-                MenuTextColor: PrimaryUIColor
-            },
-            text: data.text || '',
-            separation: data.separation || 'none'
-        }));
+            }
+        }, options));
 
-        this.data = data;
+        this.layout.once('layoutstart', ({size: [_,height]}) => {
+            this.text.setProperties({lineHeight: `${height}px`});
+        });
     }
 
     setSelected(selected) {
-        this.renderables.textSurface.setProperties({color: selected ? this.options.colors.MenuTextColorHighlight : this.options.colors.MenuTextColor});
-        this.hideRenderable('icon');
-        this.replaceRenderable('icon', this.options.iconRenderable ? new this.options.iconRenderable({color: selected ? ModestTextColor : this.options.iconColor || PrimaryUIColor}) : new AccountIcon({color: selected ? ModestTextColor : this.options.iconColor || PrimaryUIColor}));
-        this.showRenderable('icon');
+        let color = selected ? this.options.highlightedTextColor : this.options.textColor;
+        this.text.setProperties({color});
+        this.icon.changeColor(color);
     }
 
     getSize() {
-        return [undefined, this.data.separation ? 15 : 44];
+        return [undefined, this.options.separation ? 15 : 44];
     }
 
 }
