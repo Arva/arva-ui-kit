@@ -14,6 +14,7 @@ export class SingleLineInputSurface extends InputSurface {
         }, options);
         super(options);
         this.options = options;
+        this._cachedValue = '';
         this.on('keyup', this._onKeyUp);
     }
 
@@ -23,6 +24,9 @@ export class SingleLineInputSurface extends InputSurface {
         if (keyCode === 13) {
             this._onMessageComplete();
         }
+
+        this._cachedValue = this.getValue();
+        this._eventOutput.emit('value', this._cachedValue);
     }
 
     _onMessageComplete() {
