@@ -5,7 +5,7 @@ import Surface                  from 'famous/core/Surface.js';
 import {View}                   from 'arva-js/core/View.js';
 import {NameDisplay}            from './NameDisplay.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
-import {combineOptions}         from 'arva-js/utils/CombineOptions';
+import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {Text}                   from '../../../text/Text.js';
 import {Colors}                 from '../../../defaults/DefaultColors.js';
 import {Dimensions}             from '../../../defaults/DefaultDimensions.js';

@@ -4,8 +4,8 @@
  */
 
 import InputSurface                 from 'famous/surfaces/InputSurface.js';
-import {ObjectHelper}               from '../../utils/ObjectHelper.js';
-import {combineOptions}             from '../../utils/CombineOptions';
+import {ObjectHelper}               from 'arva-js/utils/ObjectHelper.js';
+import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 export class SingleLineInputSurface extends InputSurface {
     constructor(options = {}) {
