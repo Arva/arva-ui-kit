@@ -23,11 +23,24 @@ export class SingleLineInputSurface extends InputSurface {
 
         super(mergedOptions);
         this.options = mergedOptions;
-        this._cachedValue = '';
+        this._cachedValue = null;
 
         ObjectHelper.bindAllMethods(this, this);
 
-        this.on('keyup', this._onKeyUp);
+        this.on('keyup', this._onKeyUp.bind(this));
+        this.on('keydown', this._onKeyDown.bind(this));
+    }
+
+    _onKeyDown(event) {
+        /* We need to defer this method, because this.getValue() is
+         * not yet updated with the new value when the 'keydown' event fires. */
+        setTimeout(() => {
+            let newValue = this.getValue();
+            if(this._cachedValue !== newValue) {
+                this._cachedValue = newValue;
+                this._eventOutput.emit('value', this._cachedValue);
+            }
+        }, 0);
     }
 
     _onKeyUp(event) {
