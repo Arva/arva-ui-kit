@@ -27,8 +27,7 @@ export class UIBar extends View {
      * @param variation
      * @returns {*}
      */
-    static getSettings(variation) {
-        variation = variation || 'white';
+    static getSettings(variation = 'white') {
         switch (variation) {
             default:
                 console.log('Invalid variation selected. Falling back to default settings (white).');
