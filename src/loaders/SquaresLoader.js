@@ -40,7 +40,7 @@ export class SquaresLoader extends ContainerSurface {
         this.context.setPerspective(100);
 
         let surfaceProperties = {
-            properties: {backgroundColor: Colors.PrimaryUIColor, perspective: '500px', backfaceVisibility: 'visible'}
+            properties: {backgroundColor: Colors.PrimaryUIColor, perspective: '500px', backfaceVisibility: 'visible', '-webkit-backface-visibility': 'visible'}
         };
         this.squareOne = new Surface(surfaceProperties);
         this.squareTwo = new Surface(surfaceProperties);
