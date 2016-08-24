@@ -44,12 +44,10 @@ export class StatusBarExtension extends View {
     }
 
     getSize() {
-        debugger;
         return this.background.decorations.size;
     }
 
     _onResize() {
-        debugger;
         /* In landscape mode on iPad, the status bar is hidden. Hence, we need to subscribe to changes in portrait/landscape modes. */
         if( this.isiOS && window.StatusBar && window.StatusBar.isVisible) {
             /* Only show if not already shown */
