@@ -88,7 +88,8 @@ export class UIBar extends View {
         super(combineOptions({
             backgroundProperties,
             autoColoring: true,
-            opposingColor
+            opposingColor,
+            centerItemSize: [~300, ~30]
         }, options));
 
         let components = options.components;
@@ -101,7 +102,7 @@ export class UIBar extends View {
                 }
             }
             if (position === 'center') {
-                this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(~300, ~30));
+                this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(...this.options.centerItemSize));
             } else {
                 this.addRenderable(renderable, renderableName, layout.dock[position](true));
             }
