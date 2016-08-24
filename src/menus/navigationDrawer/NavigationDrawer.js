@@ -42,8 +42,25 @@ import AnimationController      from 'famous-flex/AnimationController.js';
 import {DraggableSideMenu}      from './sideMenus/DraggableSideMenu.js';
 import {TopMenu}                from './topMenus/TopMenu.js';
 import {Dimensions}             from '../../defaults/DefaultDimensions.js';
+import {StatusBarExtension}     from '../../utils/statusBar/StatusBarExtension.js';
 
 export class NavigationDrawer extends View {
+
+    @layout.dock.top(true)
+    statusBarExtension = new StatusBarExtension();
+
+    @layout.translate(0, 0, 500)
+    @layout.animate({
+        showInitially: true,
+        show: {animation: AnimationController.Animation.Slide.Down},
+        hide: {animation: AnimationController.Animation.Slide.Up}
+    })
+    @layout.dock.top( function () { return this.options.topBarHeight })
+    topBar = this._createTopBar();
+
+    @layout.dock.fill()
+    @layout.translate(0, 0, 450)
+    sideMenu = new this.options.sideMenuClass();
 
     constructor(options = {}) {
         super(combineOptions({
@@ -84,21 +101,6 @@ export class NavigationDrawer extends View {
         if (options.showInitial != undefined && !options.showInitial) this.hideTopBar();
         this.router.on('routechange', this.onRouteChange);
     }
-
-    @layout.dock.top( function () {
-        return this.options.topBarHeight
-    })
-    @layout.translate(0, 0, 500)
-    @layout.animate({
-        showInitially: true,
-        show: {animation: AnimationController.Animation.Slide.Down},
-        hide: {animation: AnimationController.Animation.Slide.Up}
-    })
-    topBar = this._createTopBar();
-
-    @layout.dock.fill()
-    @layout.translate(0, 0, 450)
-    sideMenu = new this.options.sideMenuClass();
 
     /**
      * Hide the topbar for specific routechanges and change the title according the routechanges
