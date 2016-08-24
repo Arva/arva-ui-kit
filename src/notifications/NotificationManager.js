@@ -45,15 +45,22 @@ export class NotificationManager {
 }
 
 class NotificationWrapper extends View {
-
     dataSource = [];
     @layout.dock.right(function (width) {
-        window.isTablet = this.isTablet = width >= 480;
-        this.scrollView.setOptions({flowOptions:{
-            spring: {dampingRatio: 0.8, period: 650},
-            insertSpec: {transform: Transform.translate(this.isTablet ? 300 : 0, this.isTablet ? 0 : -300, 50), opacity: 0},
-            removeSpec: {transform: Transform.translate(this.isTablet ? 300 : 0, this.isTablet ? 0 : -300, -5000), opacity: 0}
-        }});
+        this.isTablet = width >= 480;
+        this.scrollView.setOptions({
+            flowOptions: {
+                spring: {dampingRatio: 0.8, period: 650},
+                insertSpec: {
+                    transform: Transform.translate(this.isTablet ? 300 : 0, this.isTablet ? 0 : -300, 50),
+                    opacity: 0
+                },
+                removeSpec: {
+                    transform: Transform.translate(this.isTablet ? 300 : 0, this.isTablet ? 0 : -300, -5000),
+                    opacity: 0
+                }
+            }
+        });
         return Math.min(width, 384)
     }, 0, 6000)
     @layout.translate(0, 16, 6000)
@@ -89,7 +96,6 @@ class NotificationWrapper extends View {
             });
         },
         itemTemplate: (item)=> {
-
             let notificationItem = new NotificationItem(item, {
                 isTablet: this.isTablet
             });
@@ -154,18 +160,13 @@ class NotificationWrapper extends View {
 
 
 class Notification extends LocalModel {
-    get title() {
-    }
+    get title() {}
 
-    get body() {
-    }
+    get body() {}
 
-    get action() {
-    }
+    get action() {}
 
-    get type() {
-    }
+    get type() {}
 
-    _buildFromDataSource() {
-    }
+    _buildFromDataSource() {}
 }
