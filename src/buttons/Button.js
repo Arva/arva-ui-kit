@@ -5,6 +5,7 @@
 import Surface              from 'famous/core/Surface.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
+import {Throttler}          from 'arva-js/utils/Throttler.js';
 
 import {Clickable}          from '../components/Clickable.js'
 import {Ripple}             from '../components/Ripple.js';
@@ -14,7 +15,9 @@ import {ComponentPadding}   from '../defaults/DefaultDimensions.js';
 @layout.dockPadding(0, ComponentPadding, 0, ComponentPadding)
 @layout.translate(0, 0, 30)
 export class Button extends Clickable {
-    
+
+    _inBounds = true;
+
     @layout.fullSize()
     @layout.translate(0, 0, -10)
     background = new Surface({properties: this.options.backgroundProperties});
@@ -39,6 +42,8 @@ export class Button extends Clickable {
             },
             properties: {}
         }, options));
+
+        this.throttler = new Throttler(3, false, this, true);
 
         if (this.options.makeRipple) {
             this.addRenderable(new Ripple(this.options.rippleOptions), 'ripple',
@@ -81,6 +86,7 @@ export class Button extends Clickable {
 
     _handleTapStart({x, y}) {
         if (this.options.makeRipple && this._isEnabled()) {
+            this._inBounds = true;
             /**
              * Calculate the correct position of the click inside the current renderable (background taken for easy calculation, as it's always fullSize).
              * This will not account for rotation/skew/any other transforms except translates so if the Button class is e.d rotated the ripple will not be placed in the correct location
@@ -97,6 +103,17 @@ export class Button extends Clickable {
             backgroundColor: enabled ? 'inherit' : 'rgba(255, 255, 255, 0.6)',
             cursor: enabled ? 'pointer' : 'inherit'
         });
+    }
+
+    _handleTouchMove(touchEvent){
+        if (this.options.makeRipple && this._inBounds) {
+            this.throttler.add(()=>{
+                this._inBounds = this._isInBounds(touchEvent);
+                if(!this._inBounds){
+                    this.ripple.hide();
+                }
+            });
+        }
     }
 
     _handleTapEnd(mouseEvent) {
