@@ -5,7 +5,6 @@ import Surface              from 'famous/core/Surface.js';
 import Transform            from 'famous/core/Transform';
 import Easing               from 'famous/transitions/Easing.js';
 
-
 import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
@@ -17,7 +16,7 @@ export class Ripple extends View {
     @layout.animate({
         showInitially: false,
         show: {
-            transition: {duration: 350, curve: Easing.inSine}
+            transition: {duration: 10000, curve: Easing.inSine}
         },
         animation: function () {
             return {
@@ -49,7 +48,7 @@ export class Ripple extends View {
     constructor(options) {
         super(options);
         this.layout.once('layoutstart', ({size: [width, height]}) => {
-            this._rippleSize = 2*1.41421356237*Math.max(width, height);
+            this._rippleSize = 2*Math.sqrt((width*width)+(height*height));
             this.renderables.ripple.setOptions({show: {transition: {duration:0.5*this._rippleSize}}});
         });
     }
@@ -65,6 +64,7 @@ export class Ripple extends View {
         return new Promise((resolve) => {
             let {decorations} = this.ripple;
             let rippleSize = this._rippleSize;
+
             /* Shift it because origin/align is 0.5 */
             decorations.translate[0] = x - rippleSize / 2;
             decorations.translate[1] = y - rippleSize / 2;

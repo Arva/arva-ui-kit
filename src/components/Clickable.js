@@ -43,14 +43,27 @@ export class Clickable extends View {
         this.on('mousedown', this._onTapStart);
         this.on('touchend', this._onTapEnd);
         this.on('mouseup', this._onTapEnd);
-        this.on('touchmove', this._onTapEnd);
+        this.on('touchmove', this._onTouchMove);
+        this.on('touchleave', this._onTapEnd);
         this.on('mouseout', this._onTapEnd);
         this.on('click', this._onClick);
 
     }
 
+    _onTouchMove(){
+        this._handleTouchMove(...arguments);
+    }
+
     _onTapEnd(mouseEvent) {
         this._handleTapEnd(mouseEvent);
+    }
+
+    /**
+     *
+     * @private
+     */
+    _handleTouchMove(){
+        /* To be inherited */
     }
 
     /**
@@ -65,7 +78,7 @@ export class Clickable extends View {
     _onTapStart(mouseEvent) {
         if (this._isEnabled()) {
             let args = mouseEvent.touches ? {x: mouseEvent.touches[0].clientX, y: mouseEvent.touches[0].clientY} :
-                {x: mouseEvent.offsetX, y: mouseEvent.offsetY};
+                {x: mouseEvent.clientX, y: mouseEvent.clientY};
             this._handleTapStart(args);
         }
     }
