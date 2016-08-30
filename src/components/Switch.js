@@ -8,6 +8,8 @@ import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {Clickable}          from './Clickable.js';
 
+const innerBoxOffset = 2;
+
 export class Switch extends Clickable {
 
     @layout.size(48, 48)
@@ -20,8 +22,8 @@ export class Switch extends Clickable {
     });
 
     @layout.size(44, 30)
-    @layout.stick.center()
-    @layout.translate(0, 0, 20)
+    @layout.stick.left()
+    @layout.translate(0, innerBoxOffset, 0)
     innerBox = new Surface({
         properties: {
             borderRadius: '2px',

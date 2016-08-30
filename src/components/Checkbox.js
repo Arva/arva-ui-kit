@@ -27,6 +27,8 @@ const iconZValue = 30;
 @layout.flow({})
 export class Checkbox extends Clickable {
 
+    _inBounds = true;
+
     @layout.size(48, 48)
     @layout.stick.center()
     outerBox = new Surface({
@@ -74,6 +76,7 @@ export class Checkbox extends Clickable {
     cross = new CrossIcon({color: 'rgb(170, 170, 170)'});
 
     @layout.fullSize()
+    @layout.translate(0, 0, 40)
     overlay = new Surface();
 
     constructor(options = {}) {
@@ -98,30 +101,40 @@ export class Checkbox extends Clickable {
         this.on('mousedown', this._onTouchStart);
         this.on('touchend', this._onTouchEnd);
         this.on('mouseup', this._onTouchEnd);
-        this.on('touchleave', this._onTouchMove);
-        this.overlay.on('mouseout', this._onTouchMove);
+        this.overlay.on('touchmove', this._onTouchMove);
+        this.overlay.on('mouseout', this._onMouseMove);
     }
 
     _onTouchStart() {
+        this._inBounds = true;
         this._scaleDown();
         // this.setViewFlowState('checked');
     }
 
     _onTouchEnd() {
-        let isChecked = this._isChecked();
-        // Uncheck
-        this.tick.setProperties({display: isChecked ? 'none' : 'block'});
-        this.cross.setProperties({display: isChecked ? 'block' : 'none'});
-        this.outerBox.setProperties({backgroundColor: isChecked ? 'rgb(170, 170, 170)' : Colors.PrimaryUIColor});
+        if (this._inBounds) {
+            let isChecked = this._isChecked();
+            // Uncheck
+            this.tick.setProperties({display: isChecked ? 'none' : 'block'});
+            this.cross.setProperties({display: isChecked ? 'block' : 'none'});
+            this.outerBox.setProperties({backgroundColor: isChecked ? 'rgb(170, 170, 170)' : Colors.PrimaryUIColor});
 
-        // this.setViewFlowState('unchecked');
+            // this.setViewFlowState('unchecked');
 
-        this._scaleUp();
+            this._scaleUp();
+        }
     }
 
-    _onTouchMove() {
+    _onMouseMove() {
         this._scaleUp();
         // this.setViewFlowState('unchecked');
+    }
+
+    _handleTouchMove(touchEvent){
+        this._inBounds = this._isInBounds(touchEvent);
+        if(!this._inBounds){
+            this._scaleUp();
+        }
     }
 
     _scaleDown() {
@@ -146,4 +159,18 @@ export class Checkbox extends Clickable {
             this.innerBox.setProperties({boxShadow: '0px 2px 0px 0px rgba(0,0,0,0.12)'});
         }
     }
+
+    _isInBounds(touch) {
+        let elemPosition = this.overlay._currentTarget.getBoundingClientRect();
+        let [width, height] = this.overlay.getSize();
+
+        var left = elemPosition.left,
+            right = left + width,
+            top = elemPosition.top,
+            bottom = top + height,
+            touchX = touch.touches[0].pageX,
+            touchY = touch.touches[0].pageY;
+
+        return (touchX > left && touchX < right && touchY > top && touchY < bottom);
+    };
 }
