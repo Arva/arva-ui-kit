@@ -10,6 +10,7 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {DoneIcon}           from '../icons/DoneIcon.js';
 import {CrossIcon}          from '../icons/CrossIcon.js';
 import {Colors}             from '../defaults/DefaultColors.js';
+import {Clickable}          from './Clickable.js';
 
 const innerBoxSize = [44, 44];
 const softShadowBoxSize = [28, 36];
@@ -17,13 +18,14 @@ const softShadowBoxOffset = -2;
 const softShadowZValue = 10;
 const iconSize = [24, 24];
 const iconZValue = 30;
-const curve = {curve: Easing.outCubic, duration: 200};
+// const curve = {curve: Easing.outCubic, duration: 200};
 
-@flow.viewStates({
-    'checked': [{innerBox: 'small', softShadowBox: 'small'}],
-    'unchecked': [{innerBox: 'big', softShadowBox: 'big'}]
-})
-export class Checkbox extends View {
+// @flow.viewStates({
+//     'checked': [{innerBox: 'small', softShadowBox: 'small'}],
+//     'unchecked': [{innerBox: 'big', softShadowBox: 'big'}]
+// })
+@layout.flow({})
+export class Checkbox extends Clickable {
 
     @layout.size(48, 48)
     @layout.stick.center()
@@ -37,8 +39,8 @@ export class Checkbox extends View {
     @layout.size(...innerBoxSize)
     @layout.stick.center()
     @layout.translate(0, 0, 20)
-    @flow.stateStep('small', curve, layout.size(32, 32))
-    @flow.stateStep('big', curve, layout.size(...innerBoxSize))
+    // @flow.stateStep('small', curve, layout.size(32, 32))
+    // @flow.stateStep('big', curve, layout.size(...innerBoxSize))
     innerBox = new Surface({
         properties: {
             borderRadius: '2px',
@@ -49,8 +51,8 @@ export class Checkbox extends View {
     @layout.size(...softShadowBoxSize)
     @layout.stick.bottom()
     @layout.translate(0, softShadowBoxOffset, softShadowZValue)
-    @flow.stateStep('small', curve, layout.size(16, 28))
-    @flow.stateStep('big', curve, layout.size(...softShadowBoxSize))
+    // @flow.stateStep('small', curve, layout.size(16, 28))
+    // @flow.stateStep('big', curve, layout.size(...softShadowBoxSize))
     softShadowBox = new Surface({
         properties: {
             borderRadius: '2px',
@@ -70,6 +72,9 @@ export class Checkbox extends View {
     @layout.stick.center()
     @layout.translate(0, 0, iconZValue)
     cross = new CrossIcon({color: 'rgb(170, 170, 170)'});
+
+    @layout.fullSize()
+    overlay = new Surface();
 
     constructor(options = {}) {
         super(combineOptions({
@@ -94,13 +99,12 @@ export class Checkbox extends View {
         this.on('touchend', this._onTouchEnd);
         this.on('mouseup', this._onTouchEnd);
         this.on('touchleave', this._onTouchMove);
-        this.on('mouseout', this._onTouchMove);
+        this.overlay.on('mouseout', this._onTouchMove);
     }
 
     _onTouchStart() {
-        // this.decorateRenderable('innerBox', layout.size(32, 32));
-        // this.decorateRenderable('softShadowBox', layout.translate(0, -8, softShadowZValue), layout.size(16, 28));
-        this.setViewFlowState('checked');
+        this._scaleDown();
+        // this.setViewFlowState('checked');
     }
 
     _onTouchEnd() {
@@ -110,16 +114,24 @@ export class Checkbox extends View {
         this.cross.setProperties({display: isChecked ? 'block' : 'none'});
         this.outerBox.setProperties({backgroundColor: isChecked ? 'rgb(170, 170, 170)' : Colors.PrimaryUIColor});
 
-        this.setViewFlowState('unchecked');
+        // this.setViewFlowState('unchecked');
 
-        // this.decorateRenderable('innerBox', layout.size(...innerBoxSize));
-        // this.decorateRenderable('softShadowBox', layout.translate(0, softShadowBoxOffset, softShadowZValue), layout.size(...softShadowBoxSize));
+        this._scaleUp();
     }
 
     _onTouchMove() {
-        // this.decorateRenderable('innerBox', layout.size(...innerBoxSize));
-        // this.decorateRenderable('softShadowBox', layout.translate(0, softShadowBoxOffset, softShadowZValue), layout.size(...softShadowBoxSize));
-        this.setViewFlowState('unchecked');
+        this._scaleUp();
+        // this.setViewFlowState('unchecked');
+    }
+
+    _scaleDown() {
+        this.decorateRenderable('innerBox', layout.size(32, 32));
+        this.decorateRenderable('softShadowBox', layout.translate(0, -8, softShadowZValue), layout.size(16, 28));
+    }
+
+    _scaleUp() {
+        this.decorateRenderable('innerBox', layout.size(...innerBoxSize));
+        this.decorateRenderable('softShadowBox', layout.translate(0, softShadowBoxOffset, softShadowZValue), layout.size(...softShadowBoxSize));
     }
 
     _isChecked() {
