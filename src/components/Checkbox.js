@@ -7,10 +7,10 @@ import Easing               from 'famous/transitions/Easing.js';
 import {View}               from 'arva-js/core/View.js';
 import {layout, flow}       from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
+import {Clickable}          from './Clickable.js';
 import {DoneIcon}           from '../icons/DoneIcon.js';
 import {CrossIcon}          from '../icons/CrossIcon.js';
 import {Colors}             from '../defaults/DefaultColors.js';
-import {Clickable}          from './Clickable.js';
 
 const innerBoxSize = [44, 44];
 const softShadowBoxSize = [28, 36];
@@ -97,17 +97,17 @@ export class Checkbox extends Clickable {
     }
 
     _setupListeners() {
-        this.on('touchstart', this._onTouchStart);
-        this.on('mousedown', this._onTouchStart);
-        this.on('touchend', this._onTouchEnd);
-        this.on('mouseup', this._onTouchEnd);
+        this.overlay.on('touchstart', this._onTouchStart);
+        this.overlay.on('mousedown', this._onTouchStart);
+        this.overlay.on('touchend', this._onTouchEnd);
+        this.overlay.on('mouseup', this._onTouchEnd);
         this.overlay.on('touchmove', this._onTouchMove);
         this.overlay.on('mouseout', this._onMouseMove);
     }
 
     _onTouchStart() {
         this._inBounds = true;
-        this._scaleDown();
+        this._scaleInnerBoxDown();
         // this.setViewFlowState('checked');
     }
 
@@ -121,28 +121,28 @@ export class Checkbox extends Clickable {
 
             // this.setViewFlowState('unchecked');
 
-            this._scaleUp();
+            this._scaleInnerBoxUp();
         }
     }
 
     _onMouseMove() {
-        this._scaleUp();
+        this._scaleInnerBoxUp();
         // this.setViewFlowState('unchecked');
     }
 
     _handleTouchMove(touchEvent){
         this._inBounds = this._isInBounds(touchEvent);
         if(!this._inBounds){
-            this._scaleUp();
+            this._scaleInnerBoxUp();
         }
     }
 
-    _scaleDown() {
+    _scaleInnerBoxDown() {
         this.decorateRenderable('innerBox', layout.size(32, 32));
         this.decorateRenderable('softShadowBox', layout.translate(0, -8, softShadowZValue), layout.size(16, 28));
     }
 
-    _scaleUp() {
+    _scaleInnerBoxUp() {
         this.decorateRenderable('innerBox', layout.size(...innerBoxSize));
         this.decorateRenderable('softShadowBox', layout.translate(0, softShadowBoxOffset, softShadowZValue), layout.size(...softShadowBoxSize));
     }
