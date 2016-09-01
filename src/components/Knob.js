@@ -5,19 +5,11 @@
 import Surface              from 'famous/core/Surface.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {Clickable}          from '../Clickable.js';
+import {WhiteBox}           from './WhiteBox.js';
 import iconImage		    from './resources/dragLines.svg.txt!text';
-import {UIRegular}          from '../../defaults/DefaultTypefaces.js';
+import {UIRegular}          from '../defaults/DefaultTypefaces.js';
 
-export class Knob extends Clickable {
-
-    @layout.fullSize()
-    background = new Surface({
-        properties: {
-            borderRadius: '2px',
-            backgroundColor: 'rgb(255, 255, 255)'
-        }
-    });
+export class Knob extends WhiteBox {
 
     @layout.size(24, 24)
     @layout.stick.center()
@@ -36,6 +28,9 @@ export class Knob extends Clickable {
         }
     }, UIRegular));
 
+    constructor(options = {}) {
+        super(options);
 
-
+        this.background.setProperties({border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : ''})
+    }
 }
