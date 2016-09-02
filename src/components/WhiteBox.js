@@ -6,21 +6,23 @@ import Surface              from 'famous/core/Surface.js';
 import {View}               from 'arva-js/core/View.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
+import {Button}             from '../buttons/Button.js';
 
 const softShadowBoxMargin = 8;
 
-export class WhiteBox extends View {
+export class WhiteBox extends Button {
 
-    @layout.fullSize()
-    @layout.translate(0, 0, 10)
-    background = new Surface({
-        properties: {
-            backgroundColor: 'rgb(255, 255, 255)'
-        }
-    });
+    // @layout.fullSize()
+    // @layout.translate(0, 0, 10)
+    // background = new Surface({
+    //     properties: {
+    //         backgroundColor: 'rgb(255, 255, 255)'
+    //     }
+    // });
 
     @layout.size((width) => width - softShadowBoxMargin * 2, (_,height) => height - softShadowBoxMargin)
     @layout.stick.bottom()
+    @layout.translate(0, 0, -20)
     softShadowBox = new Surface({
         properties: {
             borderRadius: '2px',

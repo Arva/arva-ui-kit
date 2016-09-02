@@ -15,7 +15,10 @@ export class Knob extends WhiteBox {
     @layout.stick.center()
     @layout.translate(0, 0, 50)
     dragLines = new Surface({
-        content: this.options.text ? '' : iconImage
+        content: this.options.text ? '' : iconImage,
+        properties: {
+            cursor: 'pointer'
+        }
     });
 
     @layout.size(undefined, ~30)
@@ -24,7 +27,8 @@ export class Knob extends WhiteBox {
     text = new Surface(combineOptions({
         content: this.options.text,
         properties: {
-            textAlign: 'center'
+            textAlign: 'center',
+            cursor: 'pointer'
         }
     }, UIRegular));
 

@@ -132,22 +132,22 @@ export class Button extends Clickable {
     /**
      * Checks if the current TouchEvent is outside the current target element
      * @param touch
-     * @param elemposition
+     * @param elementPosition
      * @param width
      * @param height
      * @returns {boolean}
      * @private
      */
     _isInBounds(touch) {
-        let elemposition = this.background._currentTarget.getBoundingClientRect();
+        let elementPosition = this.background._currentTarget.getBoundingClientRect();
         let [width, height] = this.background.getSize();
 
-        var left = elemposition.left,
+        var left = elementPosition.left,
             right = left + width,
-            top = elemposition.top,
+            top = elementPosition.top,
             bottom = top + height,
-            touchX = touch.pageX,
-            touchY = touch.pageY;
+            touchX = touch.touches[0].pageX,
+            touchY = touch.touches[0].pageY;
 
         return (touchX > left && touchX < right && touchY > top && touchY < bottom);
     };
