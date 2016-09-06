@@ -14,8 +14,6 @@ const lineBorderRadius = '1px';
 
 export class Slider extends Clickable {
 
-    _sliderWidth;
-
     @layout.size(undefined, 2)
     @layout.stick.center()
     line = new Surface({
@@ -26,9 +24,7 @@ export class Slider extends Clickable {
     });
 
     @layout.size(knobSideLength, knobSideLength)
-    @layout.stick.left()
-    @layout.translate(-24, 0, 0)
-    firstKnob = new Knob({
+    knob = new Knob({
         text: this.options.text,
         enableBorder: true,
         enableSoftShadow: true,
@@ -36,39 +32,57 @@ export class Slider extends Clickable {
     });
 
     constructor(options = {}) {
+
         super(combineOptions({
+            knobPosition: 0,
             shadowType: 'noShadow',
             enableActiveTrail: true,
             snapPoints: 0,
             icons: [null, null]
         }, options));
+
+        this.knobInitialPosition = options.knobPosition;
+        this.knobPosition = this.knobInitialPosition;
+        this.snapPoints = options.snapPoints;
+        this.snapPointsEnabled = this.snapPoints >= 2;
+
     }
 
-    _setupListeners() {
-        this.once('newSize', ([width]) => {
-            this._sliderWidth = width;
-            this._singleKnobSetup();
-        });
-    }
+    _enableActiveTrail() {
 
-    _singleKnobSetup() {
+        this._addActiveTrail();
 
-        /*Set the first knob horizontal range to the entire Slider width.*/
-        this.decorateRenderable('firstKnob',
-            layout.draggable({xRange:[0, this._sliderWidth], projection: 'x'})
+        this.decorateRenderable('activeTrail',
+            layout.size(undefined, 2),
+            layout.opacity(this.knobInitialPosition / this._sliderWidth),
+            layout.stick.center()
         );
 
-        if (this.options.enableActiveTrail) {
-            this.addActiveTrail();
+        /*Fade line color when knob is moved.*/
+        this.knob.draggable.on('update', (event) => {
+            this.knobPosition = this.knobInitialPosition + event.position[0];
 
-            /*Fade line color.*/
-            this.firstKnob.draggable.on('update', (event) => {
-                this.decorateRenderable('activeTrail', layout.opacity(event.position[0] / this._sliderWidth));
-            });
+            this.decorateRenderable('activeTrail',
+                layout.opacity(this.knobPosition / this._sliderWidth)
+            );
+
+            this._updateSnapPointsColor()
+        });
+
+    }
+
+    _updateSnapPointsColor() {
+        if (this.snapPointsEnabled) {
+            for (let i = 0; i < this.snapPoints; i++) {
+                this.decorateRenderable('colorSnapPoint' + i,
+                    layout.opacity(this.knobPosition / this._sliderWidth)
+                );
+            }
         }
     }
 
-    addActiveTrail() {
+    _addActiveTrail() {
+
         this.addRenderable(
             new Surface({
                 properties: {
@@ -76,14 +90,84 @@ export class Slider extends Clickable {
                     backgroundColor: Colors.PrimaryUIColor
                 }
             }), 'activeTrail',
-            layout.size(undefined, 2),
-            layout.opacity(0),
             layout.stick.center()
-        )
+        );
+
     }
 
-    _addSnapPoints(amount) {
-        // TODO
+    _addSnapPoints() {
+
+        if (this.snapPoints >= 2) {
+            let snapPointsDistance = this._sliderWidth / (this.snapPoints - 1);
+            this.snapPointsPositions = [];
+
+            for(let i = 0; i < this.snapPoints; i++) {
+                this.snapPointsPositions[i] = i * snapPointsDistance;
+
+                this.addRenderable(
+                    new Surface({
+                        properties: {
+                            borderRadius: '50%',
+                            backgroundColor: 'rgb(170, 170, 170)'
+                        }
+                    }), 'snapPoint' + i,
+                    layout.size(8, 8),
+                    layout.origin(0.5, 0.5),
+                    layout.align(this.snapPointsPositions[i] / this._sliderWidth, 0.5)
+                );
+
+                if (this.options._enableActiveTrail) {
+                    this.addRenderable(
+                        new Surface({
+                            properties: {
+                                borderRadius: '50%',
+                                backgroundColor: Colors.PrimaryUIColor
+                            }
+                        }), 'colorSnapPoint' + i,
+                        layout.size(8, 8),
+                        layout.opacity(this.knobInitialPosition / this._sliderWidth),
+                        layout.origin(0.5, 0.5),
+                        layout.align(this.snapPointsPositions[i] / this._sliderWidth, 0.5)
+                    );
+                }
+            }
+        }
+
+    }
+
+    _setupListeners() {
+        this.once('newSize', ([width]) => {
+            this._sliderWidth = width;
+
+            this._positionKnob();
+            this._knobDraggableSetup();
+
+            if (this.options._enableActiveTrail) {
+                this._enableActiveTrail();
+            }
+
+            if (this.snapPointsEnabled) {
+                this._addSnapPoints();
+            }
+        });
+    }
+
+    _positionKnob() {
+        this.decorateRenderable('knob',
+            layout.origin(0.5, 0.5),
+            layout.align(this.knobInitialPosition / this._sliderWidth, 0.5)
+        );
+    }
+
+    _knobDraggableSetup() {
+
+        /*Set the knob horizontal range to be the entire Slider width.*/
+        let knobMaxLeft = -this.knobInitialPosition;
+        let knobMaxRight = this._sliderWidth - this.knobInitialPosition;
+        this.decorateRenderable('knob',
+            layout.draggable({xRange:[knobMaxLeft, knobMaxRight], projection: 'x'})
+        );
+
     }
 
 }

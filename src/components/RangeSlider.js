@@ -13,13 +13,9 @@ const knobPadding = 1;
 
 export class RangeSlider extends Slider {
 
-    firstKnobInitialPosition = 45;
-    secondKnobInitialPosition = 234;
     _dualKnobOffset = knobSideLength + knobPadding;
 
     @layout.size(knobSideLength, knobSideLength)
-    @layout.stick.right()
-    @layout.translate(24, 0, 0)
     secondKnob = new Knob({
         text: this.options.text,
         enableBorder: true,
@@ -29,81 +25,123 @@ export class RangeSlider extends Slider {
 
     constructor(options = {}) {
         super(combineOptions({
+            secondKnobPosition: 49,
             shadowType: 'noShadow',
             enableActiveTrail: true,
-            snapPoints: 0,
-            icons: [null, null]
         }, options));
+
+        this.secondKnobInitialPosition = options.secondKnobPosition;
+        this.secondKnobPosition = this.secondKnobInitialPosition;
+
+    }
+
+    enableActiveTrail() {
+
+        this._addActiveTrail();
+
+        this.decorateRenderable('activeTrail',
+            layout.size(this.secondKnobInitialPosition - this.knobPosition, 2),
+            layout.opacity(1),
+            layout.origin(0, 0.5),
+            layout.align(this.knobPosition / this._sliderWidth, 0.5)
+        );
+
+        /*Update the active trail size when the first knob is moved.*/
+        this.knob.draggable.on('update', (event) => {
+
+            this.decorateRenderable('activeTrail',
+                layout.size(this.secondKnobPosition - this.knobPosition, 2),
+                layout.align(this.knobPosition / this._sliderWidth, 0.5)
+            );
+
+        });
+
+        /*Update the active trail size when the second knob is moved.*/
+        this.secondKnob.draggable.on('update', (event) => {
+
+            this.decorateRenderable('activeTrail',
+                layout.size(this.secondKnobPosition - this.knobPosition, 2)
+            );
+
+        });
+
     }
 
     _setupListeners() {
         this.once('newSize', ([width]) => {
             this._sliderWidth = width;
-            this._dualKnobSetup();
+
+            this._positionKnob();
+            this._positionSecondKnob();
+            this._dualKnobDraggableSetup();
+
+            if (this.options._enableActiveTrail) {
+                this._enableActiveTrail();
+            }
+
+            this._addSnapPoints(this.options.snapPoints);
         });
     }
 
-    _dualKnobSetup() {
+    _positionSecondKnob() {
+        this.decorateRenderable('secondKnob',
+            layout.origin(0.5, 0.5),
+            layout.align(this.secondKnobInitialPosition / this._sliderWidth, 0.5)
+        );
+    }
 
-        let firstKnobPosition = this.firstKnobInitialPosition;
-        let secondKnobPosition = this.secondKnobInitialPosition;
+    _dualKnobDraggableSetup() {
 
-        this.decorateRenderable('firstKnob',
+        /*Set first knob range.*/
+        let firstKnobMaxLeft = -this.knobPosition;
+        let firstKnobMaxRight = this.secondKnobPosition - this.knobPosition - this._dualKnobOffset;
+        this.decorateRenderable('knob',
             layout.draggable({
-                xRange:[-firstKnobPosition, secondKnobPosition - firstKnobPosition - this._dualKnobOffset],
+                xRange:[firstKnobMaxLeft, firstKnobMaxRight],
                 projection: 'x'})
         );
 
+        /*Set second knob range.*/
+        let secondKnobMaxLeft = -this.secondKnobPosition + this.knobPosition + this._dualKnobOffset;
+        let secondKnobMaxRight = this._sliderWidth - this.secondKnobPosition;
         this.decorateRenderable('secondKnob',
             layout.draggable({
-                xRange:[secondKnobPosition - firstKnobPosition + this._dualKnobOffset, this._sliderWidth - secondKnobPosition],
+                xRange:[secondKnobMaxLeft, secondKnobMaxRight],
                 projection: 'x'})
         );
 
-        let firstKnobDraggable = this.firstKnob.draggable;
+        let firstKnobDraggable = this.knob.draggable;
         let secondKnobDraggable = this.secondKnob.draggable;
-
-        if (this.options.enableActiveTrail) {
-            this.addActiveTrail();
-            this.decorateRenderable('activeTrail',
-                layout.opacity(1),
-                layout.stick.left()
-            );
-        }
 
         /*Update the second knob range when the first knob is moved.*/
         firstKnobDraggable.on('update', (event) => {
 
-            firstKnobPosition = this.firstKnobInitialPosition + event.position[0];
+            this.knobPosition = this.knobInitialPosition + event.position[0];
 
-            let newLimit = -this._sliderWidth + firstKnobPosition + this._dualKnobOffset;
-            secondKnobDraggable.setOptions({xRange:[newLimit, 0]});
+            secondKnobMaxLeft = -this.secondKnobInitialPosition + this.knobPosition + this._dualKnobOffset;
+            secondKnobDraggable.setOptions({xRange:[secondKnobMaxLeft, secondKnobMaxRight]});
 
-            this.decorateRenderable('activeTrail',
-                layout.size(this.secondKnobInitialPosition - firstKnobPosition, 2),
-                layout.align(firstKnobPosition / this._sliderWidth, 0.5)
-            );
+            if (this.snapPointsEnabled) {
+                for (let i = 0; i < this.snapPoints; i++) {
+                    let position = this.snapPointsPositions[i];
+                    if (position > this.knobPosition && position < this.secondKnobPosition ) {
+                        // TO CONTINUE HERE
+                    }
+                }
+            }
 
         });
 
         /*Update the first knob range when the second knob is moved.*/
         secondKnobDraggable.on('update', (event) => {
 
-            secondKnobPosition = this.secondKnobInitialPosition + event.position[0];
+            this.secondKnobPosition = this.secondKnobInitialPosition + event.position[0];
 
-            let newLimit = this._sliderWidth + secondKnobPosition - this._dualKnobOffset;
-            firstKnobDraggable.setOptions({xRange:[0, newLimit]});
-
-            this.decorateRenderable('activeTrail',
-                layout.size(activeTrailLength, 2)
-            );
+            firstKnobMaxRight = this.secondKnobPosition - this.knobInitialPosition - this._dualKnobOffset;
+            firstKnobDraggable.setOptions({xRange:[firstKnobMaxLeft, firstKnobMaxRight]});
 
         });
 
-    }
-
-    _addSnapPoints(amount) {
-        // TODO
     }
 
 }
