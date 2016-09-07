@@ -4,35 +4,32 @@
 
 import Surface                  from 'famous/core/Surface.js';
 import Easing                   from 'famous/transitions/Easing.js';
-import AnimationController      from 'famous-flex/AnimationController.js';
 
 import {View}                   from 'arva-js/core/View.js';
-import {layout, event}          from 'arva-js/layout/Decorators.js';
+import {layout, event, flow}    from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {callbackToPromise}      from 'arva-js/utils/CallbackHelpers.js';
 import {UISmallGrey,
         UIRegular}              from 'arva-kit/defaults/DefaultTypeFaces.js';
 
+import {Results}                from './searchBar/Results.js';
 import {Placeholder}            from './searchBar/Placeholder.js';
-import {CirclecrossIcon}        from '../icons/CirclecrossIcon.js';
 import {SingleLineInputSurface} from './SingleLineInputSurface.js';
+import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
 
-const BORDER_RADIUS = '4px';
-const FADE = { transition: { duration: 200, curve: Easing.outCubic}, animation: AnimationController.Animation.Fade };
+export const BORDER_RADIUS = '4px';
+const instant = { transition: { curve: Easing.outCubic, duration: 0 } };
+const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 
-@layout.flow()
+@flow.viewStates({
+    'active': [{ border: 'hidden', results: 'shown'}],
+    'inactive': [{ border: 'shown', results: 'hidden' }]
+})
 export class SearchBar extends View {
 
-    @layout.stick.center()
-    @layout.size(10000, 10000)
-    @event.on('click', function() { this._onDeactivate(); })
-    underlay = new Surface({ properties: { display: 'none' } });
-
-    @layout.fullSize()
-    @layout.stick.center()
-    @layout.animate({...FADE})
-    @layout.translate(-1, -1, 10) /* Compensate for border size */
     @event.on('click', function(e) { this._onActivate(e); })
+    @flow.stateStep('hidden', transition, layout.opacity(0))
+    @flow.defaultState('shown', transition, layout.size(undefined, 32), layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 10))
     border = new Surface(combineOptions(
         { properties: {
             boxSizing: 'content-box',
@@ -41,95 +38,158 @@ export class SearchBar extends View {
         }}
     ));
 
-    @layout.size((width) => width, 32)
-    // @layout.fullSize()
-    @layout.stick.center()
-    @layout.translate(0, 0, 20)
-    @layout.animate({ showInitially: false, ...FADE })
-    results = new Surface(
-        { properties: {
-            boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',
-            borderRadius: BORDER_RADIUS
-        }}
-    );
+    /* TODO: remove size when results is its own component */
+    @flow.stateStep('shown', transition, layout.opacity(1))
+    @flow.stateStep('expanded', transition, layout.size(undefined, true))
+    @flow.stateStep('collapsed', transition, layout.size(undefined, 32))
+    @flow.stateStep('hidden', transition, layout.size(undefined, 32))
+    @flow.defaultState('hidden', transition, layout.opacity(0), layout.size(undefined, 32),
+                                 layout.stick.top(), layout.translate(0, 8, 10))
+    results = new Results({
+        resultOptions: this.options.resultOptions
+    });
 
-    @layout.size(16, 16)
-    @layout.dock.right()
-    @layout.stick.center()
-    @layout.translate(-8, 0, 40)
-    @layout.animate({ showInitially: false, ...FADE })
-    cross = new CirclecrossIcon({ color: 'rgb(170, 170, 170)', properties: {
-        cursor: 'pointer',
-        fontSize: '16px'
-    } });
+    @event.on('click', function(e){ this._onDoneClick(e); })
+    @event.on('deploy', function(e){
+        window.globDone = this.done;
+        window.text = this.done.text;
+        text.___size = [1,1];
+        text.__size = [1,1];
 
-    @layout.dock.right((width) => width - (4 * 16), 16)
+        Object.defineProperty(text.__size, '0', {
+            get: function() {
+                return text.___size[0];
+            },
+            set: function(value) {
+                if(Number.isNaN(value)){
+                    debugger;
+                }
+                text.___size[0] = value;
+            }
+        });
+
+        Object.defineProperty(text.__size, '1', {
+            get: function() {
+                return text.___size[1];
+            },
+            set: function(value) {
+                if(Number.isNaN(value)){
+                    debugger;
+                }
+                text.___size[1] = value;
+            }
+        });
+
+        Object.defineProperty(text, '_size', {
+            get: function() {
+                return this.__size;
+            },
+            set: function(value) {
+                if (Number.isNaN(value[0]) || Number.isNaN(value[1])) {
+                    debugger;
+                }
+
+                var a = text._size;
+
+                this.__size[0] = value[0];
+                this.__size[1] = value[1];
+            }
+        });
+    })
+    @flow.stateStep('shown', instant, layout.size(true, undefined), layout.translate(0, 0, 40))
+    @flow.stateStep('shown', transition,layout.opacity(1))
+    @flow.stateStep('hidden', transition, layout.opacity(0))
+    @flow.defaultState('hidden', instant, layout.opacity(0), layout.dock.right(), layout.size(1, 1), layout.translate(0, 0, 20))
+    done = new UIBarTextButton({ content: 'Done', properties: { cursor: 'pointer' }});
+
+    @layout.dock.fill()
     @layout.translate(0, 0, 30)
     @event.on('click', function(e) { this._onActivate(e); })
+    @event.on('focus', function(e) { this._onFocusEvent(e, 'focus'); })
+    @event.on('blur', function(e) { this._onFocusEvent(e, 'blur'); })
     @event.on('value', function(value) { this._onInputValue(value); })
     input = new SingleLineInputSurface(combineOptions(
         UIRegular,
         { properties: {
+            backgroundColor: 'transparent',
             borderRadius: BORDER_RADIUS,
             boxShadow: 'none',
-            padding: '0px'
-        }, placeholder: '' }
+            padding: '0px 0px 0px 32px'
+        }, placeholder: '' , clearOnEnter: false}
     ));
 
-    @layout.size(~50, 32)
-    @layout.stick.center()
-    @layout.translate(0, 0, 40)
     @event.on('click', function(e) { this._onActivate(e); })
-    @layout.animate(FADE)
+    @flow.stateStep('left', transition, layout.stick.left(), layout.translate(8, 0, 40))
+    @flow.defaultState('center', transition, layout.size(~50, 32), layout.stick.center(), layout.translate(0, 0, 30))
     placeholder = new Placeholder({
             properties: { borderRadius: BORDER_RADIUS },
             placeholder: this.options.placeholder || 'Search'
         });
 
-    async _onActivate(clickEvent) {
-        clickEvent.preventDefault();
+    /* Allow receiving focus e.g. through the keyboard, or programmatically (i.e. element.focus()). */
+    async _onFocusEvent(event, type) {
+        if(this.inFocusEvent) { return; }
+        await type === 'focus' ? this._onActivate(event) : this._onDeactivate(event);
+    }
+
+    async _onActivate(event = {}) {
+        if(event.preventDefault) { event.preventDefault(); }
+        if(this._currentViewFlowState() === 'active') { return false; }
+        this._disableFocusEvents();
         this.input.blur();
 
-        /* Show clickable underlay that collapses the search results on click. */
-        this.underlay.setProperties({ display: 'block' });
+        if(this._currentRenderableFlowState('placeholder') !== 'left') {
+            await this.setRenderableFlowState('placeholder', 'left');
+        }
+        await this.setViewFlowState('active');
 
-        /* Move placeholder to the left */
-        this.decorateRenderable('placeholder', layout.stick.left(), layout.translate(8, 0, 40));
-        await new Promise((resolve) => setTimeout(resolve, 300));
+        if(this.input.getValue()) {
+            this.setRenderableFlowState('results', 'expanded');
+        }
 
-        /* Change the border to a dropshadow */
-        this._changeVisibility('results', true);
-        await this._changeVisibility('border', false);
         this.input.focus();
+        this._enableFocusEvents();
+        return true;
     }
 
     async _onDeactivate () {
-        // this.input.blur();
-
-        /* Hide underlay. */
-        this.underlay.setProperties({ display: 'none' });
+        this.setViewFlowState('inactive');
 
         /* Only move the placeholder back to the center if no text in input field */
         if(this.input.getValue().length === 0) {
-            this.decorateRenderable('placeholder', layout.stick.center(), layout.translate(0, 0, 40));
+            await this.setRenderableFlowState('placeholder', 'center');
         }
-
-        this._changeVisibility('results', false);
-        await this._changeVisibility('border', true);
+        return true;
     }
-    
+
+    async _onDoneClick (event) {
+        if(event.preventDefault) { event.preventDefault(); }
+        this.input.setValue('');
+        this._onInputValue('');
+        this._onDeactivate();
+    }
+
     async _onInputValue(value) {
         let hasContent = value.length > 0;
-        this._changeVisibility('cross', hasContent);
         this.placeholder[hasContent ? 'hideText' : 'showText']();
+        this.setRenderableFlowState('results', hasContent ? 'expanded' : 'collapsed');
+        await this.setRenderableFlowState('done', hasContent ? 'shown' : 'hidden');
     }
 
-    _changeVisibility(renderableName, show = true) {
-        let renderable = this[renderableName];
+    /* TODO: add this in View.js properly after Karl's refactor */
+    _currentViewFlowState() {
+        return this.decorations.flow.currentState;
+    }
 
-        /* TODO: there is no 'once' on Surfaces, using 'on' will degrade performance over time. */
-        let promise = callbackToPromise(renderable.on.bind(renderable), show ? 'shown' : 'hidden');
-        this[show ? 'showRenderable' : 'hideRenderable'](renderableName);
-        return promise;
+    _currentRenderableFlowState(renderableName) {
+        return this[renderableName].decorations.flow.currentState;
+    }
+
+    _enableFocusEvents() {
+        this.inFocusEvent = false;
+    }
+
+    _disableFocusEvents() {
+        this.inFocusEvent = true;
     }
 }

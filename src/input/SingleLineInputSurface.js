@@ -3,7 +3,7 @@
  @copyright Bizboard, 2015
  */
 
-import InputSurface                 from 'famous/surfaces/InputSurface.js';
+import {InputSurface}               from './InputSurface.js';
 import {ObjectHelper}               from 'arva-js/utils/ObjectHelper.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
