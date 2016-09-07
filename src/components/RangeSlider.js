@@ -35,16 +35,51 @@ export class RangeSlider extends Slider {
 
     }
 
-    enableActiveTrail() {
+    _onLineTapEnd(event) {
+
+        let clickPosition = event.offsetX;
+
+        let closestKnobName = this._closestKnobName(clickPosition); //TO CONTINUE HERE.
+
+        if (this.snapPointsEnabled) {
+            this.knobPosition = this.snapPointsPositions[Math.round(clickPosition / this.snapPointsDistance)];
+        } else {
+            this.knobPosition = clickPosition;
+        }
+
+        this._updateActiveTrail();
+
+    }
+
+    _closestKnobName(position) {
+        let distanceFromFirstKnob = Math.abs(this.knobPosition - position);
+        let distanceFromSecondKnob = Math.abs(this.secondKnobPosition - position);
+        return distanceFromFirstKnob <= distanceFromSecondKnob ? 'knob' : 'secondKnob';
+    }
+
+    _setupFinalSizeListener() {
+        this.once('newSize', ([width]) => {
+            this._sliderWidth = width;
+
+            this._setKnobInitialPosition();
+            this._setSecondKnobInitialPosition();
+            this._dualKnobDraggableSetup();
+
+            if (this.snapPointsEnabled) {
+                this._addSnapPoints();
+            }
+
+            if (this.options.enableActiveTrail) {
+                this._enableActiveTrail();
+            }
+        });
+    }
+
+    _enableActiveTrail() {
 
         this._addActiveTrail();
 
-        this.decorateRenderable('activeTrail',
-            layout.size(this.secondKnobInitialPosition - this.knobPosition, 2),
-            layout.opacity(1),
-            layout.origin(0, 0.5),
-            layout.align(this.knobPosition / this._sliderWidth, 0.5)
-        );
+        this._updateActiveTrail();
 
         /*Update the active trail size when the first knob is moved.*/
         this.knob.draggable.on('update', (event) => {
@@ -67,23 +102,24 @@ export class RangeSlider extends Slider {
 
     }
 
-    _setupListeners() {
-        this.once('newSize', ([width]) => {
-            this._sliderWidth = width;
-
-            this._positionKnob();
-            this._positionSecondKnob();
-            this._dualKnobDraggableSetup();
-
-            if (this.options._enableActiveTrail) {
-                this._enableActiveTrail();
+    _updateActiveTrail() {
+        if (this.options.enableActiveTrail) {
+            this.decorateRenderable('activeTrail',
+                layout.size(this.secondKnobInitialPosition - this.knobPosition, 2),
+                layout.origin(0, 0.5),
+                layout.align(this.knobPosition / this._sliderWidth, 0.5)
+            );
+            if (this.snapPointsEnabled) {
+                this._updateColorSnapPointsOpacity();
             }
-
-            this._addSnapPoints(this.options.snapPoints);
-        });
+        }
     }
 
-    _positionSecondKnob() {
+    _inActivePosition(position) {
+        return position > this.knobPosition && position < this.secondKnobPosition;
+    }
+
+    _setSecondKnobInitialPosition() {
         this.decorateRenderable('secondKnob',
             layout.origin(0.5, 0.5),
             layout.align(this.secondKnobInitialPosition / this._sliderWidth, 0.5)
@@ -121,14 +157,7 @@ export class RangeSlider extends Slider {
             secondKnobMaxLeft = -this.secondKnobInitialPosition + this.knobPosition + this._dualKnobOffset;
             secondKnobDraggable.setOptions({xRange:[secondKnobMaxLeft, secondKnobMaxRight]});
 
-            if (this.snapPointsEnabled) {
-                for (let i = 0; i < this.snapPoints; i++) {
-                    let position = this.snapPointsPositions[i];
-                    if (position > this.knobPosition && position < this.secondKnobPosition ) {
-                        // TO CONTINUE HERE
-                    }
-                }
-            }
+            this._updateColorSnapPointsOpacity();
 
         });
 
@@ -139,6 +168,8 @@ export class RangeSlider extends Slider {
 
             firstKnobMaxRight = this.secondKnobPosition - this.knobInitialPosition - this._dualKnobOffset;
             firstKnobDraggable.setOptions({xRange:[firstKnobMaxLeft, firstKnobMaxRight]});
+
+            this._updateColorSnapPointsOpacity();
 
         });
 
