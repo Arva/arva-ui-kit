@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
-    <title>account_rounded_bold</title>
-    <desc>Created with Sketch.</desc>
-    <defs>
-        <path d="M24,24 C30.627417,24 36,18.627417 36,12 C36,5.372583 30.627417,0 24,0 C17.372583,0 12,5.372583 12,12 C12,18.627417 17.372583,24 24,24 Z" id="acc-rounded-bold"></path>
-        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24" fill="white">
-            <use xlink:href="#acc-rounded-bold"></use>
-        </mask>
-    </defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group" stroke="#000000">
-            <use id="Oval-185" mask="url(#mask-2)" stroke-width="8" xlink:href="#acc-rounded-bold"></use>
-            <path d="M38,36 C38,28.2680135 31.7319865,22 24,22 C16.2680135,22 10,28.2680135 10,36 L10,46 L38,46 L38,36 Z" id="Combined-Shape" stroke-width="4" stroke-linejoin="round"></path>
-        </g>
-    </g>
+   
+   <title>account_rounded_bold   </title>
+   <desc>Created with Sketch.   </desc>
+   <defs>
+      <path d="M24,24 C30.627417,24 36,18.627417 36,12 C36,5.372583 30.627417,0 24,0 C17.372583,0 12,5.372583 12,12 C12,18.627417 17.372583,24 24,24 Z" id="account_rounded_bold.svgacc-rounded-bold"/>
+      <mask id="account_rounded_bold.svgmask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24" fill="white">
+         <use xlink:href="#account_rounded_bold.svgacc-rounded-bold"/>
+      </mask>
+   </defs>
+   <g id="account_rounded_bold.svgPage-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <g id="account_rounded_bold.svgGroup" stroke="#000000">
+         <use id="account_rounded_bold.svgOval-185" mask="url(#account_rounded_bold.svgmask-2)" stroke-width="8" xlink:href="#account_rounded_bold.svgacc-rounded-bold"/>
+         <path d="M38,36 C38,28.2680135 31.7319865,22 24,22 C16.2680135,22 10,28.2680135 10,36 L10,46 L38,46 L38,36 Z" id="account_rounded_bold.svgCombined-Shape" stroke-width="4" stroke-linejoin="round"/>
+      </g>
+   </g>
 </svg>
