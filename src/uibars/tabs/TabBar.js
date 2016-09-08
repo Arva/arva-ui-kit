@@ -14,34 +14,27 @@ import {Tab}                from './Tab.js';
 export class TabBar extends View {
 
     /* Number of items in the tabBar */
-    itemCount = 0;
+    _itemCount = 0;
 
     /* Current active item */
-    currentItem = 0;
+    _currentItem = 0;
 
-    /* Current width of the TabBar */
-    width = 0;
+    /* Current _width of the TabBar */
+    _width = 0;
 
-    constructor(options = {tabOptions: {}}) {
+    constructor(options = {tabOptions: {}}, items = ['one', 'two', 'three']) {
         super(combineOptions({}, options));
 
-        this.on('newSize', ([width]) => {
-            this.width = width;
+        this.on('newSize', ([_width]) => {
+            this._width = _width;
         });
 
-        let items = [
-            'one',
-            'two',
-            'three',
-            'foudsafasfasdfasdfasdfasfsadfr',
-            'fief',
-            'siz'
-        ];
+        this.items = items;
 
         for (let index in items) {
-            this.itemCount++;
+            this._itemCount++;
             let tab = new (this.options.tabRenderable || Tab)(combineOptions({
-                content: items[index],
+                content: items && [index] && items[index].toUpperCase(),
             }, this.options.tabOptions));
             tab.on('activate', this._handleItemActive.bind(this, index, tab));
             tab.on('hoverOn', this.onHover.bind(this, index, tab));
@@ -50,11 +43,11 @@ export class TabBar extends View {
         }
     }
 
-    _handleItemActive(id, tab){
+    _handleItemActive(id, tab) {
         this.setItemActive(id, tab);
-        for (let index = 0; index < this.itemCount; index++) {
+        for (let index = 0; index < this._itemCount; index++) {
             let item = this[`item${index}`];
-            if(index == parseInt(id)){
+            if (index == parseInt(id)) {
                 item && item.setActive && item.setActive();
                 continue;
             }
@@ -65,7 +58,7 @@ export class TabBar extends View {
 
     _calcCurrentPosition(id) {
         let position = 0;
-        for (let index = 0; index < this.itemCount; index++) {
+        for (let index = 0; index < this._itemCount; index++) {
             if (index == id) {
                 return position;
             }
@@ -92,5 +85,9 @@ export class TabBar extends View {
 
     setItemDeactive(id, item) {
         /* To be inherited */
+    }
+
+    getItems(){
+        return this.items;
     }
 }

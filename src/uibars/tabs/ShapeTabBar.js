@@ -11,15 +11,14 @@ import {Colors}             from 'arva-kit/defaults/DefaultColors.js';
 import {TabBar}             from './TabBar.js';
 import {ShapeTab}           from './ShapeTab.js';
 
-const transition = {curve: Easing.outCubic, duration: 300};
+const flowOptions = {flow: true, transition: {curve: Easing.outCubic, duration: 200}};
 
 export class ShapeTabBar extends TabBar {
 
     @layout.size(0, function(){return this.options.shapeHeight || 32})
     @layout.align(0, 0.5)
     @layout.origin(0, 0.5)
-    @flowStates.fade('active', {opacity: 1})
-    @flowStates.fade('inactive')
+    @flow.defaultOptions(flowOptions)
     shape = new Surface({
         properties: {
             'background-color': this.options.shapeColor || Colors.PrimaryUIColor,
@@ -32,7 +31,7 @@ export class ShapeTabBar extends TabBar {
     }
 
     setItemActive(id, item) {
-        this.currentItem = id;
+        this._currentItem = id;
         this.decorateRenderable('shape', layout.size(this._getCurrentSize(id), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 0, 10));
     }
 
@@ -41,17 +40,17 @@ export class ShapeTabBar extends TabBar {
     }
 
     onHover(id, item) {
-        if (id === this.currentItem) {
-            return this.decorateRenderable('shape', layout.size((this._getCurrentSize(this.currentItem)) - 24, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id) + 12, 0, 10));
+        if (id === this._currentItem) {
+            return this.decorateRenderable('shape', layout.size((this._getCurrentSize(this._currentItem)) - 24, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id) + 12, 0, 10));
         }
-        if (id < this.currentItem) {
-            this.decorateRenderable('shape', layout.size(this._getCurrentSize(this.currentItem) + 12, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this.currentItem) - 12, 0, 10))
+        if (id < this._currentItem) {
+            this.decorateRenderable('shape', layout.size(this._getCurrentSize(this._currentItem) + 12, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this._currentItem) - 12, 0, 10))
         } else {
-            this.decorateRenderable('shape', layout.size(this._getCurrentSize(this.currentItem) + 12, this.options.shapeHeight))
+            this.decorateRenderable('shape', layout.size(this._getCurrentSize(this._currentItem) + 12, this.options.shapeHeight))
         }
     }
 
     offHover(id, item) {
-        this.decorateRenderable('shape', layout.size(this._getCurrentSize(this.currentItem), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this.currentItem), 0, 10))
+        this.decorateRenderable('shape', layout.size(this._getCurrentSize(this._currentItem), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this._currentItem), 0, 10))
     }
 }
