@@ -5,7 +5,7 @@
   "main": false,
   "homepage": "http://arva.io",
   "scripts": {
-    "gen-icons": "node scripts/create_icon_classes.js",
+    "gen-icons": "node scripts/adjust_icon_resources.js && node scripts/create_icon_classes.js",
     "test": "mocha --compilers js:babel/register --recursive --timeout 15000"
   },
   "jspm": {
