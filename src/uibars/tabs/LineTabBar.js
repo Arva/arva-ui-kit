@@ -14,7 +14,9 @@ const flowOptions = {transition: {curve: Easing.outCubic, duration: 200}};
 
 export class LineTabBar extends TabBar {
 
-    @layout.size(0, function(){return this.options.shapeHeight || 4})
+    @layout.size(0, function () {
+        return this.options.shapeHeight || 4
+    })
     @layout.dock.bottom(4)
     @flow.defaultOptions(flowOptions)
     shape = new Surface({
@@ -23,8 +25,16 @@ export class LineTabBar extends TabBar {
         }
     });
 
-    constructor(options = {shapeColor: Colors.PrimaryUIColor, shapeHeight: 4, tabOptions: {}, tabRenderable: LineTab}) {
-        super(combineOptions(options, {makeRipple: false, useBackground: false, useBoxShadow: false}));
+    constructor(options = {}) {
+        super(combineOptions({
+            makeRipple: false,
+            useBackground: false,
+            useBoxShadow: false,
+            shapeColor: Colors.PrimaryUIColor,
+            shapeHeight: 4,
+            tabOptions: {},
+            tabRenderable: LineTab
+        }, options));
     }
 
     /**

@@ -2,15 +2,19 @@
  * Created by Manuel on 07/09/16.
  */
 
-import Surface              from 'famous/core/Surface.js';
-import {View}               from 'arva-js/core/View.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
+import Surface                              from 'famous/core/Surface.js';
+import {View}                               from 'arva-js/core/View.js';
+import {layout}                             from 'arva-js/layout/Decorators.js';
+import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
 
-import FlexTabBar from 'famous-flex/widgets/TabBar.js';
-import {Tab}                from './Tab.js';
+import FlexTabBar                           from 'famous-flex/widgets/TabBar.js';
+import {Tab}                                from './Tab.js';
 
+import {DockLeftLayout, EqualSizeLayout}    from './TabBarHelperFunctions.js';
 
+/** @example
+ *
+ */
 export class TabBar extends View {
 
     /* Number of items in the tabBar */
@@ -22,53 +26,49 @@ export class TabBar extends View {
     /* Current _width of the TabBar */
     _width = 0;
 
-    constructor(options = {tabOptions: {}}, items = ['one', 'two', 'three']) {
-        super(combineOptions({}, options));
+    constructor(options = {tabOptions: {}}, items = [{content: 'test'},{content: 'test'}, {content: 'test'}, {content: 'test'}, {content: 'test'}]){
+        super(combineOptions({equalSizing: false, activeIndex: 0, reflow: true}, options));
 
         this.on('newSize', ([_width]) => {
             this._width = _width;
+            this.options.reflow && this.setIndexActive(this._currentItem);
         });
 
-        this.items = items;
-
-        for (let index in items) {
-            this._itemCount++;
-            let tab = new (this.options.tabRenderable || Tab)(combineOptions({
-                content: items && [index] && items[index].toUpperCase(),
-            }, this.options.tabOptions));
-            tab.on('activate', this._handleItemActive.bind(this, index, tab));
-            tab.on('hoverOn', this.onHover.bind(this, index, tab));
-            tab.on('hoverOff', this.offHover.bind(this, index, tab));
-            this.addRenderable(tab, `item${index}`, layout.dock.left(~50))
+        /* Bind helper functions to this class depending on layout options */
+        let source = this.options.equalSizing ? EqualSizeLayout : DockLeftLayout;
+        for(let index of Object.keys(source)){
+            this[index] = source[index].bind(this);
         }
+
+        this._setItems(items);
+
+        if(this.options.activeIndex != undefined){
+            this.setIndexActive(this.options.activeIndex);
+        }
+
     }
 
-    _handleItemActive(id, tab) {
-        this.setItemActive(id, tab);
-        for (let index = 0; index < this._itemCount; index++) {
-            let item = this[`item${index}`];
-            if (index == parseInt(id)) {
-                item && item.setActive && item.setActive();
-                continue;
-            }
+    setItems(items = []){
+        this._setItems(items);
+    }
 
-            item && item.setInactive && item.setInactive();
-        }
+    /* Layout and display the items in the TabBar */
+    _setItems(items) {
+       /* Should be overwritten */
+    }
+
+    _registerTabListeners(tab, index) {
+        tab.on('activate', this._handleItemActive.bind(this, index, tab));
+        tab.on('hoverOn', this.onHover.bind(this, index, tab));
+        tab.on('hoverOff', this.offHover.bind(this, index, tab));
     }
 
     _calcCurrentPosition(id) {
-        let position = 0;
-        for (let index = 0; index < this._itemCount; index++) {
-            if (index == id) {
-                return position;
-            }
-            position += this[`item${index}`].getSize()[0] || 0;
-        }
+        /* Should be overwritten */
     }
 
-    _getCurrentSize(id) {
-        let size = this[`item${id}`].getSize()[0] || 0;
-        return size;
+    _getCurrentSize(index) {
+        /* Should be overwritten */
     }
 
     onHover(id, item) {
@@ -87,7 +87,15 @@ export class TabBar extends View {
         /* To be inherited */
     }
 
-    getItems(){
+    getItem(index){
+        /* Should be overwritten */
+    }
+
+    getItems() {
         return this.items;
+    }
+
+    setIndexActive(index){
+        this._handleItemActive(index, this.getItem(index))
     }
 }
