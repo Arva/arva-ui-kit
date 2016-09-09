@@ -22,6 +22,7 @@ export class Switch extends Clickable {
     _isOn = false;
     _knobWidth = 30;
     _knobHorizontalRange = 46;
+    _curve = {curve: Easing.outBack, duration: 200};
 
     static getKnobWidth(variation = 'small') {
         switch (variation) {
@@ -110,9 +111,9 @@ export class Switch extends Clickable {
 
     _onTouchEnd() {
         if (this._isOn) {
-            this.knob.draggable.setPosition([0,0], {curve: Easing.outBack, duration: 200});
+            this.knob.draggable.setPosition([0,0], this._curve);
         } else {
-            this.knob.draggable.setPosition([this._knobHorizontalRange,0], {curve: Easing.outBack, duration: 200});
+            this.knob.draggable.setPosition([this._knobHorizontalRange,0], this._curve);
         }
         this.decorateRenderable('selectedOuterBox', layout.opacity(this._isOn ? 0 : 1));
         this._isOn = !this._isOn;

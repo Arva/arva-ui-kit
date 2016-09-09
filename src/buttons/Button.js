@@ -110,10 +110,14 @@ export class Button extends Clickable {
             this.throttler.add(()=>{
                 this._inBounds = this._isInBounds(touchEvent);
                 if(!this._inBounds){
-                    this.ripple.hide();
+                    this.hideRipple();
                 }
             });
         }
+    }
+
+    hideRipple() {
+        this.ripple.hide();
     }
 
     _handleTapEnd(mouseEvent) {
@@ -142,12 +146,14 @@ export class Button extends Clickable {
         let elementPosition = this.background._currentTarget.getBoundingClientRect();
         let [width, height] = this.background.getSize();
 
-        var left = elementPosition.left,
+        let touchList = touch.touches.length > 0 ? touch.touches : touch.changedTouches;
+
+        let left = elementPosition.left,
             right = left + width,
             top = elementPosition.top,
             bottom = top + height,
-            touchX = touch.touches[0].pageX,
-            touchY = touch.touches[0].pageY;
+            touchX = touchList[0].pageX,
+            touchY = touchList[0].pageY;
 
         return (touchX > left && touchX < right && touchY > top && touchY < bottom);
     };

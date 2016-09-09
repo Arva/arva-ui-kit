@@ -20,6 +20,7 @@ export class Slider extends Clickable {
     @layout.fullSize()
     @layout.translate(0, 0, 10)
     @event.on('mouseup', function(event) { this._onLineTapEnd(event); })
+    @event.on('touchend', function(event) { this._onLineTapEnd(event); })
     touchArea = new Surface({ properties: { cursor: 'pointer' } });
 
     @layout.size(undefined, 2)
@@ -36,7 +37,9 @@ export class Slider extends Clickable {
     @layout.align(0, 0.5)
     @layout.translate(0, 0, 20)
     @event.on('mouseup', function() { this._rippleTimeout = 0; if (this.snapPointsEnabled) {this._snapKnobOnDrop()} })
+    @event.on('touchend', function() { this._rippleTimeout = 0; if (this.snapPointsEnabled) {this._snapKnobOnDrop()} })
     @event.on('mousedown', function() { this._rippleTimeout = 0; })
+    @event.on('touchstart', function() { this._rippleTimeout = 0; })
     knob = new Knob({
         text: this.options.text,
         enableBorder: true,
@@ -68,16 +71,22 @@ export class Slider extends Clickable {
 
     _onLineTapEnd(event) {
 
-        let clickPosition = event.offsetX;
+        let tapPosition;
+        if (event instanceof MouseEvent) {
+            tapPosition = event.offsetX;
+        } else {
+            tapPosition = event.changedTouches[0].pageX;
+        }
+
         this._moveKnobTo(
-            this.snapPointsEnabled ? this.snapPointsPositions[this._closestPoint(clickPosition)] : clickPosition
+            this.snapPointsEnabled ? this.snapPointsPositions[this._closestPoint(tapPosition)] : tapPosition
         );
 
     }
 
-    _closestPoint(clickPosition) {
+    _closestPoint(tapPosition) {
 
-        return Math.round(clickPosition / this.snapPointsDistance);
+        return Math.round(tapPosition / this.snapPointsDistance);
 
     }
 

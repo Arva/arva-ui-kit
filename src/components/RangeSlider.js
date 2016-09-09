@@ -19,6 +19,7 @@ export class RangeSlider extends Slider {
     @layout.align(0, 0.5)
     @layout.translate(0, 0, 20)
     @event.on('mouseup', function() {if (this.snapPointsEnabled) {this._snapSecondKnobOnDrop()}})
+    @event.on('touchend', function() {if (this.snapPointsEnabled) {this._snapSecondKnobOnDrop()}})
     secondKnob = new Knob({
         text: this.options.text,
         enableBorder: true,
@@ -52,16 +53,21 @@ export class RangeSlider extends Slider {
 
     _onLineTapEnd(event) {
 
-        let clickPosition = event.offsetX;
+        let tapPosition;
+        if (event instanceof MouseEvent) {
+            tapPosition = event.offsetX;
+        } else {
+            tapPosition = event.changedTouches[0].pageX;
+        }
 
-        if (this._firstKnobCloser(clickPosition)) {
+        if (this._firstKnobCloser(tapPosition)) {
             this._moveKnobTo(
-                this.snapPointsEnabled ? this._closestPointPositionToFirstKnob(clickPosition) : this._closestPositionToFirstKnob(clickPosition)
+                this.snapPointsEnabled ? this._closestPointPositionToFirstKnob(tapPosition) : this._closestPositionToFirstKnob(tapPosition)
             );
             this._updateSecondKnobRange();
         } else {
             this._moveSecondKnobTo(
-                this.snapPointsEnabled ? this._closestPointPositionToSecondKnob(clickPosition) : this._closestPositionToSecondKnob(clickPosition)
+                this.snapPointsEnabled ? this._closestPointPositionToSecondKnob(tapPosition) : this._closestPositionToSecondKnob(tapPosition)
             );
             this._updateFirstKnobRange();
         }
@@ -85,9 +91,9 @@ export class RangeSlider extends Slider {
 
     }
 
-    _closestPointPositionToFirstKnob(clickPosition) {
+    _closestPointPositionToFirstKnob(tapPosition) {
 
-        let closestPoint = this._closestPoint(clickPosition);
+        let closestPoint = this._closestPoint(tapPosition);
         let range = this.knob.draggable.options.xRange;
 
         for (let i = closestPoint; i >= 0; i--) {
@@ -99,9 +105,9 @@ export class RangeSlider extends Slider {
 
     }
 
-    _closestPointPositionToSecondKnob(clickPosition) {
+    _closestPointPositionToSecondKnob(tapPosition) {
 
-        let closestPoint = this._closestPoint(clickPosition);
+        let closestPoint = this._closestPoint(tapPosition);
         let range = this.secondKnob.draggable.options.xRange;
 
         for (let i = closestPoint; i <= this.snapPoints - 1; i++) {
@@ -113,14 +119,14 @@ export class RangeSlider extends Slider {
 
     }
 
-    _closestPositionToFirstKnob(clickPosition) {
+    _closestPositionToFirstKnob(tapPosition) {
         let maxRightPosition = this.knob.draggable.options.xRange[1];
-        return clickPosition > maxRightPosition ? maxRightPosition : clickPosition;
+        return tapPosition > maxRightPosition ? maxRightPosition : tapPosition;
     }
 
-    _closestPositionToSecondKnob(clickPosition) {
+    _closestPositionToSecondKnob(tapPosition) {
         let maxLeftPosition = this.secondKnob.draggable.options.xRange[0];
-        return clickPosition < maxLeftPosition ? maxLeftPosition : clickPosition;
+        return tapPosition < maxLeftPosition ? maxLeftPosition : tapPosition;
     }
 
     _setupListeners() {

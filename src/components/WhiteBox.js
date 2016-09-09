@@ -12,14 +12,6 @@ const softShadowBoxMargin = 8;
 
 export class WhiteBox extends Button {
 
-    // @layout.fullSize()
-    // @layout.translate(0, 0, 10)
-    // background = new Surface({
-    //     properties: {
-    //         backgroundColor: 'rgb(255, 255, 255)'
-    //     }
-    // });
-
     @layout.size((width) => width - softShadowBoxMargin * 2, (_,height) => height - softShadowBoxMargin)
     @layout.stick.bottom()
     @layout.translate(0, 0, -20)
