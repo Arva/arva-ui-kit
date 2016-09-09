@@ -13,6 +13,17 @@ import {Tab}                                from './Tab.js';
 import {DockLeftLayout, EqualSizeLayout}    from './TabBarHelperFunctions.js';
 
 /** @example
+ *  Three different types:
+ *      1. Minimal tabs
+ *      2. Shape tabs, moving shapes
+ *      3. Line tabs, same as Shape tabs but with a different shape
+ *
+ *  Icon tabs:
+ *      new MinimalTabBar({activeIndex: 0, tabRenderable: IconTab, tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: true, usesIcon: true});
+ *      new ShapeTabBar({activeIndex: 0,tabRenderable: ShapeIconTab, equalSizing: false, usesIcon: true, shapeWidth: 40, shapeHeight: 40});
+ *      new LineTabBar({activeIndex: 0, tabRenderable: IconTab, tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: true, usesIcon: true});
+ *
+ *  Text tabs:
  *
  */
 export class TabBar extends View {

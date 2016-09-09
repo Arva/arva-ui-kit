@@ -32,6 +32,7 @@ export class ShapeTabBar extends TabBar {
 
     constructor(options = {
         shapeHeight: 32,
+        shapeWidth: 0,
         shapeColor: Colors.PrimaryUIColor,
         tabRenderable: ShapeTab,
         tabOptions: {inActiveColor: Colors.PrimaryUIColor, activeColor: 'white'}

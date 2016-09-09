@@ -12,7 +12,7 @@ import {MinimalTab}         from './MinimalTab.js';
 
 export class MinimalTabBar extends TabBar {
 
-    constructor(options = {tabRenderable: MinimalTab, tabOptions: {inActiveColor: 'rgb(170,170,170)', activeColor: 'black'}}) {
-        super(combineOptions(options, {makeRipple: false, useBackground: false, useBoxShadow: false}));
+    constructor(options = {}) {
+        super(combineOptions(options, {makeRipple: false, useBackground: false, useBoxShadow: false, tabRenderable: MinimalTab, tabOptions: {inActiveColor: 'rgb(170,170,170)', activeColor: 'black'}}));
     }
 }
