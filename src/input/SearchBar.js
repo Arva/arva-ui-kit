@@ -12,7 +12,7 @@ import {callbackToPromise}      from 'arva-js/utils/CallbackHelpers.js';
 import {UISmallGrey,
         UIRegular}              from 'arva-kit/defaults/DefaultTypeFaces.js';
 
-import {Results}                from './searchBar/Results.js';
+import {ResultsView}            from './searchBar/ResultsView.js';
 import {Placeholder}            from './searchBar/Placeholder.js';
 import {SingleLineInputSurface} from './SingleLineInputSurface.js';
 import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
@@ -45,7 +45,7 @@ export class SearchBar extends View {
     @flow.stateStep('hidden', transition, layout.size(undefined, 32))
     @flow.defaultState('hidden', transition, layout.opacity(0), layout.size(undefined, 32),
                                  layout.stick.top(), layout.translate(0, 8, 10))
-    results = new Results({
+    results = new ResultsView({
         resultOptions: this.options.resultOptions
     });
 
@@ -126,6 +126,14 @@ export class SearchBar extends View {
             placeholder: this.options.placeholder || 'Search'
         });
 
+    /**
+     * Shows the models in the given results list inside the results DataBoundScrollView. Replaces old results.
+     * @param {PrioritisedArray} results List of models to use in the ResultsView.
+     */
+    showResults(results) {
+        this.results.content.setDataStore(results);
+    }
+
     /* Allow receiving focus e.g. through the keyboard, or programmatically (i.e. element.focus()). */
     async _onFocusEvent(event, type) {
         if(this.inFocusEvent) { return; }
@@ -139,7 +147,7 @@ export class SearchBar extends View {
         this.input.blur();
 
         if(this._currentRenderableFlowState('placeholder') !== 'left') {
-            await this.setRenderableFlowState('placeholder', 'left');
+            this.setRenderableFlowState('placeholder', 'left');
         }
         await this.setViewFlowState('active');
 
