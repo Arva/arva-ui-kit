@@ -36,10 +36,8 @@ export class Slider extends Clickable {
     @layout.origin(0.5, 0.5)
     @layout.align(0, 0.5)
     @layout.translate(0, 0, 20)
-    @event.on('mouseup', function() { this._rippleTimeout = 0; if (this.snapPointsEnabled) {this._snapKnobOnDrop()} })
-    @event.on('touchend', function() { this._rippleTimeout = 0; if (this.snapPointsEnabled) {this._snapKnobOnDrop()} })
-    @event.on('mousedown', function() { this._rippleTimeout = 0; })
-    @event.on('touchstart', function() { this._rippleTimeout = 0; })
+    @event.on('mouseup', function() { if (this.snapPointsEnabled) {this._snapKnobOnDrop()} })
+    @event.on('touchend', function() { if (this.snapPointsEnabled) {this._snapKnobOnDrop()} })
     knob = new Knob({
         text: this.options.text,
         enableBorder: true,
@@ -92,12 +90,21 @@ export class Slider extends Clickable {
 
     _moveKnobTo(position) {
 
-        this._knobPosition = position;
-        this.knob.draggable.setPosition([position, 0], this._curve);
+        let range = this.knob.draggable.options.xRange;
+        if (this._positionInRange(position, range)) {
+            this._knobPosition = position;
+            this.knob.draggable.setPosition([position, 0], this._curve);
 
-        if (this.options.enableActiveTrail) {
-            this._updateActiveTrail();
+            if (this.options.enableActiveTrail) {
+                this._updateActiveTrail();
+            }
         }
+
+    }
+
+    _positionInRange(position, range) {
+
+        return position >= range[0] && position <= range[1];
 
     }
 
@@ -233,13 +240,7 @@ export class Slider extends Clickable {
         );
 
         this.knob.draggable.on('update', (event) => {
-            let position = event.position[0];
-            this._rippleTimeout += Math.abs(this._knobPosition - position);
-            if (this._rippleTimeout >= 4) {
-                this.knob.hideRipple();
-            }
-
-            this._knobPosition = position;
+            this._knobPosition = event.position[0];
         });
 
     }

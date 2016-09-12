@@ -82,11 +82,14 @@ export class RangeSlider extends Slider {
 
     _moveSecondKnobTo(position) {
 
-        this._secondKnobPosition = position;
-        this.secondKnob.draggable.setPosition([position, 0], this._curve);
+        let range = this.secondKnob.draggable.options.xRange;
+        if (this._positionInRange(position, range)) {
+            this._secondKnobPosition = position;
+            this.secondKnob.draggable.setPosition([position, 0], this._curve);
 
-        if (this.options.enableActiveTrail) {
-            this._updateActiveTrail();
+            if (this.options.enableActiveTrail) {
+                this._updateActiveTrail();
+            }
         }
 
     }
@@ -98,7 +101,7 @@ export class RangeSlider extends Slider {
 
         for (let i = closestPoint; i >= 0; i--) {
             let position = this.snapPointsPositions[i];
-            if (position >= range[0] && position <= range[1]) {
+            if (this._positionInRange(position, range)) {
                 return position;
             }
         }
@@ -112,7 +115,7 @@ export class RangeSlider extends Slider {
 
         for (let i = closestPoint; i <= this.snapPoints - 1; i++) {
             let position = this.snapPointsPositions[i];
-            if (position >= range[0] && position <= range[1]) {
+            if (this._positionInRange(position, range)) {
                 return position;
             }
         }

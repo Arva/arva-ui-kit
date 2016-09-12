@@ -4,7 +4,7 @@
 
 import Surface              from 'famous/core/Surface.js';
 import Easing               from 'famous/transitions/Easing.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
+import {layout, flow}       from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {Knob}               from './Knob.js';
 import {Clickable}          from './Clickable.js';
@@ -13,16 +13,18 @@ import {CrossIcon}          from '../icons/CrossIcon.js';
 import {Colors}             from '../defaults/DefaultColors.js';
 
 const knobLeftOffset = 2;
-const knobHeight = 44;
 const iconSize = [24, 24];
 const iconColor = 'rgba(0, 0, 0, 0.1)';
+const curve = {curve: Easing.outBack, duration: 100};
 
+// @flow.viewStates({
+//     'enabled': [{selectedOuterBox: 'visible'}],
+//     'disabled': [{selectedOuterBox: 'invisible'}]
+// })
 export class Switch extends Clickable {
 
-    _isOn = false;
     _knobWidth = 30;
     _knobHorizontalRange = 46;
-    _curve = {curve: Easing.outBack, duration: 200};
 
     static getKnobWidth(variation = 'small') {
         switch (variation) {
@@ -48,8 +50,9 @@ export class Switch extends Clickable {
     });
 
     @layout.fullSize()
-    @layout.opacity(0)
     @layout.stick.center()
+    @flow.stateStep('visible', curve, layout.opacity(1))
+    @flow.stateStep('invisible', curve, layout.opacity(0))
     selectedOuterBox = new Surface({
         properties: {
             borderRadius: '4px',
@@ -84,7 +87,7 @@ export class Switch extends Clickable {
             shadowType: 'noShadow'
         }, options));
 
-        let variation = options.variation;
+        let variation = this.options.variation;
 
         // Choose knob width based on variation.
         this._knobWidth = Switch.getKnobWidth(variation);
@@ -97,6 +100,8 @@ export class Switch extends Clickable {
         if (this.options.shadowType === 'hardShadow'){
             this._enableHardShadow();
         }
+
+        this.setRenderableFlowState('selectedOuterBox', 'invisible');
     }
 
     _setupListeners() {
@@ -111,16 +116,16 @@ export class Switch extends Clickable {
 
     _onTouchEnd() {
         if (this._isOn) {
-            this.knob.draggable.setPosition([0,0], this._curve);
+            this.knob.draggable.setPosition([0,0], curve);
         } else {
-            this.knob.draggable.setPosition([this._knobHorizontalRange,0], this._curve);
+            this.knob.draggable.setPosition([this._knobHorizontalRange,0], curve);
         }
-        this.decorateRenderable('selectedOuterBox', layout.opacity(this._isOn ? 0 : 1));
+        this.setRenderableFlowState('selectedOuterBox', this._isOn ? 'invisible' : 'visible');
         this._isOn = !this._isOn;
     }
 
     _setUpKnob(width) {
-        this._knobHorizontalRange = width - this._knobWidth - 4;
+        this._knobHorizontalRange = width - this._knobWidth - knobLeftOffset * 2;
 
         // Set knob size and horizontal range.
         this.decorateRenderable('knob',
