@@ -10,14 +10,18 @@ import {FeedbackBubble}         from './textInput/FeedbackBubble.js';
 
 export class SingleLineTextInput extends View {
 
-    @layout.dock.left()
-    input = new SingleLineInputSurface({content: this.options.content || ''});
+    @layout.size(undefined, undefined)
+    input = new SingleLineInputSurface({
+        content: this.options.content || '',
+        properties: {
+            padding: '0px 48px 0px 8px'
+        }
+    });
 
-    @layout.dock.right()
-    @layout.stick.center()
     @layout.size(~40, 40)
-    // @layout.dockSpace(8)
-    correct = new FeedbackBubble({ variation: 'correct' });
+    @layout.stick.right()
+    @layout.translate(-4, 0, 10)
+    correct = new FeedbackBubble({variation: 'correct'});
 
     getSize() {
         return [undefined, 48];

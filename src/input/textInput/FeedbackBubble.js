@@ -3,6 +3,7 @@
  */
 
 import Surface                  from 'famous/core/Surface.js';
+import Easing                   from 'famous/transitions/Easing.js';
 import {View}                   from 'arva-js/core/View.js';
 import {layout, flow, event}    from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
@@ -13,6 +14,9 @@ import crossImage			    from '../../icons/resources/cross_default.svg.txt!text';
 import doneImage			    from '../../icons/resources/done_default.svg.txt!text';
 import asteriskImage            from './asterisk.svg.txt!text';
 
+const options = { transition: { curve: Easing.outCubic, duration: 20 } };
+
+@flow.viewStates()
 @layout.dockPadding(0, 8)
 export class FeedbackBubble extends View {
 
@@ -39,7 +43,8 @@ export class FeedbackBubble extends View {
     background = new Surface({
         properties: {
             backgroundColor: FeedbackBubble.colors[this.options.variation],
-            borderRadius: '2px'
+            borderRadius: '2px',
+            cursor: 'pointer'
         }
     });
 
@@ -49,12 +54,16 @@ export class FeedbackBubble extends View {
     @event.on('click', function() { this.toggle(); })
     icon = new BaseIcon({
         icon: FeedbackBubble.icons[this.options.variation],
-        color: 'rgb(255, 255, 255)'
+        color: 'rgb(255, 255, 255)',
+        properties: {
+            cursor: 'pointer'
+        }
     });
 
     @event.on('click', function() { this.toggle(); })
-    @flow.stateStep('shown', {}, layout.size(true, undefined), layout.opacity(1))
-    @flow.defaultState('hidden', {}, layout.size(0, 0), layout.opacity(0), layout.dock.right(), layout.dockSpace(8), layout.stick.right())
+    @flow.stateStep('shown', options, layout.dock.right(~30), layout.dockSpace(8), layout.opacity(1))
+    @flow.stateStep('hidden', options, layout.opacity(0))
+    @flow.defaultState('hidden', options, layout.size(undefined, undefined), layout.opacity(0), layout.dock.none())
     text = new UIRegular({
         content: this.options.text || FeedbackBubble.texts[this.options.variation],
         properties: {
