@@ -126,4 +126,38 @@ export class Clickable extends View {
     _setEnabled(enabled) {
         this._enabled = enabled;
     }
+
+    /**
+     * Checks if the current TouchEvent is outside the current target element
+     * @param touch
+     * @param element
+     * @returns {boolean}
+     * @private
+     */
+    _isInBounds(touch, element) {
+        let elementPosition = element._currentTarget.getBoundingClientRect();
+        let {left, right, top, bottom} = elementPosition;
+
+        let touchList = touch.touches.length > 0 ? touch.touches : touch.changedTouches;
+        let {pageX, pageY} = touchList[0];
+
+        return (pageX > left && pageX < right && pageY > top && pageY < bottom);
+    };
+
+    /**
+     * Returns the touch location x and y coordinates relative to the element selected.
+     * @param touch
+     * @param element
+     * @returns {{elementX: Number, elementY: Number}}
+     * @private
+     */
+    _elementRelativeLocation(touch, element) {
+        let elementPosition = element._currentTarget.getBoundingClientRect();
+        let {left, top} = elementPosition;
+
+        let touchList = touch.touches.length > 0 ? touch.touches : touch.changedTouches;
+        let {pageX, pageY} = touchList[0];
+
+        return {elementX: pageX - left, elementY: pageY - top};
+    }
 }

@@ -108,7 +108,7 @@ export class Button extends Clickable {
     _handleTouchMove(touchEvent){
         if (this.options.makeRipple && this._inBounds) {
             this.throttler.add(()=>{
-                this._inBounds = this._isInBounds(touchEvent);
+                this._inBounds = this._isInBounds(touchEvent, this.background);
                 if(!this._inBounds){
                     this.hideRipple();
                 }
@@ -124,37 +124,13 @@ export class Button extends Clickable {
         if (this.options.makeRipple) {
             this.ripple.hide();
         }
-        mouseEvent.type === 'touchend' && this._isInBounds(mouseEvent) && this._handleClick(mouseEvent);
+        mouseEvent.type === 'touchend' && this._isInBounds(mouseEvent, this.background) && this._handleClick(mouseEvent);
     }
+
     /**
      * @abstract
      */
     setColor() {
 
     }
-
-    /**
-     * Checks if the current TouchEvent is outside the current target element
-     * @param touch
-     * @param elementPosition
-     * @param width
-     * @param height
-     * @returns {boolean}
-     * @private
-     */
-    _isInBounds(touch) {
-        let elementPosition = this.background._currentTarget.getBoundingClientRect();
-        let [width, height] = this.background.getSize();
-
-        let touchList = touch.touches.length > 0 ? touch.touches : touch.changedTouches;
-
-        let left = elementPosition.left,
-            right = left + width,
-            top = elementPosition.top,
-            bottom = top + height,
-            touchX = touchList[0].pageX,
-            touchY = touchList[0].pageY;
-
-        return (touchX > left && touchX < right && touchY > top && touchY < bottom);
-    };
 }

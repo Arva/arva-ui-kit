@@ -15,12 +15,8 @@ import {Colors}             from '../defaults/DefaultColors.js';
 const knobLeftOffset = 2;
 const iconSize = [24, 24];
 const iconColor = 'rgba(0, 0, 0, 0.1)';
-const curve = {curve: Easing.outBack, duration: 100};
+const curve = {curve: Easing.outBack, duration: 200};
 
-// @flow.viewStates({
-//     'enabled': [{selectedOuterBox: 'visible'}],
-//     'disabled': [{selectedOuterBox: 'invisible'}]
-// })
 export class Switch extends Clickable {
 
     _knobWidth = 30;

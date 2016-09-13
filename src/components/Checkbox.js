@@ -2,7 +2,6 @@
  * Created by vlad on 26/08/16.
  */
 
-import Surface              from 'famous/core/Surface.js';
 import Easing               from 'famous/transitions/Easing.js';
 import {layout, flow}       from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
@@ -15,8 +14,8 @@ import {Colors}             from '../defaults/DefaultColors.js';
 const innerBoxSize = [44, 44];
 const iconSize = [24, 24];
 const iconZValue = 30;
-const inCurve = {transition: {curve: Easing.outCubic, duration: 200}};
-const outCurve = {transition: {curve: Easing.outBack, duration: 200}};
+const inCurve = {transition: {curve: Easing.outCubic, duration: 2000}};
+const outCurve = {transition: {curve: Easing.outBack, duration: 2000}};
 const defaultIconOptions = [layout.stick.center(), layout.size(...iconSize), layout.translate(0, 0, iconZValue)];
 
 @flow.viewStates({
@@ -26,8 +25,8 @@ const defaultIconOptions = [layout.stick.center(), layout.size(...iconSize), lay
 })
 export class Checkbox extends Button {
 
-    @flow.stateStep('small', inCurve, layout.size(32, 32), layout.stick.center())
-    @flow.stateStep('big', outCurve, layout.size(...innerBoxSize), layout.stick.center())
+    @flow.stateStep('small', inCurve, layout.size(32, 32), layout.stick.center(), layout.translate(0, 0, 10))
+    @flow.stateStep('big', outCurve, layout.size(...innerBoxSize), layout.stick.center(), layout.translate(0, 0, 10))
     innerBox = new WhiteBox({
         enableSoftShadow: this.options.shadowType === 'softShadow',
         makeRipple: false
@@ -60,18 +59,10 @@ export class Checkbox extends Button {
             this._enableHardShadow();
         }
 
-        this.background.setProperties({backgroundColor: options.enabled ? Colors.PrimaryUIColor : 'rgb(170, 170, 170)'});
-        this.setViewFlowState(options.enabled ? 'checked' : 'unchecked');
+        this.background.setProperties({backgroundColor: this.options.enabled ? Colors.PrimaryUIColor : 'rgb(170, 170, 170)'});
 
-        // this._setDefaultState('cross', options.enabled ? 'enabled' : 'disabled');
-        // this._setDefaultState('tick', options.enabled ? 'disabled' : 'enabled');
+        this.setViewFlowState(this.options.enabled ? 'checked' : 'unchecked');
     }
-
-    // _setDefaultState(renderableName, stateName) {
-    //     for (let step of this[renderableName].decorations.flow.states[stateName].steps) {
-    //         this.decorateRenderable(renderableName, ...step.transformations);
-    //     }
-    // }
 
     _setupListeners() {
         this.on('touchstart', this._onTapStart);
@@ -84,7 +75,6 @@ export class Checkbox extends Button {
 
     _handleTapStart(mouseEvent) {
         this._inBounds = true;
-        // this._scaleInnerBoxDown();
         this.setViewFlowState('pressed');
     }
 
@@ -97,30 +87,18 @@ export class Checkbox extends Button {
             this.background.setProperties({backgroundColor: isChecked ? 'rgb(170, 170, 170)' : Colors.PrimaryUIColor});
 
             this.setViewFlowState(isChecked ? 'unchecked' : 'checked');
-
-            // this._scaleInnerBoxUp();
         }
     }
 
     _onMouseOut() {
-        // this._scaleInnerBoxUp();
-        // this.setViewFlowState(this._isChecked() ? 'checked' : 'unchecked');
+        this.setViewFlowState(this._isChecked() ? 'checked' : 'unchecked');
     }
 
     _handleTouchMove(touchEvent) {
-        this._inBounds = this._isInBounds(touchEvent);
+        this._inBounds = this._isInBounds(touchEvent, this.background);
         if (!this._inBounds) {
-            this.setViewFlowState('unchecked');
-            // this._scaleInnerBoxUp();
+            this.setViewFlowState(this._isChecked() ? 'checked' : 'unchecked');
         }
-    }
-
-    _scaleInnerBoxDown() {
-        // this.decorateRenderable('innerBox', layout.size(32, 32));
-    }
-
-    _scaleInnerBoxUp() {
-        // this.decorateRenderable('innerBox', layout.size(...innerBoxSize));
     }
 
     _isChecked() {
