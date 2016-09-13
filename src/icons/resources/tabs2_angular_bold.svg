@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>tabs2_angular_bold</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="Group-2" stroke="#000000" stroke-width="4">
+            <path d="M2,46 L2,10" id="Line"></path>
+            <path d="M38,46 L38,10" id="Line"></path>
+            <path d="M19.5,28.5 L19.5,-7.5" id="Line" transform="translate(20.000000, 10.500000) rotate(90.000000) translate(-20.000000, -10.500000) "></path>
+            <path d="M20,64 L20,28" id="Line" transform="translate(20.000000, 46.000000) rotate(90.000000) translate(-20.000000, -46.000000) "></path>
+            <path d="M10,10 L10,2" id="Line"></path>
+            <path d="M46,38 L46,2" id="Line"></path>
+            <path d="M27.5,20.5 L27.5,-15.5" id="Line" transform="translate(28.000000, 2.500000) rotate(90.000000) translate(-28.000000, -2.500000) "></path>
+            <path d="M42,42 L42,34" id="Line" transform="translate(42.000000, 38.000000) rotate(90.000000) translate(-42.000000, -38.000000) "></path>
+        </g>
+    </g>
+</svg>

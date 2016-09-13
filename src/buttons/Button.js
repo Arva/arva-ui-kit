@@ -19,10 +19,6 @@ export class Button extends Clickable {
     _inBounds = true;
 
     @layout.fullSize()
-    @layout.translate(0, 0, -10)
-    background = new Surface({properties: this.options.backgroundProperties});
-
-    @layout.fullSize()
     @layout.translate(0, 0, 40)
     overlay = new Surface({
         properties: {
@@ -35,6 +31,7 @@ export class Button extends Clickable {
         super(combineOptions({
             makeRipple: true,
             useBoxShadow: true,
+            useBackground: true,
             delay: 0,
             backgroundProperties: {
                 borderRadius: '4px',
@@ -44,6 +41,10 @@ export class Button extends Clickable {
         }, options));
 
         this.throttler = new Throttler(3, false, this, true);
+
+        if (this.options.useBackground){
+            this.addRenderable(new Surface({properties: this.options.backgroundProperties}), 'backgground', layout.fullSize(),layout.translate(0, 0, -10));
+        }
 
         if (this.options.makeRipple) {
             this.addRenderable(new Ripple(this.options.rippleOptions), 'ripple',
@@ -88,11 +89,11 @@ export class Button extends Clickable {
         if (this.options.makeRipple && this._isEnabled()) {
             this._inBounds = true;
             /**
-             * Calculate the correct position of the click inside the current renderable (background taken for easy calculation, as it's always fullSize).
+             * Calculate the correct position of the click inside the current renderable (overlay taken for easy calculation, as it's always fullSize).
              * This will not account for rotation/skew/any other transforms except translates so if the Button class is e.d rotated the ripple will not be placed in the correct location
              * @type {ClientRect}
              */
-            let boundingBox = this.background._currentTarget.getBoundingClientRect();
+            let boundingBox = this.overlay._currentTarget.getBoundingClientRect();
             this.ripple.show(x - boundingBox.left, y - boundingBox.top);
         }
     }
@@ -139,15 +140,15 @@ export class Button extends Clickable {
      * @private
      */
     _isInBounds(touch) {
-        let elemposition = this.background._currentTarget.getBoundingClientRect();
-        let [width, height] = this.background.getSize();
+        let elemposition = this.overlay._currentTarget.getBoundingClientRect();
+        let [width, height] = this.overlay.getSize();
 
         var left = elemposition.left,
             right = left + width,
             top = elemposition.top,
             bottom = top + height,
-            touchX = touch.pageX,
-            touchY = touch.pageY;
+            touchX = touch.touches[0].pageX,
+            touchY = touch.touches[0].pageY;
 
         return (touchX > left && touchX < right && touchY > top && touchY < bottom);
     };

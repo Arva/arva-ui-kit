@@ -18,4 +18,4 @@ export class UIBarTextButton extends TextButton {
             useBoxShadow: false
         }, options)));
     }
-}3
+}

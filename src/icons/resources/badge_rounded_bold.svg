@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>badge_rounded_bold</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="36" cy="12" r="12"></circle>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" stroke="#000000">
+            <path d="M10,38 L10,10" id="Line" stroke-width="4" stroke-linecap="round"></path>
+            <path d="M38,38 L38,21.9722436" id="Line" stroke-width="4" stroke-linecap="round"></path>
+            <path d="M17.5,18.5 L17.5,2.5" id="Line" stroke-width="4" stroke-linecap="round" transform="translate(18.000000, 10.500000) rotate(90.000000) translate(-18.000000, -10.500000) "></path>
+            <path d="M24,52 L24,24" id="Line" stroke-width="4" stroke-linecap="round" transform="translate(24.000000, 38.000000) rotate(90.000000) translate(-24.000000, -38.000000) "></path>
+            <use id="Oval-145" mask="url(#mask-2)" stroke-width="8" xlink:href="#path-1"></use>
+        </g>
+    </g>
+</svg>
