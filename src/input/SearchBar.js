@@ -16,8 +16,9 @@ import {ResultsView}            from './searchBar/ResultsView.js';
 import {Placeholder}            from './searchBar/Placeholder.js';
 import {SingleLineInputSurface} from './SingleLineInputSurface.js';
 import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
+import {Dimensions}             from '../defaults/DefaultDimensions.js';
 
-export const BORDER_RADIUS = '4px';
+let {searchBar: {borderRadius}} = Dimensions;
 const instant = { transition: { curve: Easing.outCubic, duration: 0 } };
 const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 
@@ -34,7 +35,7 @@ export class SearchBar extends View {
         { properties: {
             boxSizing: 'content-box',
             border: 'solid 1px rgba(0, 0, 0, 0.1)',
-            borderRadius: BORDER_RADIUS
+            borderRadius: borderRadius
         }}
     ));
 
@@ -66,7 +67,7 @@ export class SearchBar extends View {
         UIRegular,
         { properties: {
             backgroundColor: 'transparent',
-            borderRadius: BORDER_RADIUS,
+            borderRadius: borderRadius,
             boxShadow: 'none',
             padding: '0px 0px 0px 32px'
         }, placeholder: '' , clearOnEnter: false}
@@ -76,7 +77,7 @@ export class SearchBar extends View {
     @flow.stateStep('left', transition, layout.stick.left(), layout.translate(8, 0, 40))
     @flow.defaultState('center', transition, layout.size(~50, 32), layout.stick.center(), layout.translate(0, 0, 30))
     placeholder = new Placeholder({
-            properties: { borderRadius: BORDER_RADIUS },
+            properties: { borderRadius: borderRadius },
             placeholder: this.options.placeholder || 'Search'
         });
 
