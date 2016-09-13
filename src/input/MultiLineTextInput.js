@@ -12,7 +12,7 @@ import {replaceEmojiAtEnd}          from './Emoji.js';
 import AutosizeTextareaSurface      from 'famous-autosizetextarea/AutosizeTextareaSurface.js';
 
 
-export class MultiLineInputView extends View {
+export class MultiLineTextInput extends View {
 
     @layout.size(undefined, undefined)
     input = new AutosizeTextareaSurface(combineOptions(this.options, {
@@ -29,10 +29,10 @@ export class MultiLineInputView extends View {
             type: 'text', maxHeight: 150
         }, options));
 
-        /* Set properties specificly as resize property is not set on construction */
+        /* Set properties specifically as resize property is not set on construction */
         this.input.setProperties({resize: 'none', padding: '5px 10px 5px 10px'});
 
-        this.input.on('scrollHeightChanged', (scrollHeight)=> {
+        this.input.on('scrollHeightChanged', (scrollHeight) => {
             if (scrollHeight < this.options.initialHeight) scrollHeight = this.options.initialHeight;
             this._eventOutput.emit('changeInputHeight', scrollHeight > this.options.maxHeight ? this.options.maxHeight : scrollHeight);
         });
