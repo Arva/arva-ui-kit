@@ -50,60 +50,14 @@ export class SearchBar extends View {
     });
 
     @event.on('click', function(e){ this._onDoneClick(e); })
-    @event.on('deploy', function(e){
-        window.globDone = this.done;
-        window.text = this.done.text;
-        text.___size = [1,1];
-        text.__size = [1,1];
-
-        Object.defineProperty(text.__size, '0', {
-            get: function() {
-                return text.___size[0];
-            },
-            set: function(value) {
-                if(Number.isNaN(value)){
-                    debugger;
-                }
-                text.___size[0] = value;
-            }
-        });
-
-        Object.defineProperty(text.__size, '1', {
-            get: function() {
-                return text.___size[1];
-            },
-            set: function(value) {
-                if(Number.isNaN(value)){
-                    debugger;
-                }
-                text.___size[1] = value;
-            }
-        });
-
-        Object.defineProperty(text, '_size', {
-            get: function() {
-                return this.__size;
-            },
-            set: function(value) {
-                if (Number.isNaN(value[0]) || Number.isNaN(value[1])) {
-                    debugger;
-                }
-
-                var a = text._size;
-
-                this.__size[0] = value[0];
-                this.__size[1] = value[1];
-            }
-        });
-    })
-    @flow.stateStep('shown', instant, layout.size(true, undefined), layout.translate(0, 0, 40))
+    @flow.stateStep('shown', instant, layout.size(~50, undefined), layout.translate(0, 0, 50))
     @flow.stateStep('shown', transition,layout.opacity(1))
     @flow.stateStep('hidden', transition, layout.opacity(0))
     @flow.defaultState('hidden', instant, layout.opacity(0), layout.dock.right(), layout.size(1, 1), layout.translate(0, 0, 20))
     done = new UIBarTextButton({ content: 'Done', properties: { cursor: 'pointer' }});
 
     @layout.dock.fill()
-    @layout.translate(0, 0, 30)
+    @layout.translate(0, 0, 40)
     @event.on('click', function(e) { this._onActivate(e); })
     @event.on('focus', function(e) { this._onFocusEvent(e, 'focus'); })
     @event.on('blur', function(e) { this._onFocusEvent(e, 'blur'); })

@@ -42,6 +42,7 @@ export class ResultsView extends View {
             groupHeight: 32,
             ...options /* Can't use combineOptions() because options.resultOptions.dataStore is a PrioArray. */
         });
+        this.content.on('resize', this.reflowRecursively);
     }
 
     getSize() {
