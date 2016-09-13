@@ -9,10 +9,13 @@ import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {DataBoundScrollView}    from 'arva-js/components/DataBoundScrollView.js';
 
-import {BORDER_RADIUS}          from '../SearchBar.js';
 import {SquaresLoader}          from '../../loaders/SquaresLoader.js';
 import {SectionHeader}          from '../../components/SectionHeader.js';
 import {Item}                   from './Item.js';
+import {Dimensions}             from '../../defaults/DefaultDimensions.js';
+
+
+let {searchBar: {borderRadius}} = Dimensions;
 
 @layout.dockPadding(32, 0, 0, 0)
 export class ResultsView extends View {
@@ -22,7 +25,7 @@ export class ResultsView extends View {
         { properties: {
             backgroundColor: 'rgb(255, 255, 255)',
             boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',
-            borderRadius: BORDER_RADIUS
+            borderRadius: borderRadius
         }}
     );
 

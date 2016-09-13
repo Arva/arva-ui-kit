@@ -16,6 +16,9 @@ export let Dimensions = {
         itemHeight: 48,
         itemMargin: 0,
         direction: 1
+    },
+    searchBar: {
+        borderRadius: '4px'
     }
 };
 
