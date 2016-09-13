@@ -21,7 +21,10 @@ export class TextButton extends Button {
     constructor(options = {}) {
         super(combineOptions({
             disabledOptions: {
-                content: options.content
+                content: options.content,
+                properties: {
+                    color: Colors.ModestTextColor
+                }
             },
             properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor},
             ...TextButton.generateBoxShadowVariations(options.variation, options.disableBoxShadow)
@@ -48,8 +51,9 @@ export class TextButton extends Button {
 
     _setEnabled(enabled) {
         super._setEnabled(enabled);
-        var options = this.options;
-        this.text.setOptions(enabled ? options : options.disabledOptions);
+        let options = enabled ? this.options : this.options.disabledOptions;
+        let newOptions = {properties: options.properties, content: options.content};
+        this.text.setProperties(newOptions);
     }
 
     static generateBoxShadowVariations(variation, disableBoxShadow) {
