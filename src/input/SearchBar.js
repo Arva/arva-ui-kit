@@ -96,11 +96,11 @@ export class SearchBar extends View {
 
     async _onActivate(event = {}) {
         if(event.preventDefault) { event.preventDefault(); }
-        if(this._currentViewFlowState() === 'active') { return false; }
+        if(this.getViewFlowState() === 'active') { return false; }
         this._disableFocusEvents();
         this.input.blur();
 
-        if(this._currentRenderableFlowState('placeholder') !== 'left') {
+        if(this.getRenderableFlowState('placeholder') !== 'left') {
             this.setRenderableFlowState('placeholder', 'left');
         }
         await this.setViewFlowState('active');
@@ -136,15 +136,6 @@ export class SearchBar extends View {
         this.placeholder[hasContent ? 'hideText' : 'showText']();
         this.setRenderableFlowState('results', hasContent ? 'expanded' : 'collapsed');
         await this.setRenderableFlowState('done', hasContent ? 'shown' : 'hidden');
-    }
-
-    /* TODO: add this in View.js properly after Karl's refactor */
-    _currentViewFlowState() {
-        return this.decorations.flow.currentState;
-    }
-
-    _currentRenderableFlowState(renderableName) {
-        return this[renderableName].decorations.flow.currentState;
     }
 
     _enableFocusEvents() {
