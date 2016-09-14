@@ -17,7 +17,6 @@ import asteriskImage            from './asterisk.svg.txt!text';
 const transitions = { transition: { curve: Easing.outCubic, duration: 100 } };
 const closeTransition = { transition: { curve: Easing.outCubic, duration: 20 } };
 
-// @flow.viewStates()
 @layout.dockPadding(0, 8)
 export class FeedbackBubble extends View {
 
