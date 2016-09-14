@@ -26,7 +26,7 @@ export class StackButtonDialog extends BaseDialog {
                         borderRadius: index !== buttons.length - 1 ? '0px' : '0px 0px 4px 4px'
                     }
                 }
-            ), `button${index}`, layout.dock.top( buttonHeight));
+            ), `button${index}`, layout.dock.top( buttonHeight, 0), layout.translate(0, 0, 100));
         }
     }
 

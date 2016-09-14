@@ -22,7 +22,7 @@ export class Button extends Clickable {
     @layout.translate(0, 0, 40)
     overlay = new Surface({
         properties: {
-            cursor: 'pointer',
+            cursor: this.options.enabled ? 'pointer' : 'inherit',
             borderRadius: this.options.backgroundProperties.borderRadius
         }
     });
@@ -32,6 +32,7 @@ export class Button extends Clickable {
             makeRipple: true,
             useBoxShadow: true,
             useBackground: true,
+            autoEnable: false,
             delay: 0,
             backgroundProperties: {
                 borderRadius: '4px',
@@ -43,7 +44,7 @@ export class Button extends Clickable {
         this.throttler = new Throttler(3, false, this, true);
 
         if (this.options.useBackground){
-            this.addRenderable(new Surface({properties: this.options.backgroundProperties}), 'backgground', layout.fullSize(),layout.translate(0, 0, -10));
+            this.addRenderable(new Surface({properties: this.options.backgroundProperties}), 'background', layout.fullSize(),layout.translate(0, 0, -10));
         }
 
         if (this.options.makeRipple) {
@@ -101,7 +102,6 @@ export class Button extends Clickable {
     _setEnabled(enabled) {
         super._setEnabled(enabled);
         this.overlay.setProperties({
-            backgroundColor: enabled ? 'inherit' : 'rgba(255, 255, 255, 0.6)',
             cursor: enabled ? 'pointer' : 'inherit'
         });
     }

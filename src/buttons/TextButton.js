@@ -52,8 +52,8 @@ export class TextButton extends Button {
     _setEnabled(enabled) {
         super._setEnabled(enabled);
         let options = enabled ? this.options : this.options.disabledOptions;
-        let newOptions = {properties: options.properties, content: options.content};
-        this.text.setProperties(newOptions);
+        this.text.setProperties(options.properties);
+        this.text.setContent(options.content);
     }
 
     static generateBoxShadowVariations(variation, disableBoxShadow) {
