@@ -17,19 +17,20 @@ let {searchBar: {borderRadius}} = Dimensions;
 const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 500}, delay: 0};
-const showBubble = [layout.opacity(1), layout.scale(1, 1, 1), layout.dock.right(), layout.dockSpace(8), layout.stick.center(), layout.translate(0, 0, 50)];
-const hideBubble = [layout.opacity(0), layout.scale(0, 0, 1), layout.dock.none(), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
+const showBubble = [layout.opacity(1), layout.scale(1, 1, 1), layout.dock.right(), layout.stick.left(), layout.translate(0, 0, 50)];
+const hideBubble = [layout.opacity(0), layout.scale(0, 0, 1), layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
 
 @flow.viewStates({
     correct: [{correct: 'shown', incorrect: 'hidden', required: 'hidden'}],
     required: [{correct: 'hidden', incorrect: 'hidden', required: 'shown'}],
     incorrect: [{correct: 'hidden', incorrect: 'shown', required: 'hidden'}]
 })
+@layout.dockPadding(0, 4, 0, 0)
 export class SingleLineTextInput extends View {
 
 
     @flow.stateStep('hidden', transition, layout.opacity(0))
-    @flow.defaultState('shown', transition, layout.stick.center(), layout.opacity(1), layout.translate(0, 0, 10))
+    @flow.defaultState('shown', transition, layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 10))
     border = new Surface({
             properties: {
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
