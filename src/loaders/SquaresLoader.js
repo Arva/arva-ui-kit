@@ -47,7 +47,7 @@ export class SquaresLoader extends View {
      *
      * new DataBoundScrollView({ placeholderTemplate: () => new SquaresLoader({ loaderSize: [48, 48] }) });
      */
-    constructor(options) {
+    constructor(options = {}) {
         super(options);
         this.container.context.setPerspective(100);
 
