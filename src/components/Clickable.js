@@ -15,17 +15,15 @@ export class Clickable extends View {
         options = combineOptions({
             easyPress: false,
             disableAfterClick: false,
-            autoEnable: true,
+            enabled: true,
             clickEventName: 'buttonClick'
         }, options);
-        if (options.enabled === false) {
-            /* Merge options in two rounds since there are dependencies within the options */
-            options = combineOptions(options.disabledOptions, options);
-        } else {
-            options.enabled = true;
-        }
-
         super(options);
+
+        if (this.options.enabled === false) {
+            /* Merge options in two rounds since there are dependencies within the options */
+            this._setEnabled(false);
+        }
         this._enabled = options.enabled;
         this._setupListeners();
     }
@@ -120,10 +118,11 @@ export class Clickable extends View {
     }
 
     _isEnabled() {
-        return this._enabled || !this.options.disableAfterClick;
+        return this._enabled;
     }
 
     _setEnabled(enabled) {
         this._enabled = enabled;
+        this.reflowRecursively();
     }
 }
