@@ -9,6 +9,7 @@ import {layout, flow, event}    from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 
 import {UIRegular}              from '../../text/UIRegular.js';
+import {Ripple}                 from '../../components/Ripple.js';
 import {BaseIcon}               from '../../icons/views/BaseIcon.js';
 import crossImage			    from '../../icons/resources/cross_default.svg.txt!text';
 import doneImage			    from '../../icons/resources/done_default.svg.txt!text';
@@ -39,7 +40,6 @@ export class FeedbackBubble extends View {
     };
 
     @layout.fullSize()
-    @event.on('click', function() { this.toggle(); })
     background = new Surface({
         properties: {
             backgroundColor: FeedbackBubble.colors[this.options.variation],
@@ -52,7 +52,6 @@ export class FeedbackBubble extends View {
     @layout.dock.right()
     @layout.stick.center()
     @layout.translate(0, 0, 20)
-    @event.on('click', function() { this.toggle(); })
     icon = new BaseIcon({
         icon: FeedbackBubble.icons[this.options.variation],
         color: 'rgb(255, 255, 255)',
@@ -61,12 +60,11 @@ export class FeedbackBubble extends View {
         }
     });
 
-    @event.on('click', function() { this.toggle(); })
     @flow.stateStep('shown', transitions, layout.dock.right(~30), layout.dockSpace(8))
     @flow.stateStep('shown', transitions, layout.opacity(1))
     @flow.stateStep('hidden', closeTransition, layout.opacity(0))
     @flow.stateStep('hidden', closeTransition, layout.size(undefined, undefined), layout.dock.none())
-    @flow.defaultState('hidden', closeTransition, layout.size(undefined, undefined), layout.dock.none(), layout.opacity(0))
+    @flow.defaultState('hidden', closeTransition, layout.size(undefined, undefined), layout.dock.none(), layout.translate(0, 0, 10), layout.opacity(0))
     text = new UIRegular({
         content: this.options.text || FeedbackBubble.texts[this.options.variation],
         properties: {
@@ -77,6 +75,12 @@ export class FeedbackBubble extends View {
             textAlign: 'right'
         }
     });
+
+    @layout.fullSize()
+    @layout.translate(0, 0, 30)
+    @event.on('click', function() { this.toggle(); })
+    @layout.clip(undefined, undefined, {borderRadius: '2px', cursor: 'pointer'})
+    ripple = new Ripple(this.options.rippleOptions);
     
     setText(text) {
         this.text.setContent(text);
