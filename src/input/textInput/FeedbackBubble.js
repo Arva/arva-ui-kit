@@ -69,6 +69,8 @@ export class FeedbackBubble extends View {
         properties: {
             color: 'rgb(255, 255, 255)',
             lineHeight: '40px',
+            overflow: 'hidden',
+            cursor: 'pointer',
             textAlign: 'right'
         }
     });
