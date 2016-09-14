@@ -14,7 +14,8 @@ import crossImage			    from '../../icons/resources/cross_default.svg.txt!text';
 import doneImage			    from '../../icons/resources/done_default.svg.txt!text';
 import asteriskImage            from './asterisk.svg.txt!text';
 
-const options = { transition: { curve: Easing.outCubic, duration: 20 } };
+const transitions = { transition: { curve: Easing.outCubic, duration: 100 } };
+const closeTransition = { transition: { curve: Easing.outCubic, duration: 20 } };
 
 // @flow.viewStates()
 @layout.dockPadding(0, 8)
@@ -62,10 +63,11 @@ export class FeedbackBubble extends View {
     });
 
     @event.on('click', function() { this.toggle(); })
-    @flow.stateStep('shown', { transition: { curve: Easing.outCubic, duration: 20000 }}, layout.dock.right(~30), layout.dockSpace(8))
-    @flow.stateStep('shown', options, layout.opacity(1))
-    @flow.stateStep('hidden', options, layout.opacity(0))
-    @flow.defaultState('hidden', options, layout.size(undefined, undefined), layout.opacity(0), layout.dock.none(), layout.translate(0, 0, 10))
+    @flow.stateStep('shown', transitions, layout.dock.right(~30), layout.dockSpace(8))
+    @flow.stateStep('shown', transitions, layout.opacity(1))
+    @flow.stateStep('hidden', closeTransition, layout.opacity(0))
+    @flow.stateStep('hidden', closeTransition, layout.size(undefined, undefined), layout.dock.none())
+    @flow.defaultState('hidden', closeTransition, layout.size(undefined, undefined), layout.dock.none(), layout.opacity(0))
     text = new UIRegular({
         content: this.options.text || FeedbackBubble.texts[this.options.variation],
         properties: {
@@ -82,6 +84,7 @@ export class FeedbackBubble extends View {
     }
 
     expand() {
+        this.setRenderableFlowState('background', 'shown');
         this.setRenderableFlowState('text', 'shown');
     }
 

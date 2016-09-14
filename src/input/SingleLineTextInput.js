@@ -15,7 +15,7 @@ import {Dimensions}             from '../defaults/DefaultDimensions.js';
 
 let {searchBar: {borderRadius}} = Dimensions;
 const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
-
+const closeTransition = { transition: { curve: Easing.outCubic, duration: 20 }, delay: 0 };
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 500}, delay: 0};
 const showBubble = [layout.opacity(1), layout.scale(1, 1, 1), layout.dock.right(), layout.stick.left(), layout.translate(0, 0, 50)];
 const hideBubble = [layout.opacity(0), layout.scale(0, 0, 1), layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
@@ -67,15 +67,15 @@ export class SingleLineTextInput extends View {
     });
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
-    @flow.defaultState('hidden', flowOptions, ...hideBubble)
+    @flow.defaultState('hidden', closeTransition, ...hideBubble)
     correct = new FeedbackBubble({variation: 'correct'});
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
-    @flow.defaultState('hidden', flowOptions, ...hideBubble)
+    @flow.defaultState('hidden', closeTransition,...hideBubble)
     incorrect = new FeedbackBubble({variation: 'incorrect'});
 
-    @flow.stateStep('shown', flowOptions, ...showBubble)
-    @flow.defaultState('hidden', flowOptions, ...hideBubble)
+    @flow.stateStep('hidden', closeTransition, ...hideBubble)
+    @flow.defaultState('shown', flowOptions, ...showBubble)
     required = new FeedbackBubble({variation: 'required'});
 
     constructor(options) {
