@@ -16,7 +16,7 @@ import asteriskImage            from './asterisk.svg.txt!text';
 
 const options = { transition: { curve: Easing.outCubic, duration: 20 } };
 
-@flow.viewStates()
+// @flow.viewStates()
 @layout.dockPadding(0, 8)
 export class FeedbackBubble extends View {
 
@@ -61,7 +61,8 @@ export class FeedbackBubble extends View {
     });
 
     @event.on('click', function() { this.toggle(); })
-    @flow.stateStep('shown', options, layout.dock.right(~30), layout.dockSpace(8), layout.opacity(1))
+    @flow.stateStep('shown', { transition: { curve: Easing.outCubic, duration: 20000 }}, layout.dock.right(~30), layout.dockSpace(8))
+    @flow.stateStep('shown', options, layout.opacity(1))
     @flow.stateStep('hidden', options, layout.opacity(0))
     @flow.defaultState('hidden', options, layout.size(undefined, undefined), layout.opacity(0), layout.dock.none())
     text = new UIRegular({
