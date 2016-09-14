@@ -14,7 +14,7 @@ export class SingleLineTextInput extends View {
     input = new SingleLineInputSurface({
         content: this.options.content || '',
         properties: {
-            padding: '0px 48px 0px 8px'
+            padding: '0px 48px 0px 16px'
         }
     });
 
