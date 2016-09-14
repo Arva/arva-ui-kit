@@ -17,6 +17,8 @@ let {searchBar: {borderRadius}} = Dimensions;
 const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 500}, delay: 0};
+const showBubble = [layout.opacity(1), layout.scale(1, 1, 1), layout.dock.right(), layout.dockSpace(8), layout.stick.center(), layout.translate(0, 0, 50)];
+const hideBubble = [layout.opacity(0), layout.scale(0, 0, 1), layout.dock.none(), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
 
 @flow.viewStates({
     correct: [{correct: 'shown', incorrect: 'hidden', required: 'hidden'}],
@@ -25,6 +27,7 @@ const flowOptions = {transition: {curve: Easing.outCubic, duration: 500}, delay:
 })
 export class SingleLineTextInput extends View {
 
+
     @flow.stateStep('hidden', transition, layout.opacity(0))
     @flow.defaultState('shown', transition, layout.stick.center(), layout.opacity(1), layout.translate(0, 0, 10))
     border = new Surface({
@@ -32,7 +35,7 @@ export class SingleLineTextInput extends View {
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
                 backgroundColor: 'rgb(255, 255, 255)',
                 borderRadius: borderRadius,
-                boxSizing: 'border-box'
+                boxSizing: 'content-box'
             }
         }
     );
@@ -62,23 +65,24 @@ export class SingleLineTextInput extends View {
         }
     });
 
-    @flow.stateStep('shown', flowOptions, layout.opacity(1), layout.dock.right(), layout.translate(-4, 0, 50))
-    @flow.defaultState('hidden', flowOptions, layout.opacity(0), layout.dock.none(), layout.stick.center(), layout.size(~40, 40), layout.translate(-4, 0, -20))
+    @flow.stateStep('shown', flowOptions, ...showBubble)
+    @flow.defaultState('hidden', flowOptions, ...hideBubble)
     correct = new FeedbackBubble({variation: 'correct'});
 
-    @flow.stateStep('shown', flowOptions, layout.opacity(1), layout.dock.right(), layout.translate(-4, 0, 50))
-    @flow.defaultState('hidden', flowOptions, layout.opacity(0), layout.dock.none(), layout.stick.center(), layout.size(~40, 40), layout.translate(-4, 0, -20))
+    @flow.stateStep('shown', flowOptions, ...showBubble)
+    @flow.defaultState('hidden', flowOptions, ...hideBubble)
     incorrect = new FeedbackBubble({variation: 'incorrect'});
 
-    @flow.stateStep('hidden', flowOptions, layout.opacity(0), layout.dock.none(), layout.translate(-4, 0, -20))
-    @flow.defaultState('shown', flowOptions, layout.opacity(1), layout.dock.right(), layout.stick.center(), layout.size(~40, 40), layout.translate(-4, 0, 50))
+    @flow.stateStep('shown', flowOptions, ...showBubble)
+    @flow.defaultState('hidden', flowOptions, ...hideBubble)
     required = new FeedbackBubble({variation: 'required'});
 
     constructor(options) {
         super(combineOptions({required: true}, options));
 
         if (this.options.required) {
-            this.setRequiredState();
+            this.setCorrectState();
+            // this.setRequiredState();
         }
 
         window.x = this; // todo remove
