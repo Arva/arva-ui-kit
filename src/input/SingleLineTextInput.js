@@ -82,8 +82,7 @@ export class SingleLineTextInput extends View {
         super(combineOptions({required: true}, options));
 
         if (this.options.required) {
-            this.setCorrectState();
-            // this.setRequiredState();
+            this.setRequiredState();
         }
 
         window.x = this; // todo remove
