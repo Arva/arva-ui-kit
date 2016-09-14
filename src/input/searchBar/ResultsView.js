@@ -29,8 +29,8 @@ export class ResultsView extends View {
         }}
     );
 
-    @layout.translate(0, 0, 10)
     @layout.dock.fill()
+    @layout.translate(0, 0, 10)
     content = new DataBoundScrollView({
         useContainer: true,
         placeholderTemplate: () => new SquaresLoader({ loaderSize: [this.options.itemHeight, this.options.itemHeight] }),
