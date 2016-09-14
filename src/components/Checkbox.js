@@ -14,8 +14,8 @@ import {Colors}             from '../defaults/DefaultColors.js';
 const innerBoxSize = [44, 44];
 const iconSize = [24, 24];
 const iconZValue = 30;
-const inCurve = {transition: {curve: Easing.outCubic, duration: 2000}};
-const outCurve = {transition: {curve: Easing.outBack, duration: 2000}};
+const inCurve = {transition: {curve: Easing.outCubic, duration: 200}};
+const outCurve = {transition: {curve: Easing.outBack, duration: 200}};
 const defaultIconOptions = [layout.stick.center(), layout.size(...iconSize), layout.translate(0, 0, iconZValue)];
 
 @flow.viewStates({
