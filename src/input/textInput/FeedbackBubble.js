@@ -51,6 +51,7 @@ export class FeedbackBubble extends View {
     @layout.size(24, 24)
     @layout.dock.right()
     @layout.stick.center()
+    @layout.translate(0, 0, 20)
     @event.on('click', function() { this.toggle(); })
     icon = new BaseIcon({
         icon: FeedbackBubble.icons[this.options.variation],
