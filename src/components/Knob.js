@@ -13,7 +13,7 @@ export class Knob extends WhiteBox {
 
     @layout.size(24, 24)
     @layout.stick.center()
-    @layout.translate(0, 0, 50)
+    @layout.translate(0, 0, 10)
     dragLines = new Surface({
         content: this.options.text ? '' : iconImage,
         properties: {
@@ -23,7 +23,7 @@ export class Knob extends WhiteBox {
 
     @layout.size(undefined, ~30)
     @layout.stick.center()
-    @layout.translate(0, 0, 50)
+    @layout.translate(0, 0, 20)
     text = new Surface(combineOptions({
         content: this.options.text,
         properties: {

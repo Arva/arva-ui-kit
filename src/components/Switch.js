@@ -47,6 +47,7 @@ export class Switch extends Clickable {
 
     @layout.fullSize()
     @layout.stick.center()
+    @layout.translate(0, 0, 10)
     @flow.stateStep('visible', curve, layout.opacity(1))
     @flow.stateStep('invisible', curve, layout.opacity(0))
     selectedOuterBox = new Surface({
@@ -58,19 +59,19 @@ export class Switch extends Clickable {
 
     @layout.size(...iconSize)
     @layout.stick.left()
-    @layout.translate(12, 0, 0)
+    @layout.translate(12, 0, 20)
     tick = new DoneIcon({color: iconColor});
 
     @layout.size(...iconSize)
     @layout.stick.right()
-    @layout.translate(-12, 0, 0)
+    @layout.translate(-12, 0, 20)
     cross = new CrossIcon({color: iconColor});
 
     @layout.size(function(width) {
         return this.options.variation === 'large' ? width - 50 : this._knobWidth
     }, 44)
     @layout.stick.left()
-    @layout.translate(knobLeftOffset, 0, 0)
+    @layout.translate(knobLeftOffset, 0, 30)
     knob = new Knob({
         text: this.options.text,
         enableSoftShadow: this.options.shadowType === 'softShadow'
