@@ -14,24 +14,29 @@ import {FeedbackBubble}         from './textInput/FeedbackBubble.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 
 let {searchBar: {borderRadius}} = Dimensions;
-const transition = { transition: { curve: Easing.outCubic, duration: 300 }, delay: 0 };
+const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 const closeTransition = { transition: { curve: Easing.outCubic, duration: 20 }, delay: 0 };
+const flowOptions = {transition: {curve: Easing.outCubic, duration: 500}, delay: 0};
+const showBubble = [layout.opacity(1), layout.scale(1, 1, 1), layout.dock.right(), layout.stick.left(), layout.translate(0, 0, 50)];
+const hideBubble = [layout.opacity(0), layout.scale(0, 0, 1), layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
 
 @flow.viewStates({
     correct: [{correct: 'shown', incorrect: 'hidden', required: 'hidden'}],
     required: [{correct: 'hidden', incorrect: 'hidden', required: 'shown'}],
     incorrect: [{correct: 'hidden', incorrect: 'shown', required: 'hidden'}]
 })
+@layout.dockPadding(0, 4, 0, 0)
 export class SingleLineTextInput extends View {
 
+
     @flow.stateStep('hidden', transition, layout.opacity(0))
-    @flow.defaultState('shown', transition, layout.stick.center(), layout.opacity(1), layout.translate(0, 0, 10))
+    @flow.defaultState('shown', transition, layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 10))
     border = new Surface({
             properties: {
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
                 backgroundColor: 'rgb(255, 255, 255)',
                 borderRadius: borderRadius,
-                boxSizing: 'border-box'
+                boxSizing: 'content-box'
             }
         }
     );
@@ -61,16 +66,16 @@ export class SingleLineTextInput extends View {
         }
     });
 
-    @flow.stateStep('shown', transition, layout.opacity(1), layout.dock.right(), layout.translate(-4, 0, 50))
-    @flow.defaultState('hidden', closeTransition, layout.opacity(0), layout.dock.none(), layout.stick.right(), layout.size(~40, 40), layout.translate(-4, 0, -20))
+    @flow.stateStep('shown', flowOptions, ...showBubble)
+    @flow.defaultState('hidden', closeTransition, ...hideBubble)
     correct = new FeedbackBubble({variation: 'correct'});
 
-    @flow.stateStep('shown', transition, layout.opacity(1), layout.dock.right(), layout.translate(-4, 0, 50))
-    @flow.defaultState('hidden', closeTransition, layout.opacity(0), layout.dock.none(), layout.stick.right(), layout.size(~40, 40), layout.translate(-4, 0, -20))
+    @flow.stateStep('shown', flowOptions, ...showBubble)
+    @flow.defaultState('hidden', closeTransition,...hideBubble)
     incorrect = new FeedbackBubble({variation: 'incorrect'});
 
-    @flow.stateStep('hidden', closeTransition, layout.opacity(0), layout.dock.none(), layout.translate(-4, 0, -20))
-    @flow.defaultState('shown', transition, layout.opacity(1), layout.dock.right(), layout.stick.right(), layout.size(~40, 40), layout.translate(-4, 0, 50))
+    @flow.stateStep('hidden', closeTransition, ...hideBubble)
+    @flow.defaultState('shown', flowOptions, ...showBubble)
     required = new FeedbackBubble({variation: 'required'});
 
     constructor(options) {
