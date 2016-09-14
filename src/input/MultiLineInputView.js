@@ -37,7 +37,11 @@ export class MultiLineInputView extends View {
 
         /* Set properties specificly as resize property is not set on construction */
         this.input.setProperties({resize: 'none', padding: this.options.properties.padding});
-        this.input.on('scroll', () => this.input._element.scrollTop = 0);
+        this.input.on('scroll', () => {
+            if(this._savedHeight !== this.options.maxHeight) {
+                this.scrollToTop();
+            }
+        });
 
         this.input.on('scrollHeightChanged', (scrollHeight)=> {
             if (scrollHeight < this.options.initialHeight) scrollHeight = this.options.initialHeight;
@@ -58,6 +62,10 @@ export class MultiLineInputView extends View {
 
     getSize() {
         return [undefined, this._savedHeight || this.options.initialHeight]
+    }
+
+    scrollToTop() {
+        this.input._element.scrollTop = 0
     }
 
     _onKeyUp(event) {
@@ -105,6 +113,13 @@ export class MultiLineInputView extends View {
             return false;
         }
         return message;
+    }
 
+    blur() {
+        return this.input.blur();
+    }
+
+    focus() {
+        return this.input.focus();
     }
 }
