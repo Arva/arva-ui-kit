@@ -51,6 +51,7 @@ export class FeedbackBubble extends View {
     @layout.size(24, 24)
     @layout.dock.right()
     @layout.stick.center()
+    @layout.translate(0, 0, 20)
     @event.on('click', function() { this.toggle(); })
     icon = new BaseIcon({
         icon: FeedbackBubble.icons[this.options.variation],
@@ -64,7 +65,7 @@ export class FeedbackBubble extends View {
     @flow.stateStep('shown', { transition: { curve: Easing.outCubic, duration: 20000 }}, layout.dock.right(~30), layout.dockSpace(8))
     @flow.stateStep('shown', options, layout.opacity(1))
     @flow.stateStep('hidden', options, layout.opacity(0))
-    @flow.defaultState('hidden', options, layout.size(undefined, undefined), layout.opacity(0), layout.dock.none())
+    @flow.defaultState('hidden', options, layout.size(undefined, undefined), layout.opacity(0), layout.dock.none(), layout.translate(0, 0, 10))
     text = new UIRegular({
         content: this.options.text || FeedbackBubble.texts[this.options.variation],
         properties: {
