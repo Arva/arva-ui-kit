@@ -6,7 +6,7 @@ import Surface                  from 'famous/core/Surface.js';
 import Easing                   from 'famous/transitions/Easing.js';
 
 import {View}                   from 'arva-js/core/View.js';
-import {layout, flow}           from 'arva-js/layout/Decorators.js';
+import {layout, flow, event}    from 'arva-js/layout/Decorators.js';
 import {flowStates}             from 'arva-js/layout/FlowStates.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {SingleLineInputSurface} from './SingleLineInputSurface.js';
@@ -50,6 +50,8 @@ export class SingleLineTextInput extends View {
 
     @layout.dock.fill()
     @layout.translate(0, 0, 30)
+    @event.on('blur', function() { this._onBlur(); })
+    @event.on('focus', function() { this._onFocus(); })
     input = new SingleLineInputSurface({
         content: this.options.content || '',
         properties: {
@@ -60,31 +62,16 @@ export class SingleLineTextInput extends View {
         }
     });
 
-    @layout.size(~40, 40)
-    @layout.dock.right()
-    @layout.stick.center()
-    @layout.translate(-4, 0, 50)
-    @layout.opacity(0)
-    @flow.stateStep('shown', flowOptions, layout.opacity(1))
-    @flow.stateStep('hidden', flowOptions, layout.opacity(0))
+    @flow.stateStep('shown', flowOptions, layout.opacity(1), layout.dock.right(), layout.translate(-4, 0, 50))
+    @flow.defaultState('hidden', flowOptions, layout.opacity(0), layout.dock.none(), layout.stick.center(), layout.size(~40, 40), layout.translate(-4, 0, -20))
     correct = new FeedbackBubble({variation: 'correct'});
 
-    @layout.size(~40, 40)
-    @layout.dock.right()
-    @layout.stick.center()
-    @layout.translate(-4, 0, 40)
-    @layout.opacity(0)
-    @flow.stateStep('shown', flowOptions, layout.opacity(1))
-    @flow.stateStep('hidden', flowOptions, layout.opacity(0))
+    @flow.stateStep('shown', flowOptions, layout.opacity(1), layout.dock.right(), layout.translate(-4, 0, 50))
+    @flow.defaultState('hidden', flowOptions, layout.opacity(0), layout.dock.none(), layout.stick.center(), layout.size(~40, 40), layout.translate(-4, 0, -20))
     incorrect = new FeedbackBubble({variation: 'incorrect'});
 
-    @layout.size(~40, 40)
-    @layout.dock.right()
-    @layout.stick.center()
-    @layout.translate(-4, 0, 20)
-    @layout.opacity(0)
-    @flow.stateStep('shown', flowOptions, layout.opacity(1))
-    @flow.stateStep('hidden', flowOptions, layout.opacity(0))
+    @flow.stateStep('hidden', flowOptions, layout.opacity(0), layout.dock.none(), layout.translate(-4, 0, -20))
+    @flow.defaultState('shown', flowOptions, layout.opacity(1), layout.dock.right(), layout.stick.center(), layout.size(~40, 40), layout.translate(-4, 0, 50))
     required = new FeedbackBubble({variation: 'required'});
 
     constructor(options) {
@@ -118,5 +105,16 @@ export class SingleLineTextInput extends View {
 
     getSize() {
         return [undefined, 48];
+    }
+
+    _onFocus() {
+        this.setRenderableFlowState('shadow', 'shown');
+        this.correct.collapse();
+        this.incorrect.collapse();
+        this.required.collapse();
+    }
+
+    _onBlur() {
+        this.setRenderableFlowState('shadow', 'hidden');
     }
 }
