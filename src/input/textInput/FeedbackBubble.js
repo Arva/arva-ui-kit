@@ -10,6 +10,7 @@ import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 
 import {UIRegular}              from '../../text/UIRegular.js';
 import {Ripple}                 from '../../components/Ripple.js';
+import {Clickable}              from '../../components/Clickable.js';
 import {BaseIcon}               from '../../icons/views/BaseIcon.js';
 import crossImage			    from '../../icons/resources/cross_default.svg.txt!text';
 import doneImage			    from '../../icons/resources/done_default.svg.txt!text';
@@ -19,7 +20,7 @@ const transitions = { transition: { curve: Easing.outCubic, duration: 100 } };
 const closeTransition = { transition: { curve: Easing.outCubic, duration: 20 } };
 
 @layout.dockPadding(0, 8)
-export class FeedbackBubble extends View {
+export class FeedbackBubble extends Clickable {
 
     static colors = {
         'required': 'rgb(170, 170, 170)',
@@ -79,8 +80,8 @@ export class FeedbackBubble extends View {
     @layout.fullSize()
     @layout.translate(0, 0, 30)
     @event.on('click', function() { this.toggle(); })
-    @layout.clip(undefined, undefined, {borderRadius: '2px', cursor: 'pointer'})
-    ripple = new Ripple(this.options.rippleOptions);
+    @layout.clip(undefined, undefined, { borderRadius: '2px', cursor: 'pointer' })
+    ripple = new Ripple(combineOptions({ sizeMultiplier: 5} , this.options.rippleOptions));
     
     setText(text) {
         this.text.setContent(text);
@@ -99,4 +100,58 @@ export class FeedbackBubble extends View {
         let newState = this.getRenderableFlowState('text') === 'shown' ? 'hidden' : 'shown';
         this.setRenderableFlowState('text', newState);
     }
+
+
+    /* Shows Ripple */
+    _handleTapStart({x, y}) {
+        if (this._isEnabled()) {
+            this._inBounds = true;
+            /**
+             * Calculate the correct position of the click inside the current renderable (overlay taken for easy calculation, as it's always fullSize).
+             * This will not account for rotation/skew/any other transforms except translates so if the Button class is e.d rotated the ripple will not be placed in the correct location
+             * @type {ClientRect}
+             */
+            let boundingBox = this.background._currentTarget.getBoundingClientRect();
+            this.ripple.show(x - boundingBox.left, y - boundingBox.top);
+        }
+    }
+
+    _handleTouchMove(touchEvent){
+        if (this._inBounds) {
+            this.throttler.add(()=>{
+                this._inBounds = this._isInBounds(touchEvent);
+                if(!this._inBounds){
+                    this.ripple.hide();
+                }
+            });
+        }
+    }
+
+    _handleTapEnd(mouseEvent) {
+            this.ripple.hide();
+        return mouseEvent.type === 'touchend' && this._isInBounds(mouseEvent) && this._handleClick(mouseEvent);
+    }
+
+    /**
+     * Checks if the current TouchEvent is outside the current target element
+     * @param touch
+     * @param elemposition
+     * @param width
+     * @param height
+     * @returns {boolean}
+     * @private
+     */
+    _isInBounds(touch) {
+        let elemPosition = this.overlay._currentTarget.getBoundingClientRect();
+        let [width, height] = this.overlay.getSize();
+
+        var left = elemPosition.left,
+            right = left + width,
+            top = elemPosition.top,
+            bottom = top + height,
+            touchX = touch.touches[0].pageX,
+            touchY = touch.touches[0].pageY;
+
+        return (touchX > left && touchX < right && touchY > top && touchY < bottom);
+    };
 }
