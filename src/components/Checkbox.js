@@ -10,6 +10,7 @@ import {Button}             from '../buttons/Button.js';
 import {DoneIcon}           from '../icons/DoneIcon.js';
 import {CrossIcon}          from '../icons/CrossIcon.js';
 import {Colors}             from '../defaults/DefaultColors.js';
+import Timer                from 'famous/utilities/Timer.js';
 
 const innerBoxSize = [44, 44];
 const iconSize = [24, 24];
@@ -78,9 +79,27 @@ export class Checkbox extends Button {
         this.setViewFlowState('pressed');
     }
 
+    check() {
+        if(!this.isChecked()){
+            this._handleTapStart();
+            Timer.setTimeout(() => {
+                this._handleTapEnd();
+            },500);
+        }
+    }
+
+    unCheck() {
+        if(this.isChecked()){
+            this._handleTapStart();
+            Timer.setTimeout(() => {
+                this._handleTapEnd();
+            },500);
+        }
+    }
+
     _handleTapEnd() {
         if (this._inBounds) {
-            let isChecked = this._isChecked();
+            let isChecked = this.isChecked();
 
             this.tick.setProperties({display: isChecked ? 'none' : 'block'});
             this.cross.setProperties({display: isChecked ? 'block' : 'none'});
@@ -91,17 +110,17 @@ export class Checkbox extends Button {
     }
 
     _onMouseOut() {
-        this.setViewFlowState(this._isChecked() ? 'checked' : 'unchecked');
+        this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
     }
 
     _handleTouchMove(touchEvent) {
         this._inBounds = this._isInBounds(touchEvent, this.background);
         if (!this._inBounds) {
-            this.setViewFlowState(this._isChecked() ? 'checked' : 'unchecked');
+            this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
         }
     }
 
-    _isChecked() {
+    isChecked() {
         return this.background.getProperties().backgroundColor === Colors.PrimaryUIColor;
     }
 
