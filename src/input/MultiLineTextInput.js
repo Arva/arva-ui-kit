@@ -11,7 +11,7 @@ import {replaceEmojiAtEnd}          from './Emoji.js';
 import AutosizeTextareaSurface      from 'famous-autosizetextarea/AutosizeTextareaSurface.js';
 
 
-export class MultiLineInputView extends View {
+export class MultiLineTextInput extends View {
 
     @layout.size(undefined, undefined)
     input = new AutosizeTextareaSurface(combineOptions(this.options, {
@@ -28,7 +28,7 @@ export class MultiLineInputView extends View {
             clearOnEnter: false,
             emojiEnabled: true,
             placeholder: 'Type a message',
-            type: 'text', 
+            type: 'text',
             maxHeight: 150,
             properties: {
                 padding: '5px 10px 5px 10px'
