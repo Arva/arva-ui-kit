@@ -23,6 +23,16 @@ export class SectionHeader extends View {
         content: this.options.content
     });
 
+    /**
+     * A header component, to be used in e.g. the results of a SearchBar.
+     *
+     * @param {Object} [options] Construction options
+     * @param {String} [options.content] The textual content that is shown centered in this component
+     * @param {String} [options.colorVariation] Can be either 'grey' or 'white', and determines the background color
+     * @param {String} [options.lines] When set to true, adds 1px lines to the top and bottom of this component
+     * @param {Number} [options.height] When set, uses this height if the component isn't being used in a decorated layout
+     *
+     */
     constructor(options = {}) {
         super(combineOptions({
             content: '',
