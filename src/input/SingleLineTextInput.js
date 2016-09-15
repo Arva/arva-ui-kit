@@ -14,8 +14,8 @@ import {FeedbackBubble}         from './textInput/FeedbackBubble.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 
 let {searchBar: {borderRadius}} = Dimensions;
-const transition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
-const closeTransition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
+const transition = {transition: {curve: Easing.outCubic, duration: 200}, delay: 0};
+const closeTransition = {transition: {curve: Easing.outCubic, duration: 200}, delay: 0};
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 300}, delay: 0};
 const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.topLeft(), layout.translate(0, 4, 50)];
 const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
@@ -56,7 +56,7 @@ export class SingleLineTextInput extends View {
     correct = new FeedbackBubble({variation: 'correct'});
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
-    @flow.defaultState('hidden', closeTransition,...hideBubble)
+    @flow.defaultState('hidden', closeTransition, ...hideBubble)
     incorrect = new FeedbackBubble({variation: 'incorrect'});
 
     @flow.defaultState('hidden', flowOptions, ...hideBubble)
@@ -66,17 +66,21 @@ export class SingleLineTextInput extends View {
     constructor(options) {
         super(combineOptions({required: false, usesFeedback: true}, options));
 
-        if(!this.input){
-           this.addRenderable(new SingleLineInputSurface({
-                   content: this.options.content || '',
-                   properties: {
-                       backgroundColor: 'transparent',
-                       padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
-                       borderRadius: borderRadius,
-                       boxShadow: 'none'
-                   }
-               }), 'input', layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function() { this._onBlur(); }), event.on('focus', function() { this._onFocus(); }
-           ));
+        if (!this.input) {
+            this.addRenderable(new SingleLineInputSurface({
+                content: this.options.content || '',
+                properties: {
+                    backgroundColor: 'transparent',
+                    padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
+                    borderRadius: borderRadius,
+                    boxShadow: 'none'
+                }
+            }), 'input', layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
+                this._onBlur();
+            }), event.on('focus', function () {
+                    this._onFocus();
+                }
+            ));
         }
 
         if (this.options.required) {
@@ -86,14 +90,14 @@ export class SingleLineTextInput extends View {
     }
 
     setCorrectState(message = '') {
-        if(message){
+        if (message) {
             this.correct.setText(message);
         }
         this.setViewFlowState('correct');
     }
 
     setIncorrectState(message = '') {
-        if(message){
+        if (message) {
             this.incorrect.setText(message);
         }
         this.setViewFlowState('incorrect');
