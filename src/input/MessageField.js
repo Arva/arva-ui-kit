@@ -16,7 +16,7 @@ import {
 
 import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
-import {MultiLineTextInput}     from './MultiLineTextInput.js';
+import {MultiLineInput}         from './MultiLineInput.js';
 
 let {searchBar: {borderRadius}} = Dimensions;
 let transition =  {duration: 150};
@@ -87,7 +87,7 @@ export class MessageField extends View {
         return this._currentViewFlowState() === 'active' ? ~32 : 32
     })
     @layout.translate(0, 1, 30)
-    input = new MultiLineTextInput(combineOptions(
+    input = new MultiLineInput(combineOptions(
         UIRegular,
         {
             initialHeight: 2,
@@ -126,13 +126,11 @@ export class MessageField extends View {
         });
 
         this.on('send', () => {
-            this._dontLooseFocus = true;
             this.sendButton.disable();
             this.setRenderableFlowState('input', 'hidden').then(() => {
                 this._eventOutput.emit('message', this.input.getValue());
                 this.input.setValue('');
                 this.setRenderableFlowState('input', 'shown');
-                this._dontLooseFocus = false;
             })
 
         });
@@ -147,24 +145,18 @@ export class MessageField extends View {
     }
 
 
-    _onDeactivate () {
-
-        setTimeout(() => {
-            if(!this._dontLooseFocus){
-                this.input.input.setProperties({ overflow: 'auto'});
-                this.setViewFlowState('inactive');
-                this.reflowRecursively();
-                this.input.scrollToTop();
-                this.sendButton.disable();
-            }
-
-        }, 100);
+    async _onDeactivate () {
+        this.input.collapse();
+        await this.setViewFlowState('inactive');
+        /* Reflow parent because size changed */
+        this.reflowRecursively();
+        this.input.scrollToBottom();
         return true;
     }
 
     async _onFocusEvent(event, type) {
         if(this.inFocusEvent) { return; }
-        type === 'focus' ? await this._onActivate(event) : this._onDeactivate(event);
+        type === 'focus' ? await this._onActivate(event) : await this._onDeactivate(event);
     }
 
     /* Complex logic because the focusing has to be delayed */

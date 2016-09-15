@@ -43,7 +43,7 @@ export class MultiLineInput extends View {
         /* Set properties specificly as resize property is not set on construction */
         this.input.setProperties(this.options.properties);
         this.input.on('scroll', () => {
-            if(this._savedHeight !== this.options.maxHeight) {
+            if(this._savedHeight !== this.options.maxHeight && !this._collapsed) {
                 this.scrollToTop();
             }
         });
@@ -52,17 +52,31 @@ export class MultiLineInput extends View {
             if (scrollHeight < this.options.initialHeight) scrollHeight = this.options.initialHeight;
             this.reflowRecursively();
             this._savedHeight = scrollHeight > this.options.maxHeight ? this.options.maxHeight : scrollHeight;
-            if(this._savedHeight === this.options.maxHeight){
-                this.input.setProperties({ overflow: 'scroll'});
-            } else {
-                this.input.setProperties({ overflow: 'hidden'});
-            }
+            this.setOverflowProperties();
         });
-
+        this._collapsed = false;
         this.input.on('keyup', this._onKeyUp);
         this.input.on('paste', this._onFieldChange);
         this.input.on('input', this._onFieldChange);
         this.input.on('propertychange', this._onFieldChange);
+    }
+
+    collapse() {
+        this._collapsed = true;
+        this.input.setProperties({ overflow: 'hidden'});
+    }
+
+    expand() {
+        this.setOverflowProperties();
+        this._collapsed = false;
+    }
+
+    setOverflowProperties() {
+        if(this._savedHeight === this.options.maxHeight){
+            this.input.setProperties({ overflow: 'scroll'});
+        } else {
+            this.input.setProperties({ overflow: 'hidden'});
+        }
     }
 
     getSize() {
@@ -72,6 +86,11 @@ export class MultiLineInput extends View {
     scrollToTop() {
         this.input._element.scrollTop = 0
     }
+
+    scrollToBottom() {
+        this.input._element.scrollTop = this.input._element.scrollHeight;
+    }
+
 
     _onKeyUp(event) {
         let keyCode = event.keyCode;
