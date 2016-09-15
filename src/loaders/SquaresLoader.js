@@ -46,6 +46,10 @@ export class SquaresLoader extends View {
      * or
      *
      * new DataBoundScrollView({ placeholderTemplate: () => new SquaresLoader({ loaderSize: [48, 48] }) });
+     *
+     * @param {Object} [options] Construction options
+     * @param {Array} [options.loaderSize] A list of [width, height] specifying the wanted size of the loader, used when not layouting through decorators.
+     *                                      When using decorators, the SquaresLoader will default to taking up all the space it's decorated with.
      */
     constructor(options = {}) {
         super(options);
