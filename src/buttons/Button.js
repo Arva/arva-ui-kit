@@ -12,6 +12,9 @@ import {Ripple}             from '../components/Ripple.js';
 import {ComponentPadding}   from '../defaults/DefaultDimensions.js';
 
 
+/**
+ * A general class for a clickable making a ripple and some other useful button-like stuff
+ */
 @layout.dockPadding(0, ComponentPadding, 0, ComponentPadding)
 @layout.translate(0, 0, 30)
 export class Button extends Clickable {
@@ -28,21 +31,19 @@ export class Button extends Clickable {
     });
 
     /**
-     * A pressable button with optional ripple effect, shadows and backgrounds
-     *
      * @example
+     * a = new Button({
+     *  makeRipple: false,
+     *  useBackground: false,
+     *  });
      *
-     * @layout.dock.left(~200)
-     * button = new Button()
      *
-     * @param {Object} [options] Construction options
-     * @param {Boolean} [options.makeRipple] Enable the ripple to display when pressing the button
-     * @param {Boolean} [options.useBoxSahdow] Enable the box-shadow to display
-     * @param {Boolean} [options.useBackround] Enable the background to display
-     * @param {Number} [options.delay] The optional delay that the click events wait before firing
-     * @param {Boolean} [options.autoEnable] Optionally automatic enable the button once the button get's rendered in the view
-     * @param {Object} [options.backgroundProperties] The properties for the optional background
-     * @param {String} [options.properties] The properties for the button renderable
+     * @param {Object} options. The options a
+     * @param {Boolean} [options.makeRipple] Whether or not the button should make a ripple on press. Defaults to true.
+     * @param {Boolean} [options.useBoxShadow] Whether or not the button should use a box shadow. Defaults to true
+     * @param {Boolean} [options.autoEnable] If true, automatically enables the button when the deploy event is triggered.
+     * Defaults to false
+     * @param {Boolean} [options.backgroundProperties] The properties that should be passed to the background, if using one.
      */
     constructor(options) {
         super(combineOptions({
@@ -50,12 +51,11 @@ export class Button extends Clickable {
             useBoxShadow: true,
             useBackground: true,
             autoEnable: false,
-            delay: 0,
+            boxShadowType: 'softShadow',
             backgroundProperties: {
                 borderRadius: '4px',
                 backgroundColor: 'white'
-            },
-            properties: {}
+            }
         }, options));
 
         this.throttler = new Throttler(3, false, this, true);
