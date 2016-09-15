@@ -2,14 +2,15 @@
  * Created by vlad on 01/09/16.
  */
 
-import Surface                  from 'famous/core/Surface.js';
-import Easing                   from 'famous/transitions/Easing.js';
-import {Throttler}              from 'arva-js/utils/Throttler.js';
-import {layout, event, flow}    from 'arva-js/layout/Decorators.js';
-import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {Knob}                   from '../components/Knob.js';
-import {Clickable}              from '../components/Clickable.js';
-import {Colors}                 from '../defaults/DefaultColors.js';
+import Bowser                           from 'bowser';
+import Surface                          from 'famous/core/Surface.js';
+import Easing                           from 'famous/transitions/Easing.js';
+import {layout, event, flow}            from 'arva-js/layout/Decorators.js';
+import {combineOptions}                 from 'arva-js/utils/CombineOptions.js';
+import {Knob}                           from '../components/Knob.js';
+import {Clickable}                      from '../components/Clickable.js';
+import {Colors}                         from '../defaults/DefaultColors.js';
+import {UISmall, UISmallGrey}           from '../defaults/DefaultTypefaces.js';
 
 export const knobSideLength = 48;
 export const moveCurve = {curve: Easing.outBack, duration: 200};
@@ -45,16 +46,26 @@ export class Slider extends Clickable {
     @layout.align(0, 0.5)
     @layout.translate(0, 0, 50)
     @event.on('touchstart', function () {
-        this._expandTooltip('knob')
+        this.knob.text.setOptions(UISmall);
+        if (this._contentProvided && this.options._onMobile) {
+            this._expandTooltip('knob');
+        }
+    })
+    @event.on('mousedown', function () {
+        this.knob.text.setOptions(UISmall);
     })
     @event.on('click', function () {
-        if (this.snapPointsEnabled) {
+        this.knob.text.setOptions(UISmallGrey);
+        if (this._snapPointsEnabled) {
             this._snapKnobToPoint()
         }
     })
     @event.on('touchend', function () {
-        this._retractTooltip('knob');
-        if (this.snapPointsEnabled) {
+        this.knob.text.setOptions(UISmallGrey);
+        if (this._contentProvided && this.options._onMobile) {
+            this._retractTooltip('knob');
+        }
+        if (this._snapPointsEnabled) {
             this._snapKnobToPoint()
         }
     })
@@ -67,19 +78,24 @@ export class Slider extends Clickable {
     @flow.stateStep('expanded', moveCurve, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
     @flow.stateStep('retracted', retractCurve, layout.size(knobSideLength, knobSideLength), layout.origin(0.5, 0.5))
     knob = new Knob({
-        makeRipple: !this.options.enableTooltip,
+        // makeRipple: !this.options.enableTooltip,
         enableBorder: this.options.knobBorder,
         enableSoftShadow: true,
-        borderRadius: '4px'
+        borderRadius: '4px',
+        useThrottler: true,
+        typeface: UISmallGrey
     });
 
     constructor(options = {}) {
+        let _onMobile = Bowser.mobile || Bowser.tablet;
+
         super(combineOptions({
+            _onMobile,
             knobBorder: false,
             knobPosition: 0,
             shadowType: 'noShadow',
             enableActiveTrail: true,
-            range: [0.0, 10.0],
+            range: [],
             showDecimal: false,
             amountSnapPoints: 0,
             enableTooltip: true,
@@ -87,15 +103,10 @@ export class Slider extends Clickable {
             icons: [null, null]
         }, options));
 
-        this.throttler = new Throttler(2, false, this, true);
         this.amountSnapPoints = this.options.amountSnapPoints;
-        this.snapPointsEnabled = this.amountSnapPoints >= 2;
+        this._snapPointsEnabled = this.amountSnapPoints >= 2;
         this._knobPosition = this.options.knobPosition;
-
-        this.knob.decorateRenderable('text',
-            layout.opacity(this.options.textOnlyInTooltip ? 0 : 1)
-        );
-
+        this._contentProvided = this.options.percent === true || this.options.range.length >= 1;
     }
 
     _setupListeners() {
@@ -103,7 +114,7 @@ export class Slider extends Clickable {
             this._sliderWidth = width;
             this._setUpKnob();
 
-            if (this.snapPointsEnabled) {
+            if (this._snapPointsEnabled) {
                 this._addSnapPoints();
             }
 
@@ -160,7 +171,7 @@ export class Slider extends Clickable {
         }
 
         this._moveKnobTo(
-            this.snapPointsEnabled ? this.snapPointsPositions[this._closestPoint(tapPosition)] : tapPosition
+            this._snapPointsEnabled ? this.snapPointsPositions[this._closestPoint(tapPosition)] : tapPosition
         );
 
     }
@@ -177,7 +188,10 @@ export class Slider extends Clickable {
         if (Slider._positionInRange(position, range)) {
             this._updateKnobPositionTo(position);
             this.knob.draggable.setPosition([position, 0], moveCurve);
-            this._setKnobContent('knob');
+
+            if (this._contentProvided) {
+                this._setKnobContent('knob');
+            }
 
             if (this.options.enableActiveTrail) {
                 this._updateActiveTrail();
@@ -226,7 +240,7 @@ export class Slider extends Clickable {
             this.decorateRenderable('activeTrail',
                 layout.size(this._knobPosition, 2)
             );
-            if (this.snapPointsEnabled) {
+            if (this._snapPointsEnabled) {
                 this._updateActiveTrailSnapPoints();
             }
         }
@@ -291,9 +305,17 @@ export class Slider extends Clickable {
 
         this.knob.draggable.setPosition([this._knobPosition, 0]);
 
-        this._setKnobContent('knob');
+        if (this._contentProvided) {
+            this.knob.decorateRenderable('text',
+                layout.opacity(this.options.textOnlyInTooltip ? 0 : 1)
+            );
+        }
 
-        if (this.snapPointsEnabled) {
+        if (this._contentProvided) {
+            this._setKnobContent('knob');
+        }
+
+        if (this._snapPointsEnabled) {
             this._snapKnobToPoint();
         }
 
@@ -308,22 +330,22 @@ export class Slider extends Clickable {
 
         this.knob.draggable.on('update', (event) => {
             this._updateKnobPositionTo(event.position[0]);
-            this._setKnobContent('knob');
+            if (this._contentProvided) {
+                this._setKnobContent('knob');
+            }
         });
 
     }
 
     _onMouseUp() {
-
-        if (this.snapPointsEnabled) {
+        this.knob.text.setOptions(UISmallGrey);
+        if (this._snapPointsEnabled) {
             this._snapKnobToPoint();
         }
-
     }
 
     _setKnobContent(knob) {
 
-        this.throttler.add(() => {
 
             this[knob].decorateRenderable('dragLines',
                 layout.opacity(this.options.textOnlyInTooltip ? 1 : 0)
@@ -331,19 +353,21 @@ export class Slider extends Clickable {
 
             let knobPosition = this['_' + knob + 'Position'];
 
-            let position = this.snapPointsEnabled ?
+            let position = this._snapPointsEnabled ?
                 this.snapPointsPositions[this._closestPoint(knobPosition)] : knobPosition;
 
             if (this.options.percent) {
-                this[knob].text.setContent(this._getPercentValue(position));
-            } else if (this.options.range.length > 0) {
+                let content = this._getPercentValue(position);
+                this[knob].setText(content);
+                // console.log('I\'ve set the percent value to: ' + content);
+            } else if (this.options.range.length > 1) {
                 let min = this.options.range[0];
                 let max = this.options.range[1];
                 let content = this._getValueInRange(position, min, max);
-                this[knob].text.setContent(this.options.showDecimal ? content.toFixed(1) : Math.round(content));
+                this[knob].setText(this.options.showDecimal ? content.toFixed(1) : Math.round(content));
+                // console.log('I\'ve set the range value to: ' + content + 'ish');
             }
 
-        });
 
     }
 
@@ -351,12 +375,12 @@ export class Slider extends Clickable {
 
         let knobPosition = this['_' + knob + 'Position'];
 
-        let position = this.snapPointsEnabled ?
+        let position = this._snapPointsEnabled ?
             this.snapPointsPositions[this._closestPoint(knobPosition)] : knobPosition;
 
         if (this.options.percent) {
             return this._getPercentValue(position);
-        } else if (this.options.range.length > 0) {
+        } else if (this.options.range.length > 1) {
             let min = this.options.range[0];
             let max = this.options.range[1];
             let content = this._getValueInRange(position, min, max);

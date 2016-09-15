@@ -2,13 +2,15 @@
  * Created by vlad on 01/09/16.
  */
 
-import {layout, event, flow}    from 'arva-js/layout/Decorators.js';
-import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {Knob}                   from '../components/Knob.js';
-import {Slider}                 from './Slider.js';
-import {knobSideLength}         from './Slider.js';
-import {moveCurve}              from './Slider.js';
-import {retractCurve}           from './Slider.js';
+import {layout, event, flow}                from 'arva-js/layout/Decorators.js';
+import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
+import {Slider}                             from './Slider.js';
+import {knobSideLength}                     from './Slider.js';
+import {moveCurve}                          from './Slider.js';
+import {retractCurve}                       from './Slider.js';
+import {Knob}                               from '../components/Knob.js';
+import {UISmall, UISmallGrey}               from '../defaults/DefaultTypefaces.js';
+
 
 const knobPadding = 1;
 
@@ -22,16 +24,26 @@ export class RangeSlider extends Slider {
     @layout.align(0, 0.5)
     @layout.translate(0, 0, 50)
     @event.on('touchstart', function () {
-        this._expandTooltip('secondKnob')
+        this.secondKnob.text.setOptions(UISmall);
+        if (this._contentProvided && this.options._onMobile) {
+            this._expandTooltip('secondKnob');
+        }
+    })
+    @event.on('mousedown', function () {
+        this.secondKnob.text.setOptions(UISmall);
     })
     @event.on('click', function () {
-        if (this.snapPointsEnabled) {
+        this.secondKnob.text.setOptions(UISmallGrey);
+        if (this._snapPointsEnabled) {
             this._snapSecondKnobToPoint()
         }
     })
     @event.on('touchend', function () {
-        this._retractTooltip('secondKnob');
-        if (this.snapPointsEnabled) {
+        this.secondKnob.text.setOptions(UISmallGrey);
+        if (this._contentProvided && this.options._onMobile) {
+            this._retractTooltip('secondKnob');
+        }
+        if (this._snapPointsEnabled) {
             this._snapSecondKnobToPoint()
         }
     })
@@ -44,10 +56,12 @@ export class RangeSlider extends Slider {
     @flow.stateStep('expanded', moveCurve, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
     @flow.stateStep('retracted', retractCurve, layout.size(knobSideLength, knobSideLength), layout.origin(0.5, 0.5))
     secondKnob = new Knob({
-        makeRipple: !this.options.enableTooltip,
+        // makeRipple: !this.options.enableTooltip,
         enableBorder: this.options.knobBorder,
         enableSoftShadow: true,
-        borderRadius: '4px'
+        borderRadius: '4px',
+        useThrottler: true,
+        typeface: this.UISmallGrey
     });
 
     constructor(options = {}) {
@@ -63,9 +77,6 @@ export class RangeSlider extends Slider {
 
         this._secondKnobPosition = options.secondKnobPosition;
 
-        this.secondKnob.decorateRenderable('text',
-            layout.opacity(this.options.textOnlyInTooltip ? 0 : 1)
-        );
     }
 
     _setupListeners() {
@@ -75,7 +86,7 @@ export class RangeSlider extends Slider {
 
             this._dualKnobDraggableSetup();
 
-            if (this.snapPointsEnabled) {
+            if (this._snapPointsEnabled) {
                 this._addSnapPoints();
             }
 
@@ -112,12 +123,12 @@ export class RangeSlider extends Slider {
 
         if (this._firstKnobCloser(tapPosition)) {
             this._moveKnobTo(
-                this.snapPointsEnabled ? this._closestPointPositionToFirstKnob(tapPosition) : this._closestPositionToFirstKnob(tapPosition)
+                this._snapPointsEnabled ? this._closestPointPositionToFirstKnob(tapPosition) : this._closestPositionToFirstKnob(tapPosition)
             );
             this._updateSecondKnobRange();
         } else {
             this._moveSecondKnobTo(
-                this.snapPointsEnabled ? this._closestPointPositionToSecondKnob(tapPosition) : this._closestPositionToSecondKnob(tapPosition)
+                this._snapPointsEnabled ? this._closestPointPositionToSecondKnob(tapPosition) : this._closestPositionToSecondKnob(tapPosition)
             );
             this._updateFirstKnobRange();
         }
@@ -139,7 +150,9 @@ export class RangeSlider extends Slider {
             this._updateKnobPositionTo('secondKnob', position);
             this.secondKnob.draggable.setPosition([position, 0], moveCurve);
 
-            this._setKnobContent('secondKnob');
+            if (this._contentProvided) {
+                this._setKnobContent('secondKnob');
+            }
 
             if (this.options.enableActiveTrail) {
                 this._updateActiveTrail();
@@ -212,7 +225,7 @@ export class RangeSlider extends Slider {
 
         if (this.options.enableActiveTrail) {
             this._updateActiveTrailLine();
-            if (this.snapPointsEnabled) {
+            if (this._snapPointsEnabled) {
                 this._updateActiveTrailSnapPoints();
             }
         }
@@ -236,9 +249,15 @@ export class RangeSlider extends Slider {
 
         this.secondKnob.draggable.setPosition([this._secondKnobPosition, 0]);
 
-        this._setKnobContent('secondKnob');
+        this.secondKnob.decorateRenderable('text',
+            layout.opacity(this.options.textOnlyInTooltip ? 0 : 1)
+        );
 
-        if (this.snapPointsEnabled) {
+        if (this._contentProvided) {
+            this._setKnobContent('secondKnob');
+        }
+
+        if (this._snapPointsEnabled) {
             this._snapSecondKnobToPoint();
         }
 
@@ -273,7 +292,9 @@ export class RangeSlider extends Slider {
 
             this._updateKnobPositionTo('knob', event.position[0]);
 
-            this._setKnobContent('knob');
+            if (this._contentProvided) {
+                this._setKnobContent('knob');
+            }
 
             this._updateSecondKnobRange();
 
@@ -284,7 +305,9 @@ export class RangeSlider extends Slider {
 
             this._updateKnobPositionTo('secondKnob', event.position[0]);
 
-            this._setKnobContent('secondKnob');
+            if (this._contentProvided) {
+                this._setKnobContent('secondKnob');
+            }
 
             this._updateFirstKnobRange();
 
@@ -301,7 +324,8 @@ export class RangeSlider extends Slider {
     }
 
     _onMouseUp() {
-        if (this.snapPointsEnabled) {
+        this.secondKnob.text.setOptions(UISmallGrey);
+        if (this._snapPointsEnabled) {
             this._snapSecondKnobToPoint();
         }
     }
