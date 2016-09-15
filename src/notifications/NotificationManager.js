@@ -1,8 +1,7 @@
-/**  * Created by Manuel on 20/07/16.  */
+/**  Created by Manuel on 20/07/16.  */
 import FamousContext            from 'famous/core/Context.js';
 import {View}                   from 'arva-js/core/View.js';
 import {Model}                  from 'arva-js/core/Model.js';
-import {DataSource}             from 'arva-js/data/DataSource.js';
 import {LocalModel}             from 'arva-js/data/local/LocalModel.js';
 import {LocalPrioritisedArray}  from 'arva-js/data/local/LocalPrioritisedArray.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
@@ -20,13 +19,12 @@ export class NotificationManager {
      * A notification manager that can show notifications on screen
      *
      * @example
-     * @layout.dock.top(~48, 8)
      * input = new NotificationManager();
      *
      * @param {Object} [options] Construction options
      * @param {PrioritisedArray} [options.notificationsArray] Prioritised Array that contains the notifications
-     * @param {Integer} [options.delay] The amount of time that an 'auto' notification gets shown on the screen
-     * @param {Boolean} [options.multipleNotifications] Flags that deterimens if multiple notifications can be shown on screen
+     * @param {Number} [options.delay] The amount of time that an 'auto' notification gets shown on the screen
+     * @param {Boolean} [options.multipleNotifications] Flags that determines if multiple notifications can be shown on screen
      */
     constructor(options = {}) {
         let famousContext = Injection.get(FamousContext);
@@ -42,7 +40,7 @@ export class NotificationManager {
      * Add a new notification to display
      * @param {Object} [data] Notification object
      * @param {String} [data.title] Title of the notification
-     * @param {String} [data.string] String of the notification
+     * @param {String} [data.body] Body of the notification
      * @param {String} [data.action] Type of action that gets shown, when type is 'action'
      * @param {String} [data.type] Type of the notifications, action | auto
      */

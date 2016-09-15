@@ -16,6 +16,12 @@ const flowOptions = {transition: {curve: Easing.outCubic, duration: 200}};
 export class IconTab extends Button {
     _hover = true;
 
+    /**
+     * IconTab that displays an Icon
+     * @param {Object} [options] Construction options
+     * @param {String} [options.image] The optional image to display
+     * @param {Number} [options.icon] The icon's renderable Class, won't be used when an image is defined. Defaults to AccountIcon
+     */
     constructor(options = {}) {
         super(combineOptions(options, {
             icon: AccountIcon,
@@ -30,14 +36,14 @@ export class IconTab extends Button {
     @layout.stick.center()
     @flowStates.fade('inactive', {opacity: 1}, flowOptions)
     @flowStates.fade('active', {opacity: 0.5}, flowOptions)
-    icon = this.options.image ? new ImageSurface({ content: this.options.image }) : new this.options.icon({color: this.options.properties.color});
+    icon = this.options.image ? new ImageSurface({content: this.options.image}) : new this.options.icon({color: this.options.properties.color});
 
     @layout.translate(0, 0, 50)
     @layout.size(24, 24)
     @layout.stick.center()
     @flowStates.fade('inactive', {opacity: 0.5}, flowOptions)
     @flowStates.fade('active', {opacity: 1}, flowOptions)
-    iconOverlay = this.options.image ? new ImageSurface({ content: this.options.image }) : new this.options.icon({color: this.options.properties.activeColor || 'black'});
+    iconOverlay = this.options.image ? new ImageSurface({content: this.options.image}) : new this.options.icon({color: this.options.properties.activeColor || 'black'});
 
     _active = false;
 
@@ -86,20 +92,20 @@ export class IconTab extends Button {
         this._deactivate();
     }
 
-    setActive(){
+    setActive() {
         this.setRenderableFlowState('iconOverlay', 'active');
     }
 
-    setInactive(){
+    setInactive() {
         this.setRenderableFlowState('iconOverlay', 'inactive');
     }
 
-    _activate(){
+    _activate() {
         this.setRenderableFlowState('iconOverlay', 'inactive');
         this.setRenderableFlowState('icon', 'active');
     }
 
-    _deactivate(){
+    _deactivate() {
         this.setRenderableFlowState('icon', 'inactive');
     }
 }

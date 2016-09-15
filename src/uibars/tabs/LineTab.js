@@ -4,14 +4,13 @@
 
 import Surface              from 'famous/core/Surface.js';
 import Easing               from 'famous/transitions/Easing.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {flow, layout}       from 'arva-js/layout/Decorators.js';
 import {flowStates}         from 'arva-js/layout/FlowStates.js';
 import {Tab}                from './Tab.js';
 
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 200}};
 
-export class LineTab extends Tab{
+export class LineTab extends Tab {
 
     @layout.translate(0, 0, 30)
     @layout.dock.top()
@@ -23,23 +22,23 @@ export class LineTab extends Tab{
     @flowStates.fade('inactive', {opacity: 1}, flowOptions)
     text = new Surface(this.options);
 
-    constructor(options = {}){
+    constructor(options = {}) {
         super(options);
     }
 
-    setActive(){
+    setActive() {
 
     }
 
-    setInactive(){
+    setInactive() {
 
     }
 
-    _activate(){
+    _activate() {
         this.setRenderableFlowState('text', 'active');
     }
 
-    _deactivate(){
+    _deactivate() {
         this.setRenderableFlowState('text', 'inactive');
     }
 

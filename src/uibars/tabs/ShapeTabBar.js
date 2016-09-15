@@ -30,21 +30,42 @@ export class ShapeTabBar extends TabBar {
         }
     });
 
-    constructor(options = {
-        shapeHeight: 32,
-        shapeWidth: 0,
-        shapeColor: Colors.PrimaryUIColor,
-        tabRenderable: ShapeTab,
-        tabOptions: {inActiveColor: Colors.PrimaryUIColor, activeColor: 'white'}
-    }) {
+    /**
+     * @example
+     *
+     * @layout.dock.top(~50)
+     * shapeTabBar = new ShapeTabBar({activeIndex: 0, tabRenderable: ShapeIconTab, equalSizing: false, usesIcon: true, shapeWidth: 40, shapeHeight: 40});
+     *
+     * @param {Object} [options] Construction options
+     * @param {Number} [options.shapeHeight] The initial height of the shape renderable
+     * @param {Number} [options.shapeWidth] The initial width of the shape renderable
+     * @param {String} [options.shapeColor] The color of the shape renderable
+     * @param {Renderable} [options.tabRenderable] The renderable class of the Tabs
+     * @param {Object} [options.tabOptions] The options passed to the tabRenderable
+     * @param {String} [options.tabOptions.inActiveColor] The color of the tabRenderable when it's not active
+     * @param {String} [options.tabOptions.activeColor] The color of the tabRenderable when it's active
+     * @param {Array}  [items] The items to add to the TabBar on initialisation
+     */
+    constructor(options = {}, items) {
 
         if (options.usesIcon) {
             options.borderRadius = "50%";
         }
 
-        super(combineOptions(options, {makeRipple: false, useBackground: false, useBoxShadow: false}));
+        super(combineOptions(options, {
+            makeRipple: false, useBackground: false, useBoxShadow: false, shapeHeight: 32,
+            shapeWidth: 0,
+            shapeColor: Colors.PrimaryUIColor,
+            tabRenderable: ShapeTab,
+            tabOptions: {inActiveColor: Colors.PrimaryUIColor, activeColor: 'white'}
+        }), items);
     }
 
+    /**
+     * Set item active, translating the shape to the active item
+     * @param id
+     * @param item
+     */
     setItemActive(id, item) {
         this._currentItem = id;
         this.decorateRenderable('shape', layout.size(this.options.shapeWidth || this._getCurrentSize(id), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this._currentItem), 0, 10));
