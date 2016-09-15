@@ -269,6 +269,7 @@ export class RangeSlider extends Slider {
         this.decorateRenderable('knob',
             layout.draggable({
                 xRange: [0, this._secondKnobPosition - this._dualKnobOffset],
+                outsideTouches: false,
                 projection: 'x'
             })
         );
@@ -277,6 +278,7 @@ export class RangeSlider extends Slider {
         this.decorateRenderable('secondKnob',
             layout.draggable({
                 xRange: [this._knobPosition + this._dualKnobOffset, this._sliderWidth],
+                outsideTouches: false,
                 projection: 'x'
             })
         );

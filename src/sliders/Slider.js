@@ -325,7 +325,7 @@ export class Slider extends Clickable {
 
         /*Set the knob horizontal range to be the entire Slider width.*/
         this.decorateRenderable('knob',
-            layout.draggable({xRange: [0, this._sliderWidth], projection: 'x'})
+            layout.draggable({xRange: [0, this._sliderWidth], projection: 'x', outsideTouches: false})
         );
 
         this.knob.draggable.on('update', (event) => {
