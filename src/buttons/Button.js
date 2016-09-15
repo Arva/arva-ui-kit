@@ -27,6 +27,23 @@ export class Button extends Clickable {
         }
     });
 
+    /**
+     * A pressable button with optional ripple effect, shadows and backgrounds
+     *
+     * @example
+     *
+     * @layout.dock.left(~200)
+     * button = new Button()
+     *
+     * @param {Object} [options] Construction options
+     * @param {Boolean} [options.makeRipple] Enable the ripple to display when pressing the button
+     * @param {Boolean} [options.useBoxSahdow] Enable the box-shadow to display
+     * @param {Boolean} [options.useBackround] Enable the background to display
+     * @param {Number} [options.delay] The optional delay that the click events wait before firing
+     * @param {Boolean} [options.autoEnable] Optionally automatic enable the button once the button get's rendered in the view
+     * @param {Object} [options.backgroundProperties] The properties for the optional background
+     * @param {String} [options.properties] The properties for the button renderable
+     */
     constructor(options) {
         super(combineOptions({
             makeRipple: true,
