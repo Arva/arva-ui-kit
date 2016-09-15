@@ -42,7 +42,7 @@ export class NotificationManager {
      * Add a new notification to display
      * @param {Object} [data] Notification object
      * @param {String} [data.title] Title of the notification
-     * @param {String} [data.string] String of the notification
+     * @param {String} [data.body] Body of the notification
      * @param {String} [data.action] Type of action that gets shown, when type is 'action'
      * @param {String} [data.type] Type of the notifications, action | auto
      */
