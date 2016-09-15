@@ -4,132 +4,193 @@
 
 import Surface                  from 'famous/core/Surface.js';
 import Easing                   from 'famous/transitions/Easing.js';
-import AnimationController      from 'famous-flex/AnimationController.js';
 
 import {View}                   from 'arva-js/core/View.js';
-import {layout, event}          from 'arva-js/layout/Decorators.js';
+import {layout, event, flow}    from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {callbackToPromise}      from 'arva-js/utils/CallbackHelpers.js';
 import {UISmallGrey,
         UIRegular}              from 'arva-kit/defaults/DefaultTypeFaces.js';
 
+import {ResultsView}            from './searchBar/ResultsView.js';
 import {Placeholder}            from './searchBar/Placeholder.js';
-import {CirclecrossIcon}        from '../icons/CirclecrossIcon.js';
 import {SingleLineInputSurface} from './SingleLineInputSurface.js';
+import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
+import {Dimensions}             from '../defaults/DefaultDimensions.js';
 
-const BORDER_RADIUS = '4px';
-const FADE = { transition: { duration: 200, curve: Easing.outCubic}, animation: AnimationController.Animation.Fade };
+let {searchBar: {borderRadius}} = Dimensions;
+const instant = { transition: { curve: Easing.outCubic, duration: 0 } };
+const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 
-@layout.flow()
+/**
+ * A highly animated search bar that takes a single line of text input, and shows search results from the input
+ * in a DataBoundScrollView that expands and collapses below the text input field. Used almost exclusively inside a UIBar.
+ *
+ * If no itemTemplate or groupTemplate is given, the results section will create generic renderables from the given
+ * options.dataStore's item's .content and .group properties, respectively.
+ *
+ * @example
+ * list = new MyResults() // Extends LocalPrioritisedArray
+ *
+ * @layout.dock.top(~48)
+ * bar = new UIBar({
+ *        components: [
+ *            [new SearchBar({resultOptions: {
+ *                dataStore: list,
+ *                itemTemplate:
+ *                groupBy: (model) => model.group || 'empty group'
+ *            }}), 'search', 'center']
+ *        ]
+ *    });
+ *
+ * // The user entered new search input
+ * bar.on('value', (value) => {
+ *      // [..] remove irrelevant previous results
+ *
+ *      list.add({content: 'SomeResultName', group: 'SomeGroup'});
+ * })
+ *
+ * // OR:
+ *
+ * bar.on('value', (value) => {
+ *      // Override existing results list with a new one
+ *      list = new MyResults();
+ *      list.add({content: 'SomeResultName', group: 'SomeGroup'});
+ *      // Update the SearchBar's results dataStore
+ *      bar.showResults(list)
+ * })
+ *
+ *
+ * @param {Object} [options] Construction options
+ * @param {String} [options.placeholder] Placeholder to show when no text is entered
+ * @param {Object} [options.resultOptions] Options that are passed onto the ResultsView, which passes them into its DataBoundScrollView
+ * @param {PrioritisedArray} [options.resultOptions.dataStore] A (Local)PrioritisedArray containing the results of the input search string.
+ * @param {Number} [options.resultOptions.itemHeight] Height of the result items, in pixels
+ * @param {Number} [options.resultOptions.groupHeight] Height of the result items' group headers, in pixels
+ * @param {Function} [options.resultOptions.itemTemplate] A constructor that takes in a Model and returns a renderable for an item
+ * @param {Function} [options.resultOptions.groupTemplate] A constructor that takes in a group value of any type and returns a renderable for a group header
+ */
+@flow.viewStates({
+    'active': [{ border: 'hidden', results: 'shown'}],
+    'inactive': [{ border: 'shown', results: 'hidden' }]
+})
 export class SearchBar extends View {
 
-    @layout.stick.center()
-    @layout.size(10000, 10000)
-    @event.on('click', function() { this._onDeactivate(); })
-    underlay = new Surface({ properties: { display: 'none' } });
-
-    @layout.fullSize()
-    @layout.stick.center()
-    @layout.animate({...FADE})
-    @layout.translate(-1, -1, 10) /* Compensate for border size */
     @event.on('click', function(e) { this._onActivate(e); })
+    @flow.stateStep('hidden', transition, layout.opacity(0))
+    @flow.defaultState('shown', transition, layout.size(undefined, 32), layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 10))
     border = new Surface(combineOptions(
         { properties: {
             boxSizing: 'content-box',
             border: 'solid 1px rgba(0, 0, 0, 0.1)',
-            borderRadius: BORDER_RADIUS
+            borderRadius: borderRadius
         }}
     ));
 
-    @layout.size((width) => width, 32)
-    // @layout.fullSize()
-    @layout.stick.center()
-    @layout.translate(0, 0, 20)
-    @layout.animate({ showInitially: false, ...FADE })
-    results = new Surface(
-        { properties: {
-            boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',
-            borderRadius: BORDER_RADIUS
-        }}
-    );
+    @flow.stateStep('shown', transition, layout.opacity(1))
+    @flow.stateStep('expanded', transition, layout.size(undefined, true))
+    @flow.stateStep('collapsed', transition, layout.size(undefined, 32))
+    @flow.stateStep('hidden', transition, layout.size(undefined, 32))
+    @flow.defaultState('hidden', transition, layout.opacity(0), layout.size(undefined, 32),
+                                 layout.stick.top(), layout.translate(0, 8, 10))
+    results = new ResultsView({
+        resultOptions: this.options.resultOptions
+    });
 
-    @layout.size(16, 16)
-    @layout.dock.right()
-    @layout.stick.center()
-    @layout.translate(-8, 0, 40)
-    @layout.animate({ showInitially: false, ...FADE })
-    cross = new CirclecrossIcon({ color: 'rgb(170, 170, 170)', properties: {
-        cursor: 'pointer',
-        fontSize: '16px'
-    } });
+    @event.on('click', function(e){ this._onDoneClick(e); })
+    @flow.stateStep('shown', instant, layout.size(~50, undefined), layout.translate(0, 0, 50))
+    @flow.stateStep('shown', transition,layout.opacity(1))
+    @flow.stateStep('hidden', transition, layout.opacity(0))
+    @flow.defaultState('hidden', instant, layout.opacity(0), layout.dock.right(), layout.size(1, 1), layout.translate(0, 0, 20))
+    done = new UIBarTextButton({ content: 'Done', properties: { cursor: 'pointer' }});
 
-    @layout.dock.right((width) => width - (4 * 16), 16)
-    @layout.translate(0, 0, 30)
+    @layout.dock.fill()
+    @layout.translate(0, 0, 40)
     @event.on('click', function(e) { this._onActivate(e); })
+    @event.on('focus', function(e) { this._onFocusEvent(e, 'focus'); })
+    @event.on('blur', function(e) { this._onFocusEvent(e, 'blur'); })
     @event.on('value', function(value) { this._onInputValue(value); })
     input = new SingleLineInputSurface(combineOptions(
         UIRegular,
         { properties: {
-            borderRadius: BORDER_RADIUS,
+            backgroundColor: 'transparent',
+            borderRadius: borderRadius,
             boxShadow: 'none',
-            padding: '0px'
-        }, placeholder: '' }
+            padding: '0px 0px 0px 32px'
+        }, placeholder: '' , clearOnEnter: false}
     ));
 
-    @layout.size(~50, 32)
-    @layout.stick.center()
-    @layout.translate(0, 0, 40)
     @event.on('click', function(e) { this._onActivate(e); })
-    @layout.animate(FADE)
+    @flow.stateStep('left', transition, layout.stick.left(), layout.translate(8, 0, 40))
+    @flow.defaultState('center', transition, layout.size(~50, 32), layout.stick.center(), layout.translate(0, 0, 30))
     placeholder = new Placeholder({
-            properties: { borderRadius: BORDER_RADIUS },
+            properties: { borderRadius: borderRadius },
             placeholder: this.options.placeholder || 'Search'
         });
 
-    async _onActivate(clickEvent) {
-        clickEvent.preventDefault();
+    /**
+     * Shows the models in the given results list inside the results DataBoundScrollView. Replaces old results.
+     * @param {PrioritisedArray} results List of models to use in the ResultsView.
+     */
+    showResults(results) {
+        this.results.content.setDataStore(results);
+    }
+
+    /* Allow receiving focus e.g. through the keyboard, or programmatically (i.e. element.focus()). */
+    async _onFocusEvent(event, type) {
+        if(this.inFocusEvent) { return; }
+        await type === 'focus' ? this._onActivate(event) : this._onDeactivate(event);
+    }
+
+    async _onActivate(event = {}) {
+        if(event.preventDefault) { event.preventDefault(); }
+        if(this.getViewFlowState() === 'active') { return false; }
+        this._disableFocusEvents();
         this.input.blur();
 
-        /* Show clickable underlay that collapses the search results on click. */
-        this.underlay.setProperties({ display: 'block' });
+        if(this.getRenderableFlowState('placeholder') !== 'left') {
+            this.setRenderableFlowState('placeholder', 'left');
+        }
+        await this.setViewFlowState('active');
 
-        /* Move placeholder to the left */
-        this.decorateRenderable('placeholder', layout.stick.left(), layout.translate(8, 0, 40));
-        await new Promise((resolve) => setTimeout(resolve, 300));
+        if(this.input.getValue()) {
+            this.setRenderableFlowState('results', 'expanded');
+        }
 
-        /* Change the border to a dropshadow */
-        this._changeVisibility('results', true);
-        await this._changeVisibility('border', false);
         this.input.focus();
+        this._enableFocusEvents();
+        return true;
     }
 
     async _onDeactivate () {
-        // this.input.blur();
-
-        /* Hide underlay. */
-        this.underlay.setProperties({ display: 'none' });
+        this.setViewFlowState('inactive');
 
         /* Only move the placeholder back to the center if no text in input field */
         if(this.input.getValue().length === 0) {
-            this.decorateRenderable('placeholder', layout.stick.center(), layout.translate(0, 0, 40));
+            await this.setRenderableFlowState('placeholder', 'center');
         }
-
-        this._changeVisibility('results', false);
-        await this._changeVisibility('border', true);
+        return true;
     }
-    
+
+    async _onDoneClick (event) {
+        if(event.preventDefault) { event.preventDefault(); }
+        this.input.setValue('');
+        this._onInputValue('');
+        this._onDeactivate();
+    }
+
     async _onInputValue(value) {
         let hasContent = value.length > 0;
-        this._changeVisibility('cross', hasContent);
         this.placeholder[hasContent ? 'hideText' : 'showText']();
+        this.setRenderableFlowState('results', hasContent ? 'expanded' : 'collapsed');
+        await this.setRenderableFlowState('done', hasContent ? 'shown' : 'hidden');
     }
 
-    _changeVisibility(renderableName, show = true) {
-        let renderable = this[renderableName];
+    _enableFocusEvents() {
+        this.inFocusEvent = false;
+    }
 
-        /* TODO: there is no 'once' on Surfaces, using 'on' will degrade performance over time. */
-        let promise = callbackToPromise(renderable.on.bind(renderable), show ? 'shown' : 'hidden');
-        this[show ? 'showRenderable' : 'hideRenderable'](renderableName);
-        return promise;
+    _disableFocusEvents() {
+        this.inFocusEvent = true;
     }
 }

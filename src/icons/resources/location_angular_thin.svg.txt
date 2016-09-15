@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
-    <title>location_angular_thin</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
-        <g id="Group" stroke-width="2" stroke="#000000">
-            <polygon id="Line" points="4 24 24 24 24 44 45.5 2.50163449"></polygon>
-        </g>
-    </g>
+   
+   <title>location_angular_thin   </title>
+   <desc>Created with Sketch.   </desc>
+   <defs/>
+   <g id="location_angular_thin.svgPage-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+      <g id="location_angular_thin.svgGroup" stroke-width="2" stroke="#000000">
+         <polygon id="location_angular_thin.svgLine" points="4 24 24 24 24 44 45.5 2.50163449"/>
+      </g>
+   </g>
 </svg>

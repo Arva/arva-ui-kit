@@ -6,7 +6,7 @@ import Surface                  from 'famous/core/Surface.js';
 import ImageSurface             from 'famous/Surfaces/ImageSurface.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
-import {PrimaryUIColor}         from '../defaults/DefaultColors.js';
+import {Colors}         from '../defaults/DefaultColors.js';
 
 import {Button}                 from './Button.js';
 
@@ -32,7 +32,7 @@ export class IconButton extends Button {
 
     constructor(options = {}){
         super(combineOptions({
-            properties: {color: PrimaryUIColor}
+            properties: {color: Colors.PrimaryUIColor}
         }, options));
     }
 }

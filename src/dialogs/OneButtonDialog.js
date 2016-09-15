@@ -8,6 +8,16 @@ import {BaseDialog}         from './BaseDialog.js';
 import {TextButton}         from '../buttons/TextButton.js';
 
 export class OneButtonDialog extends BaseDialog {
+
+    /**
+     * @example
+     * new OneButtonDialog({button: {buttonText: 'Confirm'}, title: 'Hello', body: 'World'})
+     *
+     * @param {Object} [options] Constructor options
+     * @param {String} [options.button.buttonText] The text for the button
+     * @param {String} [options.title] The title of the Dialog
+     * @param {String} [options.body] The body of the Dialog
+     */
     constructor(options = {}) {
         super(options);
         let {button} = options;

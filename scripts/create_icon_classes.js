@@ -22,7 +22,7 @@ for(let filePath of fs.readdirSync('./src/icons/resources')){
     icon = icon[0].toUpperCase() + icon.substring(1);
     let defaultFilePath = filePath.split('_')[0] + '_default.svg.txt';
 
-    console.log(icon, form, thickness);
+    console.log('Generate JS class',filePath, icon, form, thickness);
 
     /* Write default icon file */
     fs.writeFileSync(`./src/icons/${icon}Icon.js`,
@@ -47,3 +47,4 @@ export class ${icon}Icon extends BaseIcon {
     }
 }`);
 }
+console.log("Generated all classes!");

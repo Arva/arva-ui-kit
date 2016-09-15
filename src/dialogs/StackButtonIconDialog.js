@@ -7,12 +7,22 @@ import {layout}                 from 'arva-js/layout/Decorators.js';
 import {BaseDialog}             from './BaseDialog.js';
 import {IconButton}             from '../buttons/IconButton.js';
 import {LocationIcon}           from '../icons/LocationIcon.js';
-import {PrimaryUIColor}         from '../defaults/DefaultColors.js';
+import {Colors}         from '../defaults/DefaultColors.js';
 
 export class StackButtonIconDialog extends BaseDialog {
 
     _buttons = [];
 
+
+    /**
+     * @example
+     * new StackButtonIconDialog({buttons: ['Button1', 'Button2', 'Button3'], title: 'Hello', body: 'World'})
+     *
+     * @param {Object} [options] Constructor options
+     * @param {Array} [options.buttons] Array of button texts
+     * @param {String} [options.title] The title of the Dialog
+     * @param {String} [options.body] The body of the Dialog
+     */
     constructor(options = {}) {
         super(options);
 
@@ -29,7 +39,7 @@ export class StackButtonIconDialog extends BaseDialog {
                     content: buttonText,
                     icon: LocationIcon,
                     properties: {
-                        color: PrimaryUIColor
+                        color: Colors.PrimaryUIColor
                     },
                     disableBoxShadow: true,
                     clickEventName: 'closeDialog',
@@ -39,13 +49,12 @@ export class StackButtonIconDialog extends BaseDialog {
                         borderRadius: index !== buttons.length - 1 ? '0px' : '0px 0px 4px 4px'
                     }
                 }
-            ), `button${index}`, layout.dock.top( buttonHeight));
+            ), `button${index}`, layout.dock.top(buttonHeight));
         }
     }
 
     onNewMargin(newMargin) {
 
-        console.log(newMargin);
         /* Set the space between text and buttons the same as the upper, left, and right margins */
         this.decorations.viewMargins = [newMargin, 0, 0, 0];
         if (this.button0) {

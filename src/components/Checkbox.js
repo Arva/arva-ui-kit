@@ -153,5 +153,4 @@ export class Checkbox extends Clickable {
             this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
         }
     }
-
 }

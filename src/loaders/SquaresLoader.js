@@ -10,15 +10,27 @@ import Transform                        from 'famous/core/Transform.js';
 import Surface                          from 'famous/core/Surface.js';
 import radians                          from 'degrees-radians';
 
+import {View}                           from 'arva-js/core/View.js';
+import {layout}                         from 'arva-js/layout/Decorators.js';
+
 import {Colors}                         from '../defaults/DefaultColors.js';
 
-/* Needs to be a ContainerSurface because we need to set a "perspective" property relative to a parent element. */
-export class SquaresLoader extends ContainerSurface {
+export class SquaresLoader extends View {
     static degrees = 180;
     static delayInBetween = 200;
     static transition = {duration: 400, curve: Easing.outCubic};
     
     active = false;
+
+    /* Needs to be a ContainerSurface because we need to set a "perspective" property relative to a parent element. */
+    @layout.stick.center()
+    @layout.size(function (width){
+        return this.options.loaderSize[0] || width;
+    },
+                function (height) {
+        return this.options.loaderSize[1] || height;
+    })
+    container = new ContainerSurface();
 
     /**
      * A continuously animated loader renderables, which can be shown whilst waiting for e.g. data from
@@ -33,11 +45,15 @@ export class SquaresLoader extends ContainerSurface {
      *
      * or
      *
-     * new DataBoundScrollView({ placeholderTemplate: () => new SquaresLoader({ size: [48, 48] }) });
+     * new DataBoundScrollView({ placeholderTemplate: () => new SquaresLoader({ loaderSize: [48, 48] }) });
+     *
+     * @param {Object} [options] Construction options
+     * @param {Array} [options.loaderSize] A list of [width, height] specifying the wanted size of the loader, used when not layouting through decorators.
+     *                                      When using decorators, the SquaresLoader will default to taking up all the space it's decorated with.
      */
-    constructor() {
-        super();
-        this.context.setPerspective(100);
+    constructor(options = {}) {
+        super(options);
+        this.container.context.setPerspective(100);
 
         let surfaceProperties = {
             properties: {backgroundColor: Colors.PrimaryUIColor, perspective: '500px', backfaceVisibility: 'visible', '-webkit-backface-visibility': 'visible'}
@@ -48,14 +64,18 @@ export class SquaresLoader extends ContainerSurface {
         this.stateModOne = new StateModifier({proportions: [0.5, 0.5], origin: [1, 1], align: [0.5, 0.5]});
         this.stateModTwo = new StateModifier({proportions: [0.5, 0.5], origin: [0, 0], align: [0.5, 0.5]});
 
-        this.add(this.stateModOne).add(this.squareOne);
-        this.add(this.stateModTwo).add(this.squareTwo);
+        this.container.add(this.stateModOne).add(this.squareOne);
+        this.container.add(this.stateModTwo).add(this.squareTwo);
         
         this._animationLoop = this._animationLoop.bind(this);
 
         /* Cancel animations when the renderable is removed from the render tree. */
-        this.on('deploy', () => { this.active = true; this._animationLoop(); });
-        this.on('recall', () => { this.active = false; });
+        this.container.on('deploy', () => { this.active = true; this._animationLoop(); });
+        this.container.on('recall', () => { this.active = false; });
+    }
+
+    getSize() {
+        return [undefined, undefined];
     }
 
     async _animationLoop() {

@@ -1,8 +1,7 @@
-/**  * Created by Manuel on 20/07/16.  */
+/**  Created by Manuel on 20/07/16.  */
 import FamousContext            from 'famous/core/Context.js';
 import {View}                   from 'arva-js/core/View.js';
 import {Model}                  from 'arva-js/core/Model.js';
-import {DataSource}             from 'arva-js/data/DataSource.js';
 import {LocalModel}             from 'arva-js/data/local/LocalModel.js';
 import {LocalPrioritisedArray}  from 'arva-js/data/local/LocalPrioritisedArray.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
@@ -16,6 +15,17 @@ import {NotificationItem}       from './NotificationItem.js';
 export class NotificationManager {
     itemCounter = 1;
 
+    /**
+     * A notification manager that can show notifications on screen
+     *
+     * @example
+     * input = new NotificationManager();
+     *
+     * @param {Object} [options] Construction options
+     * @param {PrioritisedArray} [options.notificationsArray] Prioritised Array that contains the notifications
+     * @param {Number} [options.delay] The amount of time that an 'auto' notification gets shown on the screen
+     * @param {Boolean} [options.multipleNotifications] Flags that determines if multiple notifications can be shown on screen
+     */
     constructor(options = {}) {
         let famousContext = Injection.get(FamousContext);
         let notifications = this.notifications = options.notificationsArray || new LocalPrioritisedArray(LocalModel);
@@ -28,7 +38,11 @@ export class NotificationManager {
 
     /**
      * Add a new notification to display
-     * @param data
+     * @param {Object} [data] Notification object
+     * @param {String} [data.title] Title of the notification
+     * @param {String} [data.body] Body of the notification
+     * @param {String} [data.action] Type of action that gets shown, when type is 'action'
+     * @param {String} [data.type] Type of the notifications, action | auto
      */
     add(data = {}) {
         this.notifications.add(new Notification(++this.itemCounter, {

@@ -13,6 +13,9 @@ import {ComponentPadding}   from '../defaults/DefaultDimensions.js';
 import {getShadow}          from '../defaults/DefaultShadows.js';
 
 
+/**
+ * A general class for a clickable making a ripple and some other useful button-like stuff
+ */
 @layout.dockPadding(0, ComponentPadding, 0, ComponentPadding)
 @layout.translate(0, 0, 30)
 export class Button extends Clickable {
@@ -48,8 +51,8 @@ export class Button extends Clickable {
         super(combineOptions({
             makeRipple: true,
             useBoxShadow: true,
-            delay: 0,
             useBackground: true,
+            autoEnable: false,
             backgroundProperties: {
                 borderRadius: '4px',
                 backgroundColor: 'white'
@@ -81,19 +84,6 @@ export class Button extends Clickable {
             });
         }
 
-        if (this.options.useBoxShadow) {
-            let isHardShadow = this.options.boxShadowType === 'hardShadow';
-            this.addRenderable(
-                new Surface({
-                    properties: {
-                        boxShadow: `${isHardShadow ? '0px 2px 0px 0px' : '0px 0px 12px 0px'} rgba(0,0,0,0.12)`,
-                        borderRadius: this.options.backgroundProperties.borderRadius
-                    }
-                }), 'boxshadow', layout.stick.bottom(),
-                layout.translate(0, 0, -20),
-                layout.size(...(isHardShadow ? [undefined, undefined] : [(width) => width - 16, (_, height) => height - 8] )));
-        }
-
     }
 
     _handleClick(mouseEvent) {
@@ -109,11 +99,11 @@ export class Button extends Clickable {
         if (this.options.makeRipple && this._isEnabled()) {
             this._inBounds = true;
             /**
-             * Calculate the correct position of the click inside the current renderable (background taken for easy calculation, as it's always fullSize).
+             * Calculate the correct position of the click inside the current renderable (overlay taken for easy calculation, as it's always fullSize).
              * This will not account for rotation/skew/any other transforms except translates so if the Button class is e.d rotated the ripple will not be placed in the correct location
              * @type {ClientRect}
              */
-            let boundingBox = this.background._currentTarget.getBoundingClientRect();
+            let boundingBox = this.overlay._currentTarget.getBoundingClientRect();
             this.ripple.show(x - boundingBox.left, y - boundingBox.top);
         }
     }
@@ -125,11 +115,11 @@ export class Button extends Clickable {
         });
     }
 
-    _handleTouchMove(touchEvent){
+    _handleTouchMove(touchEvent) {
         if (this.options.makeRipple && this._inBounds) {
-            this.throttler.add(()=>{
+            this.throttler.add(()=> {
                 this._inBounds = this._isInBounds(touchEvent);
-                if(!this._inBounds){
+                if (!this._inBounds) {
                     this.ripple.hide();
                 }
             });
@@ -142,6 +132,7 @@ export class Button extends Clickable {
         }
         mouseEvent.type === 'touchend' && this._isInBounds(mouseEvent) && this._handleClick(mouseEvent);
     }
+
     /**
      * @abstract
      */
