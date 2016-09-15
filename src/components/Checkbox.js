@@ -5,12 +5,19 @@
 import Easing               from 'famous/transitions/Easing.js';
 import {layout, flow}       from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
+import {View}                   from 'arva-js/core/View.js';
+
 import {WhiteBox}           from './WhiteBox.js';
 import {Button}             from '../buttons/Button.js';
 import {DoneIcon}           from '../icons/DoneIcon.js';
 import {CrossIcon}          from '../icons/CrossIcon.js';
 import {Colors}             from '../defaults/DefaultColors.js';
+import {getShadow}          from '../defaults/DefaultShadows.js';
+import {Clickable}          from './Clickable.js';
+
 import Timer                from 'famous/utilities/Timer.js';
+import Surface              from 'famous/core/Surface.js';
+
 
 const innerBoxSize = [44, 44];
 const iconSize = [24, 24];
@@ -24,14 +31,24 @@ const defaultIconOptions = [layout.stick.center(), layout.size(...iconSize), lay
     'pressed': [{innerBox: 'small', tick: 'pressed', cross: 'pressed'}],
     'unchecked': [{innerBox: 'big', tick: 'disabled', cross: 'enabled'}]
 })
-export class Checkbox extends Button {
+
+export class Checkbox extends Clickable {
+
 
     @flow.stateStep('small', inCurve, layout.stick.center(), layout.translate(0, 0, 10), layout.scale(.75, .75, .75))
     @flow.stateStep('big', outCurve, layout.size(44, 44), layout.scale(1, 1, 1), layout.stick.center(), layout.translate(0, 0, 10))
-    innerBox = new WhiteBox({
-        enableSoftShadow: this.options.shadowType === 'softShadow',
-        makeRipple: false
+    innerBox = new Surface({
+        properties: {
+            borderRadius: '2px',
+            backgroundColor: 'white',
+            boxShadow: getShadow({})
+        }
     });
+
+    @layout.fullSize()
+    @layout.translate(0, 0, 40)
+    overlay = new Surface({properties: {cursor: 'pointer'}});
+
 
     @flow.stateStep('disabled', outCurve, layout.opacity(0), ...defaultIconOptions, layout.scale(1, 1, 1))
     @flow.stateStep('pressed', inCurve, layout.scale(0.73, 0.73, 0.73))
@@ -57,34 +74,30 @@ export class Checkbox extends Button {
      * @param {String} [options.shadowType] The type of shadow to use ('noShadow' [default], 'softShadow', 'hardShadow')
      */
     constructor(options = {}) {
-        super(combineOptions({
-            enabled: true,
-            shadowType: 'noShadow',
-            makeRipple: false,
-            useBoxShadow: false,
-            backgroundProperties: {
-                cursor: 'pointer',
-                borderRadius: '4px',
-                backgroundColor: 'rgb(170, 170, 170)'
-            }
-        }, options));
+        super(combineOptions({}, options));
 
         if (this.options.shadowType === 'hardShadow') {
             this._enableHardShadow();
         }
 
-        this.background.setProperties({backgroundColor: this.options.enabled ? Colors.PrimaryUIColor : 'rgb(170, 170, 170)'});
+        let backgroundColor = this.options.enabled ? Colors.PrimaryUIColor : 'rgb(170, 170, 170)';
 
         this.setViewFlowState(this.options.enabled ? 'checked' : 'unchecked');
-    }
 
-    _setupListeners() {
-        this.on('touchstart', this._onTapStart);
-        this.on('mousedown', this._onTapStart);
-        this.on('touchend', this._onTapEnd);
-        this.on('click', this._onTapEnd);
-        this.on('touchmove', this._onTouchMove);
+        this.addRenderable(new Surface({
+            properties: {
+                backgroundColor,
+                borderRadius: '4px',
+                boxShadow: getShadow({
+                    inset: true,
+                    onlyForShadowType: 'hard',
+                    color: Colors.PrimaryUIColor
+                })
+            }
+        }), 'background', layout.fullSize(), layout.translate(0, 0, -10));
+
         this.on('mouseout', this._onMouseOut);
+        this.setViewFlowState(this.options.enabled ? 'checked' : 'unchecked');
     }
 
     _handleTapStart(mouseEvent) {
@@ -93,20 +106,20 @@ export class Checkbox extends Button {
     }
 
     check() {
-        if(!this.isChecked()){
+        if (!this.isChecked()) {
             this._handleTapStart();
             Timer.setTimeout(() => {
                 this._handleTapEnd();
-            },50);
+            }, 50);
         }
     }
 
     unCheck() {
-        if(this.isChecked()){
+        if (this.isChecked()) {
             this._handleTapStart();
             Timer.setTimeout(() => {
                 this._handleTapEnd();
-            },50);
+            }, 50);
         }
     }
 
@@ -139,11 +152,6 @@ export class Checkbox extends Button {
         if (!this._inBounds) {
             this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
         }
-    }
-
-    _enableHardShadow() {
-        this.outerBox.setProperties({boxShadow: 'inset 0px 2px 0px 0px rgba(0,0,0,0.12)'});
-        this.innerBox.setProperties({boxShadow: '0px 2px 0px 0px rgba(0,0,0,0.12)'});
     }
 
 }
