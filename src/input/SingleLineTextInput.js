@@ -51,20 +51,6 @@ export class SingleLineTextInput extends View {
         }
     );
 
-    @layout.dock.fill()
-    @layout.translate(0, 0, 30)
-    @event.on('blur', function() { this._onBlur(); })
-    @event.on('focus', function() { this._onFocus(); })
-    input = new SingleLineInputSurface({
-        content: this.options.content || '',
-        properties: {
-            backgroundColor: 'transparent',
-            padding: '0px 16px 0px 16px',
-            borderRadius: borderRadius,
-            boxShadow: 'none'
-        }
-    });
-
     @flow.stateStep('shown', flowOptions, ...showBubble)
     @flow.defaultState('hidden', closeTransition, ...hideBubble)
     correct = new FeedbackBubble({variation: 'correct'});
@@ -73,18 +59,30 @@ export class SingleLineTextInput extends View {
     @flow.defaultState('hidden', closeTransition,...hideBubble)
     incorrect = new FeedbackBubble({variation: 'incorrect'});
 
-    @flow.defaultState('shown', flowOptions, ...showBubble)
-    @flow.stateStep('hidden', closeTransition, ...hideBubble)
+    @flow.defaultState('hidden', flowOptions, ...hideBubble)
+    @flow.stateStep('show', closeTransition, ...showBubble)
     required = new FeedbackBubble({variation: 'required'});
 
     constructor(options) {
-        super(combineOptions({required: true}, options));
+        super(combineOptions({required: false, usesFeedback: true}, options));
+
+        if(!this.input){
+           this.addRenderable(new SingleLineInputSurface({
+                   content: this.options.content || '',
+                   properties: {
+                       backgroundColor: 'transparent',
+                       padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
+                       borderRadius: borderRadius,
+                       boxShadow: 'none'
+                   }
+               }), 'input', layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function() { this._onBlur(); }), event.on('focus', function() { this._onFocus(); }
+           ));
+        }
 
         if (this.options.required) {
             this.setRequiredState();
         }
 
-        window.x = this; // todo remove
     }
 
     setCorrectState(message = '') {
