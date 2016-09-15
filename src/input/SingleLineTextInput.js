@@ -17,7 +17,7 @@ let {searchBar: {borderRadius}} = Dimensions;
 const transition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
 const closeTransition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 300}, delay: 0};
-const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.left(), layout.translate(0, 0, 50)];
+const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.topLeft(), layout.translate(0, 4, 50)];
 const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
 
 @flow.viewStates({
@@ -57,6 +57,8 @@ export class SingleLineTextInput extends View {
     @event.on('focus', function() { this._onFocus(); })
     input = new SingleLineInputSurface({
         content: this.options.content || '',
+        type: this.options.password ? 'password' : 'text',
+        placeholder: this.options.placeholer || '',
         properties: {
             backgroundColor: 'transparent',
             padding: '0px 16px 0px 16px',
@@ -77,6 +79,19 @@ export class SingleLineTextInput extends View {
     @flow.stateStep('hidden', closeTransition, ...hideBubble)
     required = new FeedbackBubble({variation: 'required'});
 
+    /**
+     * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
+     *
+     * @example
+     * @layout.dock.top(~48, 8)
+     * input = new SingleLineTextInput({ placeholder: '' });
+     *
+     * @param {Object} [options] Construction options
+     * @param {String} [options.content] Prefilled content of the input field
+     * @param {String} [options.placeholder] Placeholder text of the input field
+     * @param {Boolean} [options.password] Hides entered characters, replacing them with system-defined asterisks or comparable
+     * @param {Boolean} [options.required] If set to true, shows a FeedbackBubble stating the field is required to be filled in
+     */
     constructor(options) {
         super(combineOptions({required: true}, options));
 
