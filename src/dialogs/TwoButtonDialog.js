@@ -13,6 +13,16 @@ export class TwoButtonDialog extends BaseDialog {
     @layout.dock.top( 64, 0, 0)
     bottomView = new BottomButtonView(this.options);
 
+    /**
+     * @example
+     * new TwoButtonDialog({buttonLeft: {buttonText: 'Deny'},buttonRight: {buttonText: 'Confirm'}, title: 'Hello', body: 'World'})
+     *
+     * @param {Object} [options] Constructor options
+     * @param {String} [options.buttonLeft.buttonText] The text for the left button
+     * @param {String} [options.buttonRight.buttonText] The text for the right button
+     * @param {String} [options.title] The title of the Dialog
+     * @param {String} [options.body] The body of the Dialog
+     */
     constructor(options = {}) {
         super(options);
         let {buttonLeft, buttonRight} = options;
