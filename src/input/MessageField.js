@@ -16,9 +16,10 @@ import {
 
 import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
-import {MultiLineInputView}     from './MultiLineInputView.js';
+import {MultiLineTextInput}     from './MultiLineTextInput.js';
 
 let {searchBar: {borderRadius}} = Dimensions;
+let transition =  {duration: 150};
 
 @layout.dockPadding(0)
 @flow.viewStates({
@@ -69,8 +70,8 @@ export class MessageField extends View {
         return [undefined, this._currentViewFlowState() === 'active' ? Math.max(super.getSize()[1] || 0, 32) : 32];
     }
 
-    @flow.stateStep('hidden', {}, layout.opacity(0), layout.skew(0.9, 0, 0))
-    @flow.defaultState('shown', {}, layout.opacity(1), layout.skew(0, 0, 0))
+    @flow.stateStep('hidden', {transition}, layout.opacity(0), layout.skew(0, 0, 0))
+    @flow.defaultState('shown', {transition}, layout.opacity(1), layout.skew(0, 0, 0))
     @event.on('click', function (e) {
         this._onActivate(e);
     })
@@ -86,7 +87,7 @@ export class MessageField extends View {
         return this._currentViewFlowState() === 'active' ? ~32 : 32
     })
     @layout.translate(0, 1, 30)
-    input = new MultiLineInputView(combineOptions(
+    input = new MultiLineTextInput(combineOptions(
         UIRegular,
         {
             initialHeight: 2,
