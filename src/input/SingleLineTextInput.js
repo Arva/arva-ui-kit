@@ -17,7 +17,7 @@ let {searchBar: {borderRadius}} = Dimensions;
 const transition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
 const closeTransition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 300}, delay: 0};
-const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.left(), layout.translate(0, 0, 50)];
+const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.topLeft(), layout.translate(0, 4, 50)];
 const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
 
 @flow.viewStates({
