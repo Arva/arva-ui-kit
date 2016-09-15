@@ -156,4 +156,22 @@ export class Clickable extends View {
 
         return {elementX: pageX - left, elementY: pageY - top};
     }
+
+
+    /**
+     * Checks if the current TouchEvent is outside the current target element
+     * @param touch
+     * @param element
+     * @returns {boolean}
+     * @private
+     */
+    _isInBounds(touch, element) {
+        let elementPosition = element._currentTarget.getBoundingClientRect();
+        let {left, right, top, bottom} = elementPosition;
+
+        let touchList = touch.touches.length > 0 ? touch.touches : touch.changedTouches;
+        let {pageX, pageY} = touchList[0];
+
+        return (pageX > left && pageX < right && pageY > top && pageY < bottom);
+    };
 }
