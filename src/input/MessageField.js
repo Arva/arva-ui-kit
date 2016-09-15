@@ -19,7 +19,7 @@ import {Dimensions}             from '../defaults/DefaultDimensions.js';
 import {MultiLineInput}         from './MultiLineInput.js';
 
 let {searchBar: {borderRadius}} = Dimensions;
-let transition =  {duration: 150};
+let transition = {duration: 150};
 
 @layout.dockPadding(0)
 @flow.viewStates({
@@ -36,7 +36,6 @@ export class MessageField extends View {
     border = new Surface(combineOptions(
         {
             properties: {
-                boxSizing: 'content-box',
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
                 borderRadius
             }
@@ -44,7 +43,12 @@ export class MessageField extends View {
     ));
 
     @layout.fullSize()
-    background = new Surface({properties: {backgroundColor: 'white'}});
+    background = new Surface({
+        properties: {
+            backgroundColor: 'white',
+            borderRadius
+        }
+    });
 
 
     @flow.stateStep('shown', {}, layout.opacity(1))
@@ -64,7 +68,6 @@ export class MessageField extends View {
         clickEventName: 'send'
     });
 
-    
 
     getSize() {
         return [undefined, this._currentViewFlowState() === 'active' ? Math.max(super.getSize()[1] || 0, 32) : 32];
@@ -75,8 +78,12 @@ export class MessageField extends View {
     @event.on('click', function (e) {
         this._onActivate(e);
     })
-    @event.on('focus', function(e) { this._onFocusEvent(e, 'focus'); })
-    @event.on('blur', function(e) { this._onFocusEvent(e, 'blur'); })
+    @event.on('focus', function (e) {
+        this._onFocusEvent(e, 'focus');
+    })
+    @event.on('blur', function (e) {
+        this._onFocusEvent(e, 'blur');
+    })
     @event.on('input', function (value) {
         this._onNewInput(value);
     })
@@ -120,7 +127,7 @@ export class MessageField extends View {
         });
         document.addEventListener("online", () => {
             this.sendButton.setContent('send');
-            if(this.input.getValue()){
+            if (this.input.getValue()) {
                 this.sendButton.enable();
             }
         });
@@ -145,7 +152,7 @@ export class MessageField extends View {
     }
 
 
-    async _onDeactivate () {
+    async _onDeactivate() {
         this.input.collapse();
         await this.setViewFlowState('inactive');
         /* Reflow parent because size changed */
@@ -155,14 +162,22 @@ export class MessageField extends View {
     }
 
     async _onFocusEvent(event, type) {
-        if(this.inFocusEvent) { return; }
+        if (this.inFocusEvent) {
+            return;
+        }
         type === 'focus' ? await this._onActivate(event) : await this._onDeactivate(event);
     }
 
-    /* Complex logic because the focusing has to be delayed */
+    /* Complex logic to delay the focusing happening after
+     view state animation is complete, which is specified in the design spec */
     async _onActivate(event = {}) {
-        if(event.preventDefault) { event.preventDefault(); }
-        if(this._currentViewFlowState() === 'active') { return false; }
+        this.input.expand();
+        if (event.preventDefault) {
+            event.preventDefault();
+        }
+        if (this._currentViewFlowState() === 'active') {
+            return false;
+        }
         this._disableFocusEvents();
         this.input.blur();
         this.reflowRecursively();
