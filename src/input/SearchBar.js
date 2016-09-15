@@ -22,6 +22,54 @@ let {searchBar: {borderRadius}} = Dimensions;
 const instant = { transition: { curve: Easing.outCubic, duration: 0 } };
 const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 
+/**
+ * A highly animated search bar that takes a single line of text input, and shows search results from the input
+ * in a DataBoundScrollView that expands and collapses below the text input field. Used almost exclusively inside a UIBar.
+ *
+ * If no itemTemplate or groupTemplate is given, the results section will create generic renderables from the given
+ * options.dataStore's item's .content and .group properties, respectively.
+ *
+ * @example
+ * list = new MyResults() // Extends LocalPrioritisedArray
+ *
+ * @layout.dock.top(~48)
+ * bar = new UIBar({
+ *        components: [
+ *            [new SearchBar({resultOptions: {
+ *                dataStore: list,
+ *                itemTemplate:
+ *                groupBy: (model) => model.group || 'empty group'
+ *            }}), 'search', 'center']
+ *        ]
+ *    });
+ *
+ * // The user entered new search input
+ * bar.on('value', (value) => {
+ *      // [..] remove irrelevant previous results
+ *
+ *      list.add({content: 'SomeResultName', group: 'SomeGroup'});
+ * })
+ *
+ * // OR:
+ *
+ * bar.on('value', (value) => {
+ *      // Override existing results list with a new one
+ *      list = new MyResults();
+ *      list.add({content: 'SomeResultName', group: 'SomeGroup'});
+ *      // Update the SearchBar's results dataStore
+ *      bar.showResults(list)
+ * })
+ *
+ *
+ * @param {Object} [options] Construction options
+ * @param {String} [options.placeholder] Placeholder to show when no text is entered
+ * @param {Object} [options.resultOptions] Options that are passed onto the ResultsView, which passes them into its DataBoundScrollView
+ * @param {PrioritisedArray} [options.resultOptions.dataStore] A (Local)PrioritisedArray containing the results of the input search string.
+ * @param {Number} [options.resultOptions.itemHeight] Height of the result items, in pixels
+ * @param {Number} [options.resultOptions.groupHeight] Height of the result items' group headers, in pixels
+ * @param {Function} [options.resultOptions.itemTemplate] A constructor that takes in a Model and returns a renderable for an item
+ * @param {Function} [options.resultOptions.groupTemplate] A constructor that takes in a group value of any type and returns a renderable for a group header
+ */
 @flow.viewStates({
     'active': [{ border: 'hidden', results: 'shown'}],
     'inactive': [{ border: 'shown', results: 'hidden' }]
@@ -39,7 +87,6 @@ export class SearchBar extends View {
         }}
     ));
 
-    /* TODO: remove size when results is its own component */
     @flow.stateStep('shown', transition, layout.opacity(1))
     @flow.stateStep('expanded', transition, layout.size(undefined, true))
     @flow.stateStep('collapsed', transition, layout.size(undefined, 32))

@@ -39,6 +39,11 @@ export class ResultsView extends View {
         ...this.options.resultOptions
     });
 
+    /**
+     * Used in SearchBar, not meant to be ran individually.
+     *
+     * @param {Object} [options] Construction options
+     */
     constructor(options = {}) {
         super({
             itemHeight: 48,

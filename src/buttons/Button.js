@@ -143,12 +143,14 @@ export class Button extends Clickable {
         let elemposition = this.overlay._currentTarget.getBoundingClientRect();
         let [width, height] = this.overlay.getSize();
 
+        let touchList = touch.touches.length ? touch.touches : touch.changedTouches;
+
         var left = elemposition.left,
             right = left + width,
             top = elemposition.top,
             bottom = top + height,
-            touchX = touch.touches[0].pageX,
-            touchY = touch.touches[0].pageY;
+            touchX = touchList[0].pageX,
+            touchY = touchList[0].pageY;
 
         return (touchX > left && touchX < right && touchY > top && touchY < bottom);
     };
