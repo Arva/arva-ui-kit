@@ -8,6 +8,7 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {WhiteBox}           from './WhiteBox.js';
 import iconImage		    from './resources/dragLines.svg.txt!text';
 import {UIRegular}          from '../defaults/DefaultTypefaces.js';
+import {Throttler}          from 'arva-js/utils/Throttler.js';
 
 export class Knob extends WhiteBox {
 
@@ -30,11 +31,19 @@ export class Knob extends WhiteBox {
             textAlign: 'center',
             cursor: 'pointer'
         }
-    }, UIRegular));
+    }, this.options.typeface || UIRegular));
 
     constructor(options = {}) {
         super(options);
 
+        let throttleDelay = this.options.useThrottler ? 2 : 0;
+        this.throttler = new Throttler(throttleDelay, false, undefined, true);
         this.background.setProperties({border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : ''})
+    }
+
+    setText(content) {
+        this.throttler.add(() => {
+            this.text.setContent(content);
+        });
     }
 }
