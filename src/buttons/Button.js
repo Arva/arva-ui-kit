@@ -10,6 +10,7 @@ import {Throttler}          from 'arva-js/utils/Throttler.js';
 import {Clickable}          from '../components/Clickable.js'
 import {Ripple}             from '../components/Ripple.js';
 import {ComponentPadding}   from '../defaults/DefaultDimensions.js';
+import {getShadow}          from '../defaults/DefaultShadows.js';
 
 
 /**
@@ -29,6 +30,7 @@ export class Button extends Clickable {
             borderRadius: this.options.backgroundProperties.borderRadius
         }
     });
+
 
     /**
      * @example
@@ -60,10 +62,14 @@ export class Button extends Clickable {
 
         this.throttler = new Throttler(3, false, this, true);
 
-        if (this.options.useBackground){
-            this.addRenderable(new Surface({properties: this.options.backgroundProperties}), 'background', layout.fullSize(),layout.translate(0, 0, -10));
+        if (this.options.useBackground || this.options.useBoxShadow) {
+            this.addRenderable(new Surface({
+                properties: {
+                    ...(this.options.useBackground ? this.options.backgroundProperties : {}),
+                    boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : ''
+                }
+            }), 'background', layout.fullSize(), layout.translate(0, 0, -10));
         }
-
         if (this.options.makeRipple) {
             this.addRenderable(new Ripple(this.options.rippleOptions), 'ripple',
                 layout.size(undefined, undefined),
@@ -79,25 +85,12 @@ export class Button extends Clickable {
             });
         }
 
-        if (this.options.useBoxShadow) {
-            let isHardShadow = this.options.boxShadowType === 'hardShadow';
-            this.addRenderable(
-                new Surface({
-                    properties: {
-                        boxShadow: `${isHardShadow ? '0px 2px 0px 0px' : '0px 0px 12px 0px'} rgba(0,0,0,0.12)`,
-                        borderRadius: this.options.backgroundProperties.borderRadius
-                    }
-                }), 'boxshadow', layout.stick.bottom(),
-                layout.translate(0, 0, -20),
-                layout.size(...(isHardShadow ? [undefined, undefined] : [(width) => width - 16, (_, height) => height - 8] )));
-        }
-
     }
 
     _handleClick(mouseEvent) {
 
         /* TouchEvents are enabled, don't listen for click events as touchend will already fire resulting in double click events */
-        if(mouseEvent.forwardedTouchEvent) return;
+        if (mouseEvent.forwardedTouchEvent) return;
 
         super._handleClick(mouseEvent);
 
@@ -123,11 +116,11 @@ export class Button extends Clickable {
         });
     }
 
-    _handleTouchMove(touchEvent){
+    _handleTouchMove(touchEvent) {
         if (this.options.makeRipple && this._inBounds) {
-            this.throttler.add(()=>{
+            this.throttler.add(()=> {
                 this._inBounds = this._isInBounds(touchEvent);
-                if(!this._inBounds){
+                if (!this._inBounds) {
                     this.ripple.hide();
                 }
             });
@@ -140,6 +133,7 @@ export class Button extends Clickable {
         }
         mouseEvent.type === 'touchend' && this._isInBounds(mouseEvent) && this._handleClick(mouseEvent);
     }
+
     /**
      * @abstract
      */
