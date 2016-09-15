@@ -26,16 +26,18 @@ const defaultIconOptions = [layout.stick.center(), layout.size(...iconSize), lay
 })
 export class Checkbox extends Button {
 
-    @flow.stateStep('small', inCurve, layout.size(32, 32), layout.stick.center(), layout.translate(0, 0, 10))
-    @flow.stateStep('big', outCurve, layout.size(...innerBoxSize), layout.stick.center(), layout.translate(0, 0, 10))
+
+
+    @flow.stateStep('small', inCurve, layout.stick.center(), layout.translate(0, 0, 10), layout.scale(.75, .75, .75))
+    @flow.stateStep('big', outCurve, layout.size(44, 44), layout.scale(1, 1, 1), layout.stick.center(), layout.translate(0, 0, 10))
     innerBox = new WhiteBox({
         enableSoftShadow: this.options.shadowType === 'softShadow',
         makeRipple: false
     });
 
-    @flow.stateStep('disabled', outCurve, layout.opacity(0), ...defaultIconOptions)
-    @flow.stateStep('pressed', inCurve, layout.size(iconSize[0] * 0.73, iconSize[1] * 0.73))
-    @flow.stateStep('enabled', outCurve, layout.opacity(1), ...defaultIconOptions)
+    @flow.stateStep('disabled', outCurve, layout.opacity(0), ...defaultIconOptions, layout.scale(1, 1, 1))
+    @flow.stateStep('pressed', inCurve, layout.scale(0.73, 0.73, 0.73))
+    @flow.stateStep('enabled', outCurve, layout.opacity(1), ...defaultIconOptions, layout.scale(1, 1, 1))
     tick = new DoneIcon({color: Colors.PrimaryUIColor});
 
     @flow.stateStep('disabled', outCurve, layout.opacity(0), ...defaultIconOptions)
@@ -91,7 +93,7 @@ export class Checkbox extends Button {
             this._handleTapStart();
             Timer.setTimeout(() => {
                 this._handleTapEnd();
-            },500);
+            },50);
         }
     }
 
@@ -100,8 +102,16 @@ export class Checkbox extends Button {
             this._handleTapStart();
             Timer.setTimeout(() => {
                 this._handleTapEnd();
-            },500);
+            },50);
         }
+    }
+
+    isChecked() {
+        return this.background.getProperties().backgroundColor === Colors.PrimaryUIColor;
+    }
+
+    getSize() {
+        return [48, 48]
     }
 
     _handleTapEnd() {
@@ -125,10 +135,6 @@ export class Checkbox extends Button {
         if (!this._inBounds) {
             this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
         }
-    }
-
-    isChecked() {
-        return this.background.getProperties().backgroundColor === Colors.PrimaryUIColor;
     }
 
     _enableHardShadow() {
