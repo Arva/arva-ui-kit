@@ -16,9 +16,10 @@ import {
 
 import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
-import {MultiLineInputView}     from './MultiLineInputView.js';
+import {MultiLineInput}         from './MultiLineInput.js';
 
 let {searchBar: {borderRadius}} = Dimensions;
+let transition =  {duration: 150};
 
 @layout.dockPadding(0)
 @flow.viewStates({
@@ -69,8 +70,8 @@ export class MessageField extends View {
         return [undefined, this._currentViewFlowState() === 'active' ? Math.max(super.getSize()[1] || 0, 32) : 32];
     }
 
-    @flow.stateStep('hidden', {}, layout.opacity(0), layout.skew(0.9, 0, 0))
-    @flow.defaultState('shown', {}, layout.opacity(1), layout.skew(0, 0, 0))
+    @flow.stateStep('hidden', {transition}, layout.opacity(0), layout.skew(0, 0, 0))
+    @flow.defaultState('shown', {transition}, layout.opacity(1), layout.skew(0, 0, 0))
     @event.on('click', function (e) {
         this._onActivate(e);
     })
@@ -86,7 +87,7 @@ export class MessageField extends View {
         return this._currentViewFlowState() === 'active' ? ~32 : 32
     })
     @layout.translate(0, 1, 30)
-    input = new MultiLineInputView(combineOptions(
+    input = new MultiLineInput(combineOptions(
         UIRegular,
         {
             initialHeight: 2,
@@ -125,13 +126,11 @@ export class MessageField extends View {
         });
 
         this.on('send', () => {
-            this._dontLooseFocus = true;
             this.sendButton.disable();
             this.setRenderableFlowState('input', 'hidden').then(() => {
                 this._eventOutput.emit('message', this.input.getValue());
                 this.input.setValue('');
                 this.setRenderableFlowState('input', 'shown');
-                this._dontLooseFocus = false;
             })
 
         });
@@ -146,24 +145,18 @@ export class MessageField extends View {
     }
 
 
-    _onDeactivate () {
-
-        setTimeout(() => {
-            if(!this._dontLooseFocus){
-                this.input.input.setProperties({ overflow: 'auto'});
-                this.setViewFlowState('inactive');
-                this.reflowRecursively();
-                this.input.scrollToTop();
-                this.sendButton.disable();
-            }
-
-        }, 100);
+    async _onDeactivate () {
+        this.input.collapse();
+        await this.setViewFlowState('inactive');
+        /* Reflow parent because size changed */
+        this.reflowRecursively();
+        this.input.scrollToBottom();
         return true;
     }
 
     async _onFocusEvent(event, type) {
         if(this.inFocusEvent) { return; }
-        type === 'focus' ? await this._onActivate(event) : this._onDeactivate(event);
+        type === 'focus' ? await this._onActivate(event) : await this._onDeactivate(event);
     }
 
     /* Complex logic because the focusing has to be delayed */

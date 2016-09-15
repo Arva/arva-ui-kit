@@ -9,6 +9,9 @@ import {layout}             from 'arva-js/layout/Decorators.js';
 import {UITitle}            from '../defaults/DefaultTypefaces.js';
 import {UIRegular}          from '../defaults/DefaultTypefaces.js';
 
+/**
+ * A dialog wth a title and text
+ */
 export class BaseDialog extends View {
 
     static get DEFAULT_SIZES(){
@@ -33,6 +36,14 @@ export class BaseDialog extends View {
     @layout.dock.top( ~50, 8)
     body = new Surface(combineOptions({content: this.options.body, properties: {textAlign: 'left'}}, UIRegular));
 
+    /**
+     * @example
+     * Injection.get(DialogManager).show({dialog: new BaseDialog({title: "Welcome!}))
+     *
+     * @param {Object} options
+     * @param {String} [options.title] The title of the dialog
+     * @param {String} [options.body] The body of the dialog
+     */
     constructor(options) {
         super(options);
         this.layout.on('layoutstart', ({size}) => {
