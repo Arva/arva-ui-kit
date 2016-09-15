@@ -26,8 +26,6 @@ const defaultIconOptions = [layout.stick.center(), layout.size(...iconSize), lay
 })
 export class Checkbox extends Button {
 
-
-
     @flow.stateStep('small', inCurve, layout.stick.center(), layout.translate(0, 0, 10), layout.scale(.75, .75, .75))
     @flow.stateStep('big', outCurve, layout.size(44, 44), layout.scale(1, 1, 1), layout.stick.center(), layout.translate(0, 0, 10))
     innerBox = new WhiteBox({
@@ -47,6 +45,12 @@ export class Checkbox extends Button {
 
     /**
      * Checkbox that be used to enable and disable options
+     *
+     * @example
+     * checkbox = new Checkbox({
+     *     shadowType: 'softShadow',
+     *     enabled: true
+     * });
      *
      * @param {Object} options Construction options
      * @param {Boolean} [options.enabled] Enable checkbox
@@ -141,4 +145,5 @@ export class Checkbox extends Button {
         this.outerBox.setProperties({boxShadow: 'inset 0px 2px 0px 0px rgba(0,0,0,0.12)'});
         this.innerBox.setProperties({boxShadow: '0px 2px 0px 0px rgba(0,0,0,0.12)'});
     }
+
 }
