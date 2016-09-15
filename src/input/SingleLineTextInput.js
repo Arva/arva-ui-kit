@@ -14,8 +14,8 @@ import {FeedbackBubble}         from './textInput/FeedbackBubble.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 
 let {searchBar: {borderRadius}} = Dimensions;
-const transition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
-const closeTransition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
+const transition = {transition: {curve: Easing.outCubic, duration: 200}, delay: 0};
+const closeTransition = {transition: {curve: Easing.outCubic, duration: 200}, delay: 0};
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 300}, delay: 0};
 const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.topLeft(), layout.translate(0, 4, 50)];
 const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
@@ -51,32 +51,16 @@ export class SingleLineTextInput extends View {
         }
     );
 
-    @layout.dock.fill()
-    @layout.translate(0, 0, 30)
-    @event.on('blur', function() { this._onBlur(); })
-    @event.on('focus', function() { this._onFocus(); })
-    input = new SingleLineInputSurface({
-        content: this.options.content || '',
-        type: this.options.password ? 'password' : 'text',
-        placeholder: this.options.placeholer || '',
-        properties: {
-            backgroundColor: 'transparent',
-            padding: '0px 16px 0px 16px',
-            borderRadius: borderRadius,
-            boxShadow: 'none'
-        }
-    });
-
     @flow.stateStep('shown', flowOptions, ...showBubble)
     @flow.defaultState('hidden', closeTransition, ...hideBubble)
     correct = new FeedbackBubble({variation: 'correct'});
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
-    @flow.defaultState('hidden', closeTransition,...hideBubble)
+    @flow.defaultState('hidden', closeTransition, ...hideBubble)
     incorrect = new FeedbackBubble({variation: 'incorrect'});
 
-    @flow.defaultState('shown', flowOptions, ...showBubble)
-    @flow.stateStep('hidden', closeTransition, ...hideBubble)
+    @flow.defaultState('hidden', flowOptions, ...hideBubble)
+    @flow.stateStep('show', closeTransition, ...showBubble)
     required = new FeedbackBubble({variation: 'required'});
 
     /**
@@ -89,28 +73,46 @@ export class SingleLineTextInput extends View {
      * @param {Object} [options] Construction options
      * @param {String} [options.content] Prefilled content of the input field
      * @param {String} [options.placeholder] Placeholder text of the input field
+     * @param {Boolean} [options.usesFeedback] Option to enable specific layouting for displaying feedbackBubbles
      * @param {Boolean} [options.password] Hides entered characters, replacing them with system-defined asterisks or comparable
      * @param {Boolean} [options.required] If set to true, shows a FeedbackBubble stating the field is required to be filled in
      */
     constructor(options) {
-        super(combineOptions({required: true}, options));
+        super(combineOptions({required: false, usesFeedback: true}, options));
+
+        if (!this.input) {
+            this.addRenderable(new SingleLineInputSurface({
+                content: this.options.content || '',
+                type: this.options.password ? 'password' : 'text',
+                placeholder: this.options.placeholer || '',
+                properties: {
+                    backgroundColor: 'transparent',
+                    padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
+                    borderRadius: borderRadius,
+                    boxShadow: 'none'
+                }
+            }), 'input', layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
+                this._onBlur();
+            }), event.on('focus', function () {
+                    this._onFocus();
+                }
+            ));
+        }
 
         if (this.options.required) {
             this.setRequiredState();
         }
-
-        window.x = this; // todo remove
     }
 
     setCorrectState(message = '') {
-        if(message){
+        if (message) {
             this.correct.setText(message);
         }
         this.setViewFlowState('correct');
     }
 
     setIncorrectState(message = '') {
-        if(message){
+        if (message) {
             this.incorrect.setText(message);
         }
         this.setViewFlowState('incorrect');

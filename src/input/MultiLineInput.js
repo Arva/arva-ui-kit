@@ -20,6 +20,19 @@ export class MultiLineInput extends View {
     @event.on('focus', function() { this._onFocus(); })
     input = new AutosizeTextareaSurface(this.options);
 
+    /**
+     * A multiline text input field that can contain multiple lines of text.
+     *
+     * @example
+     * @layout.dock.top(~48, 8)
+     * input = new MultiLineInput({ placeholder: '' });
+     *
+     * @param {Object} [options] Construction options
+     * @param {Integer} [options.initialHeight] The initial height of the multiline text input
+     * @param {Integer} [options.maxHeight] The maximum height of the multiline text input
+     * @param {String} [options.content] Prefilled content of the input field
+     * @param {String} [options.placeholder] Placeholder text of the input field
+     */
     constructor(options = {}) {
         super(combineOptions({
             initialHeight: 144,
@@ -48,6 +61,7 @@ export class MultiLineInput extends View {
             }
         });
 
+        /* Change the size of the input as the input changes */
         this.input.on('scrollHeightChanged', (scrollHeight)=> {
             if (scrollHeight < this.options.initialHeight) scrollHeight = this.options.initialHeight;
             this.reflowRecursively();
