@@ -87,7 +87,7 @@ export class Clickable extends View {
      * @private
      */
     _handleTapStart() {
-        if (this.options.easyPress) {
+        if (this.options.easyPress && this._isEnabled()) {
             this._handleClick();
         }
     }
