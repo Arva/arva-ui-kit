@@ -44,20 +44,21 @@ export class ShapeTabBar extends TabBar {
      * @param {Object} [options.tabOptions] The options passed to the tabRenderable
      * @param {String} [options.tabOptions.inActiveColor] The color of the tabRenderable when it's not active
      * @param {String} [options.tabOptions.activeColor] The color of the tabRenderable when it's active
+     * @param {Array}  [items] The items to add to the TabBar on initialisation
      */
-    constructor(options = {
-        shapeHeight: 32,
-        shapeWidth: 0,
-        shapeColor: Colors.PrimaryUIColor,
-        tabRenderable: ShapeTab,
-        tabOptions: {inActiveColor: Colors.PrimaryUIColor, activeColor: 'white'}
-    }) {
+    constructor(options = {}, items) {
 
         if (options.usesIcon) {
             options.borderRadius = "50%";
         }
 
-        super(combineOptions(options, {makeRipple: false, useBackground: false, useBoxShadow: false}));
+        super(combineOptions(options, {
+            makeRipple: false, useBackground: false, useBoxShadow: false, shapeHeight: 32,
+            shapeWidth: 0,
+            shapeColor: Colors.PrimaryUIColor,
+            tabRenderable: ShapeTab,
+            tabOptions: {inActiveColor: Colors.PrimaryUIColor, activeColor: 'white'}
+        }), items);
     }
 
     /**

@@ -38,8 +38,9 @@ export class LineTabBar extends TabBar {
      * @param {Object} [options.tabOptions] The options passed to the tabRenderable
      * @param {String} [options.tabOptions.inActiveColor] The color of the tabRenderable when it's not active
      * @param {String} [options.tabOptions.activeColor] The color of the tabRenderable when it's active
+     * @param {Array}  [items] The items to add to the TabBar on initialisation
      */
-    constructor(options = {}) {
+    constructor(options = {}, items = []) {
         super(combineOptions({
             makeRipple: false,
             useBackground: false,
@@ -48,7 +49,7 @@ export class LineTabBar extends TabBar {
             shapeHeight: 4,
             tabOptions: {},
             tabRenderable: LineTab
-        }, options));
+        }, options), items);
     }
 
     /**

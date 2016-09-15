@@ -23,8 +23,9 @@ export class MinimalTabBar extends TabBar {
      * @param {Object} [options.tabOptions] The options passed to the tabRenderable
      * @param {String} [options.tabOptions.inActiveColor] The color of the tabRenderable when it's not active
      * @param {String} [options.tabOptions.activeColor] The color of the tabRenderable when it's active
+     * @param {Array}  [items] The items to add to the TabBar on initialisation
      */
-    constructor(options = {}) {
-        super(combineOptions(options, {makeRipple: false, useBackground: false, useBoxShadow: false, tabRenderable: MinimalTab, tabOptions: {inActiveColor: 'rgb(170,170,170)', activeColor: 'black'}}));
+    constructor(options = {}, items = []) {
+        super(combineOptions(options, {makeRipple: false, useBackground: false, useBoxShadow: false, tabRenderable: MinimalTab, tabOptions: {inActiveColor: 'rgb(170,170,170)', activeColor: 'black'}}),items);
     }
 }
