@@ -2,29 +2,37 @@
  * Created by vlad on 01/09/16.
  */
 
-import Surface              from 'famous/core/Surface.js';
-import Easing               from 'famous/transitions/Easing.js';
-import {layout, event}      from 'arva-js/layout/Decorators.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {Knob}               from '../components/Knob.js';
-import {Clickable}          from '../components/Clickable.js';
-import {Colors}             from '../defaults/DefaultColors.js';
+import Surface                  from 'famous/core/Surface.js';
+import Easing                   from 'famous/transitions/Easing.js';
+import {Throttler}              from 'arva-js/utils/Throttler.js';
+import {layout, event, flow}    from 'arva-js/layout/Decorators.js';
+import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
+import {Knob}                   from '../components/Knob.js';
+import {Clickable}              from '../components/Clickable.js';
+import {Colors}                 from '../defaults/DefaultColors.js';
 
 export const knobSideLength = 48;
+export const moveCurve = {curve: Easing.outBack, duration: 200};
+export const retractCurve = {curve: Easing.outCubic, duration: 200};
+
 const lineBorderRadius = '1px';
 
+@flow.viewStates({})
 export class Slider extends Clickable {
-
-    _curve = {curve: Easing.outBack, duration: 200};
 
     @layout.fullSize()
     @layout.translate(0, 0, 10)
-    @event.on('click', function(event) { this._onLineTapEnd(event); })
-    @event.on('touchend', function(event) { this._onLineTapEnd(event); })
-    touchArea = new Surface({ properties: { cursor: 'pointer' } });
+    @event.on('click', function (event) {
+        this._onLineTapEnd(event);
+    })
+    @event.on('touchend', function (event) {
+        this._onLineTapEnd(event);
+    })
+    touchArea = new Surface({properties: {cursor: 'pointer'}});
 
     @layout.size(undefined, 2)
     @layout.stick.center()
+    @layout.translate(0, 0, 20)
     line = new Surface({
         properties: {
             borderRadius: lineBorderRadius,
@@ -35,54 +43,108 @@ export class Slider extends Clickable {
     @layout.size(knobSideLength, knobSideLength)
     @layout.origin(0.5, 0.5)
     @layout.align(0, 0.5)
-    @layout.translate(0, 0, 20)
-    @event.on('mousedown', function() { this._openToolTip() })
-    @event.on('touchstart', function() { this._openToolTip() })
-    @event.on('click', function() { if (this.snapPointsEnabled) {this._snapKnobOnDrop()} })
-    @event.on('touchend', function() { if (this.snapPointsEnabled) {this._snapKnobOnDrop()} })
-    @event.on('deploy', function(){
+    @layout.translate(0, 0, 50)
+    @event.on('touchstart', function () {
+        this._expandTooltip('knob')
+    })
+    @event.on('click', function () {
+        if (this.snapPointsEnabled) {
+            this._snapKnobToPoint()
+        }
+    })
+    @event.on('touchend', function () {
+        this._retractTooltip('knob');
+        if (this.snapPointsEnabled) {
+            this._snapKnobToPoint()
+        }
+    })
+    @event.on('deploy', function () {
         window.addEventListener('mouseup', this._onMouseUp);
     })
-    @event.on('recall', function() {
+    @event.on('recall', function () {
         window.removeEventListener('mouseup', this._onMouseUp);
     })
+    @flow.stateStep('expanded', moveCurve, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
+    @flow.stateStep('retracted', retractCurve, layout.size(knobSideLength, knobSideLength), layout.origin(0.5, 0.5))
     knob = new Knob({
+        makeRipple: !this.options.enableTooltip,
         enableBorder: this.options.knobBorder,
         enableSoftShadow: true,
         borderRadius: '4px'
     });
 
     constructor(options = {}) {
-
         super(combineOptions({
             knobBorder: false,
             knobPosition: 0,
             shadowType: 'noShadow',
             enableActiveTrail: true,
-            range: [],
-            values: [],
+            range: [0.0, 10.0],
+            showDecimal: false,
             amountSnapPoints: 0,
+            enableTooltip: true,
+            textOnlyInTooltip: true,
             icons: [null, null]
         }, options));
 
+        this.throttler = new Throttler(2, false, this, true);
+        this.amountSnapPoints = this.options.amountSnapPoints;
+        this.snapPointsEnabled = this.amountSnapPoints >= 2;
         this._knobPosition = this.options.knobPosition;
 
-        this.amountSnapPoints = this.options.values.length || this.options.amountSnapPoints;
-
-        this.snapPointsEnabled = this.options.values.length || this.amountSnapPoints >= 2;
+        this.knob.decorateRenderable('text',
+            layout.opacity(this.options.textOnlyInTooltip ? 0 : 1)
+        );
 
     }
 
-    _openToolTip() {
-        // this.reflowRecursively();
-        this.decorateRenderable('knob',
-            layout.size(knobSideLength, knobSideLength * 2),
-            layout.origin(0.5, 0.75),
-            layout.translate(0, 0, 100)
+    _setupListeners() {
+        this.once('newSize', ([width]) => {
+            this._sliderWidth = width;
+            this._setUpKnob();
+
+            if (this.snapPointsEnabled) {
+                this._addSnapPoints();
+            }
+
+            if (this.options.enableActiveTrail) {
+                this._enableActiveTrail();
+            }
+
+            this._initializeKnob();
+        });
+
+    }
+
+    _expandTooltip(knob) {
+        this.setRenderableFlowState(knob, 'expanded');
+
+        this[knob].decorateRenderable('text',
+            layout.align(0.5, 0.25),
+            layout.opacity(1)
+        );
+
+        this[knob].decorateRenderable('dragLines',
+            layout.align(0.5, 0.75),
+            layout.opacity(this.options.textOnlyInTooltip ? 1 : 0)
         );
     }
 
-    _snapKnobOnDrop() {
+    _retractTooltip(knob) {
+        this.setRenderableFlowState(knob, 'retracted');
+
+        this[knob].decorateRenderable('text',
+            layout.align(0.5, 0.5),
+            layout.opacity(this.options.textOnlyInTooltip ? 0 : 1)
+        );
+
+        this[knob].decorateRenderable('dragLines',
+            layout.align(0.5, 0.5),
+            layout.opacity(this.options.textOnlyInTooltip ? 1 : 0)
+        );
+    }
+
+    _snapKnobToPoint() {
 
         this._moveKnobTo(this.snapPointsPositions[this._closestPoint(this._knobPosition)]);
 
@@ -103,9 +165,9 @@ export class Slider extends Clickable {
 
     }
 
-    _closestPoint(tapPosition) {
+    _closestPoint(position) {
 
-        return Math.round(tapPosition / this.snapPointsDistance);
+        return Math.round(position / this.snapPointsDistance);
 
     }
 
@@ -113,9 +175,9 @@ export class Slider extends Clickable {
 
         let range = this.knob.draggable.options.xRange;
         if (Slider._positionInRange(position, range)) {
-            this._knobPosition = position;
-            this.knob.draggable.setPosition([position, 0], this._curve);
-            this.knob.text.setContent(Math.round(this._knobPosition / this._sliderWidth * 100) + '%');
+            this._updateKnobPositionTo(position);
+            this.knob.draggable.setPosition([position, 0], moveCurve);
+            this._setKnobContent('knob');
 
             if (this.options.enableActiveTrail) {
                 this._updateActiveTrail();
@@ -127,25 +189,6 @@ export class Slider extends Clickable {
     static _positionInRange(position, range) {
 
         return position >= range[0] && position <= range[1];
-
-    }
-
-    _setupListeners() {
-
-        this.once('newSize', ([width]) => {
-            this._sliderWidth = width;
-
-            this._setUpKnob();
-            this._setKnobInitialPosition();
-
-            if (this.snapPointsEnabled) {
-                this._addSnapPoints();
-            }
-
-            if (this.options.enableActiveTrail) {
-                this._enableActiveTrail();
-            }
-        });
 
     }
 
@@ -171,7 +214,8 @@ export class Slider extends Clickable {
                     backgroundColor: Colors.PrimaryUIColor
                 }
             }), 'activeTrail',
-            layout.stick.left()
+            layout.stick.left(),
+            layout.translate(0, 0, 30)
         );
 
     }
@@ -210,7 +254,7 @@ export class Slider extends Clickable {
         this.snapPointsDistance = this._sliderWidth / (this.amountSnapPoints - 1);
         this.snapPointsPositions = [];
 
-        for(let i = 0; i < this.amountSnapPoints; i++) {
+        for (let i = 0; i < this.amountSnapPoints; i++) {
             this.snapPointsPositions[i] = i * this.snapPointsDistance;
 
             this._addSnapPoint(i, 'snapPoint', 'rgb(170, 170, 170)');
@@ -238,15 +282,20 @@ export class Slider extends Clickable {
             }), name.toString() + index,
             layout.size(8, 8),
             layout.origin(0.5, 0.5),
-            layout.align(this.snapPointsPositions[index] / this._sliderWidth, 0.5)
+            layout.align(this.snapPointsPositions[index] / this._sliderWidth, 0.5),
+            layout.translate(0, 0, 40)
         );
     }
 
-    _setKnobInitialPosition() {
+    _initializeKnob() {
 
         this.knob.draggable.setPosition([this._knobPosition, 0]);
 
-        this.knob.text.setContent(Math.round(this._knobPosition / this._sliderWidth * 100) + '%');
+        this._setKnobContent('knob');
+
+        if (this.snapPointsEnabled) {
+            this._snapKnobToPoint();
+        }
 
     }
 
@@ -254,12 +303,12 @@ export class Slider extends Clickable {
 
         /*Set the knob horizontal range to be the entire Slider width.*/
         this.decorateRenderable('knob',
-            layout.draggable({xRange:[0, this._sliderWidth], projection: 'x'})
+            layout.draggable({xRange: [0, this._sliderWidth], projection: 'x'})
         );
 
         this.knob.draggable.on('update', (event) => {
-            this._knobPosition = event.position[0];
-            this.knob.text.setContent(Math.round(this._knobPosition / this._sliderWidth * 100) + '%');
+            this._updateKnobPositionTo(event.position[0]);
+            this._setKnobContent('knob');
         });
 
     }
@@ -267,8 +316,67 @@ export class Slider extends Clickable {
     _onMouseUp() {
 
         if (this.snapPointsEnabled) {
-            this._snapKnobOnDrop();
+            this._snapKnobToPoint();
         }
+
+    }
+
+    _setKnobContent(knob) {
+
+        this.throttler.add(() => {
+
+            this[knob].decorateRenderable('dragLines',
+                layout.opacity(this.options.textOnlyInTooltip ? 1 : 0)
+            );
+
+            let knobPosition = this['_' + knob + 'Position'];
+
+            let position = this.snapPointsEnabled ?
+                this.snapPointsPositions[this._closestPoint(knobPosition)] : knobPosition;
+
+            if (this.options.percent) {
+                this[knob].text.setContent(this._getPercentValue(position));
+            } else if (this.options.range.length > 0) {
+                let min = this.options.range[0];
+                let max = this.options.range[1];
+                let content = this._getValueInRange(position, min, max);
+                this[knob].text.setContent(this.options.showDecimal ? content.toFixed(1) : Math.round(content));
+            }
+
+        });
+
+    }
+
+    getKnobContent(knob) {
+
+        let knobPosition = this['_' + knob + 'Position'];
+
+        let position = this.snapPointsEnabled ?
+            this.snapPointsPositions[this._closestPoint(knobPosition)] : knobPosition;
+
+        if (this.options.percent) {
+            return this._getPercentValue(position);
+        } else if (this.options.range.length > 0) {
+            let min = this.options.range[0];
+            let max = this.options.range[1];
+            let content = this._getValueInRange(position, min, max);
+            return this.options.showDecimal ? content.toFixed(1) : Math.round(content);
+        }
+
+    }
+
+    _getPercentValue(position) {
+        return Math.round(position / this._sliderWidth * 100) + '%';
+    }
+
+    _getValueInRange(position, min, max) {
+        return position / this._sliderWidth * (max - min) + min;
+    }
+
+    _updateKnobPositionTo(position) {
+
+        this._knobPosition = position;
+        this._eventOutput.emit('valueChange', this.getKnobContent('knob'));
 
     }
 }
