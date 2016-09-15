@@ -12,6 +12,18 @@ import {MinimalTab}         from './MinimalTab.js';
 
 export class MinimalTabBar extends TabBar {
 
+    /**
+     * @example
+     *
+     * @layout.dock.top(~50)
+     * minimalTabBar = new MinimalTabBar({activeIndex: 0, tabRenderable: IconTab, tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: true, usesIcon: true});
+     *
+     * @param {Object} [options] Construction options
+     * @param {Renderable} [options.tabRenderable] The renderable class of the Tabs
+     * @param {Object} [options.tabOptions] The options passed to the tabRenderable
+     * @param {String} [options.tabOptions.inActiveColor] The color of the tabRenderable when it's not active
+     * @param {String} [options.tabOptions.activeColor] The color of the tabRenderable when it's active
+     */
     constructor(options = {}) {
         super(combineOptions(options, {makeRipple: false, useBackground: false, useBoxShadow: false, tabRenderable: MinimalTab, tabOptions: {inActiveColor: 'rgb(170,170,170)', activeColor: 'black'}}));
     }

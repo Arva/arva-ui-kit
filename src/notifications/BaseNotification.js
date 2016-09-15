@@ -57,7 +57,6 @@ export class BaseNotification extends View {
      * A base notification view for displaying notifications. This class is ment to be extended for different Notification layouts
      *
      * @example
-     * @layout.dock.top(~48, 8)
      * notification = new BaseNotification({
      *  type: 'auto',
      *  title: 'Title',

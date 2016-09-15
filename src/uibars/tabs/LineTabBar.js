@@ -25,6 +25,20 @@ export class LineTabBar extends TabBar {
         }
     });
 
+    /**
+     * @example
+     *
+     * @layout.dock.top(~50)
+     * lineTabBar = new LineTabBar({activeIndex: 0, tabRenderable: IconTab, tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: true, usesIcon: true});
+     *
+     * @param {Object} [options] Construction options
+     * @param {Number} [options.shapeHeight] The initial height of the shape renderable
+     * @param {String} [options.shapeColor] The color of the shape renderable
+     * @param {Renderable} [options.tabRenderable] The renderable class of the Tabs
+     * @param {Object} [options.tabOptions] The options passed to the tabRenderable
+     * @param {String} [options.tabOptions.inActiveColor] The color of the tabRenderable when it's not active
+     * @param {String} [options.tabOptions.activeColor] The color of the tabRenderable when it's active
+     */
     constructor(options = {}) {
         super(combineOptions({
             makeRipple: false,

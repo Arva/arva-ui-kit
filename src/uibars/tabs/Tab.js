@@ -4,13 +4,26 @@
 
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {TextButton}         from '../../buttons/TextButton.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
 
 export class Tab extends TextButton{
 
+    /* If current tab is set to active */
     _active = false;
+
+    /* If current tab is being pressed, either by mouse or tab */
     _hover = true;
 
+    /**
+     * Base Tab for the TabBar. Class is meant to be extended
+     *
+     * @example
+     * input = new Tab();
+     *
+     * @param {Object} [options] Construction options
+     * @param {Boolean} [options.makeRipple] Whether the tab should have a ripple
+     * @param {Boolean} [options.useBackground] Whether the tab should use a background
+     * @param {Boolean} [options.useBoxShadow] Whether the tab should use a boxshadow
+     */
     constructor(options = {}){
         super(combineOptions(options, {makeRipple: false, useBackground: false, useBoxShadow: false}));
     }

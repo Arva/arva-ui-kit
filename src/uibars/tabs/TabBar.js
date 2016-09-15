@@ -2,30 +2,10 @@
  * Created by Manuel on 07/09/16.
  */
 
-import Surface                              from 'famous/core/Surface.js';
 import {View}                               from 'arva-js/core/View.js';
-import {layout}                             from 'arva-js/layout/Decorators.js';
 import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
-
-import FlexTabBar                           from 'famous-flex/widgets/TabBar.js';
-import {Tab}                                from './Tab.js';
-
 import {DockLeftLayout, EqualSizeLayout}    from './TabBarHelperFunctions.js';
 
-/** @example
- *  Three different types:
- *      1. Minimal tabs
- *      2. Shape tabs, moving shapes
- *      3. Line tabs, same as Shape tabs but with a different shape
- *
- *  Icon tabs:
- *      new MinimalTabBar({activeIndex: 0, tabRenderable: IconTab, tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: true, usesIcon: true});
- *      new ShapeTabBar({activeIndex: 0,tabRenderable: ShapeIconTab, equalSizing: false, usesIcon: true, shapeWidth: 40, shapeHeight: 40});
- *      new LineTabBar({activeIndex: 0, tabRenderable: IconTab, tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: true, usesIcon: true});
- *
- *  Text tabs:
- *
- */
 export class TabBar extends View {
 
     /* Number of items in the tabBar */
@@ -37,7 +17,34 @@ export class TabBar extends View {
     /* Current _width of the TabBar */
     _width = 0;
 
-    constructor(options = {tabOptions: {}}, items = [{content: 'test'},{content: 'test'}, {content: 'test'}, {content: 'test'}, {content: 'test'}]){
+    /**
+     * Base TabBar for the UIBar. Class is meant to be extended
+     *
+     *  Three different types:
+     *      1. Minimal tabs
+     *      2. Shape tabs, moving shapes
+     *      3. Line tabs, same as Shape tabs but with a different shape
+     *
+     *  Icon tabs:
+     *      new MinimalTabBar({activeIndex: 0, tabRenderable: IconTab, tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: true, usesIcon: true});
+     *      new ShapeTabBar({activeIndex: 0,tabRenderable: ShapeIconTab, equalSizing: false, usesIcon: true, shapeWidth: 40, shapeHeight: 40});
+     *      new LineTabBar({activeIndex: 0, tabRenderable: IconTab, tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: true, usesIcon: true});
+     *
+     *  Text tabs:
+     *      new MinimalTabBar({activeIndex: 0,tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: true});
+     *      new ShapeTabBar({activeIndex: 0, equalSizing: false, shapeWidth: 40, shapeHeight: 40});
+     *      new LineTabBar({activeIndex: 0, tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: true});
+     *
+     *
+     * @param {Object} [options] Construction options
+     * @param {Array} [options.items] The items to populate the TabBar with
+     * @param {Object} [options.tabOptions] The options to pass to a tab renderable
+     * @param {Boolean} [options.equalSizing] Whether the tab renderables should be evenly spaced and sized or whether it should not (thus docking.left with the size of the renderable)
+     * @param {Number} [options.activeIndex] The index that should be active on initialisation
+     * @param {Boolean} [options.reflow] Whether the TabBar should automatically reflow the active shape to the current active renderable
+     * @param {Boolean} [options.usesIcon] Wheter the TabBar uses Icons or text
+     */
+    constructor(options = {tabOptions: {}}, items = []){
         super(combineOptions({equalSizing: false, activeIndex: 0, reflow: true}, options));
 
         this.on('newSize', ([_width]) => {
@@ -59,6 +66,10 @@ export class TabBar extends View {
 
     }
 
+    /**
+     * Layout new items in the tabBar, overwriting the old items
+     * @param items
+     */
     setItems(items = []){
         this._setItems(items);
     }
@@ -102,10 +113,18 @@ export class TabBar extends View {
         /* Should be overwritten */
     }
 
+    /**
+     * Returns the items in the TabBar
+     * @returns {{}|*|Array|DataTransferItemList}
+     */
     getItems() {
         return this.items;
     }
 
+    /**
+     * Set a tabBar item to active
+     * @param index
+     */
     setIndexActive(index){
         this._handleItemActive(index, this.getItem(index))
     }
