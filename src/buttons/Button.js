@@ -12,6 +12,9 @@ import {Ripple}             from '../components/Ripple.js';
 import {ComponentPadding}   from '../defaults/DefaultDimensions.js';
 
 
+/**
+ * A general class for a clickable making a ripple and some other useful button-like stuff
+ */
 @layout.dockPadding(0, ComponentPadding, 0, ComponentPadding)
 @layout.translate(0, 0, 30)
 export class Button extends Clickable {
@@ -27,18 +30,32 @@ export class Button extends Clickable {
         }
     });
 
+    /**
+     * @example
+     * a = new Button({
+     *  makeRipple: false,
+     *  useBackground: false,
+     *  });
+     *
+     *
+     * @param {Object} options. The options a
+     * @param {Boolean} [options.makeRipple] Whether or not the button should make a ripple on press. Defaults to true.
+     * @param {Boolean} [options.useBoxShadow] Whether or not the button should use a box shadow. Defaults to true
+     * @param {Boolean} [options.autoEnable] If true, automatically enables the button when the deploy event is triggered.
+     * Defaults to false
+     * @param {Boolean} [options.backgroundProperties] The properties that should be passed to the background, if using one.
+     */
     constructor(options) {
         super(combineOptions({
             makeRipple: true,
             useBoxShadow: true,
             useBackground: true,
             autoEnable: false,
-            delay: 0,
+            boxShadowType: 'softShadow',
             backgroundProperties: {
                 borderRadius: '4px',
                 backgroundColor: 'white'
-            },
-            properties: {}
+            }
         }, options));
 
         this.throttler = new Throttler(3, false, this, true);
