@@ -32,7 +32,7 @@ export class TabBar extends View {
      *
      *  Text tabs:
      *      new MinimalTabBar({activeIndex: 0,tabOptions: {properties: {color: 'black'}}, equalSizing: false},[{content: 'one'}, {content:'two'}, {content: 'three'}]);
-     *      new ShapeTabBar({activeIndex: 0, equalSizing: false, shapeWidth: 40, shapeHeight: 40,equalSizing: false},[{content: 'one'}, {content:'two'}, {content: 'three'}]);
+     *      new ShapeTabBar({activeIndex: 0, equalSizing: false, shapeWidth: 40, shapeHeight: 40},[{content: 'one'}, {content:'two'}, {content: 'three'}]);
      *      new LineTabBar({activeIndex: 0, tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: false},[{content: 'one'}, {content:'two'}, {content: 'three'}]);
      *
      * @param {Object} [options] Construction options
