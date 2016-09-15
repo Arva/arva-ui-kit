@@ -43,6 +43,13 @@ export class Checkbox extends Button {
     @flow.stateStep('enabled', outCurve, layout.opacity(1), ...defaultIconOptions)
     cross = new CrossIcon({color: 'rgb(170, 170, 170)'});
 
+    /**
+     * Checkbox that be used to enable and disable options
+     *
+     * @param {Object} options Construction options
+     * @param {Boolean} [options.enabled] Enable checkbox
+     * @param {String} [options.shadowType] The type of shadow to use ('noShadow' [default], 'softShadow', 'hardShadow')
+     */
     constructor(options = {}) {
         super(combineOptions({
             enabled: true,
@@ -69,7 +76,7 @@ export class Checkbox extends Button {
         this.on('touchstart', this._onTapStart);
         this.on('mousedown', this._onTapStart);
         this.on('touchend', this._onTapEnd);
-        this.on('mouseup', this._onTapEnd);
+        this.on('click', this._onTapEnd);
         this.on('touchmove', this._onTouchMove);
         this.on('mouseout', this._onMouseOut);
     }

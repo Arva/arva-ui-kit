@@ -77,7 +77,16 @@ export class Switch extends Clickable {
         enableSoftShadow: this.options.shadowType === 'softShadow'
     });
 
+    /**
+     * Switch that be used to enable and disable options
+     *
+     * @param {Object} options Construction options
+     * @param {Boolean} [options.enabled] Enable the switch
+     * @param {String} [options.variation] The variation of the switch ('small', 'medium', 'large')
+     * @param {String} [options.shadowType] The type of shadow to use ('noShadow' [default], 'softShadow', 'hardShadow')
+     */
     constructor(options = {}) {
+
         super(combineOptions({
             enabled: false,
             variation: 'small',
@@ -105,7 +114,7 @@ export class Switch extends Clickable {
         this.on('touchstart', this._onTouchStart);
         this.on('mousedown', this._onTouchStart);
         this.on('touchend', this._onTouchEnd);
-        this.on('mouseup', this._onTouchEnd);
+        this.on('click', this._onTouchEnd);
         this.once('newSize', ([width]) => {this._setUpKnob(width)});
     }
 
