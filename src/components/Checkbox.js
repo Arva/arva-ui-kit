@@ -26,6 +26,8 @@ const defaultIconOptions = [layout.stick.center(), layout.size(...iconSize), lay
 })
 export class Checkbox extends Button {
 
+
+
     @flow.stateStep('small', inCurve, layout.stick.center(), layout.translate(0, 0, 10), layout.scale(.75, .75, .75))
     @flow.stateStep('big', outCurve, layout.size(44, 44), layout.scale(1, 1, 1), layout.stick.center(), layout.translate(0, 0, 10))
     innerBox = new WhiteBox({
@@ -97,6 +99,14 @@ export class Checkbox extends Button {
         }
     }
 
+    isChecked() {
+        return this.background.getProperties().backgroundColor === Colors.PrimaryUIColor;
+    }
+
+    getSize() {
+        return [48, 48]
+    }
+
     _handleTapEnd() {
         if (this._inBounds) {
             let isChecked = this.isChecked();
@@ -118,10 +128,6 @@ export class Checkbox extends Button {
         if (!this._inBounds) {
             this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
         }
-    }
-
-    isChecked() {
-        return this.background.getProperties().backgroundColor === Colors.PrimaryUIColor;
     }
 
     _enableHardShadow() {
