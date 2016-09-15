@@ -60,7 +60,7 @@ export class MessageField extends View {
         }
     });
 
-    @flow.defaultState('default', {}, layout.opacity(1), layout.size(true, (_, height) => Math.min(height, 32)), layout.stick.bottomRight(), layout.translate(0, 1, 10))
+    @flow.defaultState('default', {}, layout.opacity(1), layout.size(true, (_, height) => Math.min(height, 32)), layout.stick.bottomRight(), layout.translate(0, 0, 10))
     sendButton = new UIBarTextButton({
         content: navigator && !navigator.onLine ? 'Offline' : 'Send',
         properties: {cursor: 'pointer'},
@@ -68,10 +68,6 @@ export class MessageField extends View {
         clickEventName: 'send'
     });
 
-
-    getSize() {
-        return [undefined, this._currentViewFlowState() === 'active' ? Math.max(super.getSize()[1] || 0, 32) : 32];
-    }
 
     @flow.stateStep('hidden', {transition}, layout.opacity(0), layout.skew(0, 0, 0))
     @flow.defaultState('shown', {transition}, layout.opacity(1), layout.skew(0, 0, 0))
@@ -117,6 +113,10 @@ export class MessageField extends View {
         }
     }
 
+    /**
+     * 
+     * @param options
+     */
     constructor(options) {
         super(combineOptions({
             placeholder: 'Enter a message'
@@ -141,6 +141,10 @@ export class MessageField extends View {
             })
 
         });
+    }
+
+    getSize() {
+        return [undefined, this._currentViewFlowState() === 'active' ? Math.max(super.getSize()[1] || 0, 32) : 32];
     }
 
     _enableFocusEvents() {
