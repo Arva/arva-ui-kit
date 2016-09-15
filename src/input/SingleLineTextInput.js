@@ -73,6 +73,7 @@ export class SingleLineTextInput extends View {
      * @param {Object} [options] Construction options
      * @param {String} [options.content] Prefilled content of the input field
      * @param {String} [options.placeholder] Placeholder text of the input field
+     * @param {Boolean} [options.usesFeedback] Option to enable specific layouting for displaying feedbackBubbles
      * @param {Boolean} [options.password] Hides entered characters, replacing them with system-defined asterisks or comparable
      * @param {Boolean} [options.required] If set to true, shows a FeedbackBubble stating the field is required to be filled in
      */

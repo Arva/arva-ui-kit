@@ -25,10 +25,25 @@ export class MultiLineTextInput extends SingleLineTextInput {
     })
     input = new AutosizeTextareaSurface(this.options);
 
+    /**
+     * A multiline text input field that can contain multiple lines of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
+     *
+     * @example
+     * @layout.dock.top(~48, 8)
+     * input = new MultiLineTextInput({ placeholder: '' });
+     *
+     * @param {Object} [options] Construction options
+     * @param {Integer} [options.initialHeight] The initial height of the multiline text input
+     * @param {Integer} [options.maxHeight] The maximum height of the multiline text input
+     * @param {String} [options.content] Prefilled content of the input field
+     * @param {String} [options.placeholder] Placeholder text of the input field
+     * @param {Boolean} [options.usesFeedback] Option to enable specific layouting for displaying feedbackBubbles
+     * @param {Boolean} [options.password] Hides entered characters, replacing them with system-defined asterisks or comparable
+     * @param {Boolean} [options.required] If set to true, shows a FeedbackBubble stating the field is required to be filled in
+     */
     constructor(options = {}) {
         super(combineOptions({
             initialHeight: 144,
-            clearOnEnter: false,
             usesFeedback: false,
             emojiEnabled: true,
             placeholder: 'Place comment',
@@ -54,6 +69,7 @@ export class MultiLineTextInput extends SingleLineTextInput {
             }
         });
 
+        /* Change the size of the input as the input changes */
         this.input.on('scrollHeightChanged', (scrollHeight)=> {
             if (scrollHeight < this.options.initialHeight) scrollHeight = this.options.initialHeight;
             this.reflowRecursively();
@@ -73,11 +89,6 @@ export class MultiLineTextInput extends SingleLineTextInput {
 
     getSize() {
         return [undefined, this._savedHeight || this.options.initialHeight]
-    }
-
-    deploy(target) {
-        this._currentTarget = this.input._currentTarget;
-        super.deploy(target);
     }
 
     scrollToTop() {
@@ -136,7 +147,6 @@ export class MultiLineTextInput extends SingleLineTextInput {
         this.correct.collapse();
         this.incorrect.collapse();
         this.required.collapse();
-
         this.focus();
     }
 
