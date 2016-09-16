@@ -114,10 +114,10 @@ export class Switch extends Clickable {
 
         let variation = this.options.variation;
 
-        // Choose knob width based on variation.
+        /* Choose knob width based on variation. */
         this._knobWidth = Switch.getKnobWidth(variation);
 
-        // Initialize icons.
+        /* Initialize icons. */
         let iconDisplaySetting = {display: variation === 'medium' || variation === 'large' ? 'block' : 'none'};
         this.cross.setProperties(iconDisplaySetting);
         this.tick.setProperties(iconDisplaySetting);
@@ -159,12 +159,12 @@ export class Switch extends Clickable {
     _setUpKnob(width) {
         this._knobHorizontalRange = width - this._knobWidth - knobLeftOffset * 2;
 
-        // Set knob size and horizontal range.
+        /* Set knob size and horizontal range. */
         this.decorateRenderable('knob',
             layout.draggable({xRange: [0, this._knobHorizontalRange], projection: 'x'})
         );
 
-        // Fades background color.
+        /* Fades background color. */
         this.knob.draggable.on('update', (event) => {
             this.decorateRenderable('selectedOuterBox', layout.opacity(event.position[0] / this._knobHorizontalRange));
         });
