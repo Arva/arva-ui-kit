@@ -7,8 +7,6 @@ import {layout, flow}       from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {View}                   from 'arva-js/core/View.js';
 
-import {WhiteBox}           from './WhiteBox.js';
-import {Button}             from '../buttons/Button.js';
 import {DoneIcon}           from '../icons/DoneIcon.js';
 import {CrossIcon}          from '../icons/CrossIcon.js';
 import {Colors}             from '../defaults/DefaultColors.js';
@@ -18,8 +16,6 @@ import {Clickable}          from './Clickable.js';
 import Timer                from 'famous/utilities/Timer.js';
 import Surface              from 'famous/core/Surface.js';
 
-
-const innerBoxSize = [44, 44];
 const iconSize = [24, 24];
 const iconZValue = 30;
 const inCurve = {transition: {curve: Easing.outCubic, duration: 200}};
@@ -34,6 +30,19 @@ const defaultIconOptions = [layout.stick.center(), layout.size(...iconSize), lay
 
 export class Checkbox extends Clickable {
 
+    @layout.fullSize()
+    @layout.translate(0, 0, -10)
+    background = new Surface({
+        properties: {
+            backgroundColor: this.options.enabled ? Colors.PrimaryUIColor : 'rgb(170, 170, 170)',
+            borderRadius: '4px',
+            boxShadow: getShadow({
+                inset: true,
+                onlyForShadowType: 'hard',
+                color: Colors.PrimaryUIColor
+            })
+        }
+    });
 
     @flow.stateStep('small', inCurve, layout.stick.center(), layout.translate(0, 0, 10), layout.scale(.75, .75, .75))
     @flow.stateStep('big', outCurve, layout.size(44, 44), layout.scale(1, 1, 1), layout.stick.center(), layout.translate(0, 0, 10))
@@ -80,24 +89,8 @@ export class Checkbox extends Clickable {
             this._enableHardShadow();
         }
 
-        let backgroundColor = this.options.enabled ? Colors.PrimaryUIColor : 'rgb(170, 170, 170)';
-
         this.setViewFlowState(this.options.enabled ? 'checked' : 'unchecked');
-
-        this.addRenderable(new Surface({
-            properties: {
-                backgroundColor,
-                borderRadius: '4px',
-                boxShadow: getShadow({
-                    inset: true,
-                    onlyForShadowType: 'hard',
-                    color: Colors.PrimaryUIColor
-                })
-            }
-        }), 'background', layout.fullSize(), layout.translate(0, 0, -10));
-
         this.on('mouseout', this._onMouseOut);
-        this.setViewFlowState(this.options.enabled ? 'checked' : 'unchecked');
     }
 
     _handleTapStart(mouseEvent) {
@@ -108,6 +101,8 @@ export class Checkbox extends Clickable {
     check() {
         if (!this.isChecked()) {
             this._handleTapStart();
+
+            /* Timout to handle the checked animation */
             Timer.setTimeout(() => {
                 this._handleTapEnd();
             }, 50);
@@ -117,6 +112,8 @@ export class Checkbox extends Clickable {
     unCheck() {
         if (this.isChecked()) {
             this._handleTapStart();
+
+            /* Timout to handle the checked animation */
             Timer.setTimeout(() => {
                 this._handleTapEnd();
             }, 50);
