@@ -56,7 +56,7 @@ export class RangeSlider extends Slider {
     @flow.stateStep('expanded', moveCurve, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
     @flow.stateStep('retracted', retractCurve, layout.size(knobSideLength, knobSideLength), layout.origin(0.5, 0.5))
     secondKnob = new Knob({
-        // makeRipple: !this.options.enableTooltip,
+        makeRipple: !this.options.enableTooltip || !this.options._onMobile,
         enableBorder: this.options.knobBorder,
         enableSoftShadow: true,
         borderRadius: '4px',
@@ -64,6 +64,36 @@ export class RangeSlider extends Slider {
         typeface: this.UISmallGrey
     });
 
+    /**
+     * Range Slider that is used for fine-grained selection of a range of values
+     *
+     * @example
+     * rangeSlider = new RangeSlider({
+     *     knobBorder: true,
+     *     amountSnapPoints: 5,
+     *     shadowType: 'noShadow',
+     *     knobPosition: 132,
+     *     secondKnobPosition: 180,
+     *     enableActiveTrail: true,
+     *     percent: true,
+     *     enableTooltip: true,
+     *     showDecimal: false,
+     *     range: [50, 150]
+     *     textOnlyInTooltip: false
+     * });
+     *
+     * @param {Object} options Construction options
+     * @param {Boolean} [options.knobBorder] Enable border around both knobs for visibility on white backgrounds
+     * @param {String} [options.shadowType] The type of shadow to use ('noShadow' [default], 'softShadow', 'hardShadow')
+     * @param {Boolean} [options.enableActiveTrail] Enable the active trail
+     * @param {Boolean} [options.percent] Enabling will show the percentage value on the knobs, and exclude all other content set
+     * @param {Array} [options.range] The min max value range for the slider values
+     * @param {Boolean} [options.range] Choose whether to show one decimal point when a value range is enabled
+     * @param {Number} [options.amountSnapPoints] The number of snap points the slider should contain
+     * @param {Boolean} [options.enableTooltip] Enables the tooltip in mobile environments when one of the knobs is pressed
+     * @param {Boolean} [options.textOnlyInTooltip] When enabled, the text content is shown only in the tooltip
+     * @param {Array} [options.icons] Add icons to the left and right of the slider
+     */
     constructor(options = {}) {
 
         super(combineOptions({
