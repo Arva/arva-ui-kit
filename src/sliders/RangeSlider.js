@@ -51,33 +51,62 @@ export class RangeSlider extends Slider {
     @flow.stateStep('expanded', moveCurve, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
     @flow.stateStep('retracted', retractCurve, layout.size(knobSideLength, knobSideLength), layout.origin(0.5, 0.5))
     secondKnob = new Knob({
-        // makeRipple: !this.options.enableTooltip,
+        makeRipple: !this.options.enableTooltip || !this.options._onMobile,
         enableBorder: this.options.knobBorder,
         enableSoftShadow: true,
         borderRadius: '4px',
         useThrottler: true,
-        typeface: this.UISmallGrey
+        typeface: UISmallGrey
     });
 
+    /**
+     * Range Slider that is used for fine-grained selection of a range of values
+     *
+     * @example
+     * rangeSlider = new RangeSlider({
+     *     knobBorder: true,
+     *     amountSnapPoints: 5,
+     *     shadowType: 'noShadow',
+     *     knobPosition: 0.3,
+     *     secondKnobPosition: 0.9,
+     *     enableActiveTrail: true,
+     *     percent: true,
+     *     enableTooltip: true,
+     *     showDecimal: false,
+     *     range: [50, 150]
+     *     textOnlyInTooltip: false
+     * });
+     *
+     * @param {Object} options Construction options
+     * @param {Number} [options.knobPosition] Set the initial position of the left knob as a percentage of the slider width
+     * @param {Number} [options.secondKnobPosition] Set the initial position of the right knob as a percentage of the slider width
+     * @param {Boolean} [options.knobBorder] Enable border around both knobs for visibility on white backgrounds
+     * @param {String} [options.shadowType] The type of shadow to use ('noShadow' [default], 'softShadow', 'hardShadow')
+     * @param {Boolean} [options.enableActiveTrail] Enable the active trail
+     * @param {Boolean} [options.percent] Enabling will show the percentage value on the knobs, and exclude all other content set
+     * @param {Array} [options.range] The min max value range for the slider values
+     * @param {Boolean} [options.range] Choose whether to show one decimal point when a value range is enabled
+     * @param {Number} [options.amountSnapPoints] The number of snap points the slider should contain
+     * @param {Boolean} [options.enableTooltip] Enables the tooltip in mobile environments when one of the knobs is pressed
+     * @param {Boolean} [options.textOnlyInTooltip] When enabled, the text content is shown only in the tooltip
+     * @param {Array} [options.icons] Add icons to the left and right of the slider
+     */
     constructor(options = {}) {
-
         super(combineOptions({
             knobBorder: false,
-            secondKnobPosition: 0,
+            secondKnobPosition: 1.0,
             shadowType: 'noShadow',
             enableTooltip: true,
             textOnlyInTooltip: true,
             enableActiveTrail: true,
         }, options));
-
-        this._secondKnobPosition = options.secondKnobPosition;
-
     }
 
     _setupListeners() {
-
-        this.once('newSize', ([width]) => {
+        this.onceNewSize().then(([width]) => {
             this._sliderWidth = width;
+            this._knobPosition = Math.round(this.options.knobPosition * this._sliderWidth);
+            this._secondKnobPosition = Math.round(this.options.secondKnobPosition * this._sliderWidth);
 
             this._dualKnobDraggableSetup();
 
@@ -91,24 +120,37 @@ export class RangeSlider extends Slider {
 
             this._initializeKnob();
             this._initializeSecondKnob();
-        });
 
+            this.onNewSize(this._onResize);
+        });
+    }
+
+    _onResize([width]) {
+        let oldSliderWidth = this._sliderWidth;
+        this._sliderWidth = width;
+
+        let newKnobPosition = this._knobPosition  * this._sliderWidth / oldSliderWidth;
+        let newSecondKnobPosition = this._secondKnobPosition  * this._sliderWidth / oldSliderWidth;
+        this._moveKnobTo(newKnobPosition);
+        this._updateKnobPositionTo('knob', newKnobPosition);
+        this._moveSecondKnobTo(newSecondKnobPosition);
+        this._updateKnobPositionTo('secondKnob', newSecondKnobPosition);
+
+        this.knob.draggable.setOptions({xRange: [0, this._secondKnobPosition - this._dualKnobOffset]});
+        this.secondKnob.draggable.setOptions({xRange: [this._knobPosition + this._dualKnobOffset, this._sliderWidth]});
+
+        this._updateActiveTrail();
     }
 
     _snapKnobToPoint() {
-
         this._moveKnobTo(this._closestPointPositionToFirstKnob(this._knobPosition));
-
     }
 
     _snapSecondKnobToPoint() {
-
         this._moveSecondKnobTo(this._closestPointPositionToSecondKnob(this._secondKnobPosition));
-
     }
 
     _onLineTapEnd(event) {
-
         let tapPosition;
         if (event instanceof MouseEvent) {
             tapPosition = event.offsetX;
@@ -127,19 +169,15 @@ export class RangeSlider extends Slider {
             );
             this._updateFirstKnobRange();
         }
-
     }
 
     _firstKnobCloser(position) {
-
         let distanceFromFirstKnob = Math.abs(this._knobPosition - position);
         let distanceFromSecondKnob = Math.abs(this._secondKnobPosition - position);
         return distanceFromFirstKnob <= distanceFromSecondKnob;
-
     }
 
     _moveSecondKnobTo(position) {
-
         let range = this.secondKnob.draggable.options.xRange;
         if (Slider._positionInRange(position, range)) {
             this._updateKnobPositionTo('secondKnob', position);
@@ -153,35 +191,30 @@ export class RangeSlider extends Slider {
                 this._updateActiveTrail();
             }
         }
-
     }
 
     _closestPointPositionToFirstKnob(tapPosition) {
-
         let closestPoint = this._closestPoint(tapPosition);
         let range = this.knob.draggable.options.xRange;
 
         for (let i = closestPoint; i >= 0; i--) {
-            let position = this.snapPointsPositions[i];
+            let position = this._snapPointPosition(i);
             if (Slider._positionInRange(position, range)) {
                 return position;
             }
         }
-
     }
 
     _closestPointPositionToSecondKnob(tapPosition) {
-
         let closestPoint = this._closestPoint(tapPosition);
         let range = this.secondKnob.draggable.options.xRange;
 
         for (let i = closestPoint; i <= this.amountSnapPoints - 1; i++) {
-            let position = this.snapPointsPositions[i];
+            let position = this._snapPointPosition(i);
             if (Slider._positionInRange(position, range)) {
                 return position;
             }
         }
-
     }
 
     _closestPositionToFirstKnob(tapPosition) {
@@ -195,7 +228,6 @@ export class RangeSlider extends Slider {
     }
 
     _enableActiveTrail() {
-
         this._addActiveTrailLine();
 
         this._updateActiveTrail();
@@ -213,27 +245,22 @@ export class RangeSlider extends Slider {
             this._updateActiveTrail();
 
         });
-
     }
 
     _updateActiveTrail() {
-
         if (this.options.enableActiveTrail) {
             this._updateActiveTrailLine();
             if (this._snapPointsEnabled) {
                 this._updateActiveTrailSnapPoints();
             }
         }
-
     }
 
     _updateActiveTrailLine() {
-
         this.decorateRenderable('activeTrail',
             layout.size(this._secondKnobPosition - this._knobPosition, 2),
             layout.align(this._knobPosition / this._sliderWidth, 0.5)
         );
-
     }
 
     _inActivePosition(position) {
@@ -241,7 +268,6 @@ export class RangeSlider extends Slider {
     }
 
     _initializeSecondKnob() {
-
         this.secondKnob.draggable.setPosition([this._secondKnobPosition, 0]);
 
         this.secondKnob.decorateRenderable('text',
@@ -255,11 +281,9 @@ export class RangeSlider extends Slider {
         if (this._snapPointsEnabled) {
             this._snapSecondKnobToPoint();
         }
-
     }
 
     _dualKnobDraggableSetup() {
-
         /*Set first knob range.*/
         this.decorateRenderable('knob',
             layout.draggable({
@@ -279,11 +303,9 @@ export class RangeSlider extends Slider {
         );
 
         this._updateKnobsOnMovement();
-
     }
 
     _updateKnobsOnMovement() {
-
         /*Update the second knob range when the first knob is moved.*/
         this.knob.draggable.on('update', (event) => {
 
@@ -309,7 +331,6 @@ export class RangeSlider extends Slider {
             this._updateFirstKnobRange();
 
         });
-
     }
 
     _updateFirstKnobRange() {
@@ -327,10 +348,40 @@ export class RangeSlider extends Slider {
         }
     }
 
-    _updateKnobPositionTo(knob, position) {
-
-        this['_' + knob + 'Position'] = position;
+    _emitMoveEvent() {
         this._eventOutput.emit('valueChange', [this.getKnobContent('knob'), this.getKnobContent('secondKnob')]);
-
     }
+
+    /**
+     * Get the current position of the left knob.
+     * @returns {number|*}
+     */
+    getLeftKnobPosition() {
+        return this._knobPosition;
+    }
+
+    /**
+     * Set a new position for the left knob as a percentage of the width.
+     * @param percent
+     */
+    setLeftKnobPosition(percent) {
+        this._moveKnobTo(Math.round(percent * this._sliderWidth));
+    }
+
+    /**
+     * Get the current position of the right knob.
+     * @returns {number|*}
+     */
+    getRightKnobPosition() {
+        return this._secondKnobPosition;
+    }
+
+    /**
+     * Set a new position for the right knob as a percentage of the width.
+     * @param percent
+     */
+    setRightKnobPosition(percent) {
+        this._moveSecondKnobTo(Math.round(percent * this._sliderWidth));
+    }
+
 }

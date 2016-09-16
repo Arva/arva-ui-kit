@@ -11,29 +11,24 @@ import {Clickable}          from './Clickable.js';
 import {DoneIcon}           from '../icons/DoneIcon.js';
 import {CrossIcon}          from '../icons/CrossIcon.js';
 import {Colors}             from '../defaults/DefaultColors.js';
-import {getShadow}          from '../defaults/DefaultShadows.js';
 
-const knobLeftOffset = 2;
+const knobOffset = 2;
 const iconSize = [24, 24];
 const iconColor = 'rgba(0, 0, 0, 0.1)';
 const curve = {curve: Easing.outBack, duration: 200};
 
 export class Switch extends Clickable {
 
-    _knobWidth = 30;
-    _knobHorizontalRange = 46;
-
     static getKnobWidth(variation = 'small') {
         switch (variation) {
             default:
                 console.log('Invalid variation selected. Falling back to default settings (small).');
-                break;
             case 'small':
                 return 30;
             case 'medium':
                 return 44;
             case 'large':
-                return 250;
+                return this._switchWidth - this._knobHorizontalRange;
         }
     }
 
@@ -42,14 +37,10 @@ export class Switch extends Clickable {
     outerBox = new Surface({
         properties: {
             borderRadius: '4px',
-            backgroundColor: 'rgb(170, 170, 170)',
-            boxShadow: getShadow({
-                inset: true,
-                onlyForShadowType: 'hard'
-            })
+            backgroundColor: this.options.inactiveColor
+
         }
     });
-
 
     @layout.fullSize()
     @layout.stick.center()
@@ -59,14 +50,9 @@ export class Switch extends Clickable {
     selectedOuterBox = new Surface({
         properties: {
             borderRadius: '4px',
-            backgroundColor: Colors.PrimaryUIColor,
-            boxShadow: getShadow({
-                inset: true,
-                onlyForShadowType: 'hard'
-            })
+            backgroundColor: this.options.activeColor
         }
     });
-
 
     @layout.size(...iconSize)
     @layout.stick.left()
@@ -82,7 +68,7 @@ export class Switch extends Clickable {
         return this.options.variation === 'large' ? width - 50 : this._knobWidth
     }, 44)
     @layout.stick.left()
-    @layout.translate(knobLeftOffset, 0, 30)
+    @layout.translate(knobOffset, 0, 30)
     knob = new Knob({
         text: this.options.text,
         enableSoftShadow: this.options.shadowType === 'softShadow'
@@ -107,6 +93,8 @@ export class Switch extends Clickable {
     constructor(options = {}) {
 
         super(combineOptions({
+            activeColor: Colors.PrimaryUIColor,
+            inactiveColor: 'rgb(170, 170, 170)',
             enabled: false,
             variation: 'small',
             shadowType: 'noShadow'
@@ -114,8 +102,8 @@ export class Switch extends Clickable {
 
         let variation = this.options.variation;
 
-        /* Choose knob width based on variation. */
-        this._knobWidth = Switch.getKnobWidth(variation);
+        /*Set the knob range depending on the variation.*/
+        this._knobHorizontalRange = variation === 'medium' || variation === 'large' ? 46 : 14;
 
         /* Initialize icons. */
         let iconDisplaySetting = {display: variation === 'medium' || variation === 'large' ? 'block' : 'none'};
@@ -129,7 +117,12 @@ export class Switch extends Clickable {
         this.setRenderableFlowState('selectedOuterBox', 'invisible');
 
         this.once('newSize', ([width]) => {
-            this._setUpKnob(width)
+            this._switchWidth = width;
+
+            /* Choose knob width based on variation. */
+            this._knobWidth = Switch.getKnobWidth(variation);
+
+            this._setUpKnob(this._switchWidth);
         });
     }
 
@@ -151,16 +144,25 @@ export class Switch extends Clickable {
 
     _onTapEnd() {
         if (this._isOn) {
-            this.knob.draggable.setPosition([0, 0], curve);
+            this._switchOff();
         } else {
-            this.knob.draggable.setPosition([this._knobHorizontalRange, 0], curve);
+            this._switchOn();
         }
-        this.setRenderableFlowState('selectedOuterBox', this._isOn ? 'invisible' : 'visible');
-        this._isOn = !this._isOn;
+    }
+
+    _switchOn() {
+        this.knob.draggable.setPosition([this._knobHorizontalRange, 0], curve);
+        this.setRenderableFlowState('selectedOuterBox', 'visible');
+        this._isOn = true;
+    }
+
+    _switchOff() {
+        this.knob.draggable.setPosition([0, 0], curve);
+        this.setRenderableFlowState('selectedOuterBox', 'invisible');
+        this._isOn = false;
     }
 
     _setUpKnob(width) {
-        this._knobHorizontalRange = width - this._knobWidth - knobLeftOffset * 2;
 
         /* Set knob size and horizontal range. */
         this.decorateRenderable('knob',
@@ -178,6 +180,28 @@ export class Switch extends Clickable {
         this.outerBox.setProperties(hardShadow);
         this.selectedOuterBox.setProperties(hardShadow);
         this.knob.background.setProperties({boxShadow: '0px 2px 0px 0px rgba(0,0,0,0.12)'});
+    }
+
+    /**
+     * Sets the switch in the on position.
+     */
+    switchOn() {
+        this._switchOn();
+    }
+
+    /**
+     *
+     */
+    switchOff() {
+        this._switchOff();
+    }
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    isOn() {
+        return this._isOn;
     }
 
 }
