@@ -136,7 +136,7 @@ export class Slider extends Clickable {
     }
 
     _setupListeners() {
-        this.once('newSize', ([width]) => {
+        this.onceNewSize().then(([width]) => {
             this._sliderWidth = width;
             this._knobPosition = Math.round(this.options.knobPosition * this._sliderWidth);
 
@@ -151,8 +151,23 @@ export class Slider extends Clickable {
             }
 
             this._initializeKnob();
+
+            this.onNewSize(this._onResize);
         });
 
+    }
+
+    _onResize([width]) {
+        let oldSliderWidth = this._sliderWidth;
+        this._sliderWidth = width;
+
+        let newKnobPosition = this._knobPosition  * this._sliderWidth / oldSliderWidth;
+        this._moveKnobTo(newKnobPosition);
+        this._updateKnobPositionTo('knob', newKnobPosition);
+
+        this.knob.draggable.setOptions({xRange: [0, this._sliderWidth]});
+
+        this._updateActiveTrail();
     }
 
     _expandTooltip(knob) {
@@ -184,13 +199,10 @@ export class Slider extends Clickable {
     }
 
     _snapKnobToPoint() {
-
-        this._moveKnobTo(this.snapPointsPositions[this._closestPoint(this._knobPosition)]);
-
+        this._moveKnobTo(this._snapPointPosition(this._closestPoint(this._knobPosition)));
     }
 
     _onLineTapEnd(event) {
-
         let tapPosition;
         if (event instanceof MouseEvent) {
             tapPosition = event.offsetX;
@@ -199,19 +211,15 @@ export class Slider extends Clickable {
         }
 
         this._moveKnobTo(
-            this._snapPointsEnabled ? this.snapPointsPositions[this._closestPoint(tapPosition)] : tapPosition
+            this._snapPointsEnabled ? this._snapPointPosition(this._closestPoint(tapPosition)) : tapPosition
         );
-
     }
 
     _closestPoint(position) {
-
-        return Math.round(position / this.snapPointsDistance);
-
+        return Math.round((position / this._sliderWidth) * (this.amountSnapPoints - 1));
     }
 
     _moveKnobTo(position) {
-
         let range = this.knob.draggable.options.xRange;
         if (Slider._positionInRange(position, range)) {
             this._updateKnobPositionTo('knob', position);
@@ -225,17 +233,13 @@ export class Slider extends Clickable {
                 this._updateActiveTrail();
             }
         }
-
     }
 
     static _positionInRange(position, range) {
-
         return position >= range[0] && position <= range[1];
-
     }
 
     _enableActiveTrail() {
-
         this._addActiveTrailLine();
 
         this._updateActiveTrail();
@@ -244,11 +248,9 @@ export class Slider extends Clickable {
         this.knob.draggable.on('update', () => {
             this._updateActiveTrail();
         });
-
     }
 
     _addActiveTrailLine() {
-
         this.addRenderable(
             new Surface({
                 properties: {
@@ -259,11 +261,9 @@ export class Slider extends Clickable {
             layout.stick.left(),
             layout.translate(0, 0, 20)
         );
-
     }
 
     _updateActiveTrail() {
-
         if (this.options.enableActiveTrail) {
             this.decorateRenderable('activeTrail',
                 layout.size(this._knobPosition, 2)
@@ -272,46 +272,36 @@ export class Slider extends Clickable {
                 this._updateActiveTrailSnapPoints();
             }
         }
-
     }
 
     _updateActiveTrailSnapPoints() {
-
         for (let i = 0; i < this.amountSnapPoints; i++) {
             this.decorateRenderable('colorSnapPoint' + i,
-                layout.opacity(this._inActivePosition(this.snapPointsPositions[i]) ? 1 : 0)
+                layout.opacity(this._inActivePosition(this._snapPointPosition(i)) ? 1 : 0)
             );
         }
-
     }
 
     _inActivePosition(position) {
-
         return position <= this._knobPosition;
-
     }
 
     _addSnapPoints() {
-
-        this.snapPointsDistance = this._sliderWidth / (this.amountSnapPoints - 1);
-        this.snapPointsPositions = [];
-
         for (let i = 0; i < this.amountSnapPoints; i++) {
-            this.snapPointsPositions[i] = i * this.snapPointsDistance;
-
             this._addSnapPoint(i, 'snapPoint', this.options.inactiveColor);
 
             if (this.options.enableActiveTrail) {
                 this._addActiveTrailSnapPoint(i);
             }
         }
+    }
 
+    _snapPointPosition(index) {
+        return index / (this.amountSnapPoints - 1) * this._sliderWidth;
     }
 
     _addActiveTrailSnapPoint(index) {
-
         this._addSnapPoint(index, 'colorSnapPoint', this.options.activeColor);
-
     }
 
     _addSnapPoint(index, name, color) {
@@ -324,45 +314,39 @@ export class Slider extends Clickable {
             }), name.toString() + index,
             layout.size(8, 8),
             layout.origin(0.5, 0.5),
-            layout.align(this.snapPointsPositions[index] / this._sliderWidth, 0.5),
+            layout.align(index / (this.amountSnapPoints - 1), 0.5),
             layout.translate(0, 0, 30)
         );
     }
 
     _initializeKnob() {
-
         this.knob.draggable.setPosition([this._knobPosition, 0]);
 
         if (this._contentProvided) {
+            this._setKnobContent('knob');
             this.knob.decorateRenderable('text',
                 layout.opacity(this.options.textOnlyInTooltip ? 0 : 1)
             );
         }
 
-        if (this._contentProvided) {
-            this._setKnobContent('knob');
-        }
-
         if (this._snapPointsEnabled) {
             this._snapKnobToPoint();
         }
-
     }
 
     _setUpKnobDraggable() {
-
         /*Set the knob horizontal range to be the entire Slider width.*/
         this.decorateRenderable('knob',
             layout.draggable({xRange: [0, this._sliderWidth], projection: 'x', outsideTouches: false})
         );
 
         this.knob.draggable.on('update', (event) => {
+            console.log('I entered this..');
             this._updateKnobPositionTo('knob', event.position[0]);
             if (this._contentProvided) {
                 this._setKnobContent('knob');
             }
         });
-
     }
 
     _onMouseUp() {
@@ -373,8 +357,6 @@ export class Slider extends Clickable {
     }
 
     _setKnobContent(knob) {
-
-
         this[knob].decorateRenderable('dragLines',
             layout.opacity(this.options.textOnlyInTooltip ? 1 : 0)
         );
@@ -382,7 +364,7 @@ export class Slider extends Clickable {
         let knobPosition = this['_' + knob + 'Position'];
 
         let position = this._snapPointsEnabled ?
-            this.snapPointsPositions[this._closestPoint(knobPosition)] : knobPosition;
+            this._snapPointPosition(this._closestPoint(knobPosition)) : knobPosition;
 
         if (this.options.percent) {
             let content = this._getPercentValue(position);
@@ -393,16 +375,13 @@ export class Slider extends Clickable {
             let content = this._getValueInRange(position, min, max);
             this[knob].setText(this.options.showDecimal ? content.toFixed(1) : Math.round(content));
         }
-
-
     }
 
     getKnobContent(knob) {
-
         let knobPosition = this['_' + knob + 'Position'];
 
         let position = this._snapPointsEnabled ?
-            this.snapPointsPositions[this._closestPoint(knobPosition)] : knobPosition;
+            this._snapPointPosition(this._closestPoint(knobPosition)) : knobPosition;
 
         if (this.options.percent) {
             return this._getPercentValue(position);
@@ -412,7 +391,6 @@ export class Slider extends Clickable {
             let content = this._getValueInRange(position, min, max);
             return this.options.showDecimal ? content.toFixed(1) : Math.round(content);
         }
-
     }
 
     _getPercentValue(position) {

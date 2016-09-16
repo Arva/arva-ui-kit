@@ -56,7 +56,7 @@ export class RangeSlider extends Slider {
         enableSoftShadow: true,
         borderRadius: '4px',
         useThrottler: true,
-        typeface: this.UISmallGrey
+        typeface: UISmallGrey
     });
 
     /**
@@ -92,7 +92,6 @@ export class RangeSlider extends Slider {
      * @param {Array} [options.icons] Add icons to the left and right of the slider
      */
     constructor(options = {}) {
-
         super(combineOptions({
             knobBorder: false,
             secondKnobPosition: 1.0,
@@ -101,12 +100,10 @@ export class RangeSlider extends Slider {
             textOnlyInTooltip: true,
             enableActiveTrail: true,
         }, options));
-
     }
 
     _setupListeners() {
-
-        this.once('newSize', ([width]) => {
+        this.onceNewSize().then(([width]) => {
             this._sliderWidth = width;
             this._knobPosition = Math.round(this.options.knobPosition * this._sliderWidth);
             this._secondKnobPosition = Math.round(this.options.secondKnobPosition * this._sliderWidth);
@@ -123,24 +120,37 @@ export class RangeSlider extends Slider {
 
             this._initializeKnob();
             this._initializeSecondKnob();
-        });
 
+            this.onNewSize(this._onResize);
+        });
+    }
+
+    _onResize([width]) {
+        let oldSliderWidth = this._sliderWidth;
+        this._sliderWidth = width;
+
+        let newKnobPosition = this._knobPosition  * this._sliderWidth / oldSliderWidth;
+        let newSecondKnobPosition = this._secondKnobPosition  * this._sliderWidth / oldSliderWidth;
+        this._moveKnobTo(newKnobPosition);
+        this._updateKnobPositionTo('knob', newKnobPosition);
+        this._moveSecondKnobTo(newSecondKnobPosition);
+        this._updateKnobPositionTo('secondKnob', newSecondKnobPosition);
+
+        this.knob.draggable.setOptions({xRange: [0, this._secondKnobPosition - this._dualKnobOffset]});
+        this.secondKnob.draggable.setOptions({xRange: [this._knobPosition + this._dualKnobOffset, this._sliderWidth]});
+
+        this._updateActiveTrail();
     }
 
     _snapKnobToPoint() {
-
         this._moveKnobTo(this._closestPointPositionToFirstKnob(this._knobPosition));
-
     }
 
     _snapSecondKnobToPoint() {
-
         this._moveSecondKnobTo(this._closestPointPositionToSecondKnob(this._secondKnobPosition));
-
     }
 
     _onLineTapEnd(event) {
-
         let tapPosition;
         if (event instanceof MouseEvent) {
             tapPosition = event.offsetX;
@@ -159,19 +169,15 @@ export class RangeSlider extends Slider {
             );
             this._updateFirstKnobRange();
         }
-
     }
 
     _firstKnobCloser(position) {
-
         let distanceFromFirstKnob = Math.abs(this._knobPosition - position);
         let distanceFromSecondKnob = Math.abs(this._secondKnobPosition - position);
         return distanceFromFirstKnob <= distanceFromSecondKnob;
-
     }
 
     _moveSecondKnobTo(position) {
-
         let range = this.secondKnob.draggable.options.xRange;
         if (Slider._positionInRange(position, range)) {
             this._updateKnobPositionTo('secondKnob', position);
@@ -185,35 +191,30 @@ export class RangeSlider extends Slider {
                 this._updateActiveTrail();
             }
         }
-
     }
 
     _closestPointPositionToFirstKnob(tapPosition) {
-
         let closestPoint = this._closestPoint(tapPosition);
         let range = this.knob.draggable.options.xRange;
 
         for (let i = closestPoint; i >= 0; i--) {
-            let position = this.snapPointsPositions[i];
+            let position = this._snapPointPosition(i);
             if (Slider._positionInRange(position, range)) {
                 return position;
             }
         }
-
     }
 
     _closestPointPositionToSecondKnob(tapPosition) {
-
         let closestPoint = this._closestPoint(tapPosition);
         let range = this.secondKnob.draggable.options.xRange;
 
         for (let i = closestPoint; i <= this.amountSnapPoints - 1; i++) {
-            let position = this.snapPointsPositions[i];
+            let position = this._snapPointPosition(i);
             if (Slider._positionInRange(position, range)) {
                 return position;
             }
         }
-
     }
 
     _closestPositionToFirstKnob(tapPosition) {
@@ -227,7 +228,6 @@ export class RangeSlider extends Slider {
     }
 
     _enableActiveTrail() {
-
         this._addActiveTrailLine();
 
         this._updateActiveTrail();
@@ -245,27 +245,22 @@ export class RangeSlider extends Slider {
             this._updateActiveTrail();
 
         });
-
     }
 
     _updateActiveTrail() {
-
         if (this.options.enableActiveTrail) {
             this._updateActiveTrailLine();
             if (this._snapPointsEnabled) {
                 this._updateActiveTrailSnapPoints();
             }
         }
-
     }
 
     _updateActiveTrailLine() {
-
         this.decorateRenderable('activeTrail',
             layout.size(this._secondKnobPosition - this._knobPosition, 2),
             layout.align(this._knobPosition / this._sliderWidth, 0.5)
         );
-
     }
 
     _inActivePosition(position) {
@@ -273,7 +268,6 @@ export class RangeSlider extends Slider {
     }
 
     _initializeSecondKnob() {
-
         this.secondKnob.draggable.setPosition([this._secondKnobPosition, 0]);
 
         this.secondKnob.decorateRenderable('text',
@@ -287,11 +281,9 @@ export class RangeSlider extends Slider {
         if (this._snapPointsEnabled) {
             this._snapSecondKnobToPoint();
         }
-
     }
 
     _dualKnobDraggableSetup() {
-
         /*Set first knob range.*/
         this.decorateRenderable('knob',
             layout.draggable({
@@ -311,11 +303,9 @@ export class RangeSlider extends Slider {
         );
 
         this._updateKnobsOnMovement();
-
     }
 
     _updateKnobsOnMovement() {
-
         /*Update the second knob range when the first knob is moved.*/
         this.knob.draggable.on('update', (event) => {
 
@@ -341,7 +331,6 @@ export class RangeSlider extends Slider {
             this._updateFirstKnobRange();
 
         });
-
     }
 
     _updateFirstKnobRange() {
