@@ -19,14 +19,12 @@ const curve = {curve: Easing.outBack, duration: 200};
 
 export class Switch extends Clickable {
 
-    _knobWidth = 30;
     _knobHorizontalRange = 46;
 
     static getKnobWidth(variation = 'small') {
         switch (variation) {
             default:
                 console.log('Invalid variation selected. Falling back to default settings (small).');
-                break;
             case 'small':
                 return 30;
             case 'medium':
