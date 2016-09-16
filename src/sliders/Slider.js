@@ -70,12 +70,7 @@ export class Slider extends View {
             this._snapKnobToPoint()
         }
     })
-    @event.on('deploy', function () {
-        window.addEventListener('mouseup', this._onMouseUp);
-    })
-    @event.on('recall', function () {
-        window.removeEventListener('mouseup', this._onMouseUp);
-    })
+    @event.on('mouseup', function(){this._onMouseUp(...arguments)})
     @flow.stateStep('expanded', moveCurve, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
     @flow.stateStep('retracted', retractCurve, layout.size(knobSideLength, knobSideLength), layout.origin(0.5, 0.5))
     knob = new Knob({
