@@ -11,7 +11,6 @@ import {Clickable}          from './Clickable.js';
 import {DoneIcon}           from '../icons/DoneIcon.js';
 import {CrossIcon}          from '../icons/CrossIcon.js';
 import {Colors}             from '../defaults/DefaultColors.js';
-import {getShadow}          from '../defaults/DefaultShadows.js';
 
 const knobLeftOffset = 2;
 const iconSize = [24, 24];
@@ -40,14 +39,10 @@ export class Switch extends Clickable {
     outerBox = new Surface({
         properties: {
             borderRadius: '4px',
-            backgroundColor: 'rgb(170, 170, 170)',
-            boxShadow: getShadow({
-                inset: true,
-                onlyForShadowType: 'hard'
-            })
+            backgroundColor: this.options.inactiveColor
+
         }
     });
-
 
     @layout.fullSize()
     @layout.stick.center()
@@ -57,14 +52,9 @@ export class Switch extends Clickable {
     selectedOuterBox = new Surface({
         properties: {
             borderRadius: '4px',
-            backgroundColor: Colors.PrimaryUIColor,
-            boxShadow: getShadow({
-                inset: true,
-                onlyForShadowType: 'hard'
-            })
+            backgroundColor: this.options.activeColor
         }
     });
-
 
     @layout.size(...iconSize)
     @layout.stick.left()
@@ -105,6 +95,8 @@ export class Switch extends Clickable {
     constructor(options = {}) {
 
         super(combineOptions({
+            activeColor: Colors.PrimaryUIColor,
+            inactiveColor: 'rgb(170, 170, 170)',
             enabled: false,
             variation: 'small',
             shadowType: 'noShadow'

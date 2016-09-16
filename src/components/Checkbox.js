@@ -34,12 +34,12 @@ export class Checkbox extends Clickable {
     @layout.translate(0, 0, -10)
     background = new Surface({
         properties: {
-            backgroundColor: this.options.enabled ? Colors.PrimaryUIColor : 'rgb(170, 170, 170)',
+            backgroundColor: this.options.enabled ? this.options.activeColor : this.options.inactiveColor,
             borderRadius: '4px',
             boxShadow: getShadow({
                 inset: true,
                 onlyForShadowType: 'hard',
-                color: Colors.PrimaryUIColor
+                color: this.options.activeColor
             })
         }
     });
@@ -62,12 +62,12 @@ export class Checkbox extends Clickable {
     @flow.stateStep('disabled', outCurve, layout.opacity(0), ...defaultIconOptions, layout.scale(1, 1, 1))
     @flow.stateStep('pressed', inCurve, layout.scale(0.73, 0.73, 0.73))
     @flow.stateStep('enabled', outCurve, layout.opacity(1), ...defaultIconOptions, layout.scale(1, 1, 1))
-    tick = new DoneIcon({color: Colors.PrimaryUIColor});
+    tick = new DoneIcon({color: this.options.activeColor});
 
     @flow.stateStep('disabled', outCurve, layout.opacity(0), ...defaultIconOptions)
     @flow.stateStep('pressed', inCurve, layout.size(iconSize[0] * 0.73, iconSize[1] * 0.73))
     @flow.stateStep('enabled', outCurve, layout.opacity(1), ...defaultIconOptions)
-    cross = new CrossIcon({color: 'rgb(170, 170, 170)'});
+    cross = new CrossIcon({color: this.options.inactiveColor});
 
     /**
      * Checkbox that be used to enable and disable options
@@ -83,7 +83,10 @@ export class Checkbox extends Clickable {
      * @param {String} [options.shadowType] The type of shadow to use ('noShadow' [default], 'softShadow', 'hardShadow')
      */
     constructor(options = {}) {
-        super(combineOptions({}, options));
+        super(combineOptions({
+            activeColor: Colors.PrimaryUIColor,
+            inactiveColor: 'rgb(170, 170, 170)'
+        }, options));
 
         if (this.options.shadowType === 'hardShadow') {
             this._enableHardShadow();
@@ -121,7 +124,7 @@ export class Checkbox extends Clickable {
     }
 
     isChecked() {
-        return this.background.getProperties().backgroundColor === Colors.PrimaryUIColor;
+        return this.background.getProperties().backgroundColor === this.options.activeColor;
     }
 
     getSize() {
@@ -134,7 +137,7 @@ export class Checkbox extends Clickable {
 
             this.tick.setProperties({display: isChecked ? 'none' : 'block'});
             this.cross.setProperties({display: isChecked ? 'block' : 'none'});
-            this.background.setProperties({backgroundColor: isChecked ? 'rgb(170, 170, 170)' : Colors.PrimaryUIColor});
+            this.background.setProperties({backgroundColor: isChecked ? this.options.inactiveColor : this.options.activeColor});
 
             this.setViewFlowState(isChecked ? 'unchecked' : 'checked');
         }
