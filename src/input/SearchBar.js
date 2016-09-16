@@ -83,6 +83,7 @@ export class SearchBar extends View {
     border = new Surface(combineOptions(
         { properties: {
             boxSizing: 'content-box',
+            backgroundColor: 'rgb(255, 255, 255)',
             border: 'solid 1px rgba(0, 0, 0, 0.1)',
             borderRadius: borderRadius
         }}
@@ -106,7 +107,7 @@ export class SearchBar extends View {
     done = new UIBarTextButton({ content: 'Done', properties: { cursor: 'pointer' }});
 
     @layout.dock.fill()
-    @layout.translate(0, 0, 40)
+    @layout.translate(0, 0, 240)
     @event.on('click', function(e) { this._onActivate(e); })
     @event.on('focus', function(e) { this._onFocusEvent(e, 'focus'); })
     @event.on('blur', function(e) { this._onFocusEvent(e, 'blur'); })
