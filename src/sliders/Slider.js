@@ -4,6 +4,7 @@
 
 import Bowser                           from 'bowser';
 import Surface                          from 'famous/core/Surface.js';
+import {View}                           from 'arva-js/core/View.js';
 import Easing                           from 'famous/transitions/Easing.js';
 import {layout, event, flow}            from 'arva-js/layout/Decorators.js';
 import {combineOptions}                 from 'arva-js/utils/CombineOptions.js';
@@ -19,7 +20,7 @@ export const retractCurve = {curve: Easing.outCubic, duration: 200};
 const lineBorderRadius = '1px';
 
 @flow.viewStates({})
-export class Slider extends Clickable {
+export class Slider extends View {
 
     @layout.fullSize()
     @layout.translate(0, 0, 10)
@@ -107,6 +108,12 @@ export class Slider extends Clickable {
         this._snapPointsEnabled = this.amountSnapPoints >= 2;
         this._knobPosition = this.options.knobPosition;
         this._contentProvided = this.options.percent === true || this.options.range.length >= 1;
+
+        this._setupListeners();
+    }
+
+    getSize(){
+        return [undefined, 48];
     }
 
     getKnobContent(knob) {
