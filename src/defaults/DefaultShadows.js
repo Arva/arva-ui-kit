@@ -7,7 +7,21 @@ import RGBColor                                     from 'rgbcolor';
 
 let globalShadowType = 'soft';
 
-export function getShadow({onlyForShadowType, color = 'white', inset = false}){
+/**
+ * @example
+ * new Surface({properties: {boxShadow: ''}}
+ *
+ * Gets a CSS box-shadow that is coherent with the rest of the app, based on certain options
+ *
+ * @param {Object} options
+ * @param {Boolean} [options.onlyForShadowType] If set to 'hard' or 'soft' then will only return a shadow if the current
+ * setting is this particular shadow
+ * @param {String} [options.color] The rgb(a) color that is being used for the element casting the shadow
+ * @param {Boolean} [options.inset] Defaults to false. Creates an inset box shadow
+ * @returns {String} The box-shadow to set
+ */
+export function getShadow(options){
+    let {onlyForShadowType, color = 'white', inset = false} = options;
     if(onlyForShadowType && onlyForShadowType !== globalShadowType){
         return '';
     }
