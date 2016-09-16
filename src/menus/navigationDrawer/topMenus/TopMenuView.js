@@ -84,13 +84,13 @@ export class TopMenuView extends View {
     @layout.size(65, Dimensions.topBarHeight)
     @layout.align(0, 0)
     @layout.origin(0, 0)
-    @layout.translate(0, 0, 40)
+    @layout.translate(0, 0, 100)
     clickableSurface = new Surface();
 
     @layout.size(65, Dimensions.topBarHeight)
     @layout.align(1, 0)
     @layout.origin(1, 0)
-    @layout.translate(0, 0, 40)
+    @layout.translate(0, 0, 100)
     clickableRightButtonSurface = new Surface();
 
 
