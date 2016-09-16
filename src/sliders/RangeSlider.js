@@ -359,11 +359,8 @@ export class RangeSlider extends Slider {
         }
     }
 
-    _updateKnobPositionTo(knob, position) {
-
-        this['_' + knob + 'Position'] = position;
+    _emitMoveEvent() {
         this._eventOutput.emit('valueChange', [this.getKnobContent('knob'), this.getKnobContent('secondKnob')]);
-
     }
 
     /**
@@ -375,7 +372,7 @@ export class RangeSlider extends Slider {
     }
 
     /**
-     * Set a new position for the leftknob as a percentage of the width.
+     * Set a new position for the left knob as a percentage of the width.
      * @param percent
      */
     setLeftKnobPosition(percent) {

@@ -22,7 +22,7 @@ const lineBorderRadius = '1px';
 export class Slider extends Clickable {
 
     @layout.fullSize()
-    @layout.translate(0, 0, 10)
+    @layout.translate(0, 0, 40)
     @event.on('click', function (event) {
         this._onLineTapEnd(event);
     })
@@ -33,7 +33,7 @@ export class Slider extends Clickable {
 
     @layout.size(undefined, 2)
     @layout.stick.center()
-    @layout.translate(0, 0, 20)
+    @layout.translate(0, 0, 10)
     line = new Surface({
         properties: {
             borderRadius: lineBorderRadius,
@@ -214,7 +214,7 @@ export class Slider extends Clickable {
 
         let range = this.knob.draggable.options.xRange;
         if (Slider._positionInRange(position, range)) {
-            this._updateKnobPositionTo(position);
+            this._updateKnobPositionTo('knob', position);
             this.knob.draggable.setPosition([position, 0], moveCurve);
 
             if (this._contentProvided) {
@@ -257,7 +257,7 @@ export class Slider extends Clickable {
                 }
             }), 'activeTrail',
             layout.stick.left(),
-            layout.translate(0, 0, 30)
+            layout.translate(0, 0, 20)
         );
 
     }
@@ -325,7 +325,7 @@ export class Slider extends Clickable {
             layout.size(8, 8),
             layout.origin(0.5, 0.5),
             layout.align(this.snapPointsPositions[index] / this._sliderWidth, 0.5),
-            layout.translate(0, 0, 40)
+            layout.translate(0, 0, 30)
         );
     }
 
@@ -357,7 +357,7 @@ export class Slider extends Clickable {
         );
 
         this.knob.draggable.on('update', (event) => {
-            this._updateKnobPositionTo(event.position[0]);
+            this._updateKnobPositionTo('knob', event.position[0]);
             if (this._contentProvided) {
                 this._setKnobContent('knob');
             }
@@ -423,11 +423,13 @@ export class Slider extends Clickable {
         return position / this._sliderWidth * (max - min) + min;
     }
 
-    _updateKnobPositionTo(position) {
+    _updateKnobPositionTo(knob, position) {
+        this['_' + knob + 'Position'] = position;
+        this._emitMoveEvent();
+    }
 
-        this._knobPosition = position;
+    _emitMoveEvent() {
         this._eventOutput.emit('valueChange', this.getKnobContent('knob'));
-
     }
 
     /**
