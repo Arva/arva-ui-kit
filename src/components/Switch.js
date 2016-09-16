@@ -12,14 +12,12 @@ import {DoneIcon}           from '../icons/DoneIcon.js';
 import {CrossIcon}          from '../icons/CrossIcon.js';
 import {Colors}             from '../defaults/DefaultColors.js';
 
-const knobLeftOffset = 2;
+const knobOffset = 2;
 const iconSize = [24, 24];
 const iconColor = 'rgba(0, 0, 0, 0.1)';
 const curve = {curve: Easing.outBack, duration: 200};
 
 export class Switch extends Clickable {
-
-    _knobHorizontalRange = 46;
 
     static getKnobWidth(variation = 'small') {
         switch (variation) {
@@ -30,7 +28,7 @@ export class Switch extends Clickable {
             case 'medium':
                 return 44;
             case 'large':
-                return 250;
+                return this._switchWidth - this._knobHorizontalRange;
         }
     }
 
@@ -70,7 +68,7 @@ export class Switch extends Clickable {
         return this.options.variation === 'large' ? width - 50 : this._knobWidth
     }, 44)
     @layout.stick.left()
-    @layout.translate(knobLeftOffset, 0, 30)
+    @layout.translate(knobOffset, 0, 30)
     knob = new Knob({
         text: this.options.text,
         enableSoftShadow: this.options.shadowType === 'softShadow'
@@ -104,8 +102,8 @@ export class Switch extends Clickable {
 
         let variation = this.options.variation;
 
-        /* Choose knob width based on variation. */
-        this._knobWidth = Switch.getKnobWidth(variation);
+        /*Set the knob range depending on the variation.*/
+        this._knobHorizontalRange = variation === 'medium' || variation === 'large' ? 46 : 14;
 
         /* Initialize icons. */
         let iconDisplaySetting = {display: variation === 'medium' || variation === 'large' ? 'block' : 'none'};
@@ -119,7 +117,12 @@ export class Switch extends Clickable {
         this.setRenderableFlowState('selectedOuterBox', 'invisible');
 
         this.once('newSize', ([width]) => {
-            this._setUpKnob(width)
+            this._switchWidth = width;
+
+            /* Choose knob width based on variation. */
+            this._knobWidth = Switch.getKnobWidth(variation);
+
+            this._setUpKnob(this._switchWidth);
         });
     }
 
@@ -150,7 +153,6 @@ export class Switch extends Clickable {
     }
 
     _setUpKnob(width) {
-        this._knobHorizontalRange = width - this._knobWidth - knobLeftOffset * 2;
 
         /* Set knob size and horizontal range. */
         this.decorateRenderable('knob',
