@@ -72,8 +72,8 @@ export class RangeSlider extends Slider {
      *     knobBorder: true,
      *     amountSnapPoints: 5,
      *     shadowType: 'noShadow',
-     *     knobPosition: 132,
-     *     secondKnobPosition: 180,
+     *     knobPosition: 0.3,
+     *     secondKnobPosition: 0.9,
      *     enableActiveTrail: true,
      *     percent: true,
      *     enableTooltip: true,
@@ -83,6 +83,8 @@ export class RangeSlider extends Slider {
      * });
      *
      * @param {Object} options Construction options
+     * @param {Number} [options.knobPosition] Set the initial position of the left knob as a percentage of the slider width
+     * @param {Number} [options.secondKnobPosition] Set the initial position of the right knob as a percentage of the slider width
      * @param {Boolean} [options.knobBorder] Enable border around both knobs for visibility on white backgrounds
      * @param {String} [options.shadowType] The type of shadow to use ('noShadow' [default], 'softShadow', 'hardShadow')
      * @param {Boolean} [options.enableActiveTrail] Enable the active trail
@@ -98,14 +100,12 @@ export class RangeSlider extends Slider {
 
         super(combineOptions({
             knobBorder: false,
-            secondKnobPosition: 0,
+            secondKnobPosition: 1.0,
             shadowType: 'noShadow',
             enableTooltip: true,
             textOnlyInTooltip: true,
             enableActiveTrail: true,
         }, options));
-
-        this._secondKnobPosition = options.secondKnobPosition;
 
     }
 
@@ -113,6 +113,7 @@ export class RangeSlider extends Slider {
 
         this.once('newSize', ([width]) => {
             this._sliderWidth = width;
+            this._secondKnobPosition = this.options.secondKnobPosition * this._sliderWidth;
 
             this._dualKnobDraggableSetup();
 

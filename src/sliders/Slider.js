@@ -94,7 +94,7 @@ export class Slider extends Clickable {
      *     knobBorder: true,
      *     amountSnapPoints: 5,
      *     shadowType: 'noShadow',
-     *     knobPosition: 132,
+     *     knobPosition: 0.4,
      *     enableActiveTrail: true,
      *     percent: true,
      *     enableTooltip: true,
@@ -104,6 +104,7 @@ export class Slider extends Clickable {
      * });
      *
      * @param {Object} options Construction options
+     * @param {Number} [options.knobPosition] Set the initial position of the knob as a percentage of the slider width
      * @param {Boolean} [options.knobBorder] Enable border around knob for visibility on white backgrounds
      * @param {String} [options.shadowType] The type of shadow to use ('noShadow' [default], 'softShadow', 'hardShadow')
      * @param {Boolean} [options.enableActiveTrail] Enable the active trail
@@ -123,7 +124,7 @@ export class Slider extends Clickable {
             activeColor: Colors.PrimaryUIColor,
             inactiveColor: 'rgb(170, 170, 170)',
             knobBorder: false,
-            knobPosition: 0,
+            knobPosition: 0.0,
             shadowType: 'noShadow',
             enableActiveTrail: true,
             range: [],
@@ -136,13 +137,14 @@ export class Slider extends Clickable {
 
         this.amountSnapPoints = this.options.amountSnapPoints;
         this._snapPointsEnabled = this.amountSnapPoints >= 2;
-        this._knobPosition = this.options.knobPosition;
         this._contentProvided = this.options.percent === true || this.options.range.length >= 1;
     }
 
     _setupListeners() {
         this.once('newSize', ([width]) => {
             this._sliderWidth = width;
+            this._knobPosition = this.options.knobPosition * this._sliderWidth;
+
             this._setUpKnob();
 
             if (this._snapPointsEnabled) {
