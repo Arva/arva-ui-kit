@@ -46,10 +46,21 @@ export class TabBar extends View {
     constructor(options = {tabOptions: {}}, items = []){
         super(combineOptions({equalSizing: false, activeIndex: 0, reflow: true}, options));
 
-        this.on('newSize', ([_width]) => {
-            this._width = _width;
-            this.options.reflow && this.setIndexActive(this._currentItem);
+        this.once('newSize', ([width]) => {
+            this._width = width;
+
+            this._setItems(items);
+
+            if(this.options.activeIndex != undefined){
+                this.setIndexActive(this.options.activeIndex);
+            }
+
+            this.on('newSize', () => {
+                this.options.reflow && this.setIndexActive(this._currentItem);
+            });
         });
+
+
 
         /* Bind helper functions to this class depending on layout options */
         let source = this.options.equalSizing ? EqualSizeLayout : DockLeftLayout;
@@ -57,11 +68,6 @@ export class TabBar extends View {
             this[index] = source[index].bind(this);
         }
 
-        this._setItems(items);
-
-        if(this.options.activeIndex != undefined){
-            this.setIndexActive(this.options.activeIndex);
-        }
 
     }
 
