@@ -37,15 +37,17 @@ export class Clickable extends View {
     }
 
     _setupListeners() {
-        this.on('touchstart', this._onTapStart);
-        this.on('mousedown', this._onTapStart);
-        this.on('touchend', this._onTapEnd);
-        this.on('mouseup', this._onTapEnd);
-        this.on('touchmove', this._onTouchMove);
-        this.on('touchleave', this._onTapEnd);
-        this.on('mouseout', this._onMouseOut);
-        this.on('click', this._onClick);
-
+        if ('ontouchstart' in document.documentElement) {
+            this.on('touchstart', this._onTapStart);
+            this.on('touchend', this._onTapEnd);
+            this.on('mouseout', this._onMouseOut);
+        } else {
+            this.on('mousedown', this._onTapStart);
+            this.on('mouseup', this._onTapEnd);
+            this.on('touchmove', this._onTouchMove);
+            this.on('touchleave', this._onTapEnd);
+            this.on('click', this._onClick);
+        }
     }
 
     _onTouchMove(){
@@ -156,4 +158,22 @@ export class Clickable extends View {
 
         return {elementX: pageX - left, elementY: pageY - top};
     }
+
+
+    /**
+     * Checks if the current TouchEvent is outside the current target element
+     * @param touch
+     * @param element
+     * @returns {boolean}
+     * @private
+     */
+    _isInBounds(touch, element) {
+        let elementPosition = element._currentTarget.getBoundingClientRect();
+        let {left, right, top, bottom} = elementPosition;
+
+        let touchList = touch.touches.length > 0 ? touch.touches : touch.changedTouches;
+        let {pageX, pageY} = touchList[0];
+
+        return (pageX > left && pageX < right && pageY > top && pageY < bottom);
+    };
 }

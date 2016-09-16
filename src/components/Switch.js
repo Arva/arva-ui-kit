@@ -40,6 +40,7 @@ export class Switch extends Clickable {
         properties: {
             borderRadius: '4px',
             backgroundColor: this.options.inactiveColor
+
         }
     });
 
@@ -65,7 +66,7 @@ export class Switch extends Clickable {
     @layout.translate(-12, 0, 20)
     cross = new CrossIcon({color: iconColor});
 
-    @layout.size(function(width) {
+    @layout.size(function (width) {
         return this.options.variation === 'large' ? width - 50 : this._knobWidth
     }, 44)
     @layout.stick.left()
@@ -111,28 +112,38 @@ export class Switch extends Clickable {
         this.cross.setProperties(iconDisplaySetting);
         this.tick.setProperties(iconDisplaySetting);
 
-        if (this.options.shadowType === 'hardShadow'){
+        if (this.options.shadowType === 'hardShadow') {
             this._enableHardShadow();
         }
 
         this.setRenderableFlowState('selectedOuterBox', 'invisible');
+
+        this.once('newSize', ([width]) => {
+            this._setUpKnob(width)
+        });
     }
 
-    _setupListeners() {
-        this.on('touchstart', this._onTouchStart);
-        this.on('mousedown', this._onTouchStart);
-        this.on('touchend', this._onTouchEnd);
-        this.on('click', this._onTouchEnd);
-        this.once('newSize', ([width]) => {this._setUpKnob(width)});
+    getSize() {
+        let width;
+        switch (this.options.variations){
+            case 'large':
+                width = undefined;
+                break;
+            case 'medium':
+                width = 94;
+                break;
+            case 'small':
+                width = 48;
+                break;
+        }
+        return [width, 48];
     }
 
-    _onTouchStart() {}
-
-    _onTouchEnd() {
+    _onTapEnd() {
         if (this._isOn) {
-            this.knob.draggable.setPosition([0,0], curve);
+            this.knob.draggable.setPosition([0, 0], curve);
         } else {
-            this.knob.draggable.setPosition([this._knobHorizontalRange,0], curve);
+            this.knob.draggable.setPosition([this._knobHorizontalRange, 0], curve);
         }
         this.setRenderableFlowState('selectedOuterBox', this._isOn ? 'invisible' : 'visible');
         this._isOn = !this._isOn;
@@ -143,7 +154,7 @@ export class Switch extends Clickable {
 
         /* Set knob size and horizontal range. */
         this.decorateRenderable('knob',
-            layout.draggable({xRange:[0, this._knobHorizontalRange], projection: 'x'})
+            layout.draggable({xRange: [0, this._knobHorizontalRange], projection: 'x'})
         );
 
         /* Fades background color. */
