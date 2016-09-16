@@ -66,7 +66,7 @@ export class Switch extends Clickable {
             })
         }
     });
-    
+
 
     @layout.size(...iconSize)
     @layout.stick.left()
@@ -127,26 +127,29 @@ export class Switch extends Clickable {
         }
 
         this.setRenderableFlowState('selectedOuterBox', 'invisible');
-    }
 
-    getSize() {
-        return [48, 50];
-    }
-
-    _setupListeners() {
-        this.on('touchstart', this._onTouchStart);
-        this.on('mousedown', this._onTouchStart);
-        this.on('touchend', this._onTouchEnd);
-        this.on('click', this._onTouchEnd);
         this.once('newSize', ([width]) => {
             this._setUpKnob(width)
         });
     }
 
-    _onTouchStart() {
+    getSize() {
+        let width;
+        switch (this.options.variations){
+            case 'large':
+                width = undefined;
+                break;
+            case 'medium':
+                width = 94;
+                break;
+            case 'small':
+                width = 48;
+                break;
+        }
+        return [width, 48];
     }
 
-    _onTouchEnd() {
+    _onTapEnd() {
         if (this._isOn) {
             this.knob.draggable.setPosition([0, 0], curve);
         } else {

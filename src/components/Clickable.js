@@ -37,14 +37,22 @@ export class Clickable extends View {
     }
 
     _setupListeners() {
-        this.on('touchstart', this._onTapStart);
-        this.on('mousedown', this._onTapStart);
-        this.on('touchend', this._onTapEnd);
-        this.on('mouseup', this._onTapEnd);
-        this.on('touchmove', this._onTouchMove);
-        this.on('touchleave', this._onTapEnd);
-        this.on('mouseout', this._onMouseOut);
-        this.on('click', this._onClick);
+        if ('ontouchstart' in document.documentElement) {
+            this.on('touchstart', this._onTapStart);
+            this.on('touchend', this._onTapEnd);
+            this.on('mouseout', this._onMouseOut);
+        } else {
+            this.on('mousedown', this._onTapStart);
+            this.on('mouseup', this._onTapEnd);
+            this.on('touchmove', this._onTouchMove);
+            this.on('touchleave', this._onTapEnd);
+            this.on('click', this._onClick);
+        }
+
+
+
+
+
 
     }
 
