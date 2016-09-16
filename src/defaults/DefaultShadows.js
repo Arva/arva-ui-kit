@@ -20,7 +20,7 @@ let globalShadowType = 'soft';
  * @param {Boolean} [options.inset] Defaults to false. Creates an inset box shadow
  * @returns {String} The box-shadow to set
  */
-export function getShadow(options){
+export function getShadow(options = {}){
     let {onlyForShadowType, color = 'white', inset = false} = options;
     if(onlyForShadowType && onlyForShadowType !== globalShadowType){
         return '';
