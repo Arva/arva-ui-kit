@@ -48,12 +48,6 @@ export class Clickable extends View {
             this.on('touchleave', this._onTapEnd);
             this.on('click', this._onClick);
         }
-
-
-
-
-
-
     }
 
     _onTouchMove(){
