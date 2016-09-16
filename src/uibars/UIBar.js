@@ -13,6 +13,7 @@ import {
     UIBarThickHeight,
     UIBarPadding
 }                                                   from '../defaults/DefaultDimensions.js';
+import {getShadow}                                  from '../defaults/DefaultShadows.js';
 
 const rgbToRgba = (rgbString, alpha) => {
     let color = new RGBColor(rgbString);
@@ -129,7 +130,8 @@ export class UIBar extends View {
         if (options.shadowType in backgroundSettings.shadows) {
             shadow = backgroundSettings.shadows[options.shadowType];
         } else {
-            shadow = {};
+            //TODO Modify the getShadow function to ensure that this one is full width for soft shadow
+            shadow = {boxShadow: getShadow({color: backgroundSettings.backgroundColor.backgroundColor})};
             if (options.shadowType) {
                 console.log('Invalid shadow selected. Falling back to default settings (noShadow).');
             }

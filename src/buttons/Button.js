@@ -126,6 +126,12 @@ export class Button extends Clickable {
         }
     }
 
+    _onMouseOut() {
+        if(this.options.makeRipple){
+            this.ripple.hide();
+        }
+    }
+
     _handleTapEnd(mouseEvent) {
         if (this.options.makeRipple) {
             this.ripple.hide();

@@ -7,6 +7,7 @@ import {View}               from 'arva-js/core/View.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {Button}             from '../buttons/Button.js';
+import {getShadow}          from '../defaults/DefaultShadows.js';
 
 const softShadowBoxMargin = 8;
 
@@ -19,7 +20,7 @@ export class WhiteBox extends Button {
         properties: {
             borderRadius: '2px',
             backgroundColor: 'rgb(255, 255, 255)',
-            boxShadow: '0px 0px 8px 0px rgba(0,0,0,0.12)'
+            boxShadow: getShadow()
         }
     });
 

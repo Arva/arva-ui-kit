@@ -94,6 +94,7 @@ export class MessageField extends View {
         UIRegular,
         {
             initialHeight: 2,
+            maxHeight: this.options.maxHeight,
             properties: {
                 backgroundColor: 'transparent',
                 lineHeight: '32px',
@@ -114,12 +115,18 @@ export class MessageField extends View {
     }
 
     /**
-     * 
-     * @param options
+     * Creates a message field that scales to multiple lines. When a message is sent, it emits 'message' with the text
+     * value as its single argument
+     *
+     * @param {Object} options
+     * @param {Number} [options.maxHeight] The max height of field before it starts scrolling, defaults to 150. Set
+     * to Infinity to prevent max height.
+     * @param {String} [options.placeholder] The placeholder, defaults to 'Enter a message'
      */
     constructor(options) {
         super(combineOptions({
-            placeholder: 'Enter a message'
+            placeholder: 'Enter a message',
+            maxHeight: 150
         }, options));
         document.addEventListener("offline", () => {
             this.sendButton.setContent('offline');

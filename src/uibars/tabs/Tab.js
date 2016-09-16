@@ -5,7 +5,7 @@
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {TextButton}         from '../../buttons/TextButton.js';
 
-export class Tab extends TextButton{
+export class Tab extends TextButton {
 
     /* If current tab is set to active */
     _active = false;
@@ -45,6 +45,9 @@ export class Tab extends TextButton{
         this._eventOutput.emit('hoverOn');
         this._activate();
 
+    }
+    _onMouseOut(mouseEvent) {
+        this._handleTapEnd(mouseEvent);
     }
 
     _handleTapEnd(mouseEvent) {
