@@ -138,9 +138,9 @@ export class Slider extends Clickable {
     _setupListeners() {
         this.once('newSize', ([width]) => {
             this._sliderWidth = width;
-            this._knobPosition = this.options.knobPosition * this._sliderWidth;
+            this._knobPosition = Math.round(this.options.knobPosition * this._sliderWidth);
 
-            this._setUpKnob();
+            this._setUpKnobDraggable();
 
             if (this._snapPointsEnabled) {
                 this._addSnapPoints();
@@ -349,7 +349,7 @@ export class Slider extends Clickable {
 
     }
 
-    _setUpKnob() {
+    _setUpKnobDraggable() {
 
         /*Set the knob horizontal range to be the entire Slider width.*/
         this.decorateRenderable('knob',
@@ -429,4 +429,21 @@ export class Slider extends Clickable {
         this._eventOutput.emit('valueChange', this.getKnobContent('knob'));
 
     }
+
+    /**
+     * Get the current position of the slider knob.
+     * @returns {number|*}
+     */
+    getKnobPosition() {
+        return this._knobPosition;
+    }
+
+    /**
+     * Set a new position for the slider knob as a percentage of the width.
+     * @param percent
+     */
+    setKnobPosition(percent) {
+        this._moveKnobTo(Math.round(percent * this._sliderWidth));
+    }
+
 }

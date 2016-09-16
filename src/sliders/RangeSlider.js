@@ -108,7 +108,8 @@ export class RangeSlider extends Slider {
 
         this.once('newSize', ([width]) => {
             this._sliderWidth = width;
-            this._secondKnobPosition = this.options.secondKnobPosition * this._sliderWidth;
+            this._knobPosition = Math.round(this.options.knobPosition * this._sliderWidth);
+            this._secondKnobPosition = Math.round(this.options.secondKnobPosition * this._sliderWidth);
 
             this._dualKnobDraggableSetup();
 
@@ -364,4 +365,37 @@ export class RangeSlider extends Slider {
         this._eventOutput.emit('valueChange', [this.getKnobContent('knob'), this.getKnobContent('secondKnob')]);
 
     }
+
+    /**
+     * Get the current position of the left knob.
+     * @returns {number|*}
+     */
+    getLeftKnobPosition() {
+        return this._knobPosition;
+    }
+
+    /**
+     * Set a new position for the leftknob as a percentage of the width.
+     * @param percent
+     */
+    setLeftKnobPosition(percent) {
+        this._moveKnobTo(Math.round(percent * this._sliderWidth));
+    }
+
+    /**
+     * Get the current position of the right knob.
+     * @returns {number|*}
+     */
+    getRightKnobPosition() {
+        return this._secondKnobPosition;
+    }
+
+    /**
+     * Set a new position for the right knob as a percentage of the width.
+     * @param percent
+     */
+    setRightKnobPosition(percent) {
+        this._moveSecondKnobTo(Math.round(percent * this._sliderWidth));
+    }
+
 }
