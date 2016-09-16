@@ -34,27 +34,27 @@ import {Colors}                 from './DefaultColors.js'
 // - [ ] Big
 
 export let TypeFaces = _.merge({
-    UITitle: {fontSize: '18px', fontWeight: 'bold', color: Colors.BasicTextColor, whiteSpace: 'nowrap'},
-    UIRegular: {fontSize: '18px', fontWeight: 'normal', color: Colors.BasicTextColor},
-    UISmall: {fontSize: '14px', fontWeight: 'normal', color: Colors.BasicTextColor},
-    UISmallGrey: {fontSize: '14px', fontWeight: 'normal', color: Colors.ModestTextColor},
-    UITiny: {fontSize: '10px', fontWeight: 'normal', color: Colors.BasicTextColor},
-    UIButtonPrimary: {fontSize: '18px', fontWeight: 'bold', color: Colors.PrimaryUIColor, whiteSpace: 'nowrap'},
-    UIButtonPrimaryLight: {fontSize: '18px', fontWeight: 'normal', color: Colors.PrimaryUIColor, whiteSpace: 'nowrap'},
-    UIButtonSecondary: {fontSize: '18px', fontWeight: 'bold', color: Colors.SecondaryUIColor, whiteSpace: 'nowrap'},
-    UIButtonSecondaryLight: {fontSize: '18px', fontWeight: 'normal', color: Colors.SecondaryUIColor, whiteSpace: 'nowrap'},
+    UITitle: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.BasicTextColor; } , whiteSpace: 'nowrap'},
+    UIRegular: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
+    UISmall: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
+    UISmallGrey: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } },
+    UITiny: {fontSize: '10px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
+    UIButtonPrimary: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.PrimaryUIColor; } , whiteSpace: 'nowrap'},
+    UIButtonPrimaryLight: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.PrimaryUIColor; } , whiteSpace: 'nowrap'},
+    UIButtonSecondary: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.SecondaryUIColor; } , whiteSpace: 'nowrap'},
+    UIButtonSecondaryLight: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.SecondaryUIColor; } , whiteSpace: 'nowrap'},
 
-    TextBody: {fontSize: '18px', fontWeight: 'normal', color: Colors.ArticleTextColor},
-    TextH1: {fontSize: '64px', fontWeight: 'bold', color: Colors.ArticleTextColor },
-    TextH2: {fontSize: '32px', fontWeight: 'bold', color: Colors.ArticleTextColor},
-    TextH3: {fontSize: '18px', fontWeight: 'bold', color: Colors.ArticleTextColor},
-    TextCaptions: {fontSize: '14px', fontWeight: 'normal', color: Colors.ModestTextColor},
-    TextQuote: {fontSize: '18px', fontWeight: 'bold', color: Colors.ModestTextColor},
-    TextQuoteEmphasis: {fontSize: '24px', fontWeight: 'normal', fontStyle: 'italic', color: Colors.PrimaryUIColor},
-    TextInfoLabel: {fontSize: '14px', fontWeight: 'normal', color: Colors.ModestTextColor, textTransform: 'uppercase'},
+    TextBody: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.ArticleTextColor; } },
+    TextH1: {fontSize: '64px', fontWeight: 'bold', get color() { return Colors.ArticleTextColor; }  },
+    TextH2: {fontSize: '32px', fontWeight: 'bold', get color() { return Colors.ArticleTextColor; } },
+    TextH3: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.ArticleTextColor; } },
+    TextCaptions: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } },
+    TextQuote: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.ModestTextColor; } },
+    TextQuoteEmphasis: {fontSize: '24px', fontWeight: 'normal', fontStyle: 'italic', get color() { return Colors.PrimaryUIColor; } },
+    TextInfoLabel: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } , textTransform: 'uppercase'},
 
-    ImpactHuge: {fontSize: '64px', fontWeight: 'bold', color: Colors.ImageTextColor},
-    ImpactBig: {fontSize: '32px', fontWeight: 'bold', color: Colors.ImageTextColor}
+    ImpactHuge: {fontSize: '64px', fontWeight: 'bold', get color() { return Colors.ImageTextColor; } },
+    ImpactBig: {fontSize: '32px', fontWeight: 'bold', get color() { return Colors.ImageTextColor; } }
 }, Avenir.UI, Avenir.Text, Avenir.Impact);
 
 export function useTypefaces(...faces) {
