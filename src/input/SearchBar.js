@@ -24,7 +24,7 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 
 /**
  * A highly animated search bar that takes a single line of text input, and shows search results from the input
- * in a DataBoundScrollView that expands and collapses below the text input field. Used almost exclusively inside a UIBar.
+ * in a DataBoundScrollView that expands and collapses below the text input field. Used exclusively inside a UIBar.
  *
  * If no itemTemplate or groupTemplate is given, the results section will create generic renderables from the given
  * options.dataStore's item's .content and .group properties, respectively.
@@ -34,10 +34,11 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
  *
  * @layout.dock.top(~48)
  * bar = new UIBar({
+          centerItemSize: [320, 48],
  *        components: [
  *            [new SearchBar({resultOptions: {
  *                dataStore: list,
- *                itemTemplate:
+ *                itemTemplate: (model) => new Surface({ content: model.content })
  *                groupBy: (model) => model.group || 'empty group'
  *            }}), 'search', 'center']
  *        ]
@@ -78,7 +79,7 @@ export class SearchBar extends View {
 
     @event.on('click', function(e) { this._onActivate(e); })
     @flow.stateStep('hidden', transition, layout.opacity(0))
-    @flow.defaultState('shown', transition, layout.size(undefined, 32), layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 10))
+    @flow.defaultState('shown', transition, layout.size(undefined, 32), layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 210))
     border = new Surface(combineOptions(
         { properties: {
             boxSizing: 'content-box',
@@ -92,16 +93,16 @@ export class SearchBar extends View {
     @flow.stateStep('collapsed', transition, layout.size(undefined, 32))
     @flow.stateStep('hidden', transition, layout.size(undefined, 32))
     @flow.defaultState('hidden', transition, layout.opacity(0), layout.size(undefined, 32),
-                                 layout.stick.top(), layout.translate(0, 8, 10))
+                                 layout.stick.top(), layout.translate(0, 8, 210))
     results = new ResultsView({
         resultOptions: this.options.resultOptions
     });
 
     @event.on('click', function(e){ this._onDoneClick(e); })
-    @flow.stateStep('shown', instant, layout.size(~50, undefined), layout.translate(0, 0, 50))
+    @flow.stateStep('shown', instant, layout.size(~50, undefined), layout.translate(0, 0, 250))
     @flow.stateStep('shown', transition,layout.opacity(1))
     @flow.stateStep('hidden', transition, layout.opacity(0))
-    @flow.defaultState('hidden', instant, layout.opacity(0), layout.dock.right(), layout.size(1, 1), layout.translate(0, 0, 20))
+    @flow.defaultState('hidden', instant, layout.opacity(0), layout.dock.right(), layout.size(1, 1), layout.translate(0, 0, 220))
     done = new UIBarTextButton({ content: 'Done', properties: { cursor: 'pointer' }});
 
     @layout.dock.fill()
@@ -121,8 +122,8 @@ export class SearchBar extends View {
     ));
 
     @event.on('click', function(e) { this._onActivate(e); })
-    @flow.stateStep('left', transition, layout.stick.left(), layout.translate(8, 0, 40))
-    @flow.defaultState('center', transition, layout.size(~50, 32), layout.stick.center(), layout.translate(0, 0, 30))
+    @flow.stateStep('left', transition, layout.stick.left(), layout.translate(8, 0, 240))
+    @flow.defaultState('center', transition, layout.size(~50, 32), layout.stick.center(), layout.translate(0, 0, 230))
     placeholder = new Placeholder({
             properties: { borderRadius: borderRadius },
             placeholder: this.options.placeholder || 'Search'
