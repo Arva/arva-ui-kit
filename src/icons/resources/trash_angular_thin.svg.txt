@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
-    <title>trash_angular_thin</title>
-    <desc>Created with Sketch.</desc>
-    <defs>
-        <rect id="path-1" x="8" y="10" width="32" height="36"></rect>
-        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="36" height="40">
-            <rect x="6" y="8" width="36" height="40" fill="white"></rect>
-            <use xlink:href="#path-1" fill="black"></use>
-        </mask>
-        <polygon id="path-3" points="19 2 29 2 31 8 17 8"></polygon>
-        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="18" height="10">
-            <rect x="15" y="0" width="18" height="10" fill="white"></rect>
-            <use xlink:href="#path-3" fill="black"></use>
-        </mask>
-    </defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group" stroke="#000000">
-            <path d="M24,17 L24,39" id="Line" stroke-width="2" stroke-linecap="square"></path>
-            <path d="M16,17 L16,39" id="Line" stroke-width="2" stroke-linecap="square"></path>
-            <path d="M32,17 L32,39" id="Line" stroke-width="2" stroke-linecap="square"></path>
-            <use id="Rectangle-50" mask="url(#mask-2)" stroke-width="4" xlink:href="#path-1"></use>
-            <path d="M1,9 L47,9" id="Line" stroke-width="2" stroke-linecap="square"></path>
-            <use id="Rectangle-49" mask="url(#mask-4)" stroke-width="4" xlink:href="#path-3"></use>
-        </g>
-    </g>
+   
+   <title>trash_angular_thin   </title>
+   <desc>Created with Sketch.   </desc>
+   <defs>
+      <rect id="trash_angular_thin.svgpath-1" x="8" y="10" width="32" height="36"/>
+      <mask id="trash_angular_thin.svgmask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="36" height="40">
+         <rect x="6" y="8" width="36" height="40" fill="white"/>
+         <use xlink:href="#trash_angular_thin.svgpath-1" fill="black"/>
+      </mask>
+      <polygon id="trash_angular_thin.svgpath-3" points="19 2 29 2 31 8 17 8"/>
+      <mask id="trash_angular_thin.svgmask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="18" height="10">
+         <rect x="15" y="0" width="18" height="10" fill="white"/>
+         <use xlink:href="#trash_angular_thin.svgpath-3" fill="black"/>
+      </mask>
+   </defs>
+   <g id="trash_angular_thin.svgPage-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <g id="trash_angular_thin.svgGroup" stroke="#000000">
+         <path d="M24,17 L24,39" id="trash_angular_thin.svgLine" stroke-width="2" stroke-linecap="square"/>
+         <path d="M16,17 L16,39" id="trash_angular_thin.svgLine" stroke-width="2" stroke-linecap="square"/>
+         <path d="M32,17 L32,39" id="trash_angular_thin.svgLine" stroke-width="2" stroke-linecap="square"/>
+         <use id="trash_angular_thin.svgRectangle-50" mask="url(#trash_angular_thin.svgmask-2)" stroke-width="4" xlink:href="#trash_angular_thin.svgpath-1"/>
+         <path d="M1,9 L47,9" id="trash_angular_thin.svgLine" stroke-width="2" stroke-linecap="square"/>
+         <use id="trash_angular_thin.svgRectangle-49" mask="url(#trash_angular_thin.svgmask-4)" stroke-width="4" xlink:href="#trash_angular_thin.svgpath-3"/>
+      </g>
+   </g>
 </svg>

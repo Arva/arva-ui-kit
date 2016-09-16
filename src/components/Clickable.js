@@ -15,17 +15,15 @@ export class Clickable extends View {
         options = combineOptions({
             easyPress: false,
             disableAfterClick: false,
-            autoEnable: true,
+            enabled: true,
             clickEventName: 'buttonClick'
         }, options);
-        if (options.enabled === false) {
-            /* Merge options in two rounds since there are dependencies within the options */
-            options = combineOptions(options.disabledOptions, options);
-        } else {
-            options.enabled = true;
-        }
-
         super(options);
+
+        if (this.options.enabled === false) {
+            /* Merge options in two rounds since there are dependencies within the options */
+            this._setEnabled(false);
+        }
         this._enabled = options.enabled;
         this._setupListeners();
     }
@@ -45,7 +43,7 @@ export class Clickable extends View {
         this.on('mouseup', this._onTapEnd);
         this.on('touchmove', this._onTouchMove);
         this.on('touchleave', this._onTapEnd);
-        this.on('mouseout', this._onTapEnd);
+        this.on('mouseout', this._onMouseOut);
         this.on('click', this._onClick);
 
     }
@@ -55,7 +53,15 @@ export class Clickable extends View {
     }
 
     _onTapEnd(mouseEvent) {
+        this._tapStarted = false;
         this._handleTapEnd(mouseEvent);
+    }
+
+    _onMouseOut(mouseEvent) {
+        if(this._tapStarted){
+            this._tapStarted = false;
+            this._handleTapRemoved(mouseEvent);
+        }
     }
 
     /**
@@ -63,6 +69,10 @@ export class Clickable extends View {
      * @private
      */
     _handleTouchMove(){
+        /* To be inherited */
+    }
+
+    _handleTapRemoved(){
         /* To be inherited */
     }
 
@@ -76,6 +86,7 @@ export class Clickable extends View {
     }
 
     _onTapStart(mouseEvent) {
+        this._tapStarted = true;
         if (this._isEnabled()) {
             let args = mouseEvent.touches ? {x: mouseEvent.touches[0].clientX, y: mouseEvent.touches[0].clientY} :
                 {x: mouseEvent.clientX, y: mouseEvent.clientY};
@@ -89,7 +100,7 @@ export class Clickable extends View {
      * @private
      */
     _handleTapStart() {
-        if (this.options.easyPress) {
+        if (this.options.easyPress && this._isEnabled()) {
             this._handleClick();
         }
     }
@@ -120,29 +131,14 @@ export class Clickable extends View {
     }
 
     _isEnabled() {
-        return this._enabled || !this.options.disableAfterClick;
+        return this._enabled;
     }
 
     _setEnabled(enabled) {
         this._enabled = enabled;
+        this.reflowRecursively();
     }
-
-    /**
-     * Checks if the current TouchEvent is outside the current target element
-     * @param touch
-     * @param element
-     * @returns {boolean}
-     * @private
-     */
-    _isInBounds(touch, element) {
-        let elementPosition = element._currentTarget.getBoundingClientRect();
-        let {left, right, top, bottom} = elementPosition;
-
-        let touchList = touch.touches.length > 0 ? touch.touches : touch.changedTouches;
-        let {pageX, pageY} = touchList[0];
-
-        return (pageX > left && pageX < right && pageY > top && pageY < bottom);
-    };
+    
 
     /**
      * Returns the touch location x and y coordinates relative to the element selected.

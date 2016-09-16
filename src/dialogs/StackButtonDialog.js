@@ -8,6 +8,16 @@ import {BaseDialog}         from './BaseDialog.js';
 import {TextButton}         from '../buttons/TextButton.js';
 
 export class StackButtonDialog extends BaseDialog {
+
+    /**
+     * @example
+     * new StackButtonDialog({buttons: ['Button1', 'Button2', 'Button3'], title: 'Hello', body: 'World'})
+     *
+     * @param {Object} [options] Constructor options
+     * @param {Array} [options.buttons] Array of button texts
+     * @param {String} [options.title] The title of the Dialog
+     * @param {String} [options.body] The body of the Dialog
+     */
     constructor(options = {}) {
         super(options);
         let {buttons} = options;
@@ -26,7 +36,7 @@ export class StackButtonDialog extends BaseDialog {
                         borderRadius: index !== buttons.length - 1 ? '0px' : '0px 0px 4px 4px'
                     }
                 }
-            ), `button${index}`, layout.dock.top( buttonHeight));
+            ), `button${index}`, layout.dock.top(buttonHeight, 0), layout.translate(0, 0, 100));
         }
     }
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>people_angular_thin</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M16,24 C22.627417,24 28,18.627417 28,12 C28,5.372583 22.627417,0 16,0 C9.372583,0 4,5.372583 4,12 C4,18.627417 9.372583,24 16,24 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <path d="M32,38 C32,29.163444 24.836556,22 16,22 C7.163444,22 0,29.163444 0,38 L0,48 L32,48 L32,38 Z" id="path-3"></path>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="32" height="26" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+        <path d="M30.750431,2.07731346 C31.1597855,2.02628571 31.5768231,2 32,2 C37.5228475,2 42,6.4771525 42,12 C42,17.5228475 37.5228475,22 32,22 C31.5768231,22 31.1597855,21.9737143 30.750431,21.9226865 C33.9193447,19.7626853 36,16.1243242 36,12 C36,7.8756758 33.9193447,4.23731467 30.750431,2.07731346 Z" id="path-5"></path>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="15.249569" height="24">
+            <rect x="28.750431" y="0" width="15.249569" height="24" fill="white"></rect>
+            <use xlink:href="#path-5" fill="black"></use>
+        </mask>
+        <path d="M40,46 L46,46 L46,38 C46,30.2680135 39.7319865,24 32,24 C31.9184268,24 31.8370165,24.0006977 31.7557748,24.0020873 C36.6725461,26.7321321 40,31.9774818 40,38 L40,46 Z" id="path-7"></path>
+        <mask id="mask-8" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="18.2442252" height="26">
+            <rect x="29.7557748" y="22" width="18.2442252" height="26" fill="white"></rect>
+            <use xlink:href="#path-7" fill="black"></use>
+        </mask>
+        <path d="M22.750431,2.07731346 C23.1597855,2.02628571 23.5768231,2 24,2 C29.5228475,2 34,6.4771525 34,12 C34,17.5228475 29.5228475,22 24,22 C23.5768231,22 23.1597855,21.9737143 22.750431,21.9226865 C25.9193447,19.7626853 28,16.1243242 28,12 C28,7.8756758 25.9193447,4.23731467 22.750431,2.07731346 Z" id="path-9"></path>
+        <mask id="mask-10" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="15.249569" height="24">
+            <rect x="20.750431" y="0" width="15.249569" height="24" fill="white"></rect>
+            <use xlink:href="#path-9" fill="black"></use>
+        </mask>
+        <path d="M32,46 L38,46 L38,38 C38,30.2680135 31.7319865,24 24,24 C23.9184268,24 23.8370165,24.0006977 23.7557748,24.0020873 C28.6725461,26.7321321 32,31.9774818 32,38 L32,46 Z" id="path-11"></path>
+        <mask id="mask-12" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="18.2442252" height="26">
+            <rect x="21.7557748" y="22" width="18.2442252" height="26" fill="white"></rect>
+            <use xlink:href="#path-11" fill="black"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" stroke="#000000" stroke-width="4">
+            <use id="Oval-185" mask="url(#mask-2)" xlink:href="#path-1"></use>
+            <use id="Combined-Shape" mask="url(#mask-4)" xlink:href="#path-3"></use>
+            <use id="Combined-Shape" mask="url(#mask-6)" xlink:href="#path-5"></use>
+            <use id="Combined-Shape" mask="url(#mask-8)" xlink:href="#path-7"></use>
+            <use id="Combined-Shape" mask="url(#mask-10)" xlink:href="#path-9"></use>
+            <use id="Combined-Shape" mask="url(#mask-12)" xlink:href="#path-11"></use>
+        </g>
+    </g>
+</svg>

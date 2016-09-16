@@ -10,8 +10,12 @@ import {Throttler}          from 'arva-js/utils/Throttler.js';
 import {Clickable}          from '../components/Clickable.js'
 import {Ripple}             from '../components/Ripple.js';
 import {ComponentPadding}   from '../defaults/DefaultDimensions.js';
+import {getShadow}          from '../defaults/DefaultShadows.js';
 
 
+/**
+ * A general class for a clickable making a ripple and some other useful button-like stuff
+ */
 @layout.dockPadding(0, ComponentPadding, 0, ComponentPadding)
 @layout.translate(0, 0, 30)
 export class Button extends Clickable {
@@ -19,32 +23,52 @@ export class Button extends Clickable {
     _inBounds = true;
 
     @layout.fullSize()
-    @layout.translate(0, 0, -10)
-    background = new Surface({properties: this.options.backgroundProperties});
-
-    @layout.fullSize()
     @layout.translate(0, 0, 40)
     overlay = new Surface({
         properties: {
-            cursor: 'pointer',
+            cursor: this.options.enabled ? 'pointer' : 'inherit',
             borderRadius: this.options.backgroundProperties.borderRadius
         }
     });
 
+
+    /**
+     * @example
+     * a = new Button({
+     *  makeRipple: false,
+     *  useBackground: false,
+     *  });
+     *
+     *
+     * @param {Object} options. The options a
+     * @param {Boolean} [options.makeRipple] Whether or not the button should make a ripple on press. Defaults to true.
+     * @param {Boolean} [options.useBoxShadow] Whether or not the button should use a box shadow. Defaults to true
+     * @param {Boolean} [options.autoEnable] If true, automatically enables the button when the deploy event is triggered.
+     * Defaults to false
+     * @param {Boolean} [options.backgroundProperties] The properties that should be passed to the background, if using one.
+     */
     constructor(options) {
         super(combineOptions({
             makeRipple: true,
             useBoxShadow: true,
-            delay: 0,
+            useBackground: true,
+            autoEnable: false,
             backgroundProperties: {
                 borderRadius: '4px',
                 backgroundColor: 'white'
-            },
-            properties: {}
+            }
         }, options));
 
         this.throttler = new Throttler(3, false, this, true);
 
+        if (this.options.useBackground || this.options.useBoxShadow) {
+            this.addRenderable(new Surface({
+                properties: {
+                    ...(this.options.useBackground ? this.options.backgroundProperties : {}),
+                    boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : ''
+                }
+            }), 'background', layout.fullSize(), layout.translate(0, 0, -10));
+        }
         if (this.options.makeRipple) {
             this.addRenderable(new Ripple(this.options.rippleOptions), 'ripple',
                 layout.size(undefined, undefined),
@@ -60,25 +84,12 @@ export class Button extends Clickable {
             });
         }
 
-        if (this.options.useBoxShadow) {
-            let isHardShadow = this.options.boxShadowType === 'hardShadow';
-            this.addRenderable(
-                new Surface({
-                    properties: {
-                        boxShadow: `${isHardShadow ? '0px 2px 0px 0px' : '0px 0px 12px 0px'} rgba(0,0,0,0.12)`,
-                        borderRadius: this.options.backgroundProperties.borderRadius
-                    }
-                }), 'boxshadow', layout.stick.bottom(),
-                layout.translate(0, 0, -20),
-                layout.size(...(isHardShadow ? [undefined, undefined] : [(width) => width - 16, (_, height) => height - 8] )));
-        }
-
     }
 
     _handleClick(mouseEvent) {
 
         /* TouchEvents are enabled, don't listen for click events as touchend will already fire resulting in double click events */
-        if(mouseEvent.forwardedTouchEvent) return;
+        if (mouseEvent.forwardedTouchEvent) return;
 
         super._handleClick(mouseEvent);
 
@@ -88,11 +99,11 @@ export class Button extends Clickable {
         if (this.options.makeRipple && this._isEnabled()) {
             this._inBounds = true;
             /**
-             * Calculate the correct position of the click inside the current renderable (background taken for easy calculation, as it's always fullSize).
+             * Calculate the correct position of the click inside the current renderable (overlay taken for easy calculation, as it's always fullSize).
              * This will not account for rotation/skew/any other transforms except translates so if the Button class is e.d rotated the ripple will not be placed in the correct location
              * @type {ClientRect}
              */
-            let boundingBox = this.background._currentTarget.getBoundingClientRect();
+            let boundingBox = this.overlay._currentTarget.getBoundingClientRect();
             this.ripple.show(x - boundingBox.left, y - boundingBox.top);
         }
     }
@@ -100,31 +111,26 @@ export class Button extends Clickable {
     _setEnabled(enabled) {
         super._setEnabled(enabled);
         this.overlay.setProperties({
-            backgroundColor: enabled ? 'inherit' : 'rgba(255, 255, 255, 0.6)',
             cursor: enabled ? 'pointer' : 'inherit'
         });
     }
 
-    _handleTouchMove(touchEvent){
+    _handleTouchMove(touchEvent) {
         if (this.options.makeRipple && this._inBounds) {
-            this.throttler.add(()=>{
-                this._inBounds = this._isInBounds(touchEvent, this.background);
-                if(!this._inBounds){
-                    this.hideRipple();
+            this.throttler.add(()=> {
+                this._inBounds = this._isInBounds(touchEvent);
+                if (!this._inBounds) {
+                    this.ripple.hide();
                 }
             });
         }
-    }
-
-    hideRipple() {
-        this.ripple.hide();
     }
 
     _handleTapEnd(mouseEvent) {
         if (this.options.makeRipple) {
             this.ripple.hide();
         }
-        mouseEvent.type === 'touchend' && this._isInBounds(mouseEvent, this.background) && this._handleClick(mouseEvent);
+        mouseEvent.type === 'touchend' && this._isInBounds(mouseEvent) && this._handleClick(mouseEvent);
     }
 
     /**
@@ -133,4 +139,29 @@ export class Button extends Clickable {
     setColor() {
 
     }
+
+    /**
+     * Checks if the current TouchEvent is outside the current target element
+     * @param touch
+     * @param elemposition
+     * @param width
+     * @param height
+     * @returns {boolean}
+     * @private
+     */
+    _isInBounds(touch) {
+        let elemposition = this.overlay._currentTarget.getBoundingClientRect();
+        let [width, height] = this.overlay.getSize();
+
+        let touchList = touch.touches.length ? touch.touches : touch.changedTouches;
+
+        var left = elemposition.left,
+            right = left + width,
+            top = elemposition.top,
+            bottom = top + height,
+            touchX = touchList[0].pageX,
+            touchY = touchList[0].pageY;
+
+        return (touchX > left && touchX < right && touchY > top && touchY < bottom);
+    };
 }

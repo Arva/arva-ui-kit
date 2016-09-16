@@ -15,7 +15,8 @@ export class InputSurface extends FamousInputSurface {
             borderLeft: 'none',
             borderRight: 'none',
             padding: '0 16px 0 16px'
-        }
+        };
+
         if (options.isFormField) {
             Object.assign(properties, {borderBottom: '1px solid gray', boxShadow: '0px 2px 4px 0px rgba(50, 50, 50, 0.08)'});
         }
@@ -45,6 +46,16 @@ export class InputSurface extends FamousInputSurface {
             this._setBorderBottomColor(value);
         }
         return super.setValue(...arguments);
+    }
+
+    focus() {
+        super.focus();
+        this.emit('focus');
+    }
+
+    blur() {
+        super.blur();
+        this.emit('blur');
     }
 
     _setBorderBottomColor(textInput) {

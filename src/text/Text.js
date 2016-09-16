@@ -9,10 +9,6 @@ import {TextBody}         from '../defaults/DefaultTypefaces.js';
 export class Text extends Surface {
 
     constructor(options){
-        super(combineOptions({
-            properties: {
-                '-webkit-user-select': 'none'
-            }
-        }, combineOptions(TextBody, options)));
+        super(combineOptions(TextBody, options));
     }
 }

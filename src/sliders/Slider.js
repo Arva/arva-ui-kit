@@ -354,7 +354,7 @@ export class Slider extends Clickable {
 
         /*Set the knob horizontal range to be the entire Slider width.*/
         this.decorateRenderable('knob',
-            layout.draggable({xRange: [0, this._sliderWidth], projection: 'x'})
+            layout.draggable({xRange: [0, this._sliderWidth], projection: 'x', outsideTouches: false})
         );
 
         this.knob.draggable.on('update', (event) => {
@@ -376,26 +376,24 @@ export class Slider extends Clickable {
     _setKnobContent(knob) {
 
 
-            this[knob].decorateRenderable('dragLines',
-                layout.opacity(this.options.textOnlyInTooltip ? 1 : 0)
-            );
+        this[knob].decorateRenderable('dragLines',
+            layout.opacity(this.options.textOnlyInTooltip ? 1 : 0)
+        );
 
-            let knobPosition = this['_' + knob + 'Position'];
+        let knobPosition = this['_' + knob + 'Position'];
 
-            let position = this._snapPointsEnabled ?
-                this.snapPointsPositions[this._closestPoint(knobPosition)] : knobPosition;
+        let position = this._snapPointsEnabled ?
+            this.snapPointsPositions[this._closestPoint(knobPosition)] : knobPosition;
 
-            if (this.options.percent) {
-                let content = this._getPercentValue(position);
-                this[knob].setText(content);
-                // console.log('I\'ve set the percent value to: ' + content);
-            } else if (this.options.range.length > 1) {
-                let min = this.options.range[0];
-                let max = this.options.range[1];
-                let content = this._getValueInRange(position, min, max);
-                this[knob].setText(this.options.showDecimal ? content.toFixed(1) : Math.round(content));
-                // console.log('I\'ve set the range value to: ' + content + 'ish');
-            }
+        if (this.options.percent) {
+            let content = this._getPercentValue(position);
+            this[knob].setText(content);
+        } else if (this.options.range.length > 1) {
+            let min = this.options.range[0];
+            let max = this.options.range[1];
+            let content = this._getValueInRange(position, min, max);
+            this[knob].setText(this.options.showDecimal ? content.toFixed(1) : Math.round(content));
+        }
 
 
     }
