@@ -39,7 +39,7 @@ export class Switch extends Clickable {
     outerBox = new Surface({
         properties: {
             borderRadius: '4px',
-            backgroundColor: 'rgb(170, 170, 170)'
+            backgroundColor: this.options.inactiveColor
         }
     });
 
@@ -51,7 +51,7 @@ export class Switch extends Clickable {
     selectedOuterBox = new Surface({
         properties: {
             borderRadius: '4px',
-            backgroundColor: Colors.PrimaryUIColor
+            backgroundColor: this.options.activeColor
         }
     });
 
@@ -94,6 +94,8 @@ export class Switch extends Clickable {
     constructor(options = {}) {
 
         super(combineOptions({
+            activeColor: Colors.PrimaryUIColor,
+            inactiveColor: 'rgb(170, 170, 170)',
             enabled: false,
             variation: 'small',
             shadowType: 'noShadow'

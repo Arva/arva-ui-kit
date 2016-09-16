@@ -37,7 +37,7 @@ export class Slider extends Clickable {
     line = new Surface({
         properties: {
             borderRadius: lineBorderRadius,
-            backgroundColor: 'rgb(170, 170, 170)'
+            backgroundColor: this.options.inactiveColor
         }
     });
 
@@ -120,6 +120,8 @@ export class Slider extends Clickable {
 
         super(combineOptions({
             _onMobile,
+            activeColor: Colors.PrimaryUIColor,
+            inactiveColor: 'rgb(170, 170, 170)',
             knobBorder: false,
             knobPosition: 0,
             shadowType: 'noShadow',
@@ -254,7 +256,7 @@ export class Slider extends Clickable {
             new Surface({
                 properties: {
                     borderRadius: lineBorderRadius,
-                    backgroundColor: Colors.PrimaryUIColor
+                    backgroundColor: this.options.activeColor
                 }
             }), 'activeTrail',
             layout.stick.left(),
@@ -300,7 +302,7 @@ export class Slider extends Clickable {
         for (let i = 0; i < this.amountSnapPoints; i++) {
             this.snapPointsPositions[i] = i * this.snapPointsDistance;
 
-            this._addSnapPoint(i, 'snapPoint', 'rgb(170, 170, 170)');
+            this._addSnapPoint(i, 'snapPoint', this.options.inactiveColor);
 
             if (this.options.enableActiveTrail) {
                 this._addActiveTrailSnapPoint(i);
@@ -311,7 +313,7 @@ export class Slider extends Clickable {
 
     _addActiveTrailSnapPoint(index) {
 
-        this._addSnapPoint(index, 'colorSnapPoint', Colors.PrimaryUIColor);
+        this._addSnapPoint(index, 'colorSnapPoint', this.options.activeColor);
 
     }
 
