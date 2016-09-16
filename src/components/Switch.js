@@ -144,12 +144,22 @@ export class Switch extends Clickable {
 
     _onTapEnd() {
         if (this._isOn) {
-            this.knob.draggable.setPosition([0, 0], curve);
+            this._switchOff();
         } else {
-            this.knob.draggable.setPosition([this._knobHorizontalRange, 0], curve);
+            this._switchOn();
         }
-        this.setRenderableFlowState('selectedOuterBox', this._isOn ? 'invisible' : 'visible');
-        this._isOn = !this._isOn;
+    }
+
+    _switchOn() {
+        this.knob.draggable.setPosition([this._knobHorizontalRange, 0], curve);
+        this.setRenderableFlowState('selectedOuterBox', 'visible');
+        this._isOn = true;
+    }
+
+    _switchOff() {
+        this.knob.draggable.setPosition([0, 0], curve);
+        this.setRenderableFlowState('selectedOuterBox', 'invisible');
+        this._isOn = false;
     }
 
     _setUpKnob(width) {
@@ -170,6 +180,28 @@ export class Switch extends Clickable {
         this.outerBox.setProperties(hardShadow);
         this.selectedOuterBox.setProperties(hardShadow);
         this.knob.background.setProperties({boxShadow: '0px 2px 0px 0px rgba(0,0,0,0.12)'});
+    }
+
+    /**
+     * Sets the switch in the on position.
+     */
+    switchOn() {
+        this._switchOn();
+    }
+
+    /**
+     *
+     */
+    switchOff() {
+        this._switchOff();
+    }
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    isOn() {
+        return this._isOn;
     }
 
 }

@@ -101,6 +101,9 @@ export class Checkbox extends Clickable {
         this.setViewFlowState('pressed');
     }
 
+    /**
+     * Mark the checkbox as checked.
+     */
     check() {
         if (!this.isChecked()) {
             this._handleTapStart();
@@ -112,6 +115,9 @@ export class Checkbox extends Clickable {
         }
     }
 
+    /**
+     * Mark the checkbox as unchecked.
+     */
     unCheck() {
         if (this.isChecked()) {
             this._handleTapStart();
@@ -123,6 +129,10 @@ export class Checkbox extends Clickable {
         }
     }
 
+    /**
+     * Returns true is the checkbox is marked as checked.
+     * @returns {boolean}
+     */
     isChecked() {
         return this.background.getProperties().backgroundColor === this.options.activeColor;
     }
