@@ -22,6 +22,7 @@ System.config({
     "css": "github:systemjs/plugin-css@0.1.25",
     "degrees-radians": "npm:degrees-radians@1.0.3",
     "famous": "github:bizboard/famous@0.3.7",
+    "famous-autosizetextarea": "github:ijzerenhein/famous-autosizetextarea@0.3.1",
     "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
     "famous-flex": "github:bizboard/famous-flex@master",
     "lodash": "npm:lodash@4.14.0",
