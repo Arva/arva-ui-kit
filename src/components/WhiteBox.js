@@ -13,25 +13,14 @@ const softShadowBoxMargin = 8;
 
 export class WhiteBox extends Button {
 
-    @layout.size((width) => width - softShadowBoxMargin * 2, (_,height) => height - softShadowBoxMargin)
-    @layout.stick.bottom()
-    @layout.translate(0, 0, -20)
-    softShadowBox = new Surface({
-        properties: {
-            borderRadius: '2px',
-            backgroundColor: 'rgb(255, 255, 255)',
-            boxShadow: getShadow()
-        }
-    });
-
     constructor(options = {}) {
         super(combineOptions({
-            enableSoftShadow: false
+            enableSoftShadow: false,
+            rippleOptions: {sizeMultiplier: 4}
         }, options));
 
         let borderRadius = this.options.borderRadius;
         this.background.setProperties({borderRadius: borderRadius ? borderRadius : '2px'});
-        this.softShadowBox.setProperties({display: this.options.enableSoftShadow ? 'block' : 'none'});
     }
 
 }
