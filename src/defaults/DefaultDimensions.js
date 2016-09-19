@@ -1,7 +1,8 @@
 /**
  * Created by Manuel on 28/06/16.
  */
-import _   from 'lodash';
+
+import _                    from 'lodash';
 
 export let Dimensions = {
     ComponentHeight: 48,
@@ -11,7 +12,7 @@ export let Dimensions = {
     UIBarThickHeight: 64,
     UIBarPadding: 4,
 
-    topBarHeight: 30,
+    topBarHeight: 48,
     sideMenu: {
         itemHeight: 48,
         itemMargin: 0,
