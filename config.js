@@ -18,6 +18,7 @@ System.config({
     "arva-js": "github:bizboard/arva-js@develop",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
+    "bowser": "npm:bowser@1.4.3",
     "core-js": "npm:core-js@1.2.7",
     "css": "github:systemjs/plugin-css@0.1.25",
     "degrees-radians": "npm:degrees-radians@1.0.3",
