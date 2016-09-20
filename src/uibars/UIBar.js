@@ -130,8 +130,7 @@ export class UIBar extends View {
         if (options.shadowType in backgroundSettings.shadows) {
             shadow = backgroundSettings.shadows[options.shadowType];
         } else {
-            //TODO Modify the getShadow function to ensure that this one is full width for soft shadow
-            shadow = {boxShadow: getShadow({color: backgroundSettings.backgroundColor.backgroundColor})};
+            shadow = {boxShadow: getShadow({color: backgroundSettings.backgroundColor.backgroundColor, fullWidth: true})};
             if (options.shadowType) {
                 console.log('Invalid shadow selected. Falling back to default settings (noShadow).');
             }

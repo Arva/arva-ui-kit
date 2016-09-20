@@ -143,6 +143,10 @@ export class Switch extends Clickable {
     }
 
     _onTapEnd() {
+        this.toggle();
+    }
+
+    toggle() {
         if (this._isOn) {
             this._switchOff();
         } else {

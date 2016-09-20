@@ -60,7 +60,7 @@ export class SingleLineTextInput extends View {
     incorrect = new FeedbackBubble({variation: 'incorrect'});
 
     @flow.defaultState('hidden', flowOptions, ...hideBubble)
-    @flow.stateStep('show', closeTransition, ...showBubble)
+    @flow.stateStep('shown', closeTransition, ...showBubble)
     required = new FeedbackBubble({variation: 'required'});
 
     /**
@@ -84,7 +84,7 @@ export class SingleLineTextInput extends View {
             this.addRenderable(new SingleLineInputSurface({
                 content: this.options.content || '',
                 type: this.options.password ? 'password' : 'text',
-                placeholder: this.options.placeholer || '',
+                placeholder: this.options.placeholder || '',
                 properties: {
                     backgroundColor: 'transparent',
                     padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
