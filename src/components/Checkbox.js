@@ -2,19 +2,18 @@
  * Created by vlad on 26/08/16.
  */
 
-import Easing               from 'famous/transitions/Easing.js';
-import {layout, flow}       from 'arva-js/layout/Decorators.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {View}                   from 'arva-js/core/View.js';
+import Easing                      from 'famous/transitions/Easing.js';
+import {layout, flow}              from 'arva-js/layout/Decorators.js';
+import {combineOptions}            from 'arva-js/utils/CombineOptions.js';
 
-import {DoneIcon}           from '../icons/DoneIcon.js';
-import {CrossIcon}          from '../icons/CrossIcon.js';
-import {Colors}             from '../defaults/DefaultColors.js';
-import {getShadow}          from '../defaults/DefaultShadows.js';
-import {Clickable}          from './Clickable.js';
+import {DoneIcon}                  from '../icons/DoneIcon.js';
+import {CrossIcon}                 from '../icons/CrossIcon.js';
+import {Colors}                    from '../defaults/DefaultColors.js';
+import {getShadow}                 from '../defaults/DefaultShadows.js';
+import {Clickable}                 from './Clickable.js';
 
-import Timer                from 'famous/utilities/Timer.js';
-import Surface              from 'famous/core/Surface.js';
+import Timer                       from 'famous/utilities/Timer.js';
+import Surface                     from 'famous/core/Surface.js';
 
 const iconSize = [24, 24];
 const iconZValue = 30;
@@ -101,6 +100,18 @@ export class Checkbox extends Clickable {
         this.setViewFlowState('pressed');
     }
 
+    _handleTapEnd() {
+        if (this._inBounds) {
+            let isChecked = this.isChecked();
+
+            this.tick.setProperties({display: isChecked ? 'none' : 'block'});
+            this.cross.setProperties({display: isChecked ? 'block' : 'none'});
+            this.background.setProperties({backgroundColor: isChecked ? this.options.inactiveColor : this.options.activeColor});
+
+            this.setViewFlowState(isChecked ? 'unchecked' : 'checked');
+        }
+    }
+
     /**
      * Mark the checkbox as checked.
      */
@@ -139,18 +150,6 @@ export class Checkbox extends Clickable {
 
     getSize() {
         return [48, 48]
-    }
-
-    _handleTapEnd() {
-        if (this._inBounds) {
-            let isChecked = this.isChecked();
-
-            this.tick.setProperties({display: isChecked ? 'none' : 'block'});
-            this.cross.setProperties({display: isChecked ? 'block' : 'none'});
-            this.background.setProperties({backgroundColor: isChecked ? this.options.inactiveColor : this.options.activeColor});
-
-            this.setViewFlowState(isChecked ? 'unchecked' : 'checked');
-        }
     }
 
     _onMouseOut() {
