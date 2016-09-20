@@ -65,14 +65,15 @@ export class NavigationDrawer extends View {
      */
     constructor(options = {}) {
         super(combineOptions({
-            sideMenu: {},
+            sideMenu: {
+                menuItems: []
+            },
             closeOnRouteChange: true,
             topBarHeight: Dimensions.topBarHeight,
             showTopMenu: true,
             showInitial: true,
             hideOnRoutes: [],
             enabled: true,
-            menuItems: [],
             topMenuClass: TopMenu,
             topMenuOptions: {},
             sideMenuClass: DraggableSideMenu
@@ -121,7 +122,7 @@ export class NavigationDrawer extends View {
         }
 
         /* Change the menu on route changes */
-        let currentMenuIndex = _.findIndex(this.options.menuItems, (menuItem)=> {
+        let currentMenuIndex = _.findIndex(this.options.sideMenu.menuItems, (menuItem)=> {
             return menuItem.controller && menuItem.controller === route.controller && menuItem.method && menuItem.method === route.method &&
                 ((menuItem.arguments && route.values.length) ? _.every(menuItem.arguments, (entry)=> {
                     return ~route.values.indexOf(entry)
@@ -129,7 +130,7 @@ export class NavigationDrawer extends View {
         });
 
         if (currentMenuIndex !== undefined && ~currentMenuIndex) {
-            if (this.topBar.setTitle) this.topBar.setTitle(this.options.menuItems[currentMenuIndex].text);
+            if (this.topBar.setTitle) this.topBar.setTitle(this.options.sideMenu.menuItems[currentMenuIndex].text);
             this.sideMenu.setTabIndexSelected(currentMenuIndex);
         }
 
