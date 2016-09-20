@@ -58,7 +58,7 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
  *      list = new MyResults();
  *      list.add({content: 'SomeResultName', group: 'SomeGroup'});
  *      // Update the SearchBar's results dataStore
- *      bar.showResults(list)
+ *      this.bar.showResults(list)
  * })
  *
  *
