@@ -43,8 +43,9 @@ export class RadioButtons extends Clickable {
                 }
             }), 'line',
             layout.size(2, (width, height) => height - 64),
-            /*Horizontal translation includes 14 extra pixels due to margin bug.*/
-            layout.translate(47, 32, 0)
+            layout.origin(0.5, 0.5),
+            layout.align(0, 0.5),
+            layout.translate(24, 0, 0)
         );
     }
 

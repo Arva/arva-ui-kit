@@ -25,11 +25,11 @@ export class RadioButtonCircle extends Clickable {
         properties: {
             backgroundColor: this.options.activeColor,
             borderRadius: '50%',
-            // boxShadow: getShadow({
-            //     inset: true,
-            //     onlyForShadowType: 'hard',
-            //     color: this.options.activeColor
-            // })
+            boxShadow: getShadow({
+                color: this.options.activeColor,
+                onlyForShadowType: 'hard',
+                inset: true
+            })
         }
     });
 
@@ -39,7 +39,7 @@ export class RadioButtonCircle extends Clickable {
         properties: {
             borderRadius: '50%',
             backgroundColor: 'rgb(255, 255, 255)',
-            // boxShadow: getShadow({})
+            boxShadow: getShadow({})
         }
     });
 
