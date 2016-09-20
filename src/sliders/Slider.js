@@ -20,7 +20,7 @@ export const retractCurve = {curve: Easing.outCubic, duration: 200};
 const lineBorderRadius = '1px';
 
 @flow.viewStates({})
-export class Slider extends View {
+export class Slider extends Clickable {
 
     @layout.fullSize()
     @layout.translate(0, 0, 40)
@@ -134,8 +134,6 @@ export class Slider extends View {
         this.amountSnapPoints = this.options.amountSnapPoints;
         this._snapPointsEnabled = this.amountSnapPoints >= 2;
         this._contentProvided = this.options.percent === true || this.options.range.length >= 1;
-
-        this._setupListeners();
     }
 
     getSize(){
@@ -326,10 +324,10 @@ export class Slider extends View {
     }
 
     _addActiveTrailSnapPoint(index) {
-        this._addSnapPoint(index, 'colorSnapPoint', this.options.activeColor);
+        this._addSnapPoint(index, 'colorSnapPoint', this.options.activeColor, 40);
     }
 
-    _addSnapPoint(index, name, color) {
+    _addSnapPoint(index, name, color, zIndex = 30) {
         this.addRenderable(
             new Surface({
                 properties: {
@@ -340,7 +338,7 @@ export class Slider extends View {
             layout.size(8, 8),
             layout.origin(0.5, 0.5),
             layout.align(index / (this.amountSnapPoints - 1), 0.5),
-            layout.translate(0, 0, 30)
+            layout.translate(0, 0, zIndex)
         );
     }
 
