@@ -88,10 +88,6 @@ export class Checkbox extends Clickable {
             inactiveColor: 'rgb(170, 170, 170)'
         }, options));
 
-        if (this.options.shadowType === 'hardShadow') {
-            this._enableHardShadow();
-        }
-
         this.setViewFlowState(this.options.enabled ? 'checked' : 'unchecked');
         this.on('mouseout', this._onMouseOut);
     }
