@@ -38,7 +38,7 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
  *        components: [
  *            [new SearchBar({resultOptions: {
  *                dataStore: list,
- *                itemTemplate: (model) => new Surface({ content: model.content })
+ *                itemTemplate: (model) => new Surface({ content: model.content }),
  *                groupBy: (model) => model.group || 'empty group'
  *            }}), 'search', 'center']
  *        ]
