@@ -47,6 +47,7 @@ export class Clickable extends View {
             this.on('mousedown', this._onTapStart);
             this.on('mouseout', this._onMouseOut);
             this.on('mouseup', this._onTapEnd);
+            this.on('click', this._onClick);
         }
     }
 
