@@ -140,23 +140,6 @@ export class Slider extends Clickable {
         return [undefined, 48];
     }
 
-    getKnobContent(knob) {
-
-        let knobPosition = this['_' + knob + 'Position'];
-
-        let position = this._snapPointsEnabled ?
-            this.snapPointsPositions[this._closestPoint(knobPosition)] : knobPosition;
-
-        if (this.options.percent) {
-            return this._getPercentValue(position);
-        } else if (this.options.range.length > 1) {
-            let min = this.options.range[0];
-            let max = this.options.range[1];
-            let content = this._getValueInRange(position, min, max);
-            return this.options.showDecimal ? content.toFixed(1) : Math.round(content);
-        }
-
-    }
 
     _setupListeners() {
         this.onceNewSize().then(([width]) => {
