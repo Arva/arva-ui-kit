@@ -1,5 +1,5 @@
 /**
- * Created by tom on 19/08/16.
+ * Created by karl on 19/08/16.
  */
 
 import Surface                  from 'famous/core/Surface.js';
@@ -36,6 +36,7 @@ export class MessageField extends View {
     border = new Surface(combineOptions(
         {
             properties: {
+                boxSizing: 'content-box',
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
                 borderRadius
             }
