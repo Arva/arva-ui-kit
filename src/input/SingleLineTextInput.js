@@ -60,7 +60,7 @@ export class SingleLineTextInput extends View {
     incorrect = new FeedbackBubble({variation: 'incorrect'});
 
     @flow.defaultState('hidden', flowOptions, ...hideBubble)
-    @flow.stateStep('show', closeTransition, ...showBubble)
+    @flow.stateStep('shown', closeTransition, ...showBubble)
     required = new FeedbackBubble({variation: 'required'});
 
     /**
