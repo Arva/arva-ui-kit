@@ -48,13 +48,41 @@ export class RadioButton extends Clickable {
         return [undefined, 64];
     }
 
+    highlight() {
+        this.circle.select();
+        this.text.setProperties({color: this.options.activeColor});
+    }
+
+    unhighlight() {
+        this.circle.deselect();
+        this.text.setProperties({color: 'rgb(0, 0, 0)'});
+    }
+
     select() {
         this.circle.select();
         this.text.setProperties({color: this.options.activeColor});
+        this._isSelected = true;
     }
 
     deselect() {
         this.circle.deselect();
         this.text.setProperties({color: 'rgb(0, 0, 0)'});
+        this._isSelected = false;
+    }
+
+    _handleTapStart() {
+        this.highlight();
+    }
+
+    _handleTapRemoved() {
+        if (!this._isSelected) {
+            this.unhighlight();
+        }
+    }
+
+    _handleTouchMove(event) {
+        if (!this._isInBounds(event, this.overlay) && !this._isSelected) {
+            this.unhighlight();
+        }
     }
 }

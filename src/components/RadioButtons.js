@@ -17,12 +17,12 @@ export class RadioButtons extends Clickable {
         }, options));
 
         this.radioButtons = [];
-        let buttons = this.options.buttons;
+        let {buttons} = this.options;
         this.selectedIndex = -1;
 
-        for (let i = 0; i < buttons.length; i++) {
-            let settings = buttons[i];
+        for (let [i, settings] of buttons.entries()) {
             this.selectedIndex = this.selectedIndex === -1 && settings.selected ? i : this.selectedIndex;
+
             this.addRenderable(new RadioButton({
                     icon: settings.icon,
                     text: settings.text,
