@@ -15,7 +15,7 @@ export class ShapeTab extends Tab {
 
     @layout.translate(0, 0, 30)
     @layout.dock.top()
-    @layout.size(~300, undefined)
+    @layout.size(~50, undefined)
     @layout.origin(0.5, 0)
     @layout.align(0.5, 0)
     @flow.defaultOptions(flowOptions)

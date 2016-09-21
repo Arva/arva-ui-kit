@@ -36,7 +36,7 @@ export class TabBar extends View {
      *      new LineTabBar({activeIndex: 0, tabOptions: {properties: {color: 'rgb(170,170,170)'}}, equalSizing: false},[{content: 'one'}, {content:'two'}, {content: 'three'}]);
      *
      * @param {Object} [options] Construction options
-     * @param {Array} [options.items] The items to populate the TabBar with
+     * @param {Array} [items] The items to populate the TabBar with
      * @param {Object} [options.tabOptions] The options to pass to a tab renderable
      * @param {Boolean} [options.equalSizing] Whether the tab renderables should be evenly spaced and sized or whether it should not (thus docking.left with the size of the renderable)
      * @param {Number} [options.activeIndex] The index that should be active on initialisation
@@ -46,29 +46,28 @@ export class TabBar extends View {
     constructor(options = {tabOptions: {}}, items = []){
         super(combineOptions({equalSizing: false, activeIndex: 0, reflow: true}, options));
 
-        this.once('newSize', ([width]) => {
-            this._width = width;
-
-            this._setItems(items);
-
-            if(this.options.activeIndex != undefined){
-                this.setIndexActive(this.options.activeIndex);
-            }
-
-            this.onNewSize(([width]) => {
-                this._width = width;
-                this.options.reflow && this.setIndexActive(this._currentItem);
-            });
-
-        });
-
-
 
         /* Bind helper functions to this class depending on layout options */
         let source = this.options.equalSizing ? EqualSizeLayout : DockLeftLayout;
         for(let index of Object.keys(source)){
             this[index] = source[index].bind(this);
         }
+
+
+        this.once('newSize', ([width]) => {
+            this._width = width;
+            this._setItems(items);
+
+            if(this.options.activeIndex != undefined){
+                this.setIndexActive(this.options.activeIndex);
+            }
+
+            this.on('newSize',([width]) => {
+                this._width = width;
+                this.options.reflow && this.setIndexActive(this._currentItem);
+            });
+
+        });
 
 
     }
@@ -83,7 +82,7 @@ export class TabBar extends View {
 
     /* Layout and display the items in the TabBar */
     _setItems(items) {
-       /* Should be overwritten */
+        /* Should be overwritten */
     }
 
     _registerTabListeners(tab, index) {

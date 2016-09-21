@@ -33,19 +33,25 @@ export class IconTab extends Button {
 
     @layout.translate(0, 0, 50)
     @layout.size(24, 24)
-    @layout.stick.center()
+    @layout.origin(0.5,0.5)
+    @layout.align(0.5,0.5)
     @flowStates.fade('inactive', {opacity: 1}, flowOptions)
     @flowStates.fade('active', {opacity: 0.5}, flowOptions)
     icon = this.options.image ? new ImageSurface({content: this.options.image}) : new this.options.icon({color: this.options.properties.color});
 
     @layout.translate(0, 0, 50)
     @layout.size(24, 24)
-    @layout.stick.center()
+    @layout.origin(0.5,0.5)
+    @layout.align(0.5,0.5)
     @flowStates.fade('inactive', {opacity: 0.5}, flowOptions)
     @flowStates.fade('active', {opacity: 1}, flowOptions)
     iconOverlay = this.options.image ? new ImageSurface({content: this.options.image}) : new this.options.icon({color: this.options.properties.activeColor || 'black'});
 
     _active = false;
+
+    getSize(){
+        return [24,48]
+    }
 
     _handleTouchMove(touchEvent) {
         if (this._inBounds) {
