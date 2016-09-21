@@ -21,7 +21,7 @@ export class RadioButton extends Clickable {
         selected: this.options.selected
     });
 
-    @layout.size(~100, 48)
+    @layout.size(undefined, 48)
     @layout.dock.left()
     @layout.dockSpace(16)
     @layout.stick.left()
