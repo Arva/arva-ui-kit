@@ -10,6 +10,28 @@ import {layout}             from 'arva-js/layout/Decorators.js';
 
 export class Clickable extends View {
 
+    /**
+     * General interface for something clickable. Create a renderable inside the view 'overlay' with a high z-index
+     * to control tap hold/removals within the view. When subclassing this, you can override the following methods:
+     *
+     * _handleTouchMove: Called when touch move has happened.
+     * _handleClick: When a click has happened, or touchstart if options.easyPress is true. Will not trigger when disabled.
+     * _handleMouseOut: Called when mouse out has been triggered.
+     * _handleTapStart: Called when tap has started.
+     * _handleTapEnd: Called when tap has ended ONLY when tap also started within the same element.
+     * _handleTapRemoved: When, this.overlay is specified, then this will happen when tap has been removed while still
+     * not yet released.
+     *
+     *
+     * @param {Object} options
+     * @param {String}  [options.clickEventName] An event to fire after click has happened.
+     * @param {String}  [options.clickEventData] An array of data to fire after click has happened.
+     * @param {Boolean} [options.disableAfterClick] If set to true, disables the clickable after it's been clicked.
+     * @param {Boolean} [options.enabled] If set to false, the clickable does not trigger clickEventName.
+     * @param {Boolean} [options.easyPress] If set to true, triggers a click with the clickEventName, clickEventData,
+     * and _handleClick on tap start instead of click
+     *
+     */
     constructor(options = {}) {
         options = combineOptions({
             easyPress: false,
@@ -51,6 +73,10 @@ export class Clickable extends View {
     }
 
     _onTouchMove(){
+        if (this.overlay && !this._isInBounds(event, this.overlay)) {
+            this._tapActive = false;
+            this._handleTapRemoved();
+        }
         this._handleTouchMove(...arguments);
     }
 
@@ -68,20 +94,18 @@ export class Clickable extends View {
             this._tapActive = false;
             this._handleTapRemoved(mouseEvent);
         }
+        this._handleMouseOut();
     }
 
-    /**
-     *
-     * @private
-     */
     _handleTouchMove(event){
-        if (this.overlay && !this._isInBounds(event, this.overlay)) {
-            this._tapActive = false;
-            this._handleTapRemoved();
-        }
+        /* To be inherited */
     }
 
     _handleTapRemoved(){
+        /* To be inherited */
+    }
+
+    _handleMouseOut(){
         /* To be inherited */
     }
 
