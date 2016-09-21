@@ -35,7 +35,7 @@ export class RangeSlider extends Slider {
     @event.on('click', function () {
         this.secondKnob.text.setOptions(UISmallGrey);
         if (this._snapPointsEnabled) {
-            this._snapSecondKnobToPoint()
+            this._snapSecondKnobToPoint();
         }
     })
     @event.on('touchend', function () {

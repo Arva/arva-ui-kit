@@ -54,7 +54,7 @@ export class Slider extends Clickable {
     @event.on('click', function () {
         this.knob.text.setOptions(UISmallGrey);
         if (this._snapPointsEnabled) {
-            this._snapKnobToPoint()
+            this._snapKnobToPoint();
         }
     })
     @event.on('touchend', function () {
