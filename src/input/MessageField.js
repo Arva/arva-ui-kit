@@ -123,11 +123,14 @@ export class MessageField extends View {
      * @param {Number} [options.maxHeight] The max height of field before it starts scrolling, defaults to 150. Set
      * to Infinity to prevent max height.
      * @param {String} [options.placeholder] The placeholder, defaults to 'Enter a message'
+     * @param {String} [options.extendDirection] The direction to extend the search bar to. Can up 'up' or 'down'.
+     * Set to false to wrap size to how big the MessageField is. Defaults to 'down'.
      */
     constructor(options) {
         super(combineOptions({
             placeholder: 'Enter a message',
-            maxHeight: 150
+            maxHeight: 150,
+            extendDirection: 'down'
         }, options));
         document.addEventListener("offline", () => {
             this.sendButton.setContent('offline');
@@ -147,8 +150,35 @@ export class MessageField extends View {
                 this.input.setValue('');
                 this.setRenderableFlowState('input', 'shown');
             })
-
         });
+
+        let {extendDirection} = this.options;
+        if (extendDirection) {
+            let dockingFunction = '';
+            switch (extendDirection) {
+                case 'up':
+                    dockingFunction = 'bottom';
+                    break;
+                case 'down':
+                    dockingFunction = 'top';
+                    break;
+                default:
+                    console.log("Unknown extendDirection " + extendDirection + " given to MessageField");
+                    return this;
+            }
+            class ContainerView extends View {
+                @flow.defaultOptions({})
+                @layout.dock[dockingFunction](true)
+                messageField = this;
+
+                getSize() {
+                    return [undefined, 32];
+                }
+            }
+            this.input.decorations.flow.defaults = {transition: {duration: 0}};
+            this.border.decorations.flow.defaults = {transition: {duration: 0}};
+            return new ContainerView();
+        }
     }
 
     getSize() {
