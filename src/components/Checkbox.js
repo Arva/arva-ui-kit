@@ -97,6 +97,29 @@ export class Checkbox extends Clickable {
         this.setViewFlowState('pressed');
     }
 
+    _handleTapEnd() {
+        if (this._inBounds) {
+            let isChecked = this.isChecked();
+
+            this.tick.setProperties({display: isChecked ? 'none' : 'block'});
+            this.cross.setProperties({display: isChecked ? 'block' : 'none'});
+            this.background.setProperties({backgroundColor: isChecked ? this.options.inactiveColor : this.options.activeColor});
+
+            this.setViewFlowState(isChecked ? 'unchecked' : 'checked');
+        }
+    }
+
+    _handleTouchMove(touchEvent) {
+        this._inBounds = this._isInBounds(touchEvent, this.background);
+        if (!this._inBounds) {
+            this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
+        }
+    }
+
+    _onMouseOut() {
+        this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
+    }
+
     /**
      * Mark the checkbox as checked.
      */
@@ -135,28 +158,5 @@ export class Checkbox extends Clickable {
 
     getSize() {
         return [48, 48]
-    }
-
-    _handleTapEnd() {
-        if (this._inBounds) {
-            let isChecked = this.isChecked();
-
-            this.tick.setProperties({display: isChecked ? 'none' : 'block'});
-            this.cross.setProperties({display: isChecked ? 'block' : 'none'});
-            this.background.setProperties({backgroundColor: isChecked ? this.options.inactiveColor : this.options.activeColor});
-
-            this.setViewFlowState(isChecked ? 'unchecked' : 'checked');
-        }
-    }
-
-    _onMouseOut() {
-        this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
-    }
-
-    _handleTouchMove(touchEvent) {
-        this._inBounds = this._isInBounds(touchEvent, this.background);
-        if (!this._inBounds) {
-            this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
-        }
     }
 }
