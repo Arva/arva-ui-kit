@@ -182,7 +182,7 @@ export class MessageField extends View {
     }
 
     getSize() {
-        return [undefined, this._currentViewFlowState() === 'active' ? Math.max(super.getSize()[1] || 0, 32) : 32];
+        return [undefined, this._currentViewFlowState() === 'active' ? Math.max(super.getSize()[1] || 0, 34) : 34];
     }
 
     _enableFocusEvents() {
