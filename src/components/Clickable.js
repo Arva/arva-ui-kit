@@ -55,13 +55,17 @@ export class Clickable extends View {
     }
 
     _onTapEnd(mouseEvent) {
-        this._tapStarted = false;
-        this._handleTapEnd(mouseEvent);
+        if(this._tapActive){
+            this._eventOutput.emit('tapEnd');
+            this._tapActive = false;
+            this._handleTapEnd(mouseEvent);
+        }
     }
 
     _onMouseOut(mouseEvent) {
-        if(this._tapStarted){
-            this._tapStarted = false;
+        let overlay = this.overlay;
+        if(this._tapActive && (!overlay || mouseEvent.target === overlay._element)){
+            this._tapActive = false;
             this._handleTapRemoved(mouseEvent);
         }
     }
@@ -70,8 +74,11 @@ export class Clickable extends View {
      *
      * @private
      */
-    _handleTouchMove(){
-        /* To be inherited */
+    _handleTouchMove(event){
+        if (this.overlay && !this._isInBounds(event, this.overlay)) {
+            this._tapActive = false;
+            this._handleTapRemoved();
+        }
     }
 
     _handleTapRemoved(){
@@ -88,7 +95,7 @@ export class Clickable extends View {
     }
 
     _onTapStart(mouseEvent) {
-        this._tapStarted = true;
+        this._tapActive = true;
         if (this._isEnabled()) {
             let args = mouseEvent.touches ? {x: mouseEvent.touches[0].clientX, y: mouseEvent.touches[0].clientY} :
                 {x: mouseEvent.clientX, y: mouseEvent.clientY};
