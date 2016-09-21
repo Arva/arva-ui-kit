@@ -270,6 +270,14 @@ export class RangeSlider extends Slider {
             layout.opacity(this.options.textOnlyInTooltip ? 0 : 1)
         );
 
+        if(this._snapPointsEnabled){
+            this.secondKnob.draggable.on('end', ({position: [endPosition]}) => {
+                this._snapSecondKnobToPoint();
+            });
+        }
+
+        this._setupKnobSnapOnDrop('secondKnob');
+
         if (this._contentProvided) {
             this._setKnobContent('secondKnob');
         }
