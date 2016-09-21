@@ -55,9 +55,11 @@ export class TabBar extends View {
                 this.setIndexActive(this.options.activeIndex);
             }
 
-            this.on('newSize', () => {
+            this.onNewSize(([width]) => {
+                this._width = width;
                 this.options.reflow && this.setIndexActive(this._currentItem);
             });
+
         });
 
 

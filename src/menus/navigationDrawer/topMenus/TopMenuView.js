@@ -33,7 +33,7 @@ export class TopMenuView extends View {
     }));
 
     @layout.dock.right()
-    @layout.size(50, (_, height) => Math.min(height, 100))
+    @layout.size(48, (_, height) => Math.min(height, 100))
     @layout.stick.center()
     @layout.translate(0, 0, 25)
     rightButton = new FloatingImageButton({
@@ -52,7 +52,7 @@ export class TopMenuView extends View {
     nameDisplay = new NameDisplay();
 
     @layout.animate()
-    @layout.size(50, (_, height) => Math.min(height, 100))
+    @layout.size(48, (_, height) => Math.min(height, 100))
     @layout.stick.center()
     @layout.dock.left()
     @layout.translate(0, 0, 20)
