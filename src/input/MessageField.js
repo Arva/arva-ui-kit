@@ -61,9 +61,10 @@ export class MessageField extends View {
         }
     });
 
+    @flow.defaultOptions({transition: {duration: 0}})
     @flow.defaultState('default', {}, layout.opacity(1), layout.size(true, (_, height) => Math.min(height, 32)), layout.stick.bottomRight(), layout.translate(0, 0, 10))
     sendButton = new UIBarTextButton({
-        content: navigator && !navigator.onLine ? 'Offline' : 'Send',
+        content: this.options.buttonText,
         properties: {cursor: 'pointer'},
         enabled: false,
         clickEventName: 'send'
@@ -108,7 +109,7 @@ export class MessageField extends View {
 
     _onNewInput() {
         let value = this.input.getValue();
-        if (value && (!navigator || (navigator && navigator.onLine))) {
+        if (value) {
             this.sendButton.enable();
         } else {
             this.sendButton.disable();
@@ -123,6 +124,7 @@ export class MessageField extends View {
      * @param {Number} [options.maxHeight] The max height of field before it starts scrolling, defaults to 150. Set
      * to Infinity to prevent max height.
      * @param {String} [options.placeholder] The placeholder, defaults to 'Enter a message'
+     * @param {String} [options.buttonText] The label text of the button that is used for sending a message.
      * @param {String} [options.extendDirection] The direction to extend the search bar to. Can up 'up' or 'down'.
      * Set to false to wrap size to how big the MessageField is. Defaults to 'down'.
      */
@@ -130,18 +132,9 @@ export class MessageField extends View {
         super(combineOptions({
             placeholder: 'Enter a message',
             maxHeight: 150,
+            buttonText: 'Send',
             extendDirection: 'down'
         }, options));
-        document.addEventListener("offline", () => {
-            this.sendButton.setContent('offline');
-            this.sendButton.disable();
-        });
-        document.addEventListener("online", () => {
-            this.sendButton.setContent('send');
-            if (this.input.getValue()) {
-                this.sendButton.enable();
-            }
-        });
 
         this.on('send', () => {
             this.sendButton.disable();
@@ -193,8 +186,13 @@ export class MessageField extends View {
         this.inFocusEvent = true;
     }
 
+    _removeTrailingWhiteSpace() {
+        this.input.setValue(this.input.getValue().replace(/[\s\uFEFF\xA0]+$/g, ''));
+    }
 
     async _onDeactivate() {
+        /* Remove trailing white space because otherwise it looks funny when there's just an empty input field */
+        this._removeTrailingWhiteSpace();
         this.input.collapse();
         await this.setViewFlowState('inactive');
         /* Reflow parent because size changed */

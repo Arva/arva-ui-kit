@@ -328,6 +328,8 @@ export class Slider extends Clickable {
     _initializeKnob() {
         this.knob.draggable.setPosition([this._knobPosition, 0]);
 
+        this._setupKnobSnapOnDrop('knob');
+
         if (this._contentProvided) {
             this._setKnobContent('knob');
             this.knob.decorateRenderable('text',
@@ -337,6 +339,14 @@ export class Slider extends Clickable {
 
         if (this._snapPointsEnabled) {
             this._snapKnobToPoint();
+        }
+    }
+    
+    _setupKnobSnapOnDrop(knob) {
+        if(this._snapPointsEnabled){
+            this[knob].draggable.on('end', ({position: [endPosition]}) => {
+                this._moveKnobTo((this._closestPoint(endPosition) / (this.amountSnapPoints - 1)) * this._sliderWidth);
+            });
         }
     }
 
