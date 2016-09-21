@@ -39,12 +39,8 @@ export class RangeSlider extends Slider {
         }
     })
     @event.on('touchend', function () {
-        this.secondKnob.text.setOptions(UISmallGrey);
         if (this._contentProvided && this.options._onMobile) {
             this._retractTooltip('secondKnob');
-        }
-        if (this._snapPointsEnabled) {
-            this._snapSecondKnobToPoint()
         }
     })
     @event.on('mouseup', function(){this._onMouseUp(...arguments)})
