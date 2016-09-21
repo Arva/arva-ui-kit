@@ -33,8 +33,8 @@ export class RadioButtonCircle extends Clickable {
         }
     });
 
-    @flow.stateStep('invisible', inCurve, layout.stick.center(), layout.translate(0, 0, 10), layout.scale(0, 0, 0))
-    @flow.stateStep('visible', outCurve, layout.size(44, 44), layout.stick.center(), layout.translate(0, 0, 10), layout.scale(1, 1, 1))
+    @flow.stateStep('invisible', inCurve, layout.stick.center(), layout.translate(0, 0, 20), layout.scale(0, 0, 0))
+    @flow.stateStep('visible', outCurve, layout.size(44, 44), layout.stick.center(), layout.translate(0, 0, 20), layout.scale(1, 1, 1))
     innerCircle = new Surface({
         properties: {
             borderRadius: '50%',
@@ -45,7 +45,7 @@ export class RadioButtonCircle extends Clickable {
 
     @layout.size(24, 24)
     @layout.stick.center()
-    @layout.translate(0, 0, 20)
+    @layout.translate(0, 0, 30)
     icon = new this.options.icon();
 
     constructor(options = {}) {

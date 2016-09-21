@@ -35,7 +35,7 @@ export class RadioButton extends Clickable {
     }));
 
     @layout.fullSize()
-    @layout.translate(0, 0, 40)
+    @layout.translate(0, 0, 60)
     overlay = new Surface({properties: {cursor: 'pointer'}});
 
     constructor(options = {}) {
