@@ -87,10 +87,6 @@ export class Checkbox extends Clickable {
             inactiveColor: 'rgb(170, 170, 170)'
         }, options));
 
-        if (this.options.shadowType === 'hardShadow') {
-            this._enableHardShadow();
-        }
-
         this.setViewFlowState(this.options.enabled ? 'checked' : 'unchecked');
         this.on('mouseout', this._onMouseOut);
     }
@@ -110,6 +106,17 @@ export class Checkbox extends Clickable {
 
             this.setViewFlowState(isChecked ? 'unchecked' : 'checked');
         }
+    }
+
+    _handleTouchMove(touchEvent) {
+        this._inBounds = this._isInBounds(touchEvent, this.background);
+        if (!this._inBounds) {
+            this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
+        }
+    }
+
+    _onMouseOut() {
+        this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
     }
 
     /**
@@ -150,16 +157,5 @@ export class Checkbox extends Clickable {
 
     getSize() {
         return [48, 48]
-    }
-
-    _onMouseOut() {
-        this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
-    }
-
-    _handleTouchMove(touchEvent) {
-        this._inBounds = this._isInBounds(touchEvent, this.background);
-        if (!this._inBounds) {
-            this.setViewFlowState(this.isChecked() ? 'checked' : 'unchecked');
-        }
     }
 }

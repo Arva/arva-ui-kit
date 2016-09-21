@@ -4,7 +4,6 @@
 
 import Bowser                           from 'bowser';
 import Surface                          from 'famous/core/Surface.js';
-import {View}                           from 'arva-js/core/View.js';
 import Easing                           from 'famous/transitions/Easing.js';
 import {layout, event, flow}            from 'arva-js/layout/Decorators.js';
 import {combineOptions}                 from 'arva-js/utils/CombineOptions.js';
@@ -25,9 +24,6 @@ export class Slider extends Clickable {
     @layout.fullSize()
     @layout.translate(0, 0, 40)
     @event.on('click', function (event) {
-        this._onLineTapEnd(event);
-    })
-    @event.on('touchend', function (event) {
         this._onLineTapEnd(event);
     })
     touchArea = new Surface({properties: {cursor: 'pointer'}});
@@ -62,12 +58,8 @@ export class Slider extends Clickable {
         }
     })
     @event.on('touchend', function () {
-        this.knob.text.setOptions(UISmallGrey);
         if (this._contentProvided && this.options._onMobile) {
             this._retractTooltip('knob');
-        }
-        if (this._snapPointsEnabled) {
-            this._snapKnobToPoint()
         }
     })
     @event.on('mouseup', function(){this._onMouseUp(...arguments)})
@@ -179,6 +171,10 @@ export class Slider extends Clickable {
     _expandTooltip(knob) {
         this.setRenderableFlowState(knob, 'expanded');
 
+        this.decorateRenderable(knob,
+            layout.translate(0, 0, 100)
+        );
+
         this[knob].decorateRenderable('text',
             layout.align(0.5, 0.25),
             layout.opacity(1)
@@ -192,6 +188,10 @@ export class Slider extends Clickable {
 
     _retractTooltip(knob) {
         this.setRenderableFlowState(knob, 'retracted');
+
+        this.decorateRenderable(knob,
+            layout.translate(0, 0, 50)
+        );
 
         this[knob].decorateRenderable('text',
             layout.align(0.5, 0.5),
