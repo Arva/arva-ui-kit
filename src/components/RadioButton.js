@@ -17,8 +17,7 @@ export class RadioButton extends Clickable {
     @layout.stick.left()
     @layout.translate(0, 0, 0)
     circle = new RadioButtonCircle({
-        icon: this.options.icon,
-        selected: this.options.selected
+        icon: this.options.icon
     });
 
     @layout.size(undefined, 48)
@@ -29,8 +28,7 @@ export class RadioButton extends Clickable {
     text = new Surface(combineOptions(this.options.typeface || UIRegular, {
         content: this.options.text,
         properties: {
-            lineHeight: '48px',
-            color: this.options.selected ? this.options.activeColor : 'rgb(0, 0, 0)'
+            lineHeight: '48px'
         }
     }));
 
@@ -42,6 +40,12 @@ export class RadioButton extends Clickable {
         super(combineOptions({
             activeColor: Colors.PrimaryUIColor
         }, options));
+
+        if (this.options.selected) {
+            this.select();
+        } else {
+            this.deselect();
+        }
     }
 
     getSize() {
@@ -74,15 +78,16 @@ export class RadioButton extends Clickable {
         this.highlight();
     }
 
+    _handleTapEnd() {
+        if (!this._isSelected) {
+            this.unhighlight();
+        }
+    }
+
     _handleTapRemoved() {
         if (!this._isSelected) {
             this.unhighlight();
         }
     }
 
-    _handleTouchMove(event) {
-        if (!this._isInBounds(event, this.overlay) && !this._isSelected) {
-            this.unhighlight();
-        }
-    }
 }

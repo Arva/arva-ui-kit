@@ -61,7 +61,7 @@ export class RadioButtons extends Clickable {
                 layout.dock.top(),
                 layout.size(undefined, 64),
                 layout.translate(0, 0, 0),
-                event.on('click', function () {
+                event.on('tapEnd', function () {
                     this._updateSelectedButton(i);
                 })
             );
