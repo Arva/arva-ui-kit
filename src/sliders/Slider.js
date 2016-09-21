@@ -51,16 +51,11 @@ export class Slider extends Clickable {
     @event.on('mousedown', function () {
         this.knob.text.setOptions(UISmall);
     })
-    @event.on('click', function () {
-        this.knob.text.setOptions(UISmallGrey);
-        if (this._snapPointsEnabled) {
-            this._snapKnobToPoint()
-        }
-    })
     @event.on('touchend', function () {
         if (this._contentProvided && this.options._onMobile) {
             this._retractTooltip('knob');
         }
+        this.knob.text.setOptions(UISmallGrey);
     })
     @event.on('mouseup', function(){this._onMouseUp(...arguments)})
     @flow.stateStep('expanded', moveCurve, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
