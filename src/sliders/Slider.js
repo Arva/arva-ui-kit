@@ -328,7 +328,7 @@ export class Slider extends Clickable {
     _initializeKnob() {
         this.knob.draggable.setPosition([this._knobPosition, 0]);
 
-        this._setupKnobSnapOnDrop('knob');
+        this._setupKnobSnapOnDrop();
 
         if (this._contentProvided) {
             this._setKnobContent('knob');
@@ -342,10 +342,10 @@ export class Slider extends Clickable {
         }
     }
     
-    _setupKnobSnapOnDrop(knob) {
+    _setupKnobSnapOnDrop() {
         if(this._snapPointsEnabled){
-            this[knob].draggable.on('end', ({position: [endPosition]}) => {
-                this._moveKnobTo((this._closestPoint(endPosition) / (this.amountSnapPoints - 1)) * this._sliderWidth);
+            this.knob.draggable.on('end', () => {
+                this._snapKnobToPoint()
             });
         }
     }
