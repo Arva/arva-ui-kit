@@ -6,8 +6,7 @@ import {layout, event, flow}                from 'arva-js/layout/Decorators.js';
 import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
 import {Slider}                             from './Slider.js';
 import {knobSideLength}                     from './Slider.js';
-import {moveCurve}                          from './Slider.js';
-import {retractCurve}                       from './Slider.js';
+import {transition}                         from './Slider.js';
 import {Knob}                               from '../components/Knob.js';
 import {UISmall, UISmallGrey}               from '../defaults/DefaultTypefaces.js';
 
@@ -38,11 +37,9 @@ export class RangeSlider extends Slider {
         }
         this.secondKnob.text.setOptions(UISmallGrey);
     })
-    @event.on('mouseup', function () {
-        this._onMouseUpSecondKnob(...arguments)
-    })
-    @flow.stateStep('expanded', moveCurve, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
-    @flow.stateStep('retracted', retractCurve, layout.size(knobSideLength, knobSideLength), layout.origin(0.5, 0.5))
+    @event.on('mouseup', function(){this._onMouseUpSecondKnob(...arguments)})
+    @flow.stateStep('expanded', transition, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
+    @flow.stateStep('retracted', transition, layout.size(knobSideLength, knobSideLength), layout.origin(0.5, 0.5))
     secondKnob = new Knob({
         makeRipple: !this.options.enableTooltip || !this.options._onMobile,
         enableBorder: this.options.knobBorder,
@@ -184,7 +181,7 @@ export class RangeSlider extends Slider {
         let range = this.secondKnob.draggable.options.xRange;
         if (Slider._positionInRange(position, range)) {
             this._updateKnobPositionTo('secondKnob', position);
-            this.secondKnob.draggable.setPosition([position, 0], moveCurve);
+            this.secondKnob.draggable.setPosition([position, 0], transition);
 
             if (this._contentProvided) {
                 this._setKnobContent('secondKnob');
@@ -351,9 +348,6 @@ export class RangeSlider extends Slider {
 
     _onMouseUpSecondKnob() {
         this.secondKnob.text.setOptions(UISmallGrey);
-        // if (this._snapPointsEnabled) {
-        //     this._snapSecondKnobToPoint();
-        // }
     }
 
     _emitMoveEvent() {

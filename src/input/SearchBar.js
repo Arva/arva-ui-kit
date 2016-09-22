@@ -10,7 +10,7 @@ import {layout, event, flow}    from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {callbackToPromise}      from 'arva-js/utils/CallbackHelpers.js';
 import {UISmallGrey,
-        UIRegular}              from 'arva-kit/defaults/DefaultTypeFaces.js';
+    UIRegular}              from 'arva-kit/defaults/DefaultTypeFaces.js';
 
 import {ResultsView}            from './searchBar/ResultsView.js';
 import {Placeholder}            from './searchBar/Placeholder.js';
@@ -94,7 +94,7 @@ export class SearchBar extends View {
     @flow.stateStep('collapsed', transition, layout.size(undefined, 32))
     @flow.stateStep('hidden', transition, layout.size(undefined, 32))
     @flow.defaultState('hidden', transition, layout.opacity(0), layout.size(undefined, 32),
-                                 layout.stick.top(), layout.translate(0, 8, 210))
+        layout.stick.top(), layout.translate(0, 8, 210))
     results = new ResultsView({
         resultOptions: this.options.resultOptions
     });
@@ -123,12 +123,12 @@ export class SearchBar extends View {
     ));
 
     @event.on('click', function(e) { this._onActivate(e); })
-    @flow.stateStep('left', transition, layout.stick.left(), layout.translate(8, 0, 240))
+    @flow.stateStep('left', transition, layout.stick.left())
     @flow.defaultState('center', transition, layout.size(~50, 32), layout.stick.center(), layout.translate(0, 0, 230))
     placeholder = new Placeholder({
-            properties: { borderRadius: borderRadius },
-            placeholder: this.options.placeholder || 'Search'
-        });
+        properties: { borderRadius: borderRadius },
+        placeholder: this.options.placeholder || 'Search'
+    });
 
     /**
      * Shows the models in the given results list inside the results DataBoundScrollView. Replaces old results.

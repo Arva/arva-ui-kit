@@ -32,6 +32,7 @@ export let DockLeftLayout = {
         }
     },
     _handleItemActive(id, tab) {
+        this._currentItem = id;
         this.setItemActive(id, tab);
         for (let index = 0; index < this._itemCount; index++) {
             let item = this[`item${index}`];
@@ -72,6 +73,7 @@ export let EqualSizeLayout = {
         this.tabBar.setItems(items);
     },
     _handleItemActive(id, tab) {
+        this._currentItem = id;
         this.setItemActive(id, tab);
         let items = this.tabBar.getItems();
         for (let index in items) {

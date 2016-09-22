@@ -13,8 +13,7 @@ import {Colors}                         from '../defaults/DefaultColors.js';
 import {UISmall, UISmallGrey}           from '../defaults/DefaultTypefaces.js';
 
 export const knobSideLength = 48;
-export const moveCurve = {curve: Easing.outBack, duration: 200};
-export const retractCurve = {curve: Easing.outCubic, duration: 200};
+export const transition = {curve: Easing.outCubic, duration: 200};
 
 const lineBorderRadius = '1px';
 
@@ -57,11 +56,9 @@ export class Slider extends Clickable {
         }
         this.knob.text.setOptions(UISmallGrey);
     })
-    @event.on('mouseup', function () {
-        this._onMouseUpKnob(...arguments)
-    })
-    @flow.stateStep('expanded', moveCurve, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
-    @flow.stateStep('retracted', retractCurve, layout.size(knobSideLength, knobSideLength), layout.origin(0.5, 0.5))
+    @event.on('mouseup', function(){this._onMouseUpKnob(...arguments)})
+    @flow.stateStep('expanded', transition, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
+    @flow.stateStep('retracted', transition, layout.size(knobSideLength, knobSideLength), layout.origin(0.5, 0.5))
     knob = new Knob({
         makeRipple: !this.options.enableTooltip || !this.options._onMobile,
         enableBorder: this.options.knobBorder,
@@ -230,7 +227,7 @@ export class Slider extends Clickable {
         let range = this.knob.draggable.options.xRange;
         if (Slider._positionInRange(position, range)) {
             this._updateKnobPositionTo('knob', position);
-            this.knob.draggable.setPosition([position, 0], moveCurve);
+            this.knob.draggable.setPosition([position, 0], transition);
 
             if (this._contentProvided) {
                 this._setKnobContent('knob');
@@ -368,9 +365,6 @@ export class Slider extends Clickable {
 
     _onMouseUpKnob() {
         this.knob.text.setOptions(UISmallGrey);
-        // if (this._snapPointsEnabled) {
-        //     this._snapKnobToPoint();
-        // }
     }
 
     _setKnobContent(knob) {
@@ -381,7 +375,7 @@ export class Slider extends Clickable {
         let knobPosition = this['_' + knob + 'Position'];
 
         let position = this._snapPointsEnabled ?
-            this._snapPointPosition(this._closestPoint(knobPosition)) : knobPosition;
+                       this._snapPointPosition(this._closestPoint(knobPosition)) : knobPosition;
 
         if (this.options.percent) {
             let content = this._getPercentValue(position);
@@ -398,7 +392,7 @@ export class Slider extends Clickable {
         let knobPosition = this['_' + knob + 'Position'];
 
         let position = this._snapPointsEnabled ?
-            this._snapPointPosition(this._closestPoint(knobPosition)) : knobPosition;
+                       this._snapPointPosition(this._closestPoint(knobPosition)) : knobPosition;
 
         if (this.options.percent) {
             return this._getPercentValue(position);

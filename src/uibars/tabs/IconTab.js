@@ -31,7 +31,7 @@ export class IconTab extends Button {
         }));
     }
 
-    @layout.translate(0, 0, 50)
+    @layout.translate(0, 0, 30)
     @layout.size(24, 24)
     @layout.origin(0.5,0.5)
     @layout.align(0.5,0.5)
@@ -39,7 +39,7 @@ export class IconTab extends Button {
     @flowStates.fade('active', {opacity: 0.5}, flowOptions)
     icon = this.options.image ? new ImageSurface({content: this.options.image}) : new this.options.icon({color: this.options.properties.color});
 
-    @layout.translate(0, 0, 50)
+    @layout.translate(0, 0, 40)
     @layout.size(24, 24)
     @layout.origin(0.5,0.5)
     @layout.align(0.5,0.5)
