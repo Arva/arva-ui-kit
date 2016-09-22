@@ -98,8 +98,6 @@ export class UIBar extends View {
             if (this.options.autoColoring) {
                 if (renderable.setColor) {
                     renderable.setColor(opposingColor);
-                } else if (renderable.setProperties) {
-                    renderable.setProperties({color: `${rgbToRgba(opposingColor, 0.6)}`});
                 }
             }
             if (position === 'center') {
