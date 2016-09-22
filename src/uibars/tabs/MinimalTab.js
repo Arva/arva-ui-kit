@@ -25,7 +25,7 @@ export class MinimalTab extends Tab{
     @flowStates.fade('inactive', {opacity: 0.7}, flowOptions)
     text = new Surface(this.options);
 
-    @layout.translate(0, 16, 30)
+    @layout.translate(0, 15, 40)
     @layout.size(~300, undefined)
     @layout.origin(0.5, 0)
     @layout.align(0.5, 0)
