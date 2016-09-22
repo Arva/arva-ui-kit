@@ -38,7 +38,6 @@ export class Knob extends WhiteBox {
 
         let throttleDelay = this.options.useThrottler ? 2 : 0;
         this.throttler = new Throttler(throttleDelay, false, undefined, true);
-        this.background.setProperties({border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : ''})
     }
 
     setText(content) {
