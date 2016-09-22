@@ -22,6 +22,9 @@ import AnimationController          from 'famous-flex/AnimationController.js';
 let expandShrinkTransition = {curve: Easing.outCubic, duration: 2000};
 let fastTransition = {curve: Easing.outCubic, duration: 50};
 
+//TODO: Fix behaviour that happens when the content go oustide the screen
+//TODO: Fix behaviour to collapse when outside screen
+
 @flow.viewStates({
     expanded: [{extendButton: 'hidden'}],
     collapsed: [{extendButton: 'shown'}]
