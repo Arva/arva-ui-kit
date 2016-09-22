@@ -28,4 +28,8 @@ export class MinimalTabBar extends TabBar {
     constructor(options = {}, items = []) {
         super(combineOptions(options, {makeRipple: false, useBackground: false, useBoxShadow: false, tabRenderable: MinimalTab, tabOptions: {inActiveColor: 'rgb(170,170,170)', activeColor: 'black'}}),items);
     }
+
+    offHover(id, item) {
+        this.setIndexActive && this.setIndexActive(this._currentItem);
+    }
 }
