@@ -68,9 +68,9 @@ export class Button extends Clickable {
                     boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : ''
                 }
             }), 'background', layout.fullSize(), layout.translate(0, 0, -10));
+            this.background.setProperties({border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : ''});
         }
 
-        this.background.setProperties({border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : ''});
 
         if (this.options.makeRipple) {
             this.addRenderable(new Ripple(this.options.rippleOptions), 'ripple',
