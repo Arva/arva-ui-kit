@@ -46,11 +46,11 @@ export class TopMenu extends UIBar {
     @layout.translate(0, 0, 100)
     clickableSurface = new Surface();
 
-    @layout.size(65, Dimensions.topBarHeight)
+    /*@layout.size(65, Dimensions.topBarHeight)
     @layout.align(1, 0)
     @layout.origin(1, 0)
     @layout.translate(0, 0, 100)
-    clickableRightButtonSurface = new Surface();
+    clickableRightButtonSurface = new Surface();*/
 
     @layout.dock.right()
     @layout.size(true, true)
@@ -84,9 +84,9 @@ export class TopMenu extends UIBar {
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');
         });
-        this.clickableRightButtonSurface.on('click', () => {
+        /*this.clickableRightButtonSurface.on('click', () => {
             this._eventOutput.emit('rightButtonClick');
-        });
+        });*/
 
 
         this.isOpen = false;
