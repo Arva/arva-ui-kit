@@ -41,7 +41,7 @@ export class ImageLoadPlaceholder extends View {
     @layout.animate({
         showInitially: false,
         animation: AnimationController.Animation.Fade,
-        transition: {duration: 500, curve: Easing.linear}
+        transition: {duration: 200, curve: Easing.linear}
     })
     image = new BkImageSurface({
         content: this.options.content, sizeMode: this.options.sizeMode, positionMode: this.options.positionMode,
