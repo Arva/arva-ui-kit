@@ -365,4 +365,20 @@ export class NavigationDrawer extends View {
         }
     }
 
+    setTitle(newTitle) {
+        this.topBar.setTitle(newTitle);
+    }
+
+    setTopRightButton(button){
+        this.topBar.setRightButton(button);
+    }
+
+    setTopTemporaryLeftButton(button){
+        this.topBar.setTemporaryLeftButton(button);
+    }
+
+    removeTopTemporaryLeftButton(button){
+        this.topBar.removeTemporaryLeftButton(button);
+    }
+
 }
