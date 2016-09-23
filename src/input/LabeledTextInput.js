@@ -18,6 +18,14 @@ export class LabeledTextInput extends View {
     @layout.dockSpace(4)
     input = new this.options.inputType({value: this.options.value, placeholder: this.options.placeholder, usesFeedback: this.options.usesFeedback});
 
+    setValue() {
+        return this.input.setValue(...arguments);
+    }
+
+    getValue() {
+        return this.input.getValue(...arguments);
+    }
+    
     /**
      * Renders a SingleLineTextInput or MultiLineInput, with a text label docked above it.
      *

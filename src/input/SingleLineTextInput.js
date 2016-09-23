@@ -64,6 +64,8 @@ export class SingleLineTextInput extends View {
     @flow.stateStep('shown', closeTransition, ...showBubble)
     required = new FeedbackBubble({variation: 'required'});
 
+
+
     /**
      * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
      *
@@ -105,6 +107,15 @@ export class SingleLineTextInput extends View {
             this.setRequiredState();
         }
     }
+
+    setValue() {
+        return this.input.setValue(...arguments);
+    }
+
+    getValue() {
+        return this.input.getValue(...arguments);
+    }
+
 
     setCorrectState(message = '') {
         if (message) {

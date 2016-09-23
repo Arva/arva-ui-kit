@@ -3,6 +3,8 @@
  */
 
 import Surface                  from 'famous/core/Surface.js';
+import Timer                    from 'famous/utilities/Timer.js';
+
 import {View}                   from 'arva-js/core/View.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
@@ -23,7 +25,7 @@ import {UITitle}                from '../../../text/UITitle.js';
 export class TopMenu extends UIBar {
 
     @layout.animate()
-    @layout.size(48, (_, height) => Math.min(height, 100))
+    @layout.size(true, true)
     @layout.stick.center()
     @layout.dock.left()
     @layout.translate(0, 0, 40)
@@ -40,17 +42,11 @@ export class TopMenu extends UIBar {
         return this.hamburgerButton;
     }
 
-    @layout.size(65, Dimensions.topBarHeight)
+    /*@layout.size(65, Dimensions.topBarHeight)
     @layout.align(0, 0)
     @layout.origin(0, 0)
     @layout.translate(0, 0, 100)
-    clickableSurface = new Surface();
-
-    /*@layout.size(65, Dimensions.topBarHeight)
-    @layout.align(1, 0)
-    @layout.origin(1, 0)
-    @layout.translate(0, 0, 100)
-    clickableRightButtonSurface = new Surface();*/
+    clickableSurface = new Surface();*/
 
     @layout.dock.right()
     @layout.size(true, true)
@@ -68,25 +64,14 @@ export class TopMenu extends UIBar {
     constructor(options = {}) {
         super(combineOptions({
             components: [
-                [new UITitle({content: options.defaultTitle || 'Dashboard'}), 'title', 'center']
+                [new UITitle({content: options.defaultTitle || ''}), 'title', 'center']
             ]
         }, options));
-
-        this.clickableSurface.on('click', () => {
-            if (this.renderables.menuButton.get().options.icon === HamburgerIcon) {
-                this._eventOutput.emit('requestMenuOpen');
-            } else {
-                this._eventOutput.emit('requestMenuClose');
-            }
-        });
 
 
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');
         });
-        /*this.clickableRightButtonSurface.on('click', () => {
-            this._eventOutput.emit('rightButtonClick');
-        });*/
 
 
         this.isOpen = false;
@@ -120,6 +105,18 @@ export class TopMenu extends UIBar {
 
     setRightButton(newButton){
         this.replaceRenderable('rightButton', newButton);
+    }
+
+    async setTemporaryLeftButton(leftButton) {
+        this._eventOutput.emit('requestMenuClose');
+        await this.hideRenderable('menuButton');
+        this.replaceRenderable('menuButton', leftButton);
+        this.showRenderable('menuButton');
+    }
+
+    removeTemporaryLeftButton() {
+        this.replaceRenderable('menuButton', this.isOpen ? this.arrowLeftButton : this.hamburgerButton);
+        this.showRenderable('menuButton');
     }
 
 

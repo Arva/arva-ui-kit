@@ -49,6 +49,7 @@ export class ImageLoadPlaceholder extends View {
     });
 
     @layout.fullSize()
+    @layout.translate(0, 0, 20)
     placeholder = new ImageSurface({content: this.options.placeholderContent, properties: this.options.placeholderProperties});
 
     /**
@@ -65,7 +66,7 @@ export class ImageLoadPlaceholder extends View {
      * @param {String} [options.placeholderContent] A URL to the image to use as a placeholder. Defaults to ./resources/placeholderImage.svg.
      * @param {String} [options.placeholderProperties] The properties to pass onto the placeholder BkImageSurface.
      */
-    constructor(options) {
+    constructor(options = {}) {
         super(combineOptions({
             sizeMode: ImageLoadPlaceholder.SizeMode.ASPECTFILL,
             positionMode: ImageLoadPlaceholder.PositionMode.CENTER,
@@ -74,13 +75,14 @@ export class ImageLoadPlaceholder extends View {
             placeholderProperties: {}
         }, options));
 
-        if (!options.content) {
-            console.log(`Warning: ${this.constructor.name} was attempted to be constructed without specifying options.content`);
-        }
+       if(options.content) {this._createImageElement(options.content)}
+    }
 
-        this.imgElement = document.createElement('img');
-        this.imgElement.onload = this._onImageLoad;
-        this.imgElement.src = this.options.content;
+    setContent(imageUrl = ''){
+        this.placeholder.setProperties({display: 'block'});
+        this.image.animationController.hide();
+        this.image.setContent(imageUrl);
+        this._createImageElement(imageUrl);
     }
 
     _onImageLoad() {
@@ -88,5 +90,11 @@ export class ImageLoadPlaceholder extends View {
             delete this.imgElement;
             this.placeholder.setProperties({display: 'none'});
         });
+    }
+
+    _createImageElement(imageSrc = ''){
+        this.imgElement = document.createElement('img');
+        this.imgElement.onload = this._onImageLoad;
+        this.imgElement.src = imageSrc
     }
 }
