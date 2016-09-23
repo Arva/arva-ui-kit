@@ -12,6 +12,7 @@ import radians                          from 'degrees-radians';
 
 import {View}                           from 'arva-js/core/View.js';
 import {layout}                         from 'arva-js/layout/Decorators.js';
+import {combineOptions}                 from 'arva-js/utils/CombineOptions.js';
 
 import {Colors}                         from '../defaults/DefaultColors.js';
 
@@ -52,7 +53,7 @@ export class SquaresLoader extends View {
      *                                      When using decorators, the SquaresLoader will default to taking up all the space it's decorated with.
      */
     constructor(options = {}) {
-        super(options);
+        super(combineOptions({loaderSize: [64, 64]},options));
         this.container.context.setPerspective(100);
 
         let surfaceProperties = {
