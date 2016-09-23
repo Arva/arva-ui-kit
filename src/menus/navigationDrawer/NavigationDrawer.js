@@ -39,7 +39,7 @@ export class NavigationDrawer extends View {
      *     topMenuOptions: {
      *         defaultTitle: 'Title'    // default top menu title
      *     },
-     *     sideMenuOptions: {           // Options for the side menu. Return promise to delay creation
+     *     sideMenu: {                  // Options for the side menu. Return promise to delay creation
      *         itemMargin: 10,          // The margins between the items. Defaults to 10
      *         itemHeight: 44,          // The height of each item. Defaults to 44
      *         direction: 1,
