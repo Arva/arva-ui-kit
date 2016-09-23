@@ -12,6 +12,7 @@ import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {SingleLineInputSurface} from './SingleLineInputSurface.js';
 import {FeedbackBubble}         from './textInput/FeedbackBubble.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
+import {TypeFaces}              from '../defaults/DefaultTypefaces.js';
 
 let {searchBar: {borderRadius}} = Dimensions;
 const transition = {transition: {curve: Easing.outCubic, duration: 200}, delay: 0};
@@ -82,14 +83,15 @@ export class SingleLineTextInput extends View {
 
         if (!this.input) {
             this.addRenderable(new SingleLineInputSurface({
-                content: this.options.content || '',
+                value: this.options.value || '',
                 type: this.options.password ? 'password' : 'text',
                 placeholder: this.options.placeholder || '',
                 properties: {
                     backgroundColor: 'transparent',
                     padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
                     borderRadius: borderRadius,
-                    boxShadow: 'none'
+                    boxShadow: 'none',
+                    ...TypeFaces.UIRegular
                 }
             }), 'input', layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
                 this._onBlur();
