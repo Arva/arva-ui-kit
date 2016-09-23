@@ -78,9 +78,12 @@ export class ImageLoadPlaceholder extends View {
             console.log(`Warning: ${this.constructor.name} was attempted to be constructed without specifying options.content`);
         }
 
-        this.imgElement = document.createElement('img');
-        this.imgElement.onload = this._onImageLoad;
-        this.imgElement.src = this.options.content;
+       if(options.content) {this._createImageElement(options.content)}
+    }
+
+    setContent(imageUrl = ''){
+        this.image.setContent(imageUrl);
+        this._createImageElement(imageUrl);
     }
 
     _onImageLoad() {
@@ -88,5 +91,11 @@ export class ImageLoadPlaceholder extends View {
             delete this.imgElement;
             this.placeholder.setProperties({display: 'none'});
         });
+    }
+
+    _createImageElement(imageSrc = ''){
+        this.imgElement = document.createElement('img');
+        this.imgElement.onload = this._onImageLoad;
+        this.imgElement.src = imageSrc
     }
 }
