@@ -44,4 +44,12 @@ export class LabeledTextInput extends View {
             inputType: SingleLineTextInput
         }, options));
     }
+
+    getValue() {
+        this.input.getValue();
+    }
+
+    setValue(value) {
+        this.input.setValue(value);
+    }
 }    
