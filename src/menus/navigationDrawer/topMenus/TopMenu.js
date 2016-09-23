@@ -75,6 +75,16 @@ export class TopMenu extends UIBar {
 
 
         this.isOpen = false;
+
+        if (window.StatusBar) {
+            if(this.options.colored){
+                //TODO: Make more robust, this only works for hex string
+                window.StatusBar.backgroundColorByHexString(this.options.backgroundProperties.backgroundColor);
+            } else {
+                window.StatusBar.backgroundColorByHexString('#000');
+            }
+
+        }
     }
 
 
