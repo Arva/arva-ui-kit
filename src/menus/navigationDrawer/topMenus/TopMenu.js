@@ -49,7 +49,7 @@ export class TopMenu extends UIBar {
     clickableSurface = new Surface();*/
 
     @layout.dock.right()
-    @layout.size(true, true)
+    @layout.size(true, ~100)
     @layout.stick.center()
     @layout.translate(0, 0, 25)
     rightButton = this.options.rightButton || new FloatingImageButton({
