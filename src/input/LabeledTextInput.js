@@ -16,15 +16,10 @@ export class LabeledTextInput extends View {
 
     @layout.dock.top(~48)
     @layout.dockSpace(4)
-    input = new this.options.inputType({value: this.options.value, placeholder: this.options.placeholder, usesFeedback: this.options.usesFeedback});
-
-    setValue() {
-        return this.input.setValue(...arguments);
-    }
-
-    getValue() {
-        return this.input.getValue(...arguments);
-    }
+    input = new this.options.inputType({
+        value: this.options.value,
+        placeholder: this.options.placeholder,
+        usesFeedback: this.options.usesFeedback});
     
     /**
      * Renders a SingleLineTextInput or MultiLineInput, with a text label docked above it.
@@ -37,10 +32,11 @@ export class LabeledTextInput extends View {
      */
     constructor(options = {}) {
         super(combineOptions({
-            label: 'Label',
-            usesFeedback: false,
             value: '',
+            label: 'Label',
             placeholder: '',
+            clearOnEnter: false,
+            usesFeedback: false,
             inputType: SingleLineTextInput
         }, options));
     }
