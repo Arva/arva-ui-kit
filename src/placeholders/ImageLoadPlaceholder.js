@@ -41,7 +41,7 @@ export class ImageLoadPlaceholder extends View {
     @layout.animate({
         showInitially: false,
         animation: AnimationController.Animation.Fade,
-        transition: {duration: 200, curve: Easing.linear}
+        transition: {duration: 500, curve: Easing.linear}
     })
     image = new BkImageSurface({
         content: this.options.content, sizeMode: this.options.sizeMode, positionMode: this.options.positionMode,
@@ -49,6 +49,7 @@ export class ImageLoadPlaceholder extends View {
     });
 
     @layout.fullSize()
+    @layout.translate(0, 0, 20)
     placeholder = new ImageSurface({content: this.options.placeholderContent, properties: this.options.placeholderProperties});
 
     /**
@@ -65,7 +66,7 @@ export class ImageLoadPlaceholder extends View {
      * @param {String} [options.placeholderContent] A URL to the image to use as a placeholder. Defaults to ./resources/placeholderImage.svg.
      * @param {String} [options.placeholderProperties] The properties to pass onto the placeholder BkImageSurface.
      */
-    constructor(options) {
+    constructor(options = {}) {
         super(combineOptions({
             sizeMode: ImageLoadPlaceholder.SizeMode.ASPECTFILL,
             positionMode: ImageLoadPlaceholder.PositionMode.CENTER,
@@ -74,14 +75,12 @@ export class ImageLoadPlaceholder extends View {
             placeholderProperties: {}
         }, options));
 
-        if (!options.content) {
-            console.log(`Warning: ${this.constructor.name} was attempted to be constructed without specifying options.content`);
-        }
-
        if(options.content) {this._createImageElement(options.content)}
     }
 
     setContent(imageUrl = ''){
+        this.placeholder.setProperties({display: 'block'});
+        this.image.animationController.hide();
         this.image.setContent(imageUrl);
         this._createImageElement(imageUrl);
     }
