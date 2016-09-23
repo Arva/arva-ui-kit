@@ -5,6 +5,8 @@
 import Surface                  from 'famous/core/Surface.js';
 import Timer                    from 'famous/utilities/Timer.js';
 
+import AnimationController      from 'famous-flex/AnimationController.js';
+
 import {View}                   from 'arva-js/core/View.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
@@ -24,7 +26,7 @@ import {UITitle}                from '../../../text/UITitle.js';
 
 export class TopMenu extends UIBar {
 
-    @layout.animate()
+    @layout.animate({animation: AnimationController.Animation.Fade})
     @layout.size(true, true)
     @layout.stick.center()
     @layout.dock.left()

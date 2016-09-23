@@ -37,7 +37,8 @@ export class UIBar extends View {
                     backgroundSettings: {
                         shadows: {
                             'softShadow': {boxShadow: '0px 0px 8px 0px rgba(0,0,0,0.12)'},
-                            'hardShadow': {boxShadow: '0px 2px 0px 0px rgba(0,0,0,0.12)'}
+                            'hardShadow': {boxShadow: '0px 2px 0px 0px rgba(0,0,0,0.12)'},
+                            'noShadow': {boxShadow: ''},
                         },
                         backgroundColor: {backgroundColor: 'rgb(255, 255, 255)'}
                     },
@@ -48,7 +49,8 @@ export class UIBar extends View {
                     backgroundSettings: {
                         shadows: {
                             'softShadow': {boxShadow: `0px 0px 8px 0px rgba(0,0,0,0.12), 0px 0px 8px 0px ${rgbToRgba(Colors.PrimaryUIColor, 0.12)}`},
-                            'hardShadow': {boxShadow: `0px 2px 0px 0px rgba(0,0,0,0.08), 0px 2px 0px 0px ${rgbToRgba(Colors.PrimaryUIColor, 0.08)}`}
+                            'hardShadow': {boxShadow: `0px 2px 0px 0px rgba(0,0,0,0.08), 0px 2px 0px 0px ${rgbToRgba(Colors.PrimaryUIColor, 0.08)}`},
+                            'noShadow': {boxShadow: ``}
                         },
                         backgroundColor: {backgroundColor: Colors.PrimaryUIColor}
                     },
