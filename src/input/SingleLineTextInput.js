@@ -115,6 +115,10 @@ export class SingleLineTextInput extends View {
     getValue() {
         return this.input.getValue(...arguments);
     }
+    
+    focus() {
+        return this.input.focus(...arguments);
+    }
 
 
     setCorrectState(message = '') {
