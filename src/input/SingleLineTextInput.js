@@ -124,6 +124,13 @@ export class SingleLineTextInput extends View {
         this.setViewFlowState('required');
     }
 
+    getValue() {
+        return this.input.getValue();
+    }
+
+    setValue(value) {
+        this.input.setValue(value);
+    }
 
     getSize() {
         return [undefined, 48];
