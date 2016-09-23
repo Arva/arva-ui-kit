@@ -127,6 +127,12 @@ const emoji = {
     '=#':'\u{1f636}'
 };
 
+/**
+ * Checks the last four characters in the input string for supported emoji and replaces those characters
+ *      with their respective unicode emoji code.
+ * @param string
+ * @returns {*}
+ */
 export function replaceEmojiAtEnd(string) {
     let unicode;
     if (unicode = emoji[string.slice(-4)]) {

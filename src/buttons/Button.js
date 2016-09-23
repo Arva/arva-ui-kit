@@ -69,6 +69,9 @@ export class Button extends Clickable {
                 }
             }), 'background', layout.fullSize(), layout.translate(0, 0, -10));
         }
+
+        this.background.setProperties({border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : ''});
+
         if (this.options.makeRipple) {
             this.addRenderable(new Ripple(this.options.rippleOptions), 'ripple',
                 layout.size(undefined, undefined),
@@ -86,18 +89,8 @@ export class Button extends Clickable {
 
     }
 
-    _handleClick(mouseEvent) {
-
-        /* TouchEvents are enabled, don't listen for click events as touchend will already fire resulting in double click events */
-        if (mouseEvent.forwardedTouchEvent) return;
-
-        super._handleClick(mouseEvent);
-
-    }
-
     _handleTapStart({x, y}) {
-        if (this.options.makeRipple && this._isEnabled()) {
-            this._inBounds = true;
+        if (this.options.makeRipple) {
             /**
              * Calculate the correct position of the click inside the current renderable (overlay taken for easy calculation, as it's always fullSize).
              * This will not account for rotation/skew/any other transforms except translates so if the Button class is e.d rotated the ripple will not be placed in the correct location
@@ -115,19 +108,8 @@ export class Button extends Clickable {
         });
     }
 
-    _handleTouchMove(touchEvent) {
-        if (this.options.makeRipple && this._inBounds) {
-            this.throttler.add(()=> {
-                this._inBounds = this._isInBounds(touchEvent);
-                if (!this._inBounds) {
-                    this.ripple.hide();
-                }
-            });
-        }
-    }
-
-    _onMouseOut() {
-        if(this.options.makeRipple){
+    _handleTapRemoved() {
+        if (this.options.makeRipple) {
             this.ripple.hide();
         }
     }
@@ -136,7 +118,6 @@ export class Button extends Clickable {
         if (this.options.makeRipple) {
             this.ripple.hide();
         }
-        mouseEvent.type === 'touchend' && this._isInBounds(mouseEvent) && this._handleClick(mouseEvent);
     }
 
     /**
@@ -146,28 +127,4 @@ export class Button extends Clickable {
 
     }
 
-    /**
-     * Checks if the current TouchEvent is outside the current target element
-     * @param touch
-     * @param elemposition
-     * @param width
-     * @param height
-     * @returns {boolean}
-     * @private
-     */
-    _isInBounds(touch) {
-        let elemposition = this.overlay._currentTarget.getBoundingClientRect();
-        let [width, height] = this.overlay.getSize();
-
-        let touchList = touch.touches.length ? touch.touches : touch.changedTouches;
-
-        var left = elemposition.left,
-            right = left + width,
-            top = elemposition.top,
-            bottom = top + height,
-            touchX = touchList[0].pageX,
-            touchY = touchList[0].pageY;
-
-        return (touchX > left && touchX < right && touchY > top && touchY < bottom);
-    };
 }
