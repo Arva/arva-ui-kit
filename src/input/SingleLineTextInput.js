@@ -64,8 +64,6 @@ export class SingleLineTextInput extends View {
     @flow.stateStep('shown', closeTransition, ...showBubble)
     required = new FeedbackBubble({variation: 'required'});
 
-
-
     /**
      * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
      *
@@ -81,7 +79,7 @@ export class SingleLineTextInput extends View {
      * @param {Boolean} [options.required] If set to true, shows a FeedbackBubble stating the field is required to be filled in
      */
     constructor(options) {
-        super(combineOptions({required: false, usesFeedback: true}, options));
+        super(combineOptions({required: false, usesFeedback: true, inputOptions: {clearOnEnter: true}}, options));
 
         if (!this.input) {
             this.addRenderable(new SingleLineInputSurface({
@@ -94,7 +92,8 @@ export class SingleLineTextInput extends View {
                     borderRadius: borderRadius,
                     boxShadow: 'none',
                     ...TypeFaces.UIRegular
-                }
+                },
+                ...options.inputOptions
             }), 'input', layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
                 this._onBlur();
             }), event.on('focus', function () {
