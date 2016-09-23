@@ -68,21 +68,10 @@ export class TopMenu extends UIBar {
             ]
         }, options));
 
-        /*this.clickableSurface.on('click', () => {
-            if (this.renderables.menuButton.get().options.icon === HamburgerIcon) {
-                this._eventOutput.emit('requestMenuOpen');
-            } else {
-                this._eventOutput.emit('requestMenuClose');
-            }
-        });*/
-
 
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');
         });
-        /*this.clickableRightButtonSurface.on('click', () => {
-            this._eventOutput.emit('rightButtonClick');
-        });*/
 
 
         this.isOpen = false;
@@ -119,13 +108,14 @@ export class TopMenu extends UIBar {
     }
 
     async setTemporaryLeftButton(leftButton) {
+        this._eventOutput.emit('requestMenuClose');
         await this.hideRenderable('menuButton');
         this.replaceRenderable('menuButton', leftButton);
         this.showRenderable('menuButton');
     }
 
     removeTemporaryLeftButton() {
-        this.replaceRenderable('menuButton', this.isOpen ? this.arrowLeftButton : this.menuButton);
+        this.replaceRenderable('menuButton', this.isOpen ? this.arrowLeftButton : this.hamburgerButton);
         this.showRenderable('menuButton');
     }
 
