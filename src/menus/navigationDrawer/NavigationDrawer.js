@@ -18,7 +18,7 @@ import {StatusBarExtension}     from '../../utils/statusBar/StatusBarExtension.j
 export class NavigationDrawer extends View {
 
     @layout.dock.top(true)
-    statusBarExtension = new StatusBarExtension();
+    statusBarExtension = Injection.get(StatusBarExtension);
 
     @layout.translate(0, 0, 500)
     @layout.animate({
