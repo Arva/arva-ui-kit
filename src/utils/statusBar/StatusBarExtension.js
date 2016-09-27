@@ -2,6 +2,7 @@
  * Created by tom on 24/08/16.
  */
 
+import Color                from 'color';
 import Surface              from 'famous/core/Surface.js';
 import Context              from 'famous/core/Context.js';
 import {View}               from 'arva-js/core/View.js';
@@ -40,7 +41,14 @@ export class StatusBarExtension extends View {
     }
 
     setColor(color) {
+        if(!this.isiOS) { return; }
+
+        let colorDefinition = Color(color);
         this.background.setProperties({ backgroundColor: color });
+
+        /* Set the color of the items on the status bar */
+        let method = colorDefinition.light() ? 'styleDefault' : 'styleLightContent';
+        if(window.StatusBar && window.StatusBar[method]) { window.StatusBar[method](); }
     }
 
     getSize() {
