@@ -92,4 +92,8 @@ export class RadioButtons extends Clickable {
         return this.selectedIndex;
     }
 
+    getValue(){
+        return this['radioButton' + this.getSelected()].getValue();
+    }
+
 }

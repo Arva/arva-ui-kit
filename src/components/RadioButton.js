@@ -90,4 +90,8 @@ export class RadioButton extends Clickable {
         }
     }
 
+    getValue(){
+        return this.text.getContent();
+    }
+
 }
