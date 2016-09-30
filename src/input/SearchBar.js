@@ -77,6 +77,7 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 })
 export class SearchBar extends View {
 
+    /* Translation of -1, -1 is to correct for the border being on the outside of the surface */
     @event.on('click', function(e) { this._onActivate(e); })
     @flow.stateStep('hidden', transition, layout.opacity(0))
     @flow.defaultState('shown', transition, layout.size(undefined, 32), layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 210))
@@ -123,7 +124,7 @@ export class SearchBar extends View {
     ));
 
     @event.on('click', function(e) { this._onActivate(e); })
-    @flow.stateStep('left', transition, layout.stick.left())
+    @flow.stateStep('left', transition, layout.stick.left(), layout.translate(8, 0, 230))
     @flow.defaultState('center', transition, layout.size(~50, 32), layout.stick.center(), layout.translate(0, 0, 230))
     placeholder = new Placeholder({
         properties: { borderRadius: borderRadius },
