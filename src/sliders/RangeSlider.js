@@ -21,7 +21,7 @@ export class RangeSlider extends Slider {
     @layout.size(knobSideLength, knobSideLength)
     @layout.origin(0.5, 0.5)
     @layout.align(0, 0.5)
-    @layout.translate(0, 0, 50)
+    @layout.translate(knobSideLength / 2, 0, 50)
     @event.on('touchstart', function () {
         this.secondKnob.text.setOptions(UISmall);
         if (this._contentProvided && this.options._onMobile) {
@@ -94,7 +94,7 @@ export class RangeSlider extends Slider {
 
     _setupListeners() {
         this.onceNewSize().then(([width]) => {
-            this._sliderWidth = width;
+            this._sliderWidth = width - knobSideLength;
             this._knobPosition = Math.round(this.options.knobPosition * this._sliderWidth);
             this._secondKnobPosition = Math.round(this.options.secondKnobPosition * this._sliderWidth);
 
@@ -123,7 +123,7 @@ export class RangeSlider extends Slider {
 
     _onResize([width]) {
         let oldSliderWidth = this._sliderWidth;
-        this._sliderWidth = width;
+        this._sliderWidth = width - knobSideLength;
 
         let newKnobPosition = this._knobPosition * this._sliderWidth / oldSliderWidth;
         let newSecondKnobPosition = this._secondKnobPosition * this._sliderWidth / oldSliderWidth;
@@ -234,16 +234,12 @@ export class RangeSlider extends Slider {
 
         /*Update the active trail size when the first knob is moved.*/
         this.knob.draggable.on('update', () => {
-
             this._updateActiveTrail();
-
         });
 
         /*Update the active trail size when the second knob is moved.*/
         this.secondKnob.draggable.on('update', () => {
-
             this._updateActiveTrail();
-
         });
     }
 
@@ -257,7 +253,7 @@ export class RangeSlider extends Slider {
     }
 
     _updateActiveTrailLine() {
-        this.decorateRenderable('activeTrail',
+        this.decorateRenderable('activeTrailLine',
             layout.size(this._secondKnobPosition - this._knobPosition, 2),
             layout.align(this._knobPosition / this._sliderWidth, 0.5)
         );
