@@ -44,9 +44,9 @@ export class TopMenu extends UIBar {
     @layout.size(true, ~100)
     @layout.stick.center()
     @layout.translate(0, 0, 25)
-    rightButton = this.options.rightButton || new FloatingImageButton({
+    rightButton = this.options.rightButton || new UIBarImageButton({
         clickEventName: 'rightButtonClick', icon: InfoIcon,
-        properties: {color: Colors.UIBarTextColor},
+        properties: {color: Colors.PrimaryUIColor},
         variation: 'noShadow',
         makeRipple: false,
         indicatePress: true,

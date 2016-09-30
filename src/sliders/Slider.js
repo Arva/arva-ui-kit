@@ -18,18 +18,24 @@ export const transition = {curve: Easing.outCubic, duration: 200};
 const lineBorderRadius = '1px';
 
 @flow.viewStates({})
+@layout.dockPadding(0, 24, 0, 24)
 export class Slider extends Clickable {
 
-    @layout.fullSize()
-    @layout.translate(0, 0, 40)
+    @layout.size(function () {
+        return this._sliderWidth
+    }, undefined)
+    @layout.translate(knobSideLength / 2, 0, 40)
     @event.on('click', function (event) {
         this._onLineTapEnd(event);
     })
     touchArea = new Surface({properties: {cursor: 'pointer'}});
 
-    @layout.size(undefined, 2)
+    @layout.size(function () {
+        return this._sliderWidth
+    }, 2)
+    @layout.dock.fill()
     @layout.stick.center()
-    @layout.translate(0, 0, 10)
+    @layout.translate(0, 0, 0)
     line = new Surface({
         properties: {
             borderRadius: lineBorderRadius,
@@ -40,7 +46,7 @@ export class Slider extends Clickable {
     @layout.size(knobSideLength, knobSideLength)
     @layout.origin(0.5, 0.5)
     @layout.align(0, 0.5)
-    @layout.translate(0, 0, 50)
+    @layout.translate(knobSideLength / 2, 0, 50)
     @event.on('touchstart', function () {
         this.knob.text.setOptions(UISmall);
         if (this._contentProvided && this.options._onMobile) {
@@ -129,7 +135,7 @@ export class Slider extends Clickable {
 
     _setupListeners() {
         this.onceNewSize().then(([width]) => {
-            this._sliderWidth = width;
+            this._sliderWidth = width - knobSideLength;
             this._knobPosition = Math.round(this.options.knobPosition * this._sliderWidth);
 
             this._knobDraggableSetup();
@@ -155,7 +161,7 @@ export class Slider extends Clickable {
 
     _onResize([width]) {
         let oldSliderWidth = this._sliderWidth;
-        this._sliderWidth = width;
+        this._sliderWidth = width - knobSideLength;
 
         let newKnobPosition = this._knobPosition * this._sliderWidth / oldSliderWidth;
         this._moveKnobTo(newKnobPosition);
@@ -170,7 +176,7 @@ export class Slider extends Clickable {
         this.setRenderableFlowState(knob, 'expanded');
 
         this.decorateRenderable(knob,
-            layout.translate(0, 0, 100)
+            layout.translate(knobSideLength / 2, 0, 100)
         );
 
         this[knob].decorateRenderable('text',
@@ -188,7 +194,7 @@ export class Slider extends Clickable {
         this.setRenderableFlowState(knob, 'retracted');
 
         this.decorateRenderable(knob,
-            layout.translate(0, 0, 50)
+            layout.translate(knobSideLength / 2, 0, 50)
         );
 
         this[knob].decorateRenderable('text',
@@ -261,7 +267,8 @@ export class Slider extends Clickable {
                     borderRadius: lineBorderRadius,
                     backgroundColor: this.options.activeColor
                 }
-            }), 'activeTrail',
+            }), 'activeTrailLine',
+            layout.dock.fill(),
             layout.stick.left(),
             layout.translate(0, 0, 20)
         );
@@ -269,13 +276,17 @@ export class Slider extends Clickable {
 
     _updateActiveTrail() {
         if (this.options.enableActiveTrail) {
-            this.decorateRenderable('activeTrail',
-                layout.size(this._knobPosition, 2)
-            );
+            this._updateActiveTrailLine();
             if (this._snapPointsEnabled) {
                 this._updateActiveTrailSnapPoints();
             }
         }
+    }
+
+    _updateActiveTrailLine() {
+        this.decorateRenderable('activeTrailLine',
+            layout.size(this._knobPosition > 1 ? this._knobPosition : 4, 2)
+        );
     }
 
     _updateActiveTrailSnapPoints() {
@@ -295,20 +306,12 @@ export class Slider extends Clickable {
             this._addSnapPoint(i, 'snapPoint', this.options.inactiveColor);
 
             if (this.options.enableActiveTrail) {
-                this._addActiveTrailSnapPoint(i);
+                this._addSnapPoint(i, 'colorSnapPoint', this.options.activeColor, 30);
             }
         }
     }
 
-    _snapPointPosition(index) {
-        return index / (this.amountSnapPoints - 1) * this._sliderWidth;
-    }
-
-    _addActiveTrailSnapPoint(index) {
-        this._addSnapPoint(index, 'colorSnapPoint', this.options.activeColor, 40);
-    }
-
-    _addSnapPoint(index, name, color, zIndex = 30) {
+    _addSnapPoint(index, name, color, zIndex = 10) {
         this.addRenderable(
             new Surface({
                 properties: {
@@ -317,10 +320,15 @@ export class Slider extends Clickable {
                 }
             }), name.toString() + index,
             layout.size(8, 8),
+            layout.dock.fill(),
             layout.origin(0.5, 0.5),
             layout.align(index / (this.amountSnapPoints - 1), 0.5),
             layout.translate(0, 0, zIndex)
         );
+    }
+
+    _snapPointPosition(index) {
+        return index / (this.amountSnapPoints - 1) * this._sliderWidth;
     }
 
     _initializeKnob() {
