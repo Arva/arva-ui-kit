@@ -31,7 +31,7 @@ export class Tab extends TextButton {
     _handleTouchMove(touchEvent){
         if (this._inBounds) {
             this.throttler.add(()=>{
-                this._inBounds = this._isInBounds(touchEvent);
+                this._inBounds = this._isInBounds(touchEvent, this.overlay);
                 if(!this._inBounds){
                     this._setDeactive();
                 }

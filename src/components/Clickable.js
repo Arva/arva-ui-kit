@@ -199,12 +199,15 @@ export class Clickable extends View {
      * @private
      */
     _isInBounds(touch, element) {
-        let elementPosition = element._currentTarget.getBoundingClientRect();
-        let {left, right, top, bottom} = elementPosition;
+        if(element._currentTarget) {
+            let elementPosition = element._currentTarget.getBoundingClientRect();
+            let {left, right, top, bottom} = elementPosition;
 
-        let touchList = touch.touches.length > 0 ? touch.touches : touch.changedTouches;
-        let {pageX, pageY} = touchList[0];
+            let touchList = touch.touches.length > 0 ? touch.touches : touch.changedTouches;
+            let {pageX, pageY} = touchList[0];
 
-        return (pageX > left && pageX < right && pageY > top && pageY < bottom);
+            return (pageX > left && pageX < right && pageY > top && pageY < bottom);
+        }
+        return false;
     };
 }
