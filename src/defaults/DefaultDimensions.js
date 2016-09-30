@@ -2,7 +2,7 @@
  * Created by Manuel on 28/06/16.
  */
 
-import _                    from 'lodash';
+import merge                from 'lodash/merge.js';
 
 export let Dimensions = {
     ComponentHeight: 48,
@@ -34,5 +34,5 @@ export let TopBarHeight = Dimensions.topBarHeight;
 
 
 export function setDimensions(...dimensions) {
-    _.merge(Dimensions, ...dimensions);
+    merge(Dimensions, ...dimensions);
 }

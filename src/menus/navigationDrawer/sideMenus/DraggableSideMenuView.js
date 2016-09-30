@@ -1,7 +1,7 @@
 /**
  * Created by manuel on 13-09-15.
  */
-import _                     from 'lodash';
+import reduce               from 'lodash/reduce.js';
 
 import Surface              from 'famous/core/Surface.js';
 import TabBar               from 'famous-flex/widgets/TabBar.js';
@@ -80,7 +80,7 @@ export class DraggableSideMenuView extends View {
 
         /* TabBar returns size 0 for our true sized MenuItems, so we override its getSize() method to calc it ourselves. */
         this.navigationItems.getSize = () => {
-            let totalHeight = _.reduce(this.navigationItems._renderables.items, (accumulator, item) => {
+            let totalHeight = reduce(this.navigationItems._renderables.items, (accumulator, item) => {
                 accumulator += item.getSize()[1] || 0;
                 return accumulator;
             }, 0);

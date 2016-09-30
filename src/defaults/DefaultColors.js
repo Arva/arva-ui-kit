@@ -2,7 +2,7 @@
  * Created by Manuel on 28/06/16.
  */
 
-import _                    from 'lodash';
+import merge                from 'lodash/merge.js';
 
 export let colors = {
     Red: '#F00',
@@ -34,5 +34,5 @@ export let Colors = {
 };
 
 export function setColors(...colors) {
-    _.merge(Colors, ...colors);
+    merge(Colors, ...colors);
 }
