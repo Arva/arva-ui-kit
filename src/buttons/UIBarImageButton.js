@@ -12,7 +12,8 @@ export class UIBarImageButton extends ImageButton {
             backgroundProperties: {
                 backgroundColor: 'none'
             },
-            variation: 'noShadow'
+            variation: 'noShadow',
+            makeRipple: false
         }, options));
     }
 }
