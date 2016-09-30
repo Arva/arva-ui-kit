@@ -10,7 +10,7 @@ import {layout, event, flow}    from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {callbackToPromise}      from 'arva-js/utils/CallbackHelpers.js';
 import {UISmallGrey,
-    UIRegular}              from 'arva-kit/defaults/DefaultTypeFaces.js';
+    UIRegular}                  from 'arva-kit/defaults/DefaultTypeFaces.js';
 
 import {ResultsView}            from './searchBar/ResultsView.js';
 import {Placeholder}            from './searchBar/Placeholder.js';
@@ -101,14 +101,14 @@ export class SearchBar extends View {
     });
 
     @event.on('click', function(e){ this._onDoneClick(e); })
-    @flow.stateStep('shown', instant, layout.size(~50, undefined), layout.translate(0, 0, 250))
+    @flow.stateStep('shown', instant, layout.size(~50, undefined), layout.translate(0, 0, 260))
     @flow.stateStep('shown', transition,layout.opacity(1))
     @flow.stateStep('hidden', transition, layout.opacity(0))
     @flow.defaultState('hidden', instant, layout.opacity(0), layout.dock.right(), layout.size(1, 1), layout.translate(0, 0, 220))
     done = new UIBarTextButton({ content: 'Done', properties: { cursor: 'pointer' }});
 
     @layout.dock.fill()
-    @layout.translate(0, 0, 240)
+    @layout.translate(0, 0, 250)
     @event.on('click', function(e) { this._onActivate(e); })
     @event.on('focus', function(e) { this._onFocusEvent(e, 'focus'); })
     @event.on('blur', function(e) { this._onFocusEvent(e, 'blur'); })
@@ -141,15 +141,11 @@ export class SearchBar extends View {
 
     /* Allow receiving focus e.g. through the keyboard, or programmatically (i.e. element.focus()). */
     async _onFocusEvent(event, type) {
-        if(this.inFocusEvent) { return; }
         await type === 'focus' ? this._onActivate(event) : this._onDeactivate(event);
     }
 
-    async _onActivate(event = {}) {
-        if(event.preventDefault) { event.preventDefault(); }
+    async _onActivate() {
         if(this.getViewFlowState() === 'active') { return false; }
-        this._disableFocusEvents();
-        this.input.blur();
 
         if(this.getRenderableFlowState('placeholder') !== 'left') {
             this.setRenderableFlowState('placeholder', 'left');
@@ -160,8 +156,6 @@ export class SearchBar extends View {
             this.setRenderableFlowState('results', 'expanded');
         }
 
-        this.input.focus();
-        this._enableFocusEvents();
         return true;
     }
 
@@ -187,13 +181,5 @@ export class SearchBar extends View {
         this.placeholder[hasContent ? 'hideText' : 'showText']();
         this.setRenderableFlowState('results', hasContent ? 'expanded' : 'collapsed');
         await this.setRenderableFlowState('done', hasContent ? 'shown' : 'hidden');
-    }
-
-    _enableFocusEvents() {
-        this.inFocusEvent = false;
-    }
-
-    _disableFocusEvents() {
-        this.inFocusEvent = true;
     }
 }
