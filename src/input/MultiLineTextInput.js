@@ -10,6 +10,7 @@ import {replaceEmojiAtEnd}          from './Emoji.js';
 import {SingleLineTextInput}        from 'arva-kit/input/SingleLineTextInput.js';
 
 import {Dimensions}                 from '../defaults/DefaultDimensions.js';
+import {TypeFaces}                  from '../defaults/DefaultTypefaces';
 let {searchBar: {borderRadius}} = Dimensions;
 
 export class MultiLineTextInput extends SingleLineTextInput {
@@ -57,7 +58,8 @@ export class MultiLineTextInput extends SingleLineTextInput {
                 boxShadow: 'none',
                 resize: 'none',
                 outline: 'none',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                ...TypeFaces.UIRegular
             }
         }, options));
 
