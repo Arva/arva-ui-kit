@@ -32,11 +32,10 @@ export class MessageField extends View {
         this._onActivate(e);
     })
     @flow.stateStep('hidden', {}, layout.opacity(0))
-    @flow.defaultState('shown', {}, layout.fullSize(), layout.opacity(1), layout.translate(0, 0, 10))
+    @flow.defaultState('shown', {}, layout.fullSize(), layout.opacity(1), layout.translate(-1, -1, 10))
     border = new Surface(combineOptions(
         {
             properties: {
-                boxSizing: 'content-box',
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
                 borderRadius
             }
@@ -175,7 +174,7 @@ export class MessageField extends View {
     }
 
     getSize() {
-        return [undefined, this._currentViewFlowState() === 'active' ? Math.max(super.getSize()[1] || 0, 34) : 34];
+        return [undefined, this._currentViewFlowState() === 'active' ? Math.max(super.getSize()[1] || 0, 32) : 32];
     }
 
     _enableFocusEvents() {
@@ -187,7 +186,7 @@ export class MessageField extends View {
     }
 
     _removeTrailingWhiteSpace() {
-        this.input.setValue(this.input.getValue().replace(/[\s\uFEFF\xA0]+$/g, ''));
+        this.input.setValue((this.input.getValue() || '').replace(/[\s\uFEFF\xA0]+$/g, ''));
     }
 
     async _onDeactivate() {

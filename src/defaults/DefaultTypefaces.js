@@ -2,9 +2,9 @@
  * Created by tom on 23/06/16.
  */
 
-import _                        from 'lodash';
-import {Avenir}                 from '../fonts/Avenir.js';
+import merge                    from 'lodash/merge.js';
 import {Colors}                 from './DefaultColors.js'
+import {Avenir}                 from '../fonts/Avenir.js';
 
 // Designer's notes (charilaos@bizboard.nl):
 //
@@ -33,7 +33,7 @@ import {Colors}                 from './DefaultColors.js'
 // - [ ] Huge
 // - [ ] Big
 
-export let TypeFaces = _.merge({
+export let TypeFaces = merge({
     UITitle: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.BasicTextColor; } , whiteSpace: 'nowrap'},
     UIRegular: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
     UISmall: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
@@ -58,7 +58,7 @@ export let TypeFaces = _.merge({
 }, Avenir.UI, Avenir.Text, Avenir.Impact);
 
 export function useTypefaces(...faces) {
-    _.merge(TypeFaces, ...faces);
+    merge(TypeFaces, ...faces);
 }
 
 export let UITitle                  = {properties: TypeFaces.UITitle};

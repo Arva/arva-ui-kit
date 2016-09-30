@@ -1,7 +1,9 @@
 /**
  * Created by Manuel on 05/06/16.
  */
-import _                        from 'lodash';
+import find                     from 'lodash/find.js';
+import every                    from 'lodash/every.js';
+import findIndex                from 'lodash/findIndex.js';
 import Surface                  from 'famous/core/Surface.js';
 import {Injection}              from 'arva-js/utils/Injection.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
@@ -112,7 +114,7 @@ export class NavigationDrawer extends View {
 
         /* Hide the menu on specific route changes */
         if (this.options.showTopMenu && this.options.hideOnRoutes) {
-            if (_.find(this.options.hideOnRoutes, (hideRoute)=> {
+            if (find(this.options.hideOnRoutes, (hideRoute)=> {
                     return hideRoute.controller === route.controller && (~hideRoute.methods.indexOf(route.method) || hideRoute.methods.length === 0);
                 }) !== undefined) {
                 this.hideTopBar();
@@ -122,9 +124,9 @@ export class NavigationDrawer extends View {
         }
 
         /* Change the menu on route changes */
-        let currentMenuIndex = _.findIndex(this.options.sideMenu.menuItems, (menuItem)=> {
+        let currentMenuIndex = findIndex(this.options.sideMenu.menuItems, (menuItem)=> {
             return menuItem.controller && menuItem.controller === route.controller && menuItem.method && menuItem.method === route.method &&
-                ((menuItem.arguments && route.values.length) ? _.every(menuItem.arguments, (entry)=> {
+                ((menuItem.arguments && route.values.length) ? every(menuItem.arguments, (entry)=> {
                     return ~route.values.indexOf(entry)
                 }) : true)
         });

@@ -45,12 +45,7 @@ export class TopMenu extends UIBar {
     @layout.stick.center()
     @layout.translate(0, 0, 25)
     rightButton = this.options.rightButton || new UIBarImageButton({
-        clickEventName: 'rightButtonClick', icon: InfoIcon,
-        properties: {color: Colors.PrimaryUIColor},
-        variation: 'noShadow',
-        makeRipple: false,
-        indicatePress: true,
-        backgroundProperties: {borderRadius: 0}
+        clickEventName: 'rightButtonClick', icon: InfoIcon
     });
 
     constructor(options = {}) {

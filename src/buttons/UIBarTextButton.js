@@ -15,7 +15,8 @@ export class UIBarTextButton extends TextButton {
             backgroundProperties: {
                 backgroundColor: 'none'
             },
-            useBoxShadow: false
+            useBoxShadow: false,
+            makeRipple: false
         }, options)));
     }
 }
