@@ -91,7 +91,8 @@ export class SingleLineTextInput extends View {
                     padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
                     borderRadius: borderRadius,
                     boxShadow: 'none',
-                    ...TypeFaces.UIRegular
+                    ...TypeFaces.UIRegular,
+                    lineHeight: 'normal' /* Don't reorder this to above UIRegular, or it will overwrite */
                 },
                 ...options.inputOptions
             }), 'input', layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
