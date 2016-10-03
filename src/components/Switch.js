@@ -3,6 +3,7 @@
  */
 
 import Surface              from 'famous/core/Surface.js';
+import Timer                from 'famous/utilities/Timer.js';
 import Easing               from 'famous/transitions/Easing.js';
 import {layout, flow}       from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
@@ -143,7 +144,9 @@ export class Switch extends Clickable {
     }
 
     _onTapEnd() {
-        this.toggle();
+        /* Defer this one render tick, since Android Chrome has a bug where the draggable touch event is fired after this tapEnd,
+         * causing the toggle to be cancelled. */
+        Timer.after(this.toggle, 2);
     }
 
     toggle() {

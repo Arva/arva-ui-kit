@@ -198,7 +198,7 @@ export class Clickable extends View {
      * @returns {boolean}
      * @private
      */
-    _isInBounds(touch, element) {
+    _isInBounds(touch, element = {}) {
         if(element._currentTarget) {
             let elementPosition = element._currentTarget.getBoundingClientRect();
             let {left, right, top, bottom} = elementPosition;
