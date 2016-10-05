@@ -135,13 +135,12 @@ const emoji = {
  */
 export function replaceEmojiAtEnd(string) {
     let unicode;
-    if (unicode = emoji[string.slice(-4)]) {
-        return string.slice(0, -4) + unicode;
-    } else if (unicode = emoji[string.slice(-3)]) {
-        return string.slice(0, -3) + unicode;
-    } else if (unicode = emoji[string.slice(-2)]) {
-        return string.slice(0, -2) + unicode;
-    } else {
-        return string;
+    /* Checking longer matches first in order to avoid erroneous partial matches of emoji.
+    The longest emoji are four characters long and the shortest emoji are two characters long.*/
+    for (let i = -4; i <= -2; i++) {
+        if (unicode = emoji[string.slice(i)]) {
+            return string.slice(0, i) + unicode;
+        }
     }
+    return string;
 }
