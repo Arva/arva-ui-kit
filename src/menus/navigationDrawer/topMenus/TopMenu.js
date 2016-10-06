@@ -30,10 +30,12 @@ export class TopMenu extends UIBar {
             clickEventName: 'requestMenuOpen',
             icon: HamburgerIcon,
         });
+        this.hamburgerButton.setVariation(this.options.variation);
         this.arrowLeftButton = new UIBarImageButton({
             clickEventName: 'requestMenuClose',
             icon: LeftIcon
         });
+        this.arrowLeftButton.setVariation(this.options.variation);
         return this.hamburgerButton;
     }
 
@@ -52,6 +54,7 @@ export class TopMenu extends UIBar {
             ]
         }, options));
 
+        this.rightButton.setVariation(this.options.variation);
 
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');
