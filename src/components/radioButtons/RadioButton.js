@@ -5,10 +5,10 @@
 import Surface                  from 'famous/core/Surface.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {Clickable}              from './Clickable.js';
+import {Clickable}              from '../Clickable.js';
 import {RadioButtonCircle}      from './RadioButtonCircle.js';
-import {Colors}                 from '../defaults/DefaultColors.js';
-import {UIRegular}              from '../defaults/DefaultTypefaces.js';
+import {Colors}                 from '../../defaults/DefaultColors.js';
+import {UIRegular}              from '../../defaults/DefaultTypefaces.js';
 
 export class RadioButton extends Clickable {
 

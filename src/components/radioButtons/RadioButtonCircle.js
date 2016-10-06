@@ -6,9 +6,9 @@ import Surface              from 'famous/core/Surface.js';
 import Easing               from 'famous/transitions/Easing.js';
 import {layout, flow}       from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {Clickable}          from "./Clickable.js";
-import {Colors}             from '../defaults/DefaultColors.js';
-import {getShadow}          from '../defaults/DefaultShadows.js';
+import {Clickable}          from "../Clickable.js";
+import {Colors}             from '../../defaults/DefaultColors.js';
+import {getShadow}          from '../../defaults/DefaultShadows.js';
 
 const inCurve = {transition: {curve: Easing.outCubic, duration: 200}};
 const outCurve = {transition: {curve: Easing.outBack, duration: 200}};

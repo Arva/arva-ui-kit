@@ -7,7 +7,7 @@ import {combineOptions}                     from 'arva-js/utils/CombineOptions.j
 import {Slider}                             from './Slider.js';
 import {knobSideLength}                     from './Slider.js';
 import {transition}                         from './Slider.js';
-import {Knob}                               from '../components/Knob.js';
+import {Knob}                               from './Knob.js';
 import {UISmall, UISmallGrey}               from '../defaults/DefaultTypefaces.js';
 
 

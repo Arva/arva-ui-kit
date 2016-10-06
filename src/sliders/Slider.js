@@ -7,7 +7,7 @@ import Surface                          from 'famous/core/Surface.js';
 import Easing                           from 'famous/transitions/Easing.js';
 import {layout, event, flow}            from 'arva-js/layout/Decorators.js';
 import {combineOptions}                 from 'arva-js/utils/CombineOptions.js';
-import {Knob}                           from '../components/Knob.js';
+import {Knob}                           from './Knob.js';
 import {Clickable}                      from '../components/Clickable.js';
 import {Colors}                         from '../defaults/DefaultColors.js';
 import {UISmall, UISmallGrey}           from '../defaults/DefaultTypefaces.js';
