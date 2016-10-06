@@ -9,8 +9,7 @@ export class WhiteBox extends Button {
 
     constructor(options = {}) {
         super(combineOptions({
-            enableSoftShadow: false,
-            rippleOptions: {sizeMultiplier: 4}
+            enableSoftShadow: false
         }, options));
 
         let borderRadius = this.options.borderRadius;

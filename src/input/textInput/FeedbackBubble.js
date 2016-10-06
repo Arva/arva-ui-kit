@@ -5,7 +5,6 @@
 import Surface                  from 'famous/core/Surface.js';
 import Easing                   from 'famous/transitions/Easing.js';
 import {layout, flow, event}    from 'arva-js/layout/Decorators.js';
-import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 
 import {UIRegular}              from '../../text/UIRegular.js';
 import {Ripple}                 from '../../components/Ripple.js';
@@ -80,7 +79,7 @@ export class FeedbackBubble extends Clickable {
     @layout.translate(0, 0, 30)
     @event.on('click', function() { this.toggle(); })
     @layout.clip(undefined, undefined, { borderRadius: '2px', cursor: 'pointer' })
-    ripple = new Ripple(combineOptions({ sizeMultiplier: 5} , this.options.rippleOptions));
+    ripple = new Ripple(this.options.rippleOptions);
     
     setText(text) {
         this.text.setContent(text);

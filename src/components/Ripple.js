@@ -46,9 +46,8 @@ export class Ripple extends View {
     constructor(options) {
         super(options);
         this.onNewSize(([width, height]) => {
-            let sizeMultiplier = this.options.sizeMultiplier || 2;
-            this._rippleSize = sizeMultiplier*Math.sqrt((width*width)+(height*height));
-            this.renderables.ripple.setOptions({show: {transition: {duration:0.5*this._rippleSize}}});
+            this._rippleSize = 2 * Math.sqrt((width * width) + (height * height));
+            this.renderables.ripple.setOptions({show: {transition: {duration: 0.5 * this._rippleSize}}});
         });
     }
 
