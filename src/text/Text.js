@@ -7,8 +7,11 @@ import {combineOptions}   from 'arva-js/utils/CombineOptions.js';
 import {TextBody}         from '../defaults/DefaultTypefaces.js';
 
 export class Text extends Surface {
-
     constructor(options){
         super(combineOptions(TextBody, options));
+    }
+
+    setColor(color) {
+        this.setProperties({color});
     }
 }
