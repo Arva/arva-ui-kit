@@ -98,6 +98,7 @@ export class UIBar extends View {
         let components = options.components;
         for (let [renderable, renderableName, position] of components || []) {
             if (this.options.autoColoring) {
+                /*Only change color of renderables which have a setColor method.*/
                 if (renderable.setColor) {
                     renderable.setColor(opposingColor);
                 }
