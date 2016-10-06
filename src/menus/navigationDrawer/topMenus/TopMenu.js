@@ -9,7 +9,7 @@ import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 
 import {UIBar}                  from '../../../uibars/UIBar.js';
-import {UITitle}                from '../../../text/UITitle.js';
+import {UIBarTitle}             from '../../../text/UIBarTitle.js';
 import {LeftIcon}               from '../../../icons/LeftIcon.js';
 import {InfoIcon}               from '../../../icons/InfoIcon.js';
 import {HamburgerIcon}          from '../../../icons/HamburgerIcon.js';
@@ -48,7 +48,7 @@ export class TopMenu extends UIBar {
     constructor(options = {}) {
         super(combineOptions({
             components: [
-                [new UITitle({content: options.defaultTitle || ''}), 'title', 'center']
+                [new UIBarTitle({content: options.defaultTitle || ''}), 'title', 'center']
             ]
         }, options));
 

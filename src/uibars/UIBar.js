@@ -102,6 +102,9 @@ export class UIBar extends View {
                 if (renderable.setColor) {
                     renderable.setColor(opposingColor);
                 }
+                if (renderable.setVariation) {
+                    renderable.setVariation(this.options.variation);
+                }
             }
             if (position === 'center') {
                 this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(...this.options.centerItemSize));

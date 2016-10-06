@@ -6,10 +6,8 @@ import Surface                                              from 'famous/core/Su
 import {combineOptions}                                     from "arva-js/utils/CombineOptions.js";
 import {layout}                                             from 'arva-js/layout/Decorators.js';
 import {View}                                               from 'arva-js/core/View.js';
-import {UITitle}                                            from '../defaults/DefaultTypefaces.js';
 import {UIBarTextButton}                                    from '../buttons/UIBarTextButton.js';
 import {UIBar}                                              from '../uibars/UIBar.js';
-import {Text}                                               from '../text/Text.js';
 
 export class ModalViewDialog extends View {
 
@@ -55,7 +53,7 @@ export class ModalViewDialog extends View {
             UIBarOptions
         }, options));
 
-        if(options.content){
+        if (options.content) {
             let {content} = options;
             this.addRenderable(content, 'mainContent', layout.dock.fill());
         }
@@ -69,14 +67,14 @@ export class ModalViewDialog extends View {
 
     static _setOptions({rightButton, leftButton, title, variation}) {
         let components = [];
-        
-        if(leftButton) {
+
+        if (leftButton) {
             components.push([new UIBarTextButton(leftButton), 'leftButton', 'left']);
         }
-        if(title) {
-            components.push([new Text(combineOptions(UITitle, {content: title})), 'title', 'center']);
+        if (title) {
+            components.push([new UIBarTitle({content: title}), 'title', 'center']);
         }
-        if(rightButton){
+        if (rightButton) {
             components.push([new UIBarTextButton(rightButton), 'rightButton', 'right']);
         }
 
