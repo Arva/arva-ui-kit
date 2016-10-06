@@ -2,8 +2,6 @@
  * Created by tom on 27/07/16.
  */
 
-import {View}                   from 'arva-js/core/View.js';
-import {layout}                 from 'arva-js/layout/Decorators';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {ImageLoadPlaceholder}   from './ImageLoadPlaceholder.js';
 

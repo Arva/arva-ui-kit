@@ -6,7 +6,6 @@ import Surface                  from 'famous/core/Surface.js';
 
 import {View}                   from 'arva-js/core/View.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
-import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {DataBoundScrollView}    from 'arva-js/components/DataBoundScrollView.js';
 
 import {SquaresLoader}          from '../../loaders/SquaresLoader.js';

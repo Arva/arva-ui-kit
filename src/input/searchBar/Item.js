@@ -2,8 +2,6 @@
  * Created by tom on 09/09/16.
  */
 
-import {View}               from 'arva-js/core/View.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {UIRegular}          from '../../text/UIRegular.js';
 

@@ -4,7 +4,6 @@
 
 import AnimationController      from 'famous-flex/AnimationController.js';
 
-import {View}                   from 'arva-js/core/View.js';
 import {Injection}              from 'arva-js/utils/Injection.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
@@ -14,9 +13,7 @@ import {UITitle}                from '../../../text/UITitle.js';
 import {LeftIcon}               from '../../../icons/LeftIcon.js';
 import {InfoIcon}               from '../../../icons/InfoIcon.js';
 import {HamburgerIcon}          from '../../../icons/HamburgerIcon.js';
-import {Colors}                 from '../../../defaults/DefaultColors.js';
 import {UIBarImageButton}       from '../../../buttons/UIBarImageButton.js';
-import {FloatingImageButton}    from '../../../buttons/FloatingImageButton.js';
 import {StatusBarExtension}     from '../../../utils/statusBar/StatusBarExtension.js';
 
 

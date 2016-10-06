@@ -5,13 +5,9 @@
 import {View}                       from 'arva-js/core/View.js';
 import {flow, layout, event}        from 'arva-js/layout/decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
-import {callbackToPromise}          from 'arva-js/utils/CallbackHelpers.js';
 
 import Surface                      from 'famous/core/Surface.js';
-import Timer                        from 'famous/utilities/Timer.js';
 
-import {Ripple}                     from '../components/Ripple.js';
-import {Clickable}                  from '../components/Clickable.js';
 import {TextButton}                 from '../buttons/TextButton.js';
 import {UIRegular}                  from '../defaults/DefaultTypefaces.js';
 import sideArrows                   from './dropdown/sideArrows.svg.txt!text';

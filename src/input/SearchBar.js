@@ -8,9 +8,10 @@ import Easing                   from 'famous/transitions/Easing.js';
 import {View}                   from 'arva-js/core/View.js';
 import {layout, event, flow}    from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {callbackToPromise}      from 'arva-js/utils/CallbackHelpers.js';
-import {UISmallGrey,
-    UIRegular}                  from 'arva-kit/defaults/DefaultTypeFaces.js';
+import {
+    UISmallGrey,
+    UIRegular
+}                               from 'arva-kit/defaults/DefaultTypeFaces.js';
 
 import {ResultsView}            from './searchBar/ResultsView.js';
 import {Placeholder}            from './searchBar/Placeholder.js';

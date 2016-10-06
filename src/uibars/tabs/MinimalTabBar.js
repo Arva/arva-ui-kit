@@ -3,7 +3,7 @@
  */
 
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {flow, layout}       from 'arva-js/layout/Decorators.js';
+import {flow}               from 'arva-js/layout/Decorators.js';
 import {flowStates}         from 'arva-js/layout/FlowStates.js';
 import {Colors}             from 'arva-kit/defaults/DefaultColors.js';
 

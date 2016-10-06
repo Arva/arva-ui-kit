@@ -6,7 +6,7 @@ import Surface                                              from 'famous/core/Su
 import {combineOptions}                                     from "arva-js/utils/CombineOptions.js";
 import {layout}                                             from 'arva-js/layout/Decorators.js';
 import {View}                                               from 'arva-js/core/View.js';
-import {UITitle, UIButtonPrimary, UIButtonPrimaryLight}     from '../defaults/DefaultTypefaces.js';
+import {UITitle}                                            from '../defaults/DefaultTypefaces.js';
 import {UIBarTextButton}                                    from '../buttons/UIBarTextButton.js';
 import {UIBar}                                              from '../uibars/UIBar.js';
 import {Text}                                               from '../text/Text.js';

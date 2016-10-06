@@ -9,8 +9,7 @@ import {Button}                             from './Button.js';
 import {TextButton}                         from './TextButton.js';
 import {Colors}                             from '../defaults/DefaultColors.js';
 import {ArrowleftIcon}                      from '../icons/rounded/thin/ArrowleftIcon.js';
-import {ComponentHeight,
-        ComponentPadding}                   from '../defaults/DefaultDimensions.js';
+import {ComponentHeight}                    from '../defaults/DefaultDimensions.js';
 
 
 export class ImageButton extends Button {
