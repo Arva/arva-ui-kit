@@ -31,7 +31,18 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
  * options.dataStore's item's .content and .group properties, respectively.
  *
  * @example
- * list = new MyResults() // Extends LocalPrioritisedArray
+ *
+ * class MyResult extends Model {
+ *      get title(){}
+ * }
+ *
+ * class MyResults extends LocalPrioritisedArray {
+ *      constructor() {
+ *          super(MyResult, ...arguments);
+ *      }
+ * }
+ *
+ * let list = new MyResults();
  *
  * @layout.dock.top(~48)
  * bar = new UIBar({
