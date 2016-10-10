@@ -3,10 +3,10 @@
  */
 
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {TextCaptions as face}   from '../defaults/DefaultTypefaces.js';
+import {TextCaption as face}   from '../defaults/DefaultTypefaces.js';
 import {Text}                   from './Text.js';
 
-export class TextCaptions extends Text {
+export class TextCaption extends Text {
     constructor(options) {
         super(combineOptions(face, options));
     }
