@@ -16,7 +16,7 @@ import {combineOptions}                 from 'arva-js/utils/CombineOptions.js';
 
 import {Colors}                         from '../defaults/DefaultColors.js';
 
-export class SquaresLoader extends View {
+export class LoadingSpinnerSquares extends View {
     static degrees = 180;
     static delayInBetween = 200;
     static transition = {duration: 400, curve: Easing.outCubic};
@@ -42,15 +42,15 @@ export class SquaresLoader extends View {
      * @example
      * @size(48, 48)
      * @layout.stick.center()
-     * loader = new SquaresLoader();
+     * loader = new LoadingSpinnerSquares();
      *
      * or
      *
-     * new DataBoundScrollView({ placeholderTemplate: () => new SquaresLoader({ loaderSize: [48, 48] }) });
+     * new DataBoundScrollView({ placeholderTemplate: () => new LoadingSpinnerSquares({ loaderSize: [48, 48] }) });
      *
      * @param {Object} [options] Construction options
      * @param {Array} [options.loaderSize] A list of [width, height] specifying the wanted size of the loader, used when not layouting through decorators.
-     *                                      When using decorators, the SquaresLoader will default to taking up all the space it's decorated with.
+     *                                      When using decorators, the LoadingSpinnerSquares will default to taking up all the space it's decorated with.
      */
     constructor(options = {}) {
         super(combineOptions({loaderSize: [64, 64]},options));
@@ -88,18 +88,26 @@ export class SquaresLoader extends View {
         /* We need to rotate either 179 or 181 degrees, depending on which direction we want
          * the rotation to be. If you rotate 180 degrees, Famo.us makes it undeterministic
          * which direction it tweens into. */
-        this.stateModOne.setTransform(Transform.rotateY(radians(SquaresLoader.degrees-1)), SquaresLoader.transition);
-        await new Promise((resolve) => { this.stateModTwo.setTransform(Transform.rotateY(radians(SquaresLoader.degrees+1)), SquaresLoader.transition, resolve); });
-        await new Promise((resolve) => { Timer.setTimeout(resolve, SquaresLoader.delayInBetween); });
+        this.stateModOne.setTransform(Transform.rotateY(radians(LoadingSpinnerSquares.degrees - 1)), LoadingSpinnerSquares.transition);
+        await new Promise((resolve) => {
+            this.stateModTwo.setTransform(Transform.rotateY(radians(LoadingSpinnerSquares.degrees + 1)), LoadingSpinnerSquares.transition, resolve);
+        });
+        await new Promise((resolve) => {
+            Timer.setTimeout(resolve, LoadingSpinnerSquares.delayInBetween);
+        });
         
         this.stateModOne.setOrigin([0, 1]);
         this.stateModTwo.setOrigin([1, 0]);
         this.stateModOne.setTransform(Transform.identity);
         this.stateModTwo.setTransform(Transform.identity);
 
-        this.stateModOne.setTransform(Transform.rotateX(radians(SquaresLoader.degrees+1)), SquaresLoader.transition);
-        await new Promise((resolve) => { this.stateModTwo.setTransform(Transform.rotateX(radians(SquaresLoader.degrees-1)), SquaresLoader.transition, resolve); });
-        await new Promise((resolve) => { Timer.setTimeout(resolve, SquaresLoader.delayInBetween); });
+        this.stateModOne.setTransform(Transform.rotateX(radians(LoadingSpinnerSquares.degrees + 1)), LoadingSpinnerSquares.transition);
+        await new Promise((resolve) => {
+            this.stateModTwo.setTransform(Transform.rotateX(radians(LoadingSpinnerSquares.degrees - 1)), LoadingSpinnerSquares.transition, resolve);
+        });
+        await new Promise((resolve) => {
+            Timer.setTimeout(resolve, LoadingSpinnerSquares.delayInBetween);
+        });
         
         Timer.after(this._animationLoop, 1);
     }
