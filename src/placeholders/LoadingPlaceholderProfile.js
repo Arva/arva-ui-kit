@@ -2,12 +2,12 @@
  * Created by tom on 27/07/16.
  */
 
-import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {ImageLoadPlaceholder}   from './ImageLoadPlaceholder.js';
+import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
+import {ImageLoadPlaceholder}       from './ImageLoadPlaceholder.js';
 
-import profilePlaceholder         from './resources/profilePlaceholder.png!arva-js/utils/ImageLoader.js';
+import profilePlaceholder           from './resources/profilePlaceholder.png!arva-js/utils/ImageLoader.js';
 
-export class ProfileLoadPlaceholder extends ImageLoadPlaceholder {
+export class LoadingPlaceholderProfile extends ImageLoadPlaceholder {
 
     /**
      * A view that loads a given external image into a BkImageSurface, overlays a placeholder image on top of it,
