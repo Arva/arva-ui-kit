@@ -10,7 +10,7 @@ import {combineOptions}                 from 'arva-js/utils/CombineOptions.js';
 import {Knob}                           from './Knob.js';
 import {Clickable}                      from '../components/Clickable.js';
 import {Colors}                         from '../defaults/DefaultColors.js';
-import {UISmall, UISmallGrey}           from '../defaults/DefaultTypefaces.js';
+import {UISmall, UISmallGray}           from '../defaults/DefaultTypefaces.js';
 
 export const knobSideLength = 48;
 export const transition = {curve: Easing.outCubic, duration: 200};
@@ -60,7 +60,7 @@ export class Slider extends Clickable {
         if (this._contentProvided && this.options._onMobile) {
             this._retractTooltip('knob');
         }
-        this.knob.text.setOptions(UISmallGrey);
+        this.knob.text.setOptions(UISmallGray);
     })
     @event.on('mouseup', function(){this._onMouseUpKnob(...arguments)})
     @flow.stateStep('expanded', transition, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
@@ -71,7 +71,7 @@ export class Slider extends Clickable {
         enableSoftShadow: true,
         borderRadius: '4px',
         useThrottler: true,
-        typeface: UISmallGrey
+        typeface: UISmallGray
     });
 
     /**
@@ -372,7 +372,7 @@ export class Slider extends Clickable {
     }
 
     _onMouseUpKnob() {
-        this.knob.text.setOptions(UISmallGrey);
+        this.knob.text.setOptions(UISmallGray);
     }
 
     _setKnobContent(knob) {

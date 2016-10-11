@@ -8,7 +8,7 @@ import {Slider}                             from './Slider.js';
 import {knobSideLength}                     from './Slider.js';
 import {transition}                         from './Slider.js';
 import {Knob}                               from './Knob.js';
-import {UISmall, UISmallGrey}               from '../defaults/DefaultTypefaces.js';
+import {UISmall, UISmallGray}               from '../defaults/DefaultTypefaces.js';
 
 
 const knobPadding = 1;
@@ -35,7 +35,7 @@ export class RangeSlider extends Slider {
         if (this._contentProvided && this.options._onMobile) {
             this._retractTooltip('secondKnob');
         }
-        this.secondKnob.text.setOptions(UISmallGrey);
+        this.secondKnob.text.setOptions(UISmallGray);
     })
     @event.on('mouseup', function(){this._onMouseUpSecondKnob(...arguments)})
     @flow.stateStep('expanded', transition, layout.size(knobSideLength, knobSideLength * 2), layout.origin(0.5, 0.75))
@@ -46,7 +46,7 @@ export class RangeSlider extends Slider {
         enableSoftShadow: true,
         borderRadius: '4px',
         useThrottler: true,
-        typeface: UISmallGrey
+        typeface: UISmallGray
     });
 
     /**
@@ -343,7 +343,7 @@ export class RangeSlider extends Slider {
     }
 
     _onMouseUpSecondKnob() {
-        this.secondKnob.text.setOptions(UISmallGrey);
+        this.secondKnob.text.setOptions(UISmallGray);
     }
 
     _emitMoveEvent() {

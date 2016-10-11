@@ -5,13 +5,13 @@
 import {View}                   from 'arva-js/core/View.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {UISmallGrey}            from '../text/UISmallGrey.js';
+import {UISmallGray}            from '../text/UISmallGray.js';
 import {SingleLineTextInput}    from './SingleLineTextInput.js';
 
 export class LabeledTextInput extends View {
 
     @layout.dock.top(~20)
-    label = new UISmallGrey({content: this.options.label});
+    label = new UISmallGray({content: this.options.label});
 
     @layout.dock.top(~48)
     @layout.dockSpace(4)

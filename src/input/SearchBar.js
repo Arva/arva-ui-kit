@@ -9,7 +9,7 @@ import {View}                   from 'arva-js/core/View.js';
 import {layout, event, flow}    from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {
-    UISmallGrey,
+    UISmallGray,
     UIRegular
 }                               from 'arva-kit/defaults/DefaultTypeFaces.js';
 
