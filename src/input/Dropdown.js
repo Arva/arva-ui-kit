@@ -121,7 +121,7 @@ export class Dropdown extends View {
 
 
         class ContainerView extends View {
-            // @layout.translate(...this._getThisTranslation())
+
             @layout.size(undefined, true)
             @flow.defaultOptions({transition: expandShrinkTransition})
             dropdown = this;
@@ -150,6 +150,7 @@ export class Dropdown extends View {
             'placeholder',
             layout.dock.top(48),
             flow.defaultOptions({}),
+            layout.translate(0, 0, 50),
             event.on('click', this._placeholderChosen),
         )
     }
@@ -164,6 +165,7 @@ export class Dropdown extends View {
                 cursor: 'pointer'
             },
             content: text,
+            makeRipple: false,
             useBoxShadow: false,
             backgroundProperties: {
                 backgroundColor: 'none',
@@ -250,6 +252,7 @@ export class Dropdown extends View {
         for (let [otherIndice] of this.options.items.entries()) {
             this.decorateRenderable(this._getNameFromIndex(otherIndice), layout.translate(...this._getThisTranslation()));
         }
+        this.decorateRenderable('background', layout.translate(0, 0, 0));
     }
 
     /* Return a different size if collapsed or exapnded */
@@ -274,6 +277,7 @@ export class Dropdown extends View {
             this[renderableName].background.setProperties(this._getExpandedBorderFromIndex(index));
         }
         this._containerView.decorateRenderable('dropdown', layout.translate(...this._getThisTranslation()));
+        this.decorateRenderable('background', layout.translate(0, 0, 50));
     }
 
     /* The entire select "dropdown" translates according to what item is currently selected. This function returns
@@ -282,7 +286,7 @@ export class Dropdown extends View {
     _getThisTranslation() {
         return [0, -this._totalHeight *
         (this.placeholder ? 0 : (this._selectedItemIndex / (this.options.items.length - 1)))
-            , 0];
+            , 50];
     }
 
 }
