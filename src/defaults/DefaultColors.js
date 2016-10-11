@@ -5,7 +5,6 @@
 import merge                from 'lodash/merge.js';
 
 export let colors = {
-    Red: 'rgb(255, 0, 0)',
     White: 'rgb(255, 255, 255)',
     Black: 'rgb(0, 0, 0)',
     Gray: 'rgb(170, 170, 170)',
@@ -13,12 +12,11 @@ export let colors = {
     VeryLightGray: 'rgb(250, 250, 250)'
 };
 
-export let Red   = colors.Red;
 export let White = colors.White;
 export let Black = colors.Black;
 export let Gray = colors.Gray;
-export let Gray = colors.LightGray;
-export let Gray = colors.VeryLightGray;
+export let LightGray = colors.LightGray;
+export let VeryLightGray = colors.VeryLightGray;
 
 export let IconColor = colors.White;
 
