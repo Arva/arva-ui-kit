@@ -35,6 +35,7 @@ export class Switch extends Clickable {
 
     @layout.fullSize()
     @layout.stick.center()
+    @layout.translate(0, 0, 0)
     outerBox = new Surface({
         properties: {
             borderRadius: '4px',
