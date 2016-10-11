@@ -9,7 +9,7 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {replaceEmojiAtEnd}          from './Emoji.js';
 
 import {Dimensions}                 from '../defaults/DefaultDimensions.js';
-let {searchBar: {borderRadius}} = Dimensions;
+let {searchField: {borderRadius}} = Dimensions;
 
 export class MultiLineInput extends View {
 

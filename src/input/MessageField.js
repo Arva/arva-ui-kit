@@ -16,7 +16,7 @@ import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 import {MultiLineInput}         from './MultiLineInput.js';
 
-let {searchBar: {borderRadius}} = Dimensions;
+let {searchField: {borderRadius}} = Dimensions;
 let transition = {duration: 150};
 
 @layout.dockPadding(0)

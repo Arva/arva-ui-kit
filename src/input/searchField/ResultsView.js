@@ -14,7 +14,7 @@ import {Item}                   from './Item.js';
 import {Dimensions}             from '../../defaults/DefaultDimensions.js';
 
 
-let {searchBar: {borderRadius}} = Dimensions;
+let {searchField: {borderRadius}} = Dimensions;
 
 @layout.dockPadding(32, 0, 0, 0)
 export class ResultsView extends View {
@@ -39,7 +39,7 @@ export class ResultsView extends View {
     });
 
     /**
-     * Used in SearchBar, not meant to be ran individually.
+     * Used in SearchField, not meant to be ran individually.
      *
      * @param {Object} [options] Construction options
      */

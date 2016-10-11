@@ -13,13 +13,13 @@ import {
     UIRegular
 }                               from 'arva-kit/defaults/DefaultTypeFaces.js';
 
-import {ResultsView}            from './searchBar/ResultsView.js';
-import {Placeholder}            from './searchBar/Placeholder.js';
+import {ResultsView}            from './searchField/ResultsView.js';
+import {Placeholder}            from './searchField/Placeholder.js';
 import {SingleLineInputSurface} from './SingleLineInputSurface.js';
 import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 
-let {searchBar: {borderRadius}} = Dimensions;
+let {searchField: {borderRadius}} = Dimensions;
 const instant = { transition: { curve: Easing.outCubic, duration: 0 } };
 const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 
@@ -48,7 +48,7 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
  * bar = new UIBar({
           centerItemSize: [320, 48],
  *        components: [
- *            [new SearchBar({resultOptions: {
+ *            [new SearchField({resultOptions: {
  *                dataStore: list,
  *                itemTemplate: (model) => new Surface({ content: model.content }),
  *                groupBy: (model) => model.group || 'empty group'
@@ -69,7 +69,7 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
  *      // Override existing results list with a new one
  *      list = new MyResults();
  *      list.add({content: 'SomeResultName', group: 'SomeGroup'});
- *      // Update the SearchBar's results dataStore
+ *      // Update the SearchField's results dataStore
  *      this.bar.search.showResults(list);
  * })
  *
@@ -87,7 +87,7 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
     'active': [{ border: 'hidden', results: 'shown'}],
     'inactive': [{ border: 'shown', results: 'hidden' }]
 })
-export class SearchBar extends View {
+export class SearchField extends View {
 
     /* Translation of -1, -1 is to correct for the border being on the outside of the surface */
     @event.on('click', function(e) { this._onActivate(e); })

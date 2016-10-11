@@ -10,7 +10,7 @@ import {SingleLineTextInput}        from 'arva-kit/input/SingleLineTextInput.js'
 
 import {Dimensions}                 from '../defaults/DefaultDimensions.js';
 import {TypeFaces}                  from '../defaults/DefaultTypefaces';
-let {searchBar: {borderRadius}} = Dimensions;
+let {searchField: {borderRadius}} = Dimensions;
 
 export class MultiLineTextInput extends SingleLineTextInput {
 

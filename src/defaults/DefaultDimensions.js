@@ -18,7 +18,7 @@ export let Dimensions = {
         itemMargin: 0,
         direction: 1
     },
-    searchBar: {
+    searchField: {
         borderRadius: '4px'
     }
 };

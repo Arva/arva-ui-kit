@@ -24,7 +24,7 @@ export class SectionHeader extends View {
     });
 
     /**
-     * A header component, to be used in e.g. the results of a SearchBar.
+     * A header component, to be used in e.g. the results of a SearchField.
      *
      * @param {Object} [options] Construction options
      * @param {String} [options.content] The textual content that is shown centered in this component
