@@ -5,11 +5,11 @@
 import Easing               from 'famous/transitions/Easing.js';
 import ImageSurface         from 'famous/surfaces/ImageSurface.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {Button}             from '../../buttons/Button.js';
+import {Button}             from '../buttons/Button.js';
 import {layout, flow}       from 'arva-js/layout/Decorators.js';
 import {flowStates}         from 'arva-js/layout/FlowStates.js';
 
-import {AccountIcon}        from '../../icons/AccountIcon.js';
+import {AccountIcon}        from '../icons/AccountIcon.js';
 
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 200}};
 
