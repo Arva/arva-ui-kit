@@ -8,8 +8,9 @@ import {layout}                                             from 'arva-js/layout
 import {View}                                               from 'arva-js/core/View.js';
 import {UIBarTextButton}                                    from '../buttons/UIBarTextButton.js';
 import {UIBar}                                              from '../uibars/UIBar.js';
+import {UIBarTitle}                                         from '../text/UIBarTitle.js';
 
-export class ModalViewDialog extends View {
+export class ModularDialog extends View {
 
     @layout.translate(0, 0, -10)
     @layout.fullSize()
@@ -20,7 +21,7 @@ export class ModalViewDialog extends View {
 
     /**
      * @example
-     * modal = new ModalViewDialog({
+     * modal = new ModularDialog({
      *     variation: 'colored',
      *     title: 'Movie info',
      *     leftButton: {
@@ -47,7 +48,7 @@ export class ModalViewDialog extends View {
      *          be set to 'light' in order to set button text typeface to UIButtonPrimaryLight instead of UIButtonPrimary.
      */
     constructor(options = {}) {
-        let UIBarOptions = ModalViewDialog._setOptions(options);
+        let UIBarOptions = ModularDialog._setOptions(options);
 
         super(combineOptions({
             UIBarOptions

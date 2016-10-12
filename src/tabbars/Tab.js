@@ -3,7 +3,7 @@
  */
 
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {TextButton}         from '../../buttons/TextButton.js';
+import {TextButton}         from '../buttons/TextButton.js';
 
 export class Tab extends TextButton {
 
