@@ -122,7 +122,7 @@ export class MessageField extends View {
      * to Infinity to prevent max height.
      * @param {String} [options.placeholder] The placeholder, defaults to 'Enter a message'
      * @param {String} [options.buttonText] The label text of the button that is used for sending a message.
-     * @param {String} [options.extendDirection] The direction to extend the search bar to. Can up 'up' or 'down'.
+     * @param {String} [options.extendDirection] The direction to extend the search field to. Can up 'up' or 'down'.
      * Set to false to wrap size to how big the MessageField is. Defaults to 'down'.
      */
     constructor(options) {

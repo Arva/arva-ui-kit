@@ -24,7 +24,7 @@ const instant = { transition: { curve: Easing.outCubic, duration: 0 } };
 const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 
 /**
- * A highly animated search bar that takes a single line of text input, and shows search results from the input
+ * A highly animated search field that takes a single line of text input, and shows search results from the input
  * in a DataBoundScrollView that expands and collapses below the text input field. Used exclusively inside a UIBar.
  *
  * If no itemTemplate or groupTemplate is given, the results section will create generic renderables from the given
