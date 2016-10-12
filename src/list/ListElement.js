@@ -1,36 +1,30 @@
 /**
- * Created by vlad on 11/10/2016.
+ * Created by vlad on 12/10/2016.
  */
 
-import Surface              from 'famous/core/Surface.js';
-
 import {layout}             from 'arva-js/layout/Decorators.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
-import {Button}             from '../buttons/Button.js';
-import {UIRegular}          from '../text/UIRegular.js';
+import {Clickable}          from '../components/Clickable.js';
+import {ListElementCard}    from './ListElementCard.js';
+import {ImageButton}        from '../buttons/ImageButton.js';
+import {DoneIcon}           from '../icons/DoneIcon.js';
 
-export class ListElement extends Button {
+export class ListElement extends Clickable {
 
-    @layout.fullSize()
-    background = new Surface({content: this.options.content});
-
-    @layout.size(undefined, 48)
-    @layout.dock.left()
-    @layout.dockSpace(16)
-    @layout.stick.left()
-    @layout.translate(0, 0, 0)
-    text = new UIRegular({
-        content: this.options.text,
-        properties: {
-            lineHeight: '48px'
-        }
+    @layout.draggable({xRange: [0, 128], projection: 'x'})
+    @layout.size(undefined, 64)
+    @layout.translate(0, 0, 10)
+    surface = new ListElementCard({
+        image: this.options.image,
+        text: this.options.text,
+        profileImage: this.options.profileImage
     });
 
-    constructor(options = {}) {
-        super(combineOptions({
-            content: 'none of your damn business..'
-        }, options));
-    }
+    @layout.dock.right()
+    @layout.size(64, 64)
+    button = new ImageButton({
+        icon: DoneIcon,
+        properties: {color: 'red'},
+    })
 
 }
