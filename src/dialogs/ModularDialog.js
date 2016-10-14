@@ -6,12 +6,11 @@ import Surface                                              from 'famous/core/Su
 import {combineOptions}                                     from "arva-js/utils/CombineOptions.js";
 import {layout}                                             from 'arva-js/layout/Decorators.js';
 import {View}                                               from 'arva-js/core/View.js';
-import {UITitle, UIButtonPrimary, UIButtonPrimaryLight}     from '../defaults/DefaultTypefaces.js';
 import {UIBarTextButton}                                    from '../buttons/UIBarTextButton.js';
 import {UIBar}                                              from '../uibars/UIBar.js';
-import {Text}                                               from '../text/Text.js';
+import {UIBarTitle}                                         from '../text/UIBarTitle.js';
 
-export class ModalViewDialog extends View {
+export class ModularDialog extends View {
 
     @layout.translate(0, 0, -10)
     @layout.fullSize()
@@ -22,7 +21,7 @@ export class ModalViewDialog extends View {
 
     /**
      * @example
-     * modal = new ModalViewDialog({
+     * modal = new ModularDialog({
      *     variation: 'colored',
      *     title: 'Movie info',
      *     leftButton: {
@@ -49,13 +48,13 @@ export class ModalViewDialog extends View {
      *          be set to 'light' in order to set button text typeface to UIButtonPrimaryLight instead of UIButtonPrimary.
      */
     constructor(options = {}) {
-        let UIBarOptions = ModalViewDialog._setOptions(options);
+        let UIBarOptions = ModularDialog._setOptions(options);
 
         super(combineOptions({
             UIBarOptions
         }, options));
 
-        if(options.content){
+        if (options.content) {
             let {content} = options;
             this.addRenderable(content, 'mainContent', layout.dock.fill());
         }
@@ -69,14 +68,14 @@ export class ModalViewDialog extends View {
 
     static _setOptions({rightButton, leftButton, title, variation}) {
         let components = [];
-        
-        if(leftButton) {
+
+        if (leftButton) {
             components.push([new UIBarTextButton(leftButton), 'leftButton', 'left']);
         }
-        if(title) {
-            components.push([new Text(combineOptions(UITitle, {content: title})), 'title', 'center']);
+        if (title) {
+            components.push([new UIBarTitle({content: title}), 'title', 'center']);
         }
-        if(rightButton){
+        if (rightButton) {
             components.push([new UIBarTextButton(rightButton), 'rightButton', 'right']);
         }
 

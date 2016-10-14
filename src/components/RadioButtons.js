@@ -6,7 +6,7 @@ import Surface                          from 'famous/core/Surface.js';
 import {layout, event}                  from 'arva-js/layout/Decorators.js';
 import {combineOptions}                 from 'arva-js/utils/CombineOptions.js';
 import {Clickable}                      from './Clickable.js';
-import {RadioButton}                    from './RadioButton.js';
+import {RadioButton}                    from './radioButtons/RadioButton.js';
 import {Colors}                         from '../defaults/DefaultColors.js';
 
 export class RadioButtons extends Clickable {

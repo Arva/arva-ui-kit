@@ -4,19 +4,16 @@
 
 import AnimationController      from 'famous-flex/AnimationController.js';
 
-import {View}                   from 'arva-js/core/View.js';
 import {Injection}              from 'arva-js/utils/Injection.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 
 import {UIBar}                  from '../../../uibars/UIBar.js';
-import {UITitle}                from '../../../text/UITitle.js';
+import {UIBarTitle}             from '../../../text/UIBarTitle.js';
 import {LeftIcon}               from '../../../icons/LeftIcon.js';
 import {InfoIcon}               from '../../../icons/InfoIcon.js';
 import {HamburgerIcon}          from '../../../icons/HamburgerIcon.js';
-import {Colors}                 from '../../../defaults/DefaultColors.js';
 import {UIBarImageButton}       from '../../../buttons/UIBarImageButton.js';
-import {FloatingImageButton}    from '../../../buttons/FloatingImageButton.js';
 import {StatusBarExtension}     from '../../../utils/statusBar/StatusBarExtension.js';
 
 
@@ -33,10 +30,12 @@ export class TopMenu extends UIBar {
             clickEventName: 'requestMenuOpen',
             icon: HamburgerIcon,
         });
+        this.hamburgerButton.setVariation(this.options.variation);
         this.arrowLeftButton = new UIBarImageButton({
             clickEventName: 'requestMenuClose',
             icon: LeftIcon
         });
+        this.arrowLeftButton.setVariation(this.options.variation);
         return this.hamburgerButton;
     }
 
@@ -51,10 +50,11 @@ export class TopMenu extends UIBar {
     constructor(options = {}) {
         super(combineOptions({
             components: [
-                [new UITitle({content: options.defaultTitle || ''}), 'title', 'center']
+                [new UIBarTitle({content: options.defaultTitle || ''}), 'title', 'center']
             ]
         }, options));
 
+        this.rightButton.setVariation(this.options.variation);
 
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');

@@ -14,7 +14,7 @@ import {FeedbackBubble}         from './textInput/FeedbackBubble.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 import {TypeFaces}              from '../defaults/DefaultTypefaces.js';
 
-let {searchBar: {borderRadius}} = Dimensions;
+let {searchField: {borderRadius}} = Dimensions;
 const transition = {transition: {curve: Easing.outCubic, duration: 200}, delay: 0};
 const closeTransition = {transition: {curve: Easing.outCubic, duration: 200}, delay: 0};
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 300}, delay: 0};

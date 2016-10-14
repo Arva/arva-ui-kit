@@ -7,7 +7,7 @@ import Timer                from 'famous/utilities/Timer.js';
 import Easing               from 'famous/transitions/Easing.js';
 import {layout, flow}       from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {Knob}               from './Knob.js';
+import {Knob}               from '../sliders/Knob.js';
 import {Clickable}          from './Clickable.js';
 import {DoneIcon}           from '../icons/DoneIcon.js';
 import {CrossIcon}          from '../icons/CrossIcon.js';
@@ -35,6 +35,7 @@ export class Switch extends Clickable {
 
     @layout.fullSize()
     @layout.stick.center()
+    @layout.translate(0, 0, 0)
     outerBox = new Surface({
         properties: {
             borderRadius: '4px',

@@ -8,35 +8,47 @@ import Easing                   from 'famous/transitions/Easing.js';
 import {View}                   from 'arva-js/core/View.js';
 import {layout, event, flow}    from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {callbackToPromise}      from 'arva-js/utils/CallbackHelpers.js';
-import {UISmallGrey,
-    UIRegular}                  from 'arva-kit/defaults/DefaultTypeFaces.js';
+import {
+    UISmallGray,
+    UIRegular
+}                               from 'arva-kit/defaults/DefaultTypeFaces.js';
 
-import {ResultsView}            from './searchBar/ResultsView.js';
-import {Placeholder}            from './searchBar/Placeholder.js';
+import {ResultsView}            from './searchField/ResultsView.js';
+import {Placeholder}            from './searchField/Placeholder.js';
 import {SingleLineInputSurface} from './SingleLineInputSurface.js';
 import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 
-let {searchBar: {borderRadius}} = Dimensions;
+let {searchField: {borderRadius}} = Dimensions;
 const instant = { transition: { curve: Easing.outCubic, duration: 0 } };
 const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 
 /**
- * A highly animated search bar that takes a single line of text input, and shows search results from the input
+ * A highly animated search field that takes a single line of text input, and shows search results from the input
  * in a DataBoundScrollView that expands and collapses below the text input field. Used exclusively inside a UIBar.
  *
  * If no itemTemplate or groupTemplate is given, the results section will create generic renderables from the given
  * options.dataStore's item's .content and .group properties, respectively.
  *
  * @example
- * list = new MyResults() // Extends LocalPrioritisedArray
+ *
+ * class MyResult extends Model {
+ *      get title(){}
+ * }
+ *
+ * class MyResults extends LocalPrioritisedArray {
+ *      constructor() {
+ *          super(MyResult, ...arguments);
+ *      }
+ * }
+ *
+ * let list = new MyResults();
  *
  * @layout.dock.top(~48)
  * bar = new UIBar({
           centerItemSize: [320, 48],
  *        components: [
- *            [new SearchBar({resultOptions: {
+ *            [new SearchField({resultOptions: {
  *                dataStore: list,
  *                itemTemplate: (model) => new Surface({ content: model.content }),
  *                groupBy: (model) => model.group || 'empty group'
@@ -57,7 +69,7 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
  *      // Override existing results list with a new one
  *      list = new MyResults();
  *      list.add({content: 'SomeResultName', group: 'SomeGroup'});
- *      // Update the SearchBar's results dataStore
+ *      // Update the SearchField's results dataStore
  *      this.bar.search.showResults(list);
  * })
  *
@@ -75,7 +87,7 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
     'active': [{ border: 'hidden', results: 'shown'}],
     'inactive': [{ border: 'shown', results: 'hidden' }]
 })
-export class SearchBar extends View {
+export class SearchField extends View {
 
     /* Translation of -1, -1 is to correct for the border being on the outside of the surface */
     @event.on('click', function(e) { this._onActivate(e); })

@@ -3,14 +3,12 @@
  */
 
 import Surface                  from 'famous/core/Surface.js';
-import Easing                   from 'famous/transitions/Easing.js';
 
 import {View}                   from 'arva-js/core/View.js';
 import {layout, event, flow}    from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {callbackToPromise}      from 'arva-js/utils/CallbackHelpers.js';
 import {
-    UISmallGrey,
+    UISmallGray,
     UIRegular
 }                               from 'arva-kit/defaults/DefaultTypeFaces.js';
 
@@ -18,7 +16,7 @@ import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 import {MultiLineInput}         from './MultiLineInput.js';
 
-let {searchBar: {borderRadius}} = Dimensions;
+let {searchField: {borderRadius}} = Dimensions;
 let transition = {duration: 150};
 
 @layout.dockPadding(0)
@@ -124,7 +122,7 @@ export class MessageField extends View {
      * to Infinity to prevent max height.
      * @param {String} [options.placeholder] The placeholder, defaults to 'Enter a message'
      * @param {String} [options.buttonText] The label text of the button that is used for sending a message.
-     * @param {String} [options.extendDirection] The direction to extend the search bar to. Can up 'up' or 'down'.
+     * @param {String} [options.extendDirection] The direction to extend the search field to. Can up 'up' or 'down'.
      * Set to false to wrap size to how big the MessageField is. Defaults to 'down'.
      */
     constructor(options) {

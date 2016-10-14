@@ -41,8 +41,7 @@ export class UIBar extends View {
                             'noShadow': {boxShadow: ''},
                         },
                         backgroundColor: {backgroundColor: 'rgb(255, 255, 255)'}
-                    },
-                    opposingColor: Colors.PrimaryUIColor
+                    }
                 };
             case 'colored':
                 return {
@@ -53,8 +52,7 @@ export class UIBar extends View {
                             'noShadow': {boxShadow: ``}
                         },
                         backgroundColor: {backgroundColor: Colors.PrimaryUIColor}
-                    },
-                    opposingColor: 'rgb(255, 255, 255)'
+                    }
                 };
         }
     }
@@ -86,20 +84,20 @@ export class UIBar extends View {
      *          })
      */
     constructor(options = {}) {
-        let {backgroundProperties, opposingColor} = UIBar._computeSettings(options);
+        let {backgroundProperties} = UIBar._computeSettings(options);
 
         super(combineOptions({
             backgroundProperties,
             autoColoring: true,
-            opposingColor,
             centerItemSize: [~300, ~30]
         }, options));
 
         let components = options.components;
         for (let [renderable, renderableName, position] of components || []) {
             if (this.options.autoColoring) {
-                if (renderable.setColor) {
-                    renderable.setColor(opposingColor);
+                /* Only change color of renderables which have a setVariation method. */
+                if (renderable.setVariation) {
+                    renderable.setVariation(this.options.variation);
                 }
             }
             if (position === 'center') {
@@ -119,7 +117,7 @@ export class UIBar extends View {
          * Selects which variation settings the UIBar should use.
          * variation option can be set to 'white' [default] or 'colored'.
          */
-        let {backgroundSettings, opposingColor} = UIBar.getSettings(options.variation);
+        let {backgroundSettings} = UIBar.getSettings(options.variation);
 
         /**
          * Selects which type of shadow the UIBar should have.
@@ -144,9 +142,6 @@ export class UIBar extends View {
         let topLine = options.topLine ? {borderTop: '1px solid rgba(0, 0, 0, 0.1)'} : {};
         let bottomLine = options.bottomLine ? {borderBottom: '1px solid rgba(0, 0, 0, 0.1)'} : {};
 
-        return {
-            backgroundProperties: {...shadow, ...topLine, ...bottomLine, ...backgroundSettings.backgroundColor},
-            opposingColor
-        };
+        return {backgroundProperties: {...shadow, ...topLine, ...bottomLine, ...backgroundSettings.backgroundColor}};
     }
 }

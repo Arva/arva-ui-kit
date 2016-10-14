@@ -3,7 +3,6 @@
  */
 import Surface          from 'famous/core/Surface.js';
 
-import {View}           from 'arva-js/core/View.js';
 import {layout}         from 'arva-js/layout/Decorators.js';
 import {combineOptions} from 'arva-js/utils/CombineOptions.js';
 

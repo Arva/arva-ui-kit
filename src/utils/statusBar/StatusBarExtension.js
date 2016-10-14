@@ -8,7 +8,6 @@ import Context              from 'famous/core/Context.js';
 import {View}               from 'arva-js/core/View.js';
 import {Injection}          from 'arva-js/utils/Injection.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {Colors}             from '../../defaults/DefaultColors.js';
 
 export class StatusBarExtension extends View {

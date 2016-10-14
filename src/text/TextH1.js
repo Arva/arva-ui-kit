@@ -7,7 +7,7 @@ import {TextH1 as face}         from '../defaults/DefaultTypefaces.js';
 import {Text}                   from './Text.js';
 
 export class TextH1 extends Text {
-constructor(options) {
+    constructor(options) {
         super(combineOptions(face, options));
     }
 }

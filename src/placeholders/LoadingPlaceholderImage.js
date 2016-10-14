@@ -11,7 +11,7 @@ import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 
 import placeholderImage         from './resources/imagePlaceholder.png!arva-js/utils/ImageLoader.js';
 
-export class ImageLoadPlaceholder extends View {
+export class LoadingPlaceholderImage extends View {
 
     /** @enum {String}
      * Values are:
@@ -58,18 +58,18 @@ export class ImageLoadPlaceholder extends View {
      *
      * @param {Object} options Construction options
      * @param {String} options.content The URL of the external image to show
-     * @param {String} [options.sizeMode] How to stretch the external image in its container. Valid values in ImageLoadPlaceholder.SizeMode.
-     * Defaults to ImageLoadPlaceholder.SizeMode.ASPECTFILL
-     * @param {String} [options.positionMode] How to position the external image in its container. Valid values in ImageLoadPlaceholder.SizeMode.
-     * Defaults to ImageLoadPlaceholder.PositionMode.CENTER
+     * @param {String} [options.sizeMode] How to stretch the external image in its container. Valid values in LoadingPlaceholderImage.SizeMode.
+     * Defaults to LoadingPlaceholderImage.SizeMode.ASPECTFILL
+     * @param {String} [options.positionMode] How to position the external image in its container. Valid values in LoadingPlaceholderImage.SizeMode.
+     * Defaults to LoadingPlaceholderImage.PositionMode.CENTER
      * @param {String} [options.imageProperties] The properties to pass onto the image BkImageSurface.
      * @param {String} [options.placeholderContent] A URL to the image to use as a placeholder. Defaults to ./resources/placeholderImage.svg.
      * @param {String} [options.placeholderProperties] The properties to pass onto the placeholder BkImageSurface.
      */
     constructor(options = {}) {
         super(combineOptions({
-            sizeMode: ImageLoadPlaceholder.SizeMode.ASPECTFILL,
-            positionMode: ImageLoadPlaceholder.PositionMode.CENTER,
+            sizeMode: LoadingPlaceholderImage.SizeMode.ASPECTFILL,
+            positionMode: LoadingPlaceholderImage.PositionMode.CENTER,
             imageProperties: {},
             placeholderContent: placeholderImage,
             placeholderProperties: {}

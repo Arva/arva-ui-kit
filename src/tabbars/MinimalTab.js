@@ -4,7 +4,6 @@
 
 import Surface              from 'famous/core/Surface.js';
 import Easing               from 'famous/transitions/Easing.js';
-import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {flow, layout}       from 'arva-js/layout/Decorators.js';
 import {flowStates}         from 'arva-js/layout/FlowStates.js';

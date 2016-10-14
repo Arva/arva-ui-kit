@@ -5,7 +5,6 @@ import Timer                from 'famous/utilities/Timer.js';
 
 import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
 
 
 export class Clickable extends View {

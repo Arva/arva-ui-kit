@@ -9,11 +9,10 @@ import ScrollController     from 'famous-flex/ScrollController.js';
 import ListLayout           from 'famous-flex/layouts/ListLayout.js';
 
 import {View}               from 'arva-js/core/View.js';
-import {layout, event}      from 'arva-js/layout/Decorators.js';
+import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 import {Colors}             from '../../../defaults/DefaultColors.js';
-import {Dimensions}         from '../../../defaults/DefaultDimensions.js';
 import {MenuItem}           from './MenuItem.js';
 
 export class DraggableSideMenuView extends View {

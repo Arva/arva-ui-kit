@@ -12,7 +12,7 @@ export let Avenir = {
         UITitle: {fontFamily: avenirMedium, lineHeight: '1.0'},
         UIRegular: {fontFamily: avenirMedium, lineHeight: '1.0'},
         UISmall: {fontFamily: avenirMedium, lineHeight: '1.0'},
-        UISmallGrey: {fontFamily: avenirMedium, lineHeight: '1.0'},
+        UISmallGray: {fontFamily: avenirMedium, lineHeight: '1.0'},
         UITiny: {fontFamily: avenirMedium, lineHeight: '1.0'},
         UIButtonPrimary: {fontFamily: avenirMedium, lineHeight: '1.0'},
         UIButtonPrimaryLight: {fontFamily: avenirMedium, lineHeight: '1.0'},
