@@ -8,52 +8,99 @@ import BkImageSurface       from 'bizboard/famous-bkimagesurface';
 import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
-import {Clickable}          from '../components/Clickable.js';
-import {UIRegular}          from '../text/UIRegular.js';
+import {Button}             from '../buttons/Button.js';
+import {ListElementText}    from './ListElementText.js';
+import {UISmallGray}        from '../text/UISmallGray.js';
 
-export class ListElementCard extends Clickable {
+import {elementHeight}      from './ListElement.js';
+
+export class ListElementCard extends Button {
 
     @layout.fullSize()
-    background = new Surface({properties: {backgroundColor: 'rgb(255, 255, 255)'}});
+    background = new Surface({
+        properties: {
+            backgroundColor: this.options.backgroundColor || 'rgb(255, 255, 255)',
+            borderRadius: this.options.roundedCorners ? '4px' : '0px'
+        }
+    });
 
     constructor(options = {}) {
-        super(combineOptions({
-            text: 'No text set'
-        }, options));
+        super(options);
 
         if (this.options.image) {
             this.addRenderable(
                 new BkImageSurface({
                     content: this.options.image,
-                    sizeMode: BkImageSurface.SizeMode.ASPECTFILL
+                    sizeMode: BkImageSurface.SizeMode.ASPECTFILL,
+                    properties: {
+                        borderTopLeftRadius: this.options.roundedCorners ? '4px' : '',
+                        borderBottomLeftRadius: this.options.roundedCorners ? '4px' : ''
+                    }
                 }), 'image',
                 layout.dock.left(),
                 layout.stick.center(),
-                layout.size(64, 64)
+                layout.size(elementHeight, elementHeight)
             );
 
             if (this.options.profileImage) {
                 this.image.setProperties({borderRadius: '50%'});
                 this.decorateRenderable('image',
-                    layout.dock.left(64),
-                    layout.size(48, 48),
-                    layout.stick.right()
+                    layout.dock.left(elementHeight),
+                    layout.stick.right(),
+                    layout.size(48, 48)
                 );
             }
         }
 
+        if (this.options.icon) {
+            this.addRenderable(
+                new this.options.icon(), 'icon',
+                layout.dock.left(40),
+                layout.stick.right(),
+                layout.size(24, 24)
+            );
+        }
+
         this.addRenderable(
-            new UIRegular({
-                content: this.options.text,
-                properties: {
-                    paddingLeft: '16px',
-                    cursor: 'pointer',
-                    lineHeight: '64px'
-                }
+            new ListElementText({
+                text: this.options.text,
+                previewText: this.options.previewText,
+                bold: this.options.bold
             }), 'text',
-            layout.size(undefined, 64),
+            layout.stick.center(),
+            layout.size(true, true),
             layout.dock.left()
         );
+
+        this.addRenderable(
+            new UISmallGray({
+                content: this.options.sideText,
+                properties: {
+                    paddingRight: '16px',
+                    cursor: 'pointer',
+                    lineHeight: elementHeight + 'px'
+                }
+            }), 'sideText',
+            layout.size(~140, ~14),
+            layout.dock.right()
+        );
+
+        if (this.options.statusColor) {
+            this.addRenderable(
+                new Surface({
+                    properties: {
+                        width: 0,
+                        height: 0,
+                        borderTopRightRadius: this.options.roundedCorners ? '4px' : '',
+                        borderStyle: 'solid',
+                        borderWidth: '0 16px 16px 0',
+                        borderColor: `transparent ${this.options.statusColor} transparent transparent`
+                    }
+                }), 'triangle',
+                layout.size(16, 16),
+                layout.stick.topRight()
+            );
+        }
     }
 
 }
