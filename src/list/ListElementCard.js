@@ -16,26 +16,21 @@ import {elementHeight}      from './ListElement.js';
 
 export class ListElementCard extends Button {
 
-    @layout.fullSize()
-    background = new Surface({
-        properties: {
-            backgroundColor: this.options.backgroundColor || 'rgb(255, 255, 255)',
-            borderRadius: this.options.roundedCorners ? '4px' : '0px'
-        }
-    });
-
     constructor(options = {}) {
-        super(options);
+        super(combineOptions({
+            useBoxShadow: false,
+            variation: 'noShadow',
+            backgroundProperties: {
+                backgroundColor: options.backgroundColor || 'rgb(255, 255, 255)',
+                borderRadius: '0px'
+            }
+        }, options));
 
         if (this.options.image) {
             this.addRenderable(
                 new BkImageSurface({
                     content: this.options.image,
                     sizeMode: BkImageSurface.SizeMode.ASPECTFILL,
-                    properties: {
-                        borderTopLeftRadius: this.options.roundedCorners ? '4px' : '',
-                        borderBottomLeftRadius: this.options.roundedCorners ? '4px' : ''
-                    }
                 }), 'image',
                 layout.dock.left(),
                 layout.stick.center(),
@@ -91,7 +86,6 @@ export class ListElementCard extends Button {
                     properties: {
                         width: 0,
                         height: 0,
-                        borderTopRightRadius: this.options.roundedCorners ? '4px' : '',
                         borderStyle: 'solid',
                         borderWidth: '0 16px 16px 0',
                         borderColor: `transparent ${this.options.statusColor} transparent transparent`

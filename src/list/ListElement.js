@@ -29,7 +29,6 @@ export class ListElement extends Clickable {
         profileImage: this.options.profileImage,
         statusColor: this.options.statusColor || undefined,
         bold: this.options.bold,
-        roundedCorners: this.options.roundedCorners,
         backgroundProperties: {
             backgroundColor: this.options.backgroundColor
         }
@@ -46,7 +45,6 @@ export class ListElement extends Clickable {
      *    profileImage: true,
      *    icon: CloudIcon,
      *    sideText: 'Date & time stamp',
-     *    roundedCorners: false,
      *    statusColor: 'rgb(119, 190, 119)',
      *    leftButtons: [
      *        {icon: TrashIcon, backgroundColor: 'rgb(255, 63, 63)'},
@@ -67,7 +65,6 @@ export class ListElement extends Clickable {
      * @param {Boolean} [options.profileImage] Turns the image provided in the image option into a profile image
      * @param {Class} [options.icon] Icon class used to generate the ListElement icon
      * @param {String} [options.sideText] Text to be displayed on the right side of the ListElement
-     * @param {Boolean} [options.roundedCorners] Enable 4px rounded corners for the ListElement
      * @param {String} [options.statusColor] RGB color displayed as a triangle in the upper right corner of the ListElement
      * @param {Array} [options.leftButtons] Array of maximum two objects containing settings for the buttons
      *        on the left side of ListElement - icon and background color (see example)
@@ -159,18 +156,15 @@ export class ListElement extends Clickable {
     }
 
     _addButtons(amountOfButtons, buttonsOptions, side) {
-        let radius = this.options.roundedCorners ? '4px' : '0px';
         for (let i = 0; i < amountOfButtons; i++) {
             this.addRenderable(
                 new ImageButton({
                     icon: buttonsOptions[i].icon || CirclecheckIcon,
                     imageSize: [24, 24],
                     properties: {color: 'rgb(255, 255, 255)'},
+                    useBoxShadow: false,
                     backgroundProperties: {
-                        borderTopLeftRadius: radius,
-                        borderTopRightRadius: radius,
-                        borderBottomLeftRadius: radius,
-                        borderBottomRightRadius: radius,
+                        borderRadius: '0px',
                         backgroundColor: buttonsOptions[i].backgroundColor
                     },
                     variation: 'noShadow'
