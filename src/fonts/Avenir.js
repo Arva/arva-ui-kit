@@ -4,35 +4,35 @@
 
 import './resources/avenir-book.css!';
 
-let avenirStyle = 'avenir-book';
-export default avenirStyle;
+let avenirBook = 'avenir-book';
+export default avenirBook;
 
 export let Avenir = {
     UI: {
-        UITitle: {fontFamily: avenirStyle, lineHeight: '1.0'},
-        UIRegular: {fontFamily: avenirStyle, lineHeight: '1.0'},
-        UISmall: {fontFamily: avenirStyle, lineHeight: '1.0'},
-        UISmallGray: {fontFamily: avenirStyle, lineHeight: '1.0'},
-        UITiny: {fontFamily: avenirStyle, lineHeight: '1.0'},
-        UIButtonPrimary: {fontFamily: avenirStyle, lineHeight: '1.0'},
-        UIButtonPrimaryLight: {fontFamily: avenirStyle, lineHeight: '1.0'},
-        UIButtonSecondary: {fontFamily: avenirStyle, lineHeight: '1.0'},
-        UIButtonSecondaryLight: {fontFamily: avenirStyle, lineHeight: '1.0'}
+        UITitle: {fontFamily: avenirBook, lineHeight: '1.0'},
+        UIRegular: {fontFamily: avenirBook, lineHeight: '1.0'},
+        UISmall: {fontFamily: avenirBook, lineHeight: '1.0'},
+        UISmallGray: {fontFamily: avenirBook, lineHeight: '1.0'},
+        UITiny: {fontFamily: avenirBook, lineHeight: '1.0'},
+        UIButtonPrimary: {fontFamily: avenirBook, lineHeight: '1.0'},
+        UIButtonPrimaryLight: {fontFamily: avenirBook, lineHeight: '1.0'},
+        UIButtonSecondary: {fontFamily: avenirBook, lineHeight: '1.0'},
+        UIButtonSecondaryLight: {fontFamily: avenirBook, lineHeight: '1.0'}
     },
 
     Text: {
-        TextBody: {fontFamily: avenirStyle, lineHeight: '1.2'},
-        TextH1: {fontFamily: avenirStyle, lineHeight: '0.9'},
-        TextH2: {fontFamily: avenirStyle, lineHeight: '0.9'},
-        TextH3: {fontFamily: avenirStyle, lineHeight: '1.2'},
-        TextCaptions: {fontFamily: avenirStyle, lineHeight: '0.9'},
-        TextQuote: {fontFamily: avenirStyle, lineHeight: '1.2'},
-        TextQuoteEmphasis: {fontFamily: avenirStyle, lineHeight: '1.2'},
-        TextInfoLabel: {fontFamily: avenirStyle, textTransform: 'uppercase', lineHeight: '0.9'}
+        TextBody: {fontFamily: avenirBook, lineHeight: '1.2'},
+        TextH1: {fontFamily: avenirBook, lineHeight: '0.9'},
+        TextH2: {fontFamily: avenirBook, lineHeight: '0.9'},
+        TextH3: {fontFamily: avenirBook, lineHeight: '1.2'},
+        TextCaptions: {fontFamily: avenirBook, lineHeight: '0.9'},
+        TextQuote: {fontFamily: avenirBook, lineHeight: '1.2'},
+        TextQuoteEmphasis: {fontFamily: avenirBook, lineHeight: '1.2'},
+        TextInfoLabel: {fontFamily: avenirBook, textTransform: 'uppercase', lineHeight: '0.9'}
     },
 
     Impact: {
-        ImpactHuge: {fontFamily: avenirStyle, lineHeight: '1.0'},
-        ImpactBig: {fontFamily: avenirStyle, lineHeight: '1.0'}
+        ImpactHuge: {fontFamily: avenirBook, lineHeight: '1.0'},
+        ImpactBig: {fontFamily: avenirBook, lineHeight: '1.0'}
     }
 };
