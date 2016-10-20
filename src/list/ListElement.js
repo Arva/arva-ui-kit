@@ -5,20 +5,22 @@
 import Easing                       from 'famous/transitions/Easing.js';
 
 import {layout, flow, event}        from 'arva-js/layout/Decorators.js';
+import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 import {Clickable}                  from '../components/Clickable.js';
 import {ListElementCard}            from './ListElementCard.js';
 import {ImageButton}                from '../buttons/ImageButton.js';
 import {CirclecheckIcon}            from '../icons/CirclecheckIcon.js';
 
-export const elementHeight = 64;
 const transition = {curve: Easing.outCubic, duration: 200};
 
 @flow.viewStates({})
 export class ListElement extends Clickable {
 
-    @layout.size(undefined, elementHeight)
-    @layout.stick.center()
+    @layout.size(undefined, function () {
+        return this.options.elementHeight;
+    })
+    @layout.stick.top()
     @layout.translate(0, 0, 60)
     elementCard = new ListElementCard({
         image: this.options.image,
@@ -30,8 +32,11 @@ export class ListElement extends Clickable {
         statusColor: this.options.statusColor || undefined,
         bold: this.options.bold,
         backgroundProperties: {
-            backgroundColor: this.options.backgroundColor
-        }
+            backgroundColor: this.options.backgroundColor,
+            boxShadow: this.options.enableLine ? '0px 1px 0px 0px rgba(0, 0, 0, 0.1)' : ''
+        },
+        useBoxShadow: false,
+        elementHeight: this.options.elementHeight
     });
 
     /**
@@ -72,7 +77,9 @@ export class ListElement extends Clickable {
      *        on the right side of ListElement - icon and background color (see example)
      */
     constructor(options = {}) {
-        super(options);
+        super(combineOptions({
+            elementHeight: options.elementHeight || 64
+        }, options));
 
         /*This removes the default dock padding from Button class.*/
         this.decorateRenderable(
@@ -113,11 +120,11 @@ export class ListElement extends Clickable {
                     flow.stateStep('pressed', transition,
                         layout.size(() => {
                             return this._width - settings.offset;
-                        }, elementHeight)),
+                        }, this.options.elementHeight)),
                     flow.stateStep('released', transition,
                         layout.size(() => {
                             return this._width;
-                        }, elementHeight)),
+                        }, this.options.elementHeight)),
                     event.on('touchstart', function () {
                         this._pressCard();
                     }),
@@ -162,15 +169,16 @@ export class ListElement extends Clickable {
                     icon: buttonsOptions[i].icon || CirclecheckIcon,
                     imageSize: [24, 24],
                     properties: {color: 'rgb(255, 255, 255)'},
-                    useBoxShadow: false,
                     backgroundProperties: {
                         borderRadius: '0px',
-                        backgroundColor: buttonsOptions[i].backgroundColor
+                        backgroundColor: buttonsOptions[i].backgroundColor,
+                        boxShadow: this.options.enableLine ? '0px 1px 0px 0px rgba(0, 0, 0, 0.1)' : ''
                     },
+                    useBoxShadow: false,
                     variation: 'noShadow'
                 }), side + 'Button' + i,
                 layout.dock[side](),
-                layout.size(elementHeight, elementHeight)
+                layout.size(this.options.elementHeight, this.options.elementHeight)
             );
         }
     }
@@ -184,8 +192,8 @@ export class ListElement extends Clickable {
             'elementCard',
             layout.draggable({
                 xRange: [
-                    -amountRightButtons * elementHeight + ListElement._offset(amountRightButtons),
-                    amountLeftButtons * elementHeight - ListElement._offset(amountLeftButtons)
+                    -amountRightButtons * this.options.elementHeight + ListElement._offset(amountRightButtons),
+                    amountLeftButtons * this.options.elementHeight - ListElement._offset(amountLeftButtons)
                 ],
                 projection: 'x'
             })
@@ -197,13 +205,13 @@ export class ListElement extends Clickable {
             let position = event.position[0];
             let newPosition = 0;
             if (position < 0) {
-                let difference = this.amountButtons[1] * elementHeight;
+                let difference = this.amountButtons[1] * this.options.elementHeight;
                 newPosition = Math.round(position / difference) * difference;
                 if (newPosition !== 0) {
                     newPosition += ListElement._offset(this.amountButtons[1]);
                 }
             } else if (position > 0) {
-                let difference = this.amountButtons[0] * elementHeight;
+                let difference = this.amountButtons[0] * this.options.elementHeight;
                 newPosition = Math.round(position / difference) * difference;
                 if (newPosition !== 0) {
                     newPosition -= ListElement._offset(this.amountButtons[0]);
@@ -218,6 +226,10 @@ export class ListElement extends Clickable {
                 this.elementCard.draggable.setPosition([newPosition, 0], transition);
             }
         });
+    }
+
+    getSize() {
+        return [undefined, 64];
     }
 
 }

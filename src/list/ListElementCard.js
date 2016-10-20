@@ -12,13 +12,10 @@ import {Button}             from '../buttons/Button.js';
 import {ListElementText}    from './ListElementText.js';
 import {UISmallGray}        from '../text/UISmallGray.js';
 
-import {elementHeight}      from './ListElement.js';
-
 export class ListElementCard extends Button {
 
     constructor(options = {}) {
         super(combineOptions({
-            useBoxShadow: false,
             variation: 'noShadow',
             backgroundProperties: {
                 backgroundColor: options.backgroundColor || 'rgb(255, 255, 255)',
@@ -34,13 +31,13 @@ export class ListElementCard extends Button {
                 }), 'image',
                 layout.dock.left(),
                 layout.stick.center(),
-                layout.size(elementHeight, elementHeight)
+                layout.size(this.options.elementHeight, this.options.elementHeight)
             );
 
             if (this.options.profileImage) {
                 this.image.setProperties({borderRadius: '50%'});
                 this.decorateRenderable('image',
-                    layout.dock.left(elementHeight),
+                    layout.dock.left(64),
                     layout.stick.right(),
                     layout.size(48, 48)
                 );
@@ -73,7 +70,8 @@ export class ListElementCard extends Button {
                 properties: {
                     paddingRight: '16px',
                     cursor: 'pointer',
-                    lineHeight: elementHeight + 'px'
+                    lineHeight: this.options.elementHeight + 'px',
+                    whiteSpace: 'nowrap'
                 }
             }), 'sideText',
             layout.size(~140, ~14),

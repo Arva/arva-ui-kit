@@ -18,7 +18,8 @@ export class ListElementText extends View {
         properties: {
             fontWeight: this.options.bold ? 'bold' : 'normal',
             paddingLeft: '16px',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            whiteSpace: 'nowrap'
         }
     });
 
@@ -30,10 +31,11 @@ export class ListElementText extends View {
         if (this.options.previewText) {
             this.addRenderable(
                 new UISmallGray({
-                    content: this.options.text,
+                    content: this.options.previewText,
                     properties: {
                         paddingLeft: '16px',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap'
                     }
                 }), 'previewText',
                 layout.size(~120, ~14),
