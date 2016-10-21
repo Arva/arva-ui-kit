@@ -32,8 +32,7 @@ export class ListElement extends Clickable {
         statusColor: this.options.statusColor || undefined,
         bold: this.options.bold,
         backgroundProperties: {
-            backgroundColor: this.options.backgroundColor,
-            boxShadow: this.options.enableLine ? '0px 1px 0px 0px rgba(0, 0, 0, 0.1)' : ''
+            backgroundColor: this.options.backgroundColor
         },
         useBoxShadow: false,
         elementHeight: this.options.elementHeight
@@ -44,22 +43,23 @@ export class ListElement extends Clickable {
      *
      * @example
      * listElement = new ListElement({
-     *    text: 'First element',
-     *    previewText: 'First element preview',
-     *    image: bg,
-     *    profileImage: true,
-     *    icon: CloudIcon,
-     *    sideText: 'Date & time stamp',
-     *    statusColor: 'rgb(119, 190, 119)',
-     *    leftButtons: [
-     *        {icon: TrashIcon, backgroundColor: 'rgb(255, 63, 63)'},
-     *        {icon: CloudIcon, backgroundColor: 'rgb(0, 188, 235)'}
-     *    ],
-     *    rightButtons: [
-     *        {icon: TrashIcon, backgroundColor: 'rgb(255, 63, 63)'},
-     *        {icon: AndroidshareIcon, backgroundColor: 'rgb(0, 188, 235)'}
-     *    ],
-     *    bold: true
+     *     text: 'First element',
+     *     previewText: 'First element preview',
+     *     image: bg,
+     *     profileImage: true,
+     *     icon: CloudIcon,
+     *     backgroundColor: 'rgb(250, 250, 250)',
+     *     sideText: 'Date & time stamp',
+     *     statusColor: 'rgb(119, 190, 119)',
+     *     leftButtons: [
+     *         {icon: TrashIcon, backgroundColor: 'rgb(255, 63, 63)'},
+     *         {icon: CloudIcon, backgroundColor: 'rgb(0, 188, 235)'}
+     *     ],
+     *     rightButtons: [
+     *         {icon: TrashIcon, backgroundColor: 'rgb(255, 63, 63)'},
+     *         {icon: AndroidshareIcon, backgroundColor: 'rgb(0, 188, 235)'}
+     *     ],
+     *     bold: true
      * });
      *
      * @param {Object} options Construction options
@@ -69,16 +69,18 @@ export class ListElement extends Clickable {
      * @param {File} [options.image] Image file to be used by the ListElement as a regular image or a profile image
      * @param {Boolean} [options.profileImage] Turns the image provided in the image option into a profile image
      * @param {Class} [options.icon] Icon class used to generate the ListElement icon
+     * @param {String} [options.backgroundColor] Sets the color of the ListElementCard (used when alternating colors in a list)
      * @param {String} [options.sideText] Text to be displayed on the right side of the ListElement
      * @param {String} [options.statusColor] RGB color displayed as a triangle in the upper right corner of the ListElement
      * @param {Array} [options.leftButtons] Array of maximum two objects containing settings for the buttons
      *        on the left side of ListElement - icon and background color (see example)
      * @param {Array} [options.rightButtons] Array of maximum two objects containing settings for the buttons
      *        on the right side of ListElement - icon and background color (see example)
+     * @param {Number} [options.elementHeight] Sets the height of the ListElement
      */
     constructor(options = {}) {
         super(combineOptions({
-            elementHeight: options.elementHeight || 64
+            elementHeight: 64
         }, options));
 
         /*This removes the default dock padding from Button class.*/
@@ -149,7 +151,9 @@ export class ListElement extends Clickable {
     }
 
     _releaseCard() {
-        this.setRenderableFlowState('elementCard', 'released');
+        if (this.amountButtons[0] > 0 || this.amountButtons[1] > 0) {
+            this.setRenderableFlowState('elementCard', 'released');
+        }
     }
 
     _getCardFlowSettings() {
@@ -171,9 +175,10 @@ export class ListElement extends Clickable {
                     properties: {color: 'rgb(255, 255, 255)'},
                     backgroundProperties: {
                         borderRadius: '0px',
-                        backgroundColor: buttonsOptions[i].backgroundColor,
-                        boxShadow: this.options.enableLine ? '0px 1px 0px 0px rgba(0, 0, 0, 0.1)' : ''
+                        backgroundColor: buttonsOptions[i].backgroundColor
                     },
+                    clickEventName: buttonsOptions[i].clickEventName || 'sideButtonClicked',
+                    clickEventData: [this.options, side, i],
                     useBoxShadow: false,
                     variation: 'noShadow'
                 }), side + 'Button' + i,
@@ -229,7 +234,7 @@ export class ListElement extends Clickable {
     }
 
     getSize() {
-        return [undefined, 64];
+        return [undefined, this.options.elementHeight];
     }
 
 }

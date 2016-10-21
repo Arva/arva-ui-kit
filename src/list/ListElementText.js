@@ -4,7 +4,6 @@
 
 import {View}               from 'arva-js/core/View.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 import {UIRegular}          from '../text/UIRegular.js';
 import {UISmallGray}        from '../text/UISmallGray.js';
@@ -24,9 +23,7 @@ export class ListElementText extends View {
     });
 
     constructor(options = {}) {
-        super(combineOptions({
-            text: 'No text set'
-        }, options));
+        super(options);
 
         if (this.options.previewText) {
             this.addRenderable(

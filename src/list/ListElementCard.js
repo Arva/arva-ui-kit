@@ -18,7 +18,7 @@ export class ListElementCard extends Button {
         super(combineOptions({
             variation: 'noShadow',
             backgroundProperties: {
-                backgroundColor: options.backgroundColor || 'rgb(255, 255, 255)',
+                backgroundColor: 'rgb(255, 255, 255)',
                 borderRadius: '0px'
             }
         }, options));
@@ -37,9 +37,9 @@ export class ListElementCard extends Button {
             if (this.options.profileImage) {
                 this.image.setProperties({borderRadius: '50%'});
                 this.decorateRenderable('image',
-                    layout.dock.left(64),
+                    layout.dock.left(this.options.elementHeight),
                     layout.stick.right(),
-                    layout.size(48, 48)
+                    layout.size(this.options.elementHeight - 16, this.options.elementHeight - 16)
                 );
             }
         }
