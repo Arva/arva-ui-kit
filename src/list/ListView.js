@@ -5,12 +5,10 @@
 import Surface                      from 'famous/core/Surface.js';
 
 import {View}                       from 'arva-js/core/View.js';
-import {Injection}                  from 'arva-js/utils/Injection.js';
 import {layout}                     from 'arva-js/layout/Decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {DataBoundScrollView}        from 'arva-js/components/DataBoundScrollView.js';
 import {ListElement}                from './ListElement.js';
-import {ListElements}               from './ListElements.js';
 
 @layout.columnDockPadding(720, [0])
 export class ListView extends View {
@@ -20,7 +18,7 @@ export class ListView extends View {
     @layout.dock.fill()
     @layout.translate(0, 0, 10)
     list = new DataBoundScrollView({
-        dataStore: window.listElements = this.dataStore = Injection.get(ListElements),
+        dataStore: this.options.dataStore,
         itemTemplate: (listElement) => this.options.dataMapper
             ? new ListElement(this.options.dataMapper(listElement))
             : new ListElement({
@@ -69,6 +67,7 @@ export class ListView extends View {
      * listView2 = new ListView({
      *     bold: true,
      *     profileImages: true,
+     *     dataStore: window.listElements = this.dataStore = Injection.get(ListElements)
      *     dataMapper: (data) => ({
      *         text: data.title,
      *         previewText: data.previewText,
@@ -85,6 +84,7 @@ export class ListView extends View {
      * });
      *
      * @param {Object} options Construction options
+     * @param {PrioritisedArray} [options.dataStore] PrioritisedArray to be used by the ListView DBSV
      * @param {Boolean} [options.bold] Make the main text of all the ListElements bold
      * @param {Boolean} [options.spacing] Adds a 1px spacing between ListElements with a 10% opacity
      *        in order for the background to be visible
