@@ -52,7 +52,7 @@ export let TypeFaces = merge({
     TextH1: {fontSize: '64px', fontWeight: 'bold', get color() { return Colors.ArticleTextColor; }  },
     TextH2: {fontSize: '32px', fontWeight: 'bold', get color() { return Colors.ArticleTextColor; } },
     TextH3: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.ArticleTextColor; } },
-    TextCaptions: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } },
+    TextCaption: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } },
     TextQuote: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.ModestTextColor; } },
     TextQuoteEmphasis: {fontSize: '24px', fontWeight: 'normal', fontStyle: 'italic', get color() { return Colors.PrimaryUIColor; } },
     TextInfoLabel: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } , textTransform: 'uppercase'},
@@ -68,7 +68,7 @@ export function useTypefaces(...faces) {
 export let UITitle                  = {properties: TypeFaces.UITitle};
 export let UIRegular                = {properties: TypeFaces.UIRegular};
 export let UISmall                  = {properties: TypeFaces.UISmall};
-export let UISmallGray = {properties: TypeFaces.UISmallGray};
+export let UISmallGray              = {properties: TypeFaces.UISmallGray};
 export let UITiny                   = {properties: TypeFaces.UITiny};
 export let UIButtonPrimary          = {properties: TypeFaces.UIButtonPrimary};
 export let UIButtonPrimaryLight     = {properties: TypeFaces.UIButtonPrimaryLight};
@@ -78,8 +78,9 @@ export let TextBody                 = {properties: TypeFaces.TextBody};
 export let TextH1                   = {properties: TypeFaces.TextH1};
 export let TextH2                   = {properties: TypeFaces.TextH2};
 export let TextH3                   = {properties: TypeFaces.TextH3};
-export let TextCaptions             = {properties: TypeFaces.TextCaptions};
+export let TextCaption              = {properties: TypeFaces.TextCaption};
 export let TextQuote                = {properties: TypeFaces.TextQuote};
+export let TextQuoteEmphasis        = {properties: TypeFaces.TextQuoteEmphasis};
 export let TextInfoLabel            = {properties: TypeFaces.TextInfoLabel};
 export let ImpactHuge               = {properties: TypeFaces.ImpactHuge};
 export let ImpactBig                = {properties: TypeFaces.ImpactBig};

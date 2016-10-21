@@ -21,11 +21,11 @@ export let Avenir = {
     },
 
     Text: {
-        TextBody: {fontFamily: avenirMedium, lineHeight: '1.2'},
+        TextBody: {fontFamily: avenirMedium, lineHeight: '1.4'},
         TextH1: {fontFamily: avenirMedium, lineHeight: '0.9'},
         TextH2: {fontFamily: avenirMedium, lineHeight: '0.9'},
         TextH3: {fontFamily: avenirMedium, lineHeight: '1.2'},
-        TextCaptions: {fontFamily: avenirMedium, lineHeight: '0.9'},
+        TextCaption: {fontFamily: avenirMedium, lineHeight: '0.9'},
         TextQuote: {fontFamily: avenirMedium, lineHeight: '1.2'},
         TextQuoteEmphasis: {fontFamily: avenirMedium, lineHeight: '1.2'},
         TextInfoLabel: {fontFamily: avenirMedium, textTransform: 'uppercase', lineHeight: '0.9'}
