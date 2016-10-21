@@ -137,7 +137,7 @@ export class ImageTextButtonCard extends ContentCard {
                         layout.dockSpace(16)
                     )
                 }
-                this.addRenderable(buttons, 'buttons', layout.dockSpace(32), layout.dock.top(), layout.stick.center(), layout.size(~200, true));
+                this.addRenderable(buttons, 'buttons', layout.dock.top(), layout.stick.center(), layout.size(~200, true));
             }
         }
 
