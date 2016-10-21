@@ -20,7 +20,9 @@ import {Colors}             from '../defaults/DefaultColors.js';
  * Emits the event 'buttonClicked', along with the options, when pressed. If passed two buttons, then the
  * second argument passed in the emitter is the index of the button (0 or 1).
  */
+
 @layout.dockPadding(0, 0, 32, 0)
+@layout.dockSpace(32)
 export class ImageTextButtonCard extends ContentCard {
 
     /**
@@ -68,7 +70,7 @@ export class ImageTextButtonCard extends ContentCard {
             this.decorations.viewMargins[0] = this.decorations.viewMargins[2] = 32;
         }
         if (this.options.title) {
-            this.addRenderable(new UITitle({content: this.options.title}), 'title', layout.dock.top(~50), layout.dockSpace(32));
+            this.addRenderable(new UITitle({content: this.options.title}), 'title', layout.dock.top(~50));
             if (this.options.centerTitle) {
                 this.title.setProperties({textAlign: 'center'});
             } else {
@@ -81,8 +83,7 @@ export class ImageTextButtonCard extends ContentCard {
                 'subtitle',
                 layout.dock.top(),
                 layout.stick.center(),
-                layout.size((width)=>Math.max(width - 64, 64), ~50),
-                layout.dockSpace(32));
+                layout.size((width)=>Math.max(width - 64, 64), ~50));
         }
 
         if (this.options.body) {
@@ -90,8 +91,7 @@ export class ImageTextButtonCard extends ContentCard {
                 'body',
                 layout.dock.top(),
                 layout.stick.center(),
-                layout.size((width)=>Math.max(width - 64, 64), ~50),
-                layout.dockSpace(32));
+                layout.size((width)=>Math.max(width - 64, 64), ~50));
         }
 
         if (this.options.decorationalText) {
@@ -107,8 +107,7 @@ export class ImageTextButtonCard extends ContentCard {
                 'decorationalText',
                 layout.dock.top(),
                 layout.stick.center(),
-                layout.size((width)=>Math.max(width - 64, 64), ~50),
-                layout.dockSpace(32));
+                layout.size((width)=>Math.max(width - 64, 64), ~50));
         }
 
         if (this.options.button) {
@@ -119,7 +118,6 @@ export class ImageTextButtonCard extends ContentCard {
             }), 'button',
                 layout.size(~50, true),
                 layout.dock.top(),
-                layout.dockSpace(16),
                 layout.stick.center());
 
         } else if (this.options.buttons) {
