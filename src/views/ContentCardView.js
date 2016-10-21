@@ -29,7 +29,7 @@ export class ContentCardView extends View {
      * @example
      * new ContentCardView({
         cards: [
-            new ImageTextButtonCard({image: trolltunga}),
+            new ImageTextButtonCard({shadow: 'hard', image: trolltunga}),
             new ImageTextButtonCard({title: "Hello world", subtitle: "This is a cool subtitle", body: "Finally, some body"}),
             new ImageTextButtonCard({subtitle: "subtitle"}),
             new ImageTextButtonCard({image: trolltunga, centerTitle: true, decorationalText: "This is some really decorated magical text. Look at it. LOOK!.", title: "Centered title", subtitle: "This is a cool subtitle", body: "Lorem ispum muchos gracias per favore vamos a la playa por favor, zeg maar heel goed.", buttons: ['Go back', 'Cancel']}),
