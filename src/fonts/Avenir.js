@@ -35,5 +35,5 @@ export let Avenir = {
         ImpactHuge: {fontFamily: avenirBook, lineHeight: '1.0'},
         ImpactBig: {fontFamily: avenirBook, lineHeight: '1.0'}
     }
-    
+
 };
