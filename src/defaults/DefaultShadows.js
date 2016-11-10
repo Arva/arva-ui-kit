@@ -17,16 +17,17 @@ let globalShadowType = 'soft';
  * @param {Boolean} [options.onlyForShadowType] If set to 'hard' or 'soft' then will only return a shadow if the current
  * setting is this particular shadow
  * @param {String} [options.color] The rgb(a) color that is being used for the element casting the shadow
+ * @param {String} [options.type] The type of shadow. If no type is specified, uses the globally set shadow
  * @param {Boolean} [options.inset] Defaults to false. Creates an inset box shadow
  * @param {Boolean} [options.fullWidth] Defaults to false for soft shadows. Hard shadows always have full width.
  * @returns {String} The box-shadow to set
  */
 export function getShadow(options = {}){
-    let {onlyForShadowType, color = 'white', inset = false, fullWidth = false} = options;
+    let {onlyForShadowType, color = 'white', inset = false, fullWidth = false, type} = options;
     if(onlyForShadowType && onlyForShadowType !== globalShadowType){
         return '';
     }
-    switch (globalShadowType){
+    switch (type || globalShadowType){
         case 'hard':
             return Shadows.getHardShadow(color, inset);
         case 'soft':

@@ -15,7 +15,12 @@ import {ComponentHeight}                    from '../defaults/DefaultDimensions.
 export class ImageButton extends Button {
     @layout.translate(0, 0, 30)
     @layout.dock.fill()
-    image = this.options.image ? new ImageSurface({content: this.options.image}) : new this.options.icon({color: this.options.properties.color});
+    @layout.stick.center()
+    image = this.options.image
+        ? new ImageSurface({content: this.options.image})
+        : new this.options.icon({
+        color: this.options.properties.color
+    });
     
     /* Default if true size specified */
     getSize() {
@@ -34,6 +39,10 @@ export class ImageButton extends Button {
             properties: {color: Colors.PrimaryUIColor},
             ...TextButton.generateBoxShadowVariations(options.variation)
         }, options));
+
+        if (this.options.imageSize) {
+            this.decorateRenderable('image', layout.size(...this.options.imageSize));
+        }
     }
 
     setContent(iconConstructor) {

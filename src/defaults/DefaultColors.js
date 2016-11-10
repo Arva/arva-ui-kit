@@ -4,22 +4,6 @@
 
 import merge                from 'lodash/merge.js';
 
-export let colors = {
-    White: 'rgb(255, 255, 255)',
-    Black: 'rgb(0, 0, 0)',
-    Gray: 'rgb(170, 170, 170)',
-    LightGray: 'rgb(245, 245, 245)',
-    VeryLightGray: 'rgb(250, 250, 250)'
-};
-
-export let White = colors.White;
-export let Black = colors.Black;
-export let Gray = colors.Gray;
-export let LightGray = colors.LightGray;
-export let VeryLightGray = colors.VeryLightGray;
-
-export let IconColor = colors.White;
-
 export let Colors = {
     PrimaryUIColor: 'rgb(0, 188, 235)',
     SecondaryUIColor: 'rgb(170, 170, 170)',
@@ -30,8 +14,24 @@ export let Colors = {
     ModestTextColor: 'rgb(170, 170, 170)',
     ArticleTextColor: 'rgb(20, 20, 20)',
     ImageTextColor: 'rgb(255, 255, 255)',
-    UIBarTextColor: 'rgb(255, 255, 255)'
+    UIBarTextColor: 'rgb(255, 255, 255)',
+    
+    White: 'rgb(255, 255, 255)',
+    Black: 'rgb(0, 0, 0)',
+    Gray: 'rgb(170, 170, 170)',
+    LightGray: 'rgb(245, 245, 245)',
+    VeryLightGray: 'rgb(250, 250, 250)'
 };
+
+export let White = Colors.White;
+export let Black = Colors.Black;
+export let Gray = Colors.Gray;
+export let LightGray = Colors.LightGray;
+export let VeryLightGray = Colors.VeryLightGray;
+
+export let IconColor = Colors.White;
+
+
 
 export function setColors(...colors) {
     merge(Colors, ...colors);
