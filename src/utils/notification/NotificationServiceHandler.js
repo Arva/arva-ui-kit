@@ -58,6 +58,19 @@ export class NotificationServiceHandler {
     _onNotificationOpen(notification = {}){
         // todo handle notification opens
         console.log(notification);
+
+        if(notification.tap == true){
+            this._handleRoutingRequest(notification);
+        }
+    }
+
+    /**
+     * Handle a routing request
+     * @param notification
+     * @private
+     */
+    _handleRoutingRequest(notification = {}){
+
     }
 
 }
