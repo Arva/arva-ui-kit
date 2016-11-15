@@ -18,8 +18,8 @@ import {Settings}               from '../../defaults/DefaultSettings.js';
 export class FacebookLogin extends BaseLogin {
     
     
-    constructor(dataSource) {
-        super(dataSource);
+    constructor() {
+        super();
         if(!window.facebookConnectPlugin){
             console.log("Error - the facebook connect plugin 'cordova-plugin-facebook4' isn't properly installed")
         }
@@ -28,6 +28,16 @@ export class FacebookLogin extends BaseLogin {
     authenticate() {
         return new Promise((resolve)=> {
             facebookConnectPlugin.login(['public_profile', 'email'], (data) => {
+                resolve(data);
+            }, (reason) => {
+                reject(reason);
+            });
+        });
+    }
+
+    getApiToken() {
+        return new Promise((resolve)=> {
+            facebookConnectPlugin.getAccessToken((data) => {
                 resolve(data);
             }, (reason) => {
                 reject(reason);
