@@ -8,9 +8,8 @@ import {DataSource}             from 'arva-js/data/DataSource.js';
 
 @inject(DataSource)
 export class PasswordLogin extends BaseLogin {
-    constructor(dataSource) {
+    constructor() {
         super();
-        this._dataSource = dataSource;
     }
 
     async authenticateToDataSource(email, password) {
