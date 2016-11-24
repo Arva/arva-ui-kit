@@ -31,14 +31,14 @@ export class PictureSelector {
      * @returns {Promise}
      */
     static async fetchPicture(usesCamera = true, fileLocation = undefined, fileName = undefined) {
-        PictureManager._canBeUsed();
+        PictureSelector._canBeUsed();
         try {
-            let pictureUrl = usesCamera ? await PictureManager.getCameraPicture() : await PictureManager.getLibraryPicture();
+            let pictureUrl = usesCamera ? await PictureSelector.getCameraPicture() : await PictureSelector.getLibraryPicture();
             let fileBlob;
             try {
-                fileBlob = await PictureManager.proccesImage(pictureUrl);
+                fileBlob = await PictureSelector.proccesImage(pictureUrl);
                 let firebaseStorageManager = new FirebaseStorageManager();
-                let downloadUrl = await firebaseStorageManager.uploadFile(fileLocation, fileName);
+                let downloadUrl = await firebaseStorageManager.uploadFile(fileBlob, fileLocation, fileName);
                 return downloadUrl;
             } catch (error) {
                 console.error(error);
@@ -49,18 +49,18 @@ export class PictureSelector {
     }
 
     static getCameraPicture(options = {}) {
-        PictureManager._canBeUsed();
+        PictureSelector._canBeUsed();
         return new Promise((resolve, reject)=> {
-            let options = combineOptions(options, PictureManager.getDefaultOptions());
+            let options = combineOptions(options, PictureSelector.getDefaultOptions());
             options.sourceType = navigator.camera.PictureSourceType.CAMERA;
             navigator.camera.getPicture(resolve, reject, options);
         });
     }
 
     static getLibraryPicture(options = {}) {
-        PictureManager._canBeUsed();
+        PictureSelector._canBeUsed();
         return new Promise((resolve, reject)=> {
-            let options = combineOptions(options, PictureManager.getDefaultOptions());
+            let options = combineOptions(options, PictureSelector.getDefaultOptions());
             options.sourceType = navigator.camera.PictureSourceType.SAVEDPHOTOALBUM;
             navigator.camera.getPicture(resolve, reject, options);
         });
@@ -72,7 +72,7 @@ export class PictureSelector {
      * @returns {Promise} Returns a Promise with a file Blob
      */
     static proccesImage(localImagePath = '') {
-        PictureManager._canBeUsed();
+        PictureSelector._canBeUsed();
 
         return new Promise((resolve, reject)=> {
             window.resolveLocalFileSystemURL(localImagePath, (fileEntry)=> {
@@ -91,11 +91,11 @@ export class PictureSelector {
 
     static _canBeUsed() {
         if (!navigator || !navigator.camera) {
-            throw new Error('Camera Plugin not Defined. PictureManager class can only be used with a Cordova build and cordova-plugin-camera installed ');
+            throw new Error('Camera Plugin not Defined. PictureSelector class can only be used with a Cordova build and cordova-plugin-camera installed ');
         }
 
         if (!window.cordova || !window.cordova.file) {
-            throw new Error('File Plugin not Defined. PictureManager class can only be used with a Cordova build and cordova-plugin-file installed ');
+            throw new Error('File Plugin not Defined. PictureSelector class can only be used with a Cordova build and cordova-plugin-file installed ');
         }
     }
 }
