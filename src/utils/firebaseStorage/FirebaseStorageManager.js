@@ -34,7 +34,6 @@ export class FirebaseStorageManager {
                 resolve(uploadTask.snapshot.downloadURL);
             });
         });
-
     }
 
 
