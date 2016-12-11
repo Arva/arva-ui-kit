@@ -163,7 +163,7 @@ class NotificationWrapper extends View {
             item.remove();
         }
 
-        this.scrollView._removeItem({id: item.id});
+        this.scrollView._removeItem({id: item.id}, 0);
         if (this.queue && this.queue.length) this.queue.shift();
 
         setTimeout(()=> {
