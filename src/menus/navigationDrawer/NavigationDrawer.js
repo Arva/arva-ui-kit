@@ -38,37 +38,47 @@ export class NavigationDrawer extends View {
     /**
      *  @example
      *  Injector.get(NavigationDrawer, {
-     *     topMenuOptions: {
-     *         defaultTitle: 'Title'    // default top menu title
-     *     },
-     *     sideMenu: {                  // Options for the side menu. Return promise to delay creation
-     *         itemMargin: 10,          // The margins between the items. Defaults to 10
-     *         itemHeight: 44,          // The height of each item. Defaults to 44
-     *         direction: 1,
-     *         viewClass: DraggableSideMenu    // draggable side menu renderable, defaults to DraggableSideMenu
-     *         itemClass: : MenuItem,          // side menu item's renderable, defaults to MenuItem
-     *         menuItems: [{                   // Options for the menu items
-     *           text: 'Index',                // The text of the menu item
-     *           controller: 'Home',           // The associated controller of the menu item, defaults to 'Home'
-     *           method: 'Index',              // The associated method of the menu item, defaults to 'Index'
-     *           arguments: {banana: true}     // The arguments passed to the controller, defaults to {}
-     *         }],
-     *         menuItem: {}                    // Options for every menu item (textColor, highlightedTextColor, etc) , defaults to {}
-     *     },
-     *     sideMenuClass: DraggableSideMenu                   // The class used for the side menu, defaults to DraggableSideMenu
-     *     topMenuClass: TopMenu,                             // top menu renderable, defaults to TopMenu
-     *     showTopMenu: true,                                 // if the top menu shows
-     *     showInitial: true,                                 // if the navigationDrawer shows on startup of the app
-     *     enabled: true,                                     // if the side menu draggable is enabled
-     *     hideOnRoutes: [{controller: 'Home',methods:['Index','Register']}],       // route's that will auto hide the top & side menu
-     *    }
+     *      backgroundColor: 'rgb(231, 254, 255)',   // Sets the background color for all elements in the NavigationDrawer
+     *      topMenuOptions: {
+     *          defaultTitle: 'Title'                // default top menu title
+     *      },
+     *      sideMenu: {                              // Options for the side menu. Return promise to delay creation
+     *          itemMargin: 10,                      // The margins between the items. Defaults to 10
+     *          itemHeight: 44,                      // The height of each item. Defaults to 44
+     *          direction: 1,
+     *          viewClass: DraggableSideMenu         // draggable side menu renderable, defaults to DraggableSideMenu
+     *          itemClass: : MenuItem,               // side menu item's renderable, defaults to MenuItem
+     *          menuItems: [{                        // Options for the menu items
+     *              text: 'Index',                   // The text of the menu item
+     *              controller: 'Home',              // The associated controller of the menu item, defaults to 'Home'
+     *              method: 'Index',                 // The associated method of the menu item, defaults to 'Index'
+     *              arguments: {banana: true}        // The arguments passed to the controller, defaults to {}
+     *          }],
+     *          menuItem: {}                         // Options for every menu item (textColor, highlightedTextColor, etc)
+     *      },
+     *      sideMenuClass: DraggableSideMenu         // The class used for the side menu, defaults to DraggableSideMenu
+     *      topMenuClass: TopMenu,                   // top menu renderable, defaults to TopMenu
+     *      showTopMenu: true,                       // if the top menu shows
+     *      showInitial: true,                       // if the navigationDrawer shows on startup of the app
+     *      enabled: true,                           // if the side menu draggable is enabled
+     *      hideOnRoutes: [{                         // route's that will auto hide the top & side menu
+     *          controller: 'Home',
+     *          methods: ['Index','Register']
+     *      }],
      *  });
      * @param {Object} [options] Options to pass in, see example.
      */
     constructor(options = {}) {
+        /* Store background color for all NavigationDrawer elements. */
+        let globalBackgroundColor = options.backgroundColor;
+
         super(combineOptions({
             sideMenu: {
-                menuItems: []
+                backgroundColor: globalBackgroundColor || undefined,
+                menuItems: [],
+                menuItem: globalBackgroundColor
+                    ? {backgroundProperties: {backgroundColor: globalBackgroundColor}}
+                    : {},
             },
             closeOnRouteChange: true,
             topBarHeight: Dimensions.topBarHeight,
@@ -77,7 +87,9 @@ export class NavigationDrawer extends View {
             hideOnRoutes: [],
             enabled: true,
             topMenuClass: TopMenu,
-            topMenuOptions: {},
+            topMenuOptions: globalBackgroundColor
+                ? {backgroundProperties: {backgroundColor: globalBackgroundColor}}
+                : {},
             sideMenuClass: DraggableSideMenu
         }, options));
 
