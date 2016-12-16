@@ -34,9 +34,5 @@ export class ContentCard extends View {
         super(combineOptions({
             backgroundColor: 'white'
         }, options));
-        /* If there is an overriding backgroundColor excplicitly set, then do stuff */
-        if(options.backgroundColor){
-
-        }
     }
 }

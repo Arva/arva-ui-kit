@@ -25,6 +25,7 @@ export class Button extends Clickable {
     @layout.fullSize()
     @layout.translate(0, 0, 40)
     overlay = new Surface({
+        classes: this.options.backgroundClasses || [],
         properties: {
             cursor: this.options.enabled ? 'pointer' : 'inherit',
             borderRadius: this.options.backgroundProperties.borderRadius
@@ -64,6 +65,7 @@ export class Button extends Clickable {
         if (this.options.useBackground || this.options.useBoxShadow) {
             let {backgroundProperties} = this.options;
             this.addRenderable(new Surface({
+                classes: this.options.backgroundClasses || [],
                 properties: {
                     ...(this.options.useBackground ? {
                         border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : '',
