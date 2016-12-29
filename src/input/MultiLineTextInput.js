@@ -127,6 +127,8 @@ export class MultiLineTextInput extends SingleLineTextInput {
             if (this.options.isFormField) {
                 this._setBorderBottomColor(currentValue);
             }
+
+            this._eventOutput.emit('value', currentValue);
         }
     }
 

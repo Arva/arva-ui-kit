@@ -16,7 +16,8 @@ export class ContentCard extends View {
         properties: {
             backgroundColor: this.options.backgroundColor,
             borderRadius: '4px',
-            boxShadow: getShadow({type: this.options.shadow})
+            boxShadow: getShadow({type: this.options.shadow}),
+            cursor: 'pointer'
         }
     });
     

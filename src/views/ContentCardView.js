@@ -44,7 +44,8 @@ export class ContentCardView extends View {
             spacing: [16, 16],
             maxNoColumns: 3,
             cards: [],
-            background: false
+            background: false,
+            innerSpacing: 16
         }, options));
         for (let card of this.options.cards) {
             this.addCard(card);
@@ -58,7 +59,7 @@ export class ContentCardView extends View {
         this.onNewSize(([width, height]) => {
             let innerWidth = (width - 16);
             let noColumns = limit(1, Math.floor(innerWidth / (288 + 16)), this.options.maxNoColumns);
-            let cardWidth = limit(0, innerWidth / noColumns, 480) - 16;
+            let cardWidth = limit(0, innerWidth / noColumns, 480) - this.options.innerSpacing;
             let {viewMargins} = this.decorations;
             viewMargins[1] = viewMargins[3] = (width - (noColumns * cardWidth + Math.max(this.options.spacing[1] * (noColumns - 1), 0) )) / 2;
 
