@@ -17,7 +17,7 @@ export class ContentCard extends View {
             backgroundColor: this.options.backgroundColor,
             borderRadius: '4px',
             boxShadow: getShadow({type: this.options.shadow}),
-            cursor: 'pointer'
+            cursor: this.options.enabled ? 'pointer' : 'initial'
         }
     });
     
