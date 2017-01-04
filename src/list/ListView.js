@@ -10,7 +10,7 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {DataBoundScrollView}        from 'arva-js/components/DataBoundScrollView.js';
 import {ListElement}                from './ListElement.js';
 
-@layout.columnDockPadding(720, [0])
+@layout.columnDockPadding(720, [0, 0, 0, 0])
 export class ListView extends View {
 
     _height = 0;
@@ -18,22 +18,23 @@ export class ListView extends View {
     @layout.dock.fill()
     @layout.translate(0, 0, 10)
     list = new DataBoundScrollView({
+        ...this.options.scrollViewOptions,
         dataStore: this.options.dataStore,
         itemTemplate: (listElement) => this.options.dataMapper
             ? new ListElement(this.options.dataMapper(listElement))
             : new ListElement({
-            ...this.options.forAllElements,
-            text: listElement[this.options.templateMap.text],
-            previewText: listElement[this.options.templateMap.previewText],
-            sideText: listElement[this.options.templateMap.sideText],
-            statusColor: listElement[this.options.templateMap.statusColor],
-            image: listElement[this.options.templateMap.image],
-            bold: listElement[this.options.templateMap.bold] || this.options.bold,
-            profileImage: this.options.profileImages,
-            elementHeight: listElement[this.options.templateMap.elementHeight],
-            backgroundColor: this._computeColor()
+                ...this.options.forAllElements,
+                text: listElement[this.options.templateMap.text],
+                previewText: listElement[this.options.templateMap.previewText],
+                sideText: listElement[this.options.templateMap.sideText],
+                statusColor: listElement[this.options.templateMap.statusColor],
+                image: listElement[this.options.templateMap.image],
+                bold: listElement[this.options.templateMap.bold] || this.options.bold,
+                profileImage: this.options.profileImages,
+                elementHeight: listElement[this.options.templateMap.elementHeight],
+                backgroundColor: this._computeColor()
 
-        }),
+            }),
         layoutOptions: {
             spacing: this.options.spacing ? 1 : 0
         }
@@ -97,7 +98,8 @@ export class ListView extends View {
      */
     constructor(options = {}) {
         super(combineOptions({
-            templateMap: {}
+            templateMap: {},
+            scrollViewOptions: {}
         }, options));
 
         if (this.options.spacing) {
@@ -110,23 +112,21 @@ export class ListView extends View {
                 }),
                 layout.translate(0, 0, -10)
             );
-
-            this.dataStore.on('child_added', this._calculateSize);
-            this.dataStore.on('child_changed', this._calculateSize);
-            this.dataStore.on('child_removed', this._calculateSize);
         }
+
+        this.options.dataStore.on('child_added', this._calculateSize);
+        this.options.dataStore.on('child_changed', this._calculateSize);
+        this.options.dataStore.on('child_removed', this._calculateSize);
     }
 
     _calculateSize() {
-        this._height = this.dataStore.length * 64;
+        this._height = this.options.dataStore.length * 64;
+        this.reflowRecursively();
     }
 
     _computeColor() {
-        return this.options.alternatingColors
-            ? (this.list.getDataSource().getLength() % 2 !== 0
-            ? 'rgb(250, 250, 250)'
-            : undefined)
-            : undefined;
+        return this.options.alternatingColors && this.list.getDataSource().getLength() % 2 !== 0
+                ? 'rgb(250, 250, 250)' : undefined;
     }
 
 }

@@ -3,7 +3,7 @@
  */
 
 import Surface              from 'famous/core/Surface.js';
-import BkImageSurface       from 'bizboard/famous-bkimagesurface';
+import BkImageSurface       from 'famous-bkimagesurface/BkImageSurface.js';
 
 import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
