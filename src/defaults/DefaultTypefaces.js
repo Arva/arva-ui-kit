@@ -61,7 +61,12 @@ export let TypeFaces = merge({
     ImpactBig: {fontSize: '32px', fontWeight: 'bold', get color() { return Colors.ImageTextColor; } }
 }, Avenir.UI, Avenir.Text, Avenir.Impact);
 
-export function useTypefaces(...faces) {
+export function useTypefaces() {
+    console.log('Warning: DefaultTypeFaces.js:useTypefaces() has been deprecated in favor of setTypefaces()');
+    return setTypefaces(...arguments);
+}
+
+export function setTypefaces(...faces){
     merge(TypeFaces, ...faces);
 }
 

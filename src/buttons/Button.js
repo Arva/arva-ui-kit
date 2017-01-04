@@ -3,9 +3,10 @@
  */
 
 import Surface              from 'famous/core/Surface.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
 import {Throttler}          from 'arva-js/utils/Throttler.js';
+import {layout}             from 'arva-js/layout/Decorators.js';
+import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
+import {Colors}             from 'arva-kit/defaults/DefaultColors.js';
 
 import {Clickable}          from '../components/Clickable.js'
 import {Ripple}             from '../components/Ripple.js';
@@ -111,6 +112,12 @@ export class Button extends Clickable {
         this.overlay.setProperties({
             cursor: enabled ? 'pointer' : 'inherit'
         });
+
+        if (this.background){
+            this.background.setProperties({
+                backgroundColor: enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray
+            });
+        }
     }
 
     _handleTapRemoved() {
