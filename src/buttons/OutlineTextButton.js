@@ -9,6 +9,7 @@ export class OutlineTextButton extends TextButton {
 
     static generateOptions(options = {}){
         return {
+            disabledOptions: { properties: { color: Colors.ModestTextColor } },
             backgroundProperties: {backgroundColor: 'none', border: `${options.variation === 'bold' ? '2px' : '1px'} solid ${Colors.PrimaryUIColor}`},
             useBoxShadow: false
         }
