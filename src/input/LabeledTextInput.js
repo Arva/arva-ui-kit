@@ -13,12 +13,8 @@ export class LabeledTextInput extends View {
     @layout.dock.top(~20)
     label = new UISmallGray({content: this.options.label});
 
-    @layout.dock.top(~48)
-    @layout.dockSpace(4)
-    input = new this.options.inputType({
-        value: this.options.value,
-        placeholder: this.options.placeholder,
-        usesFeedback: this.options.usesFeedback});
+    @layout.dock.top(~48, 4)
+    input = new this.options.inputType(this.options);
     
     /**
      * Renders a SingleLineTextInput or MultiLineInput, with a text label docked above it.
