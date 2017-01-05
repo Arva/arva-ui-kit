@@ -62,7 +62,7 @@ export class SingleLineTextInput extends View {
 
     @flow.defaultState('hidden', flowOptions, ...hideBubble)
     @flow.stateStep('shown', closeTransition, ...showBubble)
-    required = new FeedbackBubble({variation: 'required'});
+    required = new FeedbackBubble({variation: 'required', text: this.options.feedbackText});
 
     /**
      * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
@@ -77,9 +77,16 @@ export class SingleLineTextInput extends View {
      * @param {Boolean} [options.usesFeedback] Option to enable specific layouting for displaying feedbackBubbles
      * @param {Boolean} [options.password] Hides entered characters, replacing them with system-defined asterisks or comparable
      * @param {Boolean} [options.required] If set to true, shows a FeedbackBubble stating the field is required to be filled in
+     * @param {Boolean} [options.validator] Function that takes the string and returns {isValid: Boolean, feedback: String}
+     * @param {Boolean} [options.feedbackText] The text that should display on feedback by default
      */
     constructor(options) {
-        super(combineOptions({required: false, usesFeedback: true, inputOptions: {clearOnEnter: true}}, options));
+        super(combineOptions({
+            required: false,
+            usesFeedback: true,
+            inputOptions: {clearOnEnter: true},
+            feedbackText: FeedbackBubble.texts.required
+        }, options));
 
         if (!this.input) {
             this.addRenderable(new SingleLineInputSurface({
@@ -101,12 +108,21 @@ export class SingleLineTextInput extends View {
                     this._onFocus();
                 }
             ));
+            if(this.options.usesFeedback){
+                this.input.on('valueChange', this._validateInput);
+            }
+        }
+        if(this.options.required){
+            if (this.options.value) {
+                this.setCorrectState(this.options.feedbackText);
+            } else {
+                this.setRequiredState();
+            }
         }
 
-        if (this.options.required) {
-            this.setRequiredState();
-        }
     }
+
+
 
     setValue() {
         return this.input.setValue(...arguments);
@@ -115,36 +131,36 @@ export class SingleLineTextInput extends View {
     getValue() {
         return this.input.getValue(...arguments);
     }
-    
+
     focus() {
         return this.input.focus(...arguments);
     }
-
 
     setCorrectState(message = '') {
         if (message) {
             this.correct.setText(message);
         }
         this.setViewFlowState('correct');
+        this._eventOutput.emit('stateCorrect');
     }
+
 
     setIncorrectState(message = '') {
         if (message) {
             this.incorrect.setText(message);
         }
         this.setViewFlowState('incorrect');
+        this._eventOutput.emit('stateIncorrect');
+    }
+
+    isStateCorrect() {
+        return this.getViewFlowState() === 'correct';
     }
 
     setRequiredState() {
+        /* This is incorrect state, because there's nothing in the field as of now */
         this.setViewFlowState('required');
-    }
-
-    getValue() {
-        return this.input.getValue();
-    }
-
-    setValue(value) {
-        this.input.setValue(value);
+        this._eventOutput.emit('stateIncorrect');
     }
 
     getSize() {
@@ -160,5 +176,31 @@ export class SingleLineTextInput extends View {
 
     _onBlur() {
         this.setRenderableFlowState('shadow', 'hidden');
+    }
+
+    revalidate() {
+        this._validateInput(this.getValue());
+    }
+
+    _validateInput(inputString) {
+        if(this.options.validator){
+            if(this.options.required && !inputString){
+                this.setRequiredState();
+            } else {
+                let {isValid, feedback} = this.options.validator(inputString);
+                if(isValid){
+                    this.setCorrectState(feedback);
+                } else {
+                    this.setIncorrectState(feedback);
+                }
+            }
+
+        } else if(this.options.required) {
+            if(inputString){
+                this.setCorrectState(this.options.feedbackText);
+            } else {
+                this.setRequiredState();
+            }
+        }
     }
 }

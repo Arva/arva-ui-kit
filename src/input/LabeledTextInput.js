@@ -11,15 +11,19 @@ import {SingleLineTextInput}    from './SingleLineTextInput.js';
 export class LabeledTextInput extends View {
 
     @layout.dock.top(~20)
-    label = new UISmallGray({content: this.options.label});
+    label = new UISmallGray({
+        content: this.options.label, properties: {
+            /* Prevent line-breaks from happening */
+            whiteSpace: 'nowrap'
+        }
+    });
 
     @layout.dock.top(~48)
     @layout.dockSpace(4)
-    input = new this.options.inputType({
-        value: this.options.value,
-        placeholder: this.options.placeholder,
-        usesFeedback: this.options.usesFeedback});
-    
+    input = new this.options.inputType(
+        this.options
+    );
+
     /**
      * Renders a SingleLineTextInput or MultiLineInput, with a text label docked above it.
      *
@@ -36,15 +40,17 @@ export class LabeledTextInput extends View {
             placeholder: '',
             clearOnEnter: false,
             usesFeedback: false,
+            password: false,
             inputType: SingleLineTextInput
         }, options));
     }
 
     getValue() {
-        this.input.getValue();
+        return this.input.getValue();
     }
 
     setValue(value) {
         this.input.setValue(value);
     }
+    
 }    
