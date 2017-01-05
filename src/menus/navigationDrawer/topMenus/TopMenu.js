@@ -28,7 +28,7 @@ export class TopMenu extends UIBar {
     get menuButton() {
         this.hamburgerButton = new UIBarImageButton({
             clickEventName: 'requestMenuOpen',
-            icon: HamburgerIcon,
+            icon: HamburgerIcon
         });
         this.hamburgerButton.setVariation(this.options.variation);
         this.arrowLeftButton = new UIBarImageButton({
