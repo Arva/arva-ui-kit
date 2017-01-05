@@ -16,7 +16,8 @@ export class ContentCard extends View {
         properties: {
             backgroundColor: this.options.backgroundColor,
             borderRadius: '4px',
-            boxShadow: getShadow({type: this.options.shadow})
+            boxShadow: getShadow({type: this.options.shadow}),
+            cursor: this.options.enabled ? 'pointer' : 'initial'
         }
     });
     
@@ -34,9 +35,5 @@ export class ContentCard extends View {
         super(combineOptions({
             backgroundColor: 'white'
         }, options));
-        /* If there is an overriding backgroundColor excplicitly set, then do stuff */
-        if(options.backgroundColor){
-
-        }
     }
 }

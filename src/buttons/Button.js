@@ -3,9 +3,10 @@
  */
 
 import Surface              from 'famous/core/Surface.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
 import {Throttler}          from 'arva-js/utils/Throttler.js';
+import {layout}             from 'arva-js/layout/Decorators.js';
+import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
+import {Colors}             from 'arva-kit/defaults/DefaultColors.js';
 
 import {Clickable}          from '../components/Clickable.js'
 import {Ripple}             from '../components/Ripple.js';
@@ -25,6 +26,7 @@ export class Button extends Clickable {
     @layout.fullSize()
     @layout.translate(0, 0, 40)
     overlay = new Surface({
+        classes: this.options.backgroundClasses || [],
         properties: {
             cursor: this.options.enabled ? 'pointer' : 'inherit',
             borderRadius: this.options.backgroundProperties.borderRadius
@@ -64,6 +66,7 @@ export class Button extends Clickable {
         if (this.options.useBackground || this.options.useBoxShadow) {
             let {backgroundProperties} = this.options;
             this.addRenderable(new Surface({
+                classes: this.options.backgroundClasses || [],
                 properties: {
                     ...(this.options.useBackground ? {
                         border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : '',
@@ -109,6 +112,12 @@ export class Button extends Clickable {
         this.overlay.setProperties({
             cursor: enabled ? 'pointer' : 'inherit'
         });
+
+        if (this.background){
+            this.background.setProperties({
+                backgroundColor: enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray
+            });
+        }
     }
 
     _handleTapRemoved() {

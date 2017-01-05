@@ -35,4 +35,15 @@ export class IconButton extends Button {
             properties: {color: Colors.PrimaryUIColor}
         }, options));
     }
+
+
+    _setEnabled(enabled) {
+        super._setEnabled(enabled);
+        if(this.icon && this.icon.changeColor) {
+            this.icon.changeColor(enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray);
+        }
+    }
+
+
+    /* TODO 3: add _setEnabled method that changes icon color */
 }

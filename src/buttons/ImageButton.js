@@ -19,9 +19,9 @@ export class ImageButton extends Button {
     image = this.options.image
         ? new ImageSurface({content: this.options.image})
         : new this.options.icon({
-        color: this.options.properties.color
-    });
-    
+            color: this.options.properties.color
+        });
+
     /* Default if true size specified */
     getSize() {
         return [ComponentHeight, ComponentHeight];
@@ -52,4 +52,15 @@ export class ImageButton extends Button {
     setColor() {
         return this.image.changeColor(...arguments);
     }
+
+    _setEnabled(enabled) {
+        super._setEnabled(enabled);
+        if (this.options.icon && this.image && this.image.changeColor) {
+            this.image.changeColor(enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray);
+        }
+    }
+
+
+    /* TODO 3: add _setEnabled method that changes image color if it's an icon */
+
 }

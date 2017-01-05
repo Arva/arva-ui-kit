@@ -23,7 +23,7 @@ export class TextButton extends Button {
             disabledOptions: {
                 content: options.content,
                 properties: {
-                    color: Colors.ModestTextColor
+                    color: Colors.White
                 }
             },
             properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor},
