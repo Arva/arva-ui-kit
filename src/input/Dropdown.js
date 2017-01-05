@@ -79,7 +79,9 @@ export class Dropdown extends View {
             <select style ="
                 height: 48px;
                 overflow: hidden;
-                border: none;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                background-color: white;
+                border-radius: 4px;
                 padding: 0 0 0 16px;
                 outline: none;
                 -webkit-appearance: none; /* Doesn't work for IE and firefox */
