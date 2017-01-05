@@ -72,7 +72,8 @@ export class FeedbackBubble extends Clickable {
             lineHeight: '40px',
             overflow: 'hidden',
             cursor: 'pointer',
-            textAlign: 'right'
+            textAlign: 'right',
+            whiteSpace: 'nowrap'
         }
     });
 
