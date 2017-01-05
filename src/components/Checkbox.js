@@ -3,6 +3,9 @@
  */
 
 import Easing                      from 'famous/transitions/Easing.js';
+import Timer                       from 'famous/utilities/Timer.js';
+import Surface                     from 'famous/core/Surface.js';
+
 import {layout, flow}              from 'arva-js/layout/Decorators.js';
 import {combineOptions}            from 'arva-js/utils/CombineOptions.js';
 
@@ -12,8 +15,6 @@ import {Colors}                    from '../defaults/DefaultColors.js';
 import {getShadow}                 from '../defaults/DefaultShadows.js';
 import {Clickable}                 from './Clickable.js';
 
-import Timer                       from 'famous/utilities/Timer.js';
-import Surface                     from 'famous/core/Surface.js';
 
 const iconSize = [24, 24];
 const iconZValue = 30;
