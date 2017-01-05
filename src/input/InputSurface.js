@@ -5,7 +5,9 @@ import FamousInputSurface           from 'famous/surfaces/InputSurface';
 
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {replaceEmojiAtEnd}          from './Emoji.js';
-
+/**
+ * Emits 'valueChange' when input is changed
+ */
 export class InputSurface extends FamousInputSurface {
     constructor(options) {
         let properties = {
