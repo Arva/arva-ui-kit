@@ -7,6 +7,7 @@ import AnimationController      from 'famous-flex/AnimationController.js';
 import {Injection}              from 'arva-js/utils/Injection.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
+import {Router}                 from 'arva-js/core/Router.js';
 
 import {UIBar}                  from '../../../uibars/UIBar.js';
 import {UIBarTitle}             from '../../../text/UIBarTitle.js';
@@ -50,11 +51,16 @@ export class TopMenu extends UIBar {
     constructor(options = {}) {
         super(combineOptions({
             components: [
-                [new UIBarTitle({content: options.defaultTitle || ''}), 'title', 'center']
+                [new UIBarTitle({content: options.defaultTitle || ''}), 'title', 'center'],
+                [this.options.rightButton || new UIBarImageButton({
+                    clickEventName: 'rightButtonClick', icon: InfoIcon
+                }), 'rightButton', 'right']
             ]
         }, options));
 
         this.rightButton.setVariation(this.options.variation);
+
+        this.router = Injection.get(Router);
 
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');
@@ -67,9 +73,25 @@ export class TopMenu extends UIBar {
             let color = this.options.colored ? this.options.backgroundProperties.backgroundColor : 'rgb(255, 255, 255)';
             Injection.get(StatusBarExtension).setColor(color);
         }
+
+        this.router.on('routechange', this.onRouteChange);
     }
 
-
+    onRouteChange(route) {
+        let controller = route.controller;
+        if (this.options.dynamicButtons && this.options.dynamicButtons[controller]) {
+            let {left, right} = this.options.dynamicButtons[controller];
+            if (left || right) {
+                this.removeAllComponents();
+                if (left) {
+                    this.addComponents('left', left);
+                }
+                if (right) {
+                    this.addComponents('left', left);
+                }
+            }
+        }
+    }
 
     open() {
         if (!this.isOpen) {

@@ -93,19 +93,55 @@ export class UIBar extends View {
         }, options));
 
         let components = options.components;
+        this.componentNames = {};
         for (let [renderable, renderableName, position] of components || []) {
-            if (this.options.autoColoring) {
-                /* Only change color of renderables which have a setVariation method. */
-                if (renderable.setVariation) {
-                    renderable.setVariation(this.options.variation);
-                }
-            }
-            if (position === 'center') {
-                this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(...this.options.centerItemSize));
-            } else {
-                this.addRenderable(renderable, renderableName, layout.dock[position](true));
+            this.addComponent(renderable, renderableName, position);
+        }
+    }
+
+    addComponent(renderable, renderableName, position) {
+        this.componentNames[position].push(renderableName);
+        if (this.options.autoColoring) {
+            /* Only change color of renderables which have a setVariation method. */
+            if (renderable.setVariation) {
+                renderable.setVariation(this.options.variation);
             }
         }
+        if (position === 'center') {
+            this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(...this.options.centerItemSize));
+        } else {
+            this.addRenderable(renderable, renderableName, layout.dock[position](true));
+        }
+    }
+
+    removeAllComponents() {
+        let {left, right, center} = this.componentNames;
+        while (left.length > 0) {
+            this.removeRenderable(left.pop());
+        }
+        while (right.length > 0) {
+            this.removeRenderable(right.pop());
+        }
+        while (center.length > 0) {
+            this.removeRenderable(center.pop());
+        }
+    }
+
+    removeComponents(position) {
+        let currentComponents = this.componentNames[position];
+        while (currentComponents.length > 0) {
+            this.removeRenderable(currentComponents.pop());
+        }
+    }
+
+    addComponents(position, components) {
+        for (let [renderable, renderableName] of components || []) {
+            this.addComponent(renderable, renderableName, position);
+        }
+    }
+
+    replaceComponent(oldRenderableName, newRenderable) {
+        this.replaceRenderable(oldRenderableName, newRenderable);
     }
 
     getSize() {
