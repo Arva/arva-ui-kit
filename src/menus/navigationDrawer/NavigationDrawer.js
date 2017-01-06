@@ -78,7 +78,7 @@ export class NavigationDrawer extends View {
                 menuItems: [],
                 menuItem: globalBackgroundColor
                     ? {backgroundProperties: {backgroundColor: globalBackgroundColor}}
-                    : {},
+                    : {}
             },
             closeOnRouteChange: true,
             topBarHeight: Dimensions.topBarHeight,
@@ -113,7 +113,7 @@ export class NavigationDrawer extends View {
             initSideMenu(sideMenuOptions);
         }
 
-        if (options.enabled != undefined) this.setNavigationDrawerEnabled(options.enabled);
+        this._enabled = this.options.enabled;
         if (options.showInitial != undefined && !options.showInitial) this.hideTopBar();
         this.router.on('routechange', this.onRouteChange);
     }
@@ -127,7 +127,7 @@ export class NavigationDrawer extends View {
         /* Hide the menu on specific route changes */
         if (this.options.showTopMenu && this.options.hideOnRoutes) {
             if (find(this.options.hideOnRoutes, (hideRoute)=> {
-                    return hideRoute.controller === route.controller && (~hideRoute.methods.indexOf(route.method) || hideRoute.methods.length === 0);
+                    return hideRoute.controller === route.controller && (!hideRoute.methods || hideRoute.methods.length === 0 || ~hideRoute.methods.indexOf(route.method) );
                 }) !== undefined) {
                 this.hideTopBar();
             } else {
