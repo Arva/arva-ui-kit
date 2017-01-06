@@ -29,6 +29,7 @@ export class InputSurface extends FamousInputSurface {
         this.on('paste', this._onFieldChange);
         this.on('input', this._onFieldChange);
         this.on('propertychange', this._onFieldChange);
+        this.on('change', this._onFieldChange);
     }
 
     /**
