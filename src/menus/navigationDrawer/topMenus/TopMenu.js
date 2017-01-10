@@ -1,62 +1,41 @@
 /**
  * Created by manuel on 09-09-15.
  */
-
-import AnimationController      from 'famous-flex/AnimationController.js';
-
-import {Injection}              from 'arva-js/utils/Injection.js';
-import {layout}                 from 'arva-js/layout/Decorators.js';
-import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {Router}                 from 'arva-js/core/Router.js';
-
-import {UIBar}                  from '../../../uibars/UIBar.js';
-import {UIBarTitle}             from '../../../text/UIBarTitle.js';
-import {LeftIcon}               from '../../../icons/LeftIcon.js';
-import {InfoIcon}               from '../../../icons/InfoIcon.js';
-import {HamburgerIcon}          from '../../../icons/HamburgerIcon.js';
-import {UIBarImageButton}       from '../../../buttons/UIBarImageButton.js';
-import {StatusBarExtension}     from '../../../utils/statusBar/StatusBarExtension.js';
+import {Injection} from 'arva-js/utils/Injection.js';
+import {layout} from 'arva-js/layout/Decorators.js';
+import {combineOptions} from 'arva-js/utils/CombineOptions.js';
+import {Router} from 'arva-js/core/Router.js';
+import {UIBar} from '../../../uibars/UIBar.js';
+import {UIBarTitle} from '../../../text/UIBarTitle.js';
+import {LeftIcon} from '../../../icons/LeftIcon.js';
+import {InfoIcon} from '../../../icons/InfoIcon.js';
+import {HamburgerIcon} from '../../../icons/HamburgerIcon.js';
+import {UIBarImageButton} from '../../../buttons/UIBarImageButton.js';
+import {StatusBarExtension} from '../../../utils/statusBar/StatusBarExtension.js';
 
 
 export class TopMenu extends UIBar {
-
-    @layout.animate({animation: AnimationController.Animation.Fade})
-    @layout.size(true, true)
-    @layout.stick.center()
-    @layout.dock.left()
-    @layout.translate(0, 0, 40)
-    /* Getter will be overwritten by the decorators, so won't be called twice */
-    get menuButton() {
-        this.hamburgerButton = new UIBarImageButton({
-            clickEventName: 'requestMenuOpen',
-            icon: HamburgerIcon,
-        });
-        this.hamburgerButton.setVariation(this.options.variation);
-        this.arrowLeftButton = new UIBarImageButton({
-            clickEventName: 'requestMenuClose',
-            icon: LeftIcon
-        });
-        this.arrowLeftButton.setVariation(this.options.variation);
-        return this.hamburgerButton;
-    }
-
-    @layout.dock.right()
-    @layout.size(true, ~100)
-    @layout.stick.center()
-    @layout.translate(0, 0, 25)
-    rightButton = this.options.rightButton || new UIBarImageButton({
-        clickEventName: 'rightButtonClick', icon: InfoIcon
-    });
 
     constructor(options = {}) {
         super(combineOptions({
             components: [
                 [new UIBarTitle({content: options.defaultTitle || ''}), 'title', 'center'],
-                [this.options.rightButton || new UIBarImageButton({
-                    clickEventName: 'rightButtonClick', icon: InfoIcon
-                }), 'rightButton', 'right']
+                [options.rightButton || new UIBarImageButton({
+                    clickEventName: 'rightButtonClick',
+                    icon: InfoIcon
+                }), 'rightButton', 'right'],
+                [new UIBarImageButton({
+                    clickEventName: 'requestMenuOpen',
+                    icon: HamburgerIcon,
+                }), 'menuButton', 'left']
             ]
         }, options));
+
+        this.hamburgerButton = this.menuButton;
+        this.arrowLeftButton = new UIBarImageButton({
+            clickEventName: 'requestMenuClose',
+            icon: LeftIcon
+        });
 
         this.rightButton.setVariation(this.options.variation);
 
@@ -74,6 +53,8 @@ export class TopMenu extends UIBar {
             Injection.get(StatusBarExtension).setColor(color);
         }
 
+        // this.removeComponents('left');
+
         this.router.on('routechange', this.onRouteChange);
     }
 
@@ -87,7 +68,7 @@ export class TopMenu extends UIBar {
                     this.addComponents('left', left);
                 }
                 if (right) {
-                    this.addComponents('left', left);
+                    this.addComponents('right', right);
                 }
             }
         }
@@ -96,16 +77,16 @@ export class TopMenu extends UIBar {
     open() {
         if (!this.isOpen) {
             this.isOpen = true;
-            this.replaceRenderable('menuButton', this.arrowLeftButton);
-            this.showRenderable('menuButton');
+            this.removeComponents('left');
+            this.addComponent(this.arrowLeftButton, 'menuButton', 'left');
         }
     }
 
     close() {
         if (this.isOpen) {
             this.isOpen = false;
-            this.replaceRenderable('menuButton', this.hamburgerButton);
-            this.showRenderable('menuButton');
+            this.removeComponents('left');
+            this.addComponent(this.hamburgerButton, 'menuButton', 'left');
         }
     }
 
@@ -123,15 +104,13 @@ export class TopMenu extends UIBar {
 
     async setTemporaryLeftButton(leftButton) {
         this._eventOutput.emit('requestMenuClose');
-        await this.hideRenderable('menuButton');
-        this.replaceRenderable('menuButton', leftButton);
-        this.showRenderable('menuButton');
+        await this.removeComponents('left');
+        this.addComponent(leftButton, 'menuButton', 'left');
     }
 
     removeTemporaryLeftButton() {
-        this.replaceRenderable('menuButton', this.isOpen ? this.arrowLeftButton : this.hamburgerButton);
-        this.showRenderable('menuButton');
+        this.removeComponents('left');
+        this.addComponent(this.isOpen ? this.arrowLeftButton : this.hamburgerButton, 'menuButton', 'left');
     }
-
 
 }

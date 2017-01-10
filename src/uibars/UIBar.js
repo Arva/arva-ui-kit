@@ -4,6 +4,7 @@
 
 import RGBColor                                     from 'rgbcolor';
 import Surface                                      from 'famous/core/Surface.js';
+import AnimationController                          from 'famous-flex/AnimationController.js';
 import {View}                                       from 'arva-js/core/View.js';
 import {layout}                                     from 'arva-js/layout/Decorators.js';
 import {combineOptions}                             from 'arva-js/utils/CombineOptions.js';
@@ -93,7 +94,7 @@ export class UIBar extends View {
         }, options));
 
         let components = options.components;
-        this.componentNames = {};
+        this.componentNames = {left: [], right: [], center: []};
         for (let [renderable, renderableName, position] of components || []) {
             this.addComponent(renderable, renderableName, position);
         }
@@ -109,6 +110,7 @@ export class UIBar extends View {
         }
         if (position === 'center') {
             this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(...this.options.centerItemSize));
+            this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
         } else {
             this.addRenderable(renderable, renderableName, layout.dock[position](true));
         }
