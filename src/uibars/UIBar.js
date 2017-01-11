@@ -113,6 +113,7 @@ export class UIBar extends View {
             this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
         } else {
             this.addRenderable(renderable, renderableName, layout.dock[position](true));
+            this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
         }
     }
 
@@ -137,8 +138,8 @@ export class UIBar extends View {
     }
 
     addComponents(position, components) {
-        for (let [renderable, renderableName] of components || []) {
-            this.addComponent(renderable, renderableName, position);
+        for (let i = 0; i < components.length; i++) {
+            this.addComponent(components[i], position + 'Button' + i, position);
         }
     }
 

@@ -16,6 +16,37 @@ import {StatusBarExtension} from '../../../utils/statusBar/StatusBarExtension.js
 
 export class TopMenu extends UIBar {
 
+    /**
+     * Top menu containing buttons with custom functionality
+     *
+     * @param {Object} options Construction options
+     * @param {String} [options.defaultTitle] The default title to be displayed in the center of the TopMenu
+     * @param {Object.Object.Object.Array} [options.dynamicButton] An option through which buttons can be customized per controller method.
+     *          dynamicButtons: {
+     *               'Home': {
+     *                   'Index': {
+     *                       left: [
+     *                           new UIBarImageButton({clickEventName: 'left0', icon: AccountIcon})
+     *                       ],
+     *                       right: [
+     *                           new UIBarImageButton({clickEventName: 'right0', icon: LeftIcon}),
+     *                           new UIBarImageButton({clickEventName: 'right1', icon: LeftIcon})
+     *                       ],
+     *                       title: 'First Page'
+     *                   },
+     *                   'Edit': {
+     *                       left: [
+     *                           new UIBarImageButton({clickEventName: 'left0', icon: HamburgerIcon})
+     *                       ],
+     *                       right: [
+     *                           new UIBarImageButton({clickEventName: 'right0', icon: LeftIcon}),
+     *                           new UIBarImageButton({clickEventName: 'right1', icon: LeftIcon})
+     *                       ],
+     *                       title: 'First Page'
+     *                   }
+     *               }
+     *           }
+     */
     constructor(options = {}) {
         super(combineOptions({
             components: [
@@ -37,8 +68,6 @@ export class TopMenu extends UIBar {
             icon: LeftIcon
         });
 
-        this.rightButton.setVariation(this.options.variation);
-
         this.router = Injection.get(Router);
 
         this.title.on('click', () => {
@@ -53,38 +82,45 @@ export class TopMenu extends UIBar {
             Injection.get(StatusBarExtension).setColor(color);
         }
 
-        // this.removeComponents('left');
-
         this.router.on('routechange', this.onRouteChange);
     }
 
     onRouteChange(route) {
-        let controller = route.controller;
-        if (this.options.dynamicButtons && this.options.dynamicButtons[controller]) {
-            let {left, right} = this.options.dynamicButtons[controller];
-            if (left || right) {
-                this.removeAllComponents();
+        let {controller, method} = route;
+        if (this.options.dynamicButtons
+            && this.options.dynamicButtons[controller]
+            && this.options.dynamicButtons[controller][method]) {
+            let newComponents = this.options.dynamicButtons[controller][method];
+            let {left, right, title} = newComponents;
+            if (newComponents) {
+                this.removeComponents('left');
+                this.removeComponents('right');
                 if (left) {
                     this.addComponents('left', left);
                 }
                 if (right) {
                     this.addComponents('right', right);
                 }
+                if (title) {
+                    this.setTitle(title);
+                }
             }
         }
     }
 
-    open() {
+    async open() {
         if (!this.isOpen) {
             this.isOpen = true;
+            await this.hideRenderable('menuButton');
             this.removeComponents('left');
             this.addComponent(this.arrowLeftButton, 'menuButton', 'left');
         }
     }
 
-    close() {
+    async close() {
         if (this.isOpen) {
             this.isOpen = false;
+            await this.hideRenderable('menuButton');
             this.removeComponents('left');
             this.addComponent(this.hamburgerButton, 'menuButton', 'left');
         }
