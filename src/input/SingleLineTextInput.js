@@ -112,13 +112,20 @@ export class SingleLineTextInput extends View {
                 this.input.on('valueChange', this._validateInput);
             }
         }
-        if(this.options.required){
-            if (this.options.value) {
-                this.setCorrectState(this.options.feedbackText);
-            } else {
-                this.setRequiredState();
+        /* The browser could auto-fill this stuff, so wait for deploy before checking if we have a value or not */
+        if(this.options.required)
+            
+        setTimeout(() =>
+        {
+            if(this.options.required){
+                if (this.getValue()) {
+                    this.setCorrectState(this.options.feedbackText);
+                } else {
+                    this.setRequiredState();
+                }
             }
-        }
+        }, 200);
+
 
     }
 
