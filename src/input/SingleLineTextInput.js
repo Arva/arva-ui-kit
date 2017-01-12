@@ -162,7 +162,7 @@ export class SingleLineTextInput extends View {
     }
 
     isStateCorrect() {
-        return this.getViewFlowState() === 'correct';
+        return this.getViewFlowState() === 'correct' || !this.options.usesFeedback;
     }
 
     setRequiredState() {

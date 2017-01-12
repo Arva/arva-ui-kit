@@ -125,6 +125,9 @@ export class Switch extends Clickable {
             this._knobWidth = Switch.getKnobWidth(variation);
 
             this._setUpKnob(this._switchWidth);
+            if (this.options.enabled) {
+                this.switchOn();
+            }
         });
     }
 

@@ -204,8 +204,9 @@ export class Dropdown extends View {
         return `item${index}`;
     }
 
-    _getSelectedItem() {
-        return this._getSelectedItem.data;
+
+    getSelectedItem() {
+        return this.options.fakeWithNative ? this.nativeSelect._element.childNodes[1].value :  this._selectedItem.data;
     }
 
     async _placeholderChosen() {
