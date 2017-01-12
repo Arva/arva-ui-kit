@@ -92,6 +92,7 @@ export class SingleLineTextInput extends View {
             this.addRenderable(new SingleLineInputSurface({
                 value: this.options.value || '',
                 type: this.options.password ? 'password' : 'text',
+                clearOnEnter: this.options.clearOnEnter,
                 placeholder: this.options.placeholder || '',
                 properties: {
                     backgroundColor: 'transparent',
