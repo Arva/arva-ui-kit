@@ -1,60 +1,74 @@
 /**
  * Created by manuel on 09-09-15.
  */
-
-import AnimationController      from 'famous-flex/AnimationController.js';
-
-import {Injection}              from 'arva-js/utils/Injection.js';
-import {layout}                 from 'arva-js/layout/Decorators.js';
-import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-
-import {UIBar}                  from '../../../uibars/UIBar.js';
-import {UIBarTitle}             from '../../../text/UIBarTitle.js';
-import {LeftIcon}               from '../../../icons/LeftIcon.js';
-import {InfoIcon}               from '../../../icons/InfoIcon.js';
-import {HamburgerIcon}          from '../../../icons/HamburgerIcon.js';
-import {UIBarImageButton}       from '../../../buttons/UIBarImageButton.js';
-import {StatusBarExtension}     from '../../../utils/statusBar/StatusBarExtension.js';
+import {Injection} from 'arva-js/utils/Injection.js';
+import {layout} from 'arva-js/layout/Decorators.js';
+import {combineOptions} from 'arva-js/utils/CombineOptions.js';
+import {Router} from 'arva-js/core/Router.js';
+import {UIBar} from '../../../uibars/UIBar.js';
+import {UIBarTitle} from '../../../text/UIBarTitle.js';
+import {LeftIcon} from '../../../icons/LeftIcon.js';
+import {InfoIcon} from '../../../icons/InfoIcon.js';
+import {HamburgerIcon} from '../../../icons/HamburgerIcon.js';
+import {UIBarImageButton} from '../../../buttons/UIBarImageButton.js';
+import {StatusBarExtension} from '../../../utils/statusBar/StatusBarExtension.js';
 
 
 export class TopMenu extends UIBar {
 
-    @layout.animate({animation: AnimationController.Animation.Fade})
-    @layout.size(true, true)
-    @layout.stick.center()
-    @layout.dock.left()
-    @layout.translate(0, 0, 40)
-    /* Getter will be overwritten by the decorators, so won't be called twice */
-    get menuButton() {
-        this.hamburgerButton = new UIBarImageButton({
-            clickEventName: 'requestMenuOpen',
-            icon: HamburgerIcon
-        });
-        this.hamburgerButton.setVariation(this.options.variation);
+    /**
+     * Top menu containing buttons with custom functionality
+     *
+     * @param {Object} options Construction options
+     * @param {String} [options.defaultTitle] The default title to be displayed in the center of the TopMenu
+     * @param {Object.Object.Object.Array} [options.dynamicButton] An option through which buttons can be customized per controller method.
+     *          dynamicButtons: {
+     *               'Home': {
+     *                   'Index': {
+     *                       left: [
+     *                           new UIBarImageButton({clickEventName: 'left0', icon: AccountIcon})
+     *                       ],
+     *                       right: [
+     *                           new UIBarImageButton({clickEventName: 'right0', icon: LeftIcon}),
+     *                           new UIBarImageButton({clickEventName: 'right1', icon: LeftIcon})
+     *                       ],
+     *                       title: 'First Page'
+     *                   },
+     *                   'Edit': {
+     *                       left: [
+     *                           new UIBarImageButton({clickEventName: 'left0', icon: HamburgerIcon})
+     *                       ],
+     *                       right: [
+     *                           new UIBarImageButton({clickEventName: 'right0', icon: LeftIcon}),
+     *                           new UIBarImageButton({clickEventName: 'right1', icon: LeftIcon})
+     *                       ],
+     *                       title: 'First Page'
+     *                   }
+     *               }
+     *           }
+     */
+    constructor(options = {}) {
+        super(combineOptions({
+            components: [
+                [new UIBarTitle({content: options.defaultTitle || ''}), 'title', 'center'],
+                [options.rightButton || new UIBarImageButton({
+                    clickEventName: 'rightButtonClick',
+                    icon: InfoIcon
+                }), 'rightButton', 'right'],
+                [new UIBarImageButton({
+                    clickEventName: 'requestMenuOpen',
+                    icon: HamburgerIcon,
+                }), 'menuButton', 'left']
+            ]
+        }, options));
+
+        this.hamburgerButton = this.menuButton;
         this.arrowLeftButton = new UIBarImageButton({
             clickEventName: 'requestMenuClose',
             icon: LeftIcon
         });
-        this.arrowLeftButton.setVariation(this.options.variation);
-        return this.hamburgerButton;
-    }
 
-    @layout.dock.right()
-    @layout.size(true, ~100)
-    @layout.stick.center()
-    @layout.translate(0, 0, 25)
-    rightButton = this.options.rightButton || new UIBarImageButton({
-        clickEventName: 'rightButtonClick', icon: InfoIcon
-    });
-
-    constructor(options = {}) {
-        super(combineOptions({
-            components: [
-                [new UIBarTitle({content: options.defaultTitle || ''}), 'title', 'center']
-            ]
-        }, options));
-
-        this.rightButton.setVariation(this.options.variation);
+        this.router = Injection.get(Router);
 
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');
@@ -67,23 +81,48 @@ export class TopMenu extends UIBar {
             let color = this.options.colored ? this.options.backgroundProperties.backgroundColor : 'rgb(255, 255, 255)';
             Injection.get(StatusBarExtension).setColor(color);
         }
+
+        this.router.on('routechange', this.onRouteChange);
     }
 
-
-
-    open() {
-        if (!this.isOpen) {
-            this.isOpen = true;
-            this.replaceRenderable('menuButton', this.arrowLeftButton);
-            this.showRenderable('menuButton');
+    onRouteChange(route) {
+        let {controller, method} = route;
+        if (this.options.dynamicButtons
+            && this.options.dynamicButtons[controller]
+            && this.options.dynamicButtons[controller][method]) {
+            let newComponents = this.options.dynamicButtons[controller][method];
+            let {left, right, title} = newComponents;
+            if (newComponents) {
+                this.removeComponents('left');
+                this.removeComponents('right');
+                if (left) {
+                    this.addComponents('left', left);
+                }
+                if (right) {
+                    this.addComponents('right', right);
+                }
+                if (title) {
+                    this.setTitle(title);
+                }
+            }
         }
     }
 
-    close() {
+    async open() {
+        if (!this.isOpen) {
+            this.isOpen = true;
+            await this.hideRenderable('menuButton');
+            this.removeComponents('left');
+            this.addComponent(this.arrowLeftButton, 'menuButton', 'left');
+        }
+    }
+
+    async close() {
         if (this.isOpen) {
             this.isOpen = false;
-            this.replaceRenderable('menuButton', this.hamburgerButton);
-            this.showRenderable('menuButton');
+            await this.hideRenderable('menuButton');
+            this.removeComponents('left');
+            this.addComponent(this.hamburgerButton, 'menuButton', 'left');
         }
     }
 
@@ -101,15 +140,13 @@ export class TopMenu extends UIBar {
 
     async setTemporaryLeftButton(leftButton) {
         this._eventOutput.emit('requestMenuClose');
-        await this.hideRenderable('menuButton');
-        this.replaceRenderable('menuButton', leftButton);
-        this.showRenderable('menuButton');
+        await this.removeComponents('left');
+        this.addComponent(leftButton, 'menuButton', 'left');
     }
 
     removeTemporaryLeftButton() {
-        this.replaceRenderable('menuButton', this.isOpen ? this.arrowLeftButton : this.hamburgerButton);
-        this.showRenderable('menuButton');
+        this.removeComponents('left');
+        this.addComponent(this.isOpen ? this.arrowLeftButton : this.hamburgerButton, 'menuButton', 'left');
     }
-
 
 }
