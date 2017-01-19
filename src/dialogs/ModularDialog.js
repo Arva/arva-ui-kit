@@ -54,10 +54,20 @@ export class ModularDialog extends View {
             UIBarOptions
         }, options));
 
-        if (options.content) {
+        if (this.options.content) {
             let {content} = options;
+            this.setContent(content);
+
+        }
+    }
+
+    setContent(content) {
+        if(this.mainContent){
+            this.replaceRenderable('mainContent', content);
+        } else{
             this.addRenderable(content, 'mainContent', layout.dock.fill());
         }
+
     }
 
     getSize(){

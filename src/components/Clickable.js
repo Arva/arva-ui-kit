@@ -41,8 +41,7 @@ export class Clickable extends View {
         super(options);
 
         if (this.options.enabled === false) {
-            /* Merge options in two rounds since there are dependencies within the options */
-            this.on('deploy', () => { this._setEnabled(false); })
+            this.once('deploy', () => { this._setEnabled(false); })
         }
         this._enabled = options.enabled;
         this._setupListeners();

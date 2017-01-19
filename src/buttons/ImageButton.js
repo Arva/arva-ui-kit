@@ -54,9 +54,10 @@ export class ImageButton extends Button {
     }
 
     _setEnabled(enabled) {
-        super._setEnabled(enabled);
+        /* Pass false to parent button because we don't need the background to change, it is sufficient only to change the icon color */
+        super._setEnabled(enabled, false);
         if (this.options.icon && this.image && this.image.changeColor) {
-            this.image.changeColor(enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray);
+            this.image.changeColor(enabled ? this.options.properties.color : Colors.Gray);
         }
     }
 
