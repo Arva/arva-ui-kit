@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
    
-   <title>undo_rounded_bold   </title>
-   <desc>Created with Sketch.   </desc>
+   <title>undo_rounded_bold</title>
+   <desc>Created with Sketch.</desc>
    <defs>
       <path d="M24,48 C37.254834,48 48,37.254834 48,24 C48,10.745166 37.254834,0 24,0 C10.745166,0 0,10.745166 0,24 C0,37.254834 10.745166,48 24,48 Z" id="undo_rounded_bold.svgpath-1"/>
       <mask id="undo_rounded_bold.svgmask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="48" height="48" fill="white">

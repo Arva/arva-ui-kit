@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
    
-   <title>androidshare_angular_thin   </title>
-   <desc>Created with Sketch.   </desc>
+   <title>androidshare_angular_thin</title>
+   <desc>Created with Sketch.</desc>
    <defs>
       <path d="M40,16 C44.418278,16 48,12.418278 48,8 C48,3.581722 44.418278,0 40,0 C35.581722,0 32,3.581722 32,8 C32,12.418278 35.581722,16 40,16 Z" id="androidshare_angular_thin.svgpath-1"/>
       <mask id="androidshare_angular_thin.svgmask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="16" height="16" fill="white">

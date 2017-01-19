@@ -43,6 +43,7 @@
     "mocha": "^2.5.3",
     "request-animation-frame-mock": "git+https://github.com/erykpiast/request-animation-frame-mock.git",
     "sinon": "^1.17.4",
-    "systemjs": "^0.19.31"
+    "systemjs": "^0.19.31",
+    "xml-js": "^1.0.0"
   }
 }

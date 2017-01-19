@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
    
-   <title>cloud_angular_thin   </title>
-   <desc>Created with Sketch.   </desc>
+   <title>cloud_angular_thin</title>
+   <desc>Created with Sketch.</desc>
    <defs>
       <path d="M38,40 L10,40 C4.4771525,40 0,35.5228475 0,30 C0,25.7277364 2.67911816,22.0812144 6.44894089,20.6488475 C6.15813594,19.8198109 6,18.9283728 6,18 C6,13.581722 9.581722,10 14,10 C15.8155003,10 17.4897529,10.6047536 18.8323,11.6238031 C20.9553268,8.2454749 24.715434,6 29,6 C35.627417,6 41,11.372583 41,18 C41,18.817153 40.9183227,19.6152292 40.7626867,20.3865101 C44.941842,21.5852951 48,25.435512 48,30 C48,35.5228475 43.5228475,40 38,40 Z" id="cloud_angular_thin.svgpath-1"/>
       <mask id="cloud_angular_thin.svgmask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="48" height="34" fill="white">

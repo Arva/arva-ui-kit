@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
    
-   <title>bookmarks_angular_bold   </title>
-   <desc>Created with Sketch.   </desc>
+   <title>bookmarks_angular_bold</title>
+   <desc>Created with Sketch.</desc>
    <defs>
       <path d="M16,42 L0,42 L0,6 L20,6 C23.3137085,6 26,8.6862915 26,12 L26,48 L22,48 C22,44.6862915 19.3137085,42 16,42 Z" id="bookmarks_angular_bold.svgpath-1"/>
       <mask id="bookmarks_angular_bold.svgmask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="26" height="42" fill="white">
