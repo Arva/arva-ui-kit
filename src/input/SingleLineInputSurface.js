@@ -6,6 +6,7 @@
 import {InputSurface}               from './InputSurface.js';
 import {ObjectHelper}               from 'arva-js/utils/ObjectHelper.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
+import {Colors}                     from '../defaults/DefaultColors.js';
 
 export class SingleLineInputSurface extends InputSurface {
     constructor(options = {}) {
@@ -18,17 +19,59 @@ export class SingleLineInputSurface extends InputSurface {
                 boxShadow: '0px 2px 4px 0px rgba(50, 50, 50, 0.08)',
                 padding: '0 16px 0 16px'
             },
-            clearOnEnter: true
+            activeColor: null,
+            inactiveColor: null,
+            clearOnEnter: true,
+            enabled: true,
         }, options);
 
         super(mergedOptions);
+
         this.options = mergedOptions;
         this._cachedValue = null;
 
         ObjectHelper.bindAllMethods(this, this);
 
+        if (this.options.enabled) {
+            this._initListeners();
+        } else {
+            this._disableListeners();
+        }
+    }
+
+    _initListeners() {
         this.on('keyup', this._onKeyUp.bind(this));
         this.on('keydown', this._onKeyDown.bind(this));
+
+        this.setProperties({
+            color: this.options.activeColor || Colors.Black
+        });
+
+        // this.setAttributes({
+        //     disabled: false
+        // });
+    }
+
+    _disableListeners(){
+        this.removeListener('keyup', this._onKeyUp.bind(this));
+        this.removeListener('keydown', this._onKeyDown.bind(this));
+
+        this.setProperties({
+            color: this.options.inactiveColor || Colors.Gray
+        });
+
+        this.setAttributes({
+            disabled: true
+        });
+
+    }
+
+    /**
+     * Enable or disable the SingleLineInputSurface
+     * @param enabled
+     */
+    enable(enabled = true) {
+        return enabled ? this._initListeners() : this._disableListeners();
     }
 
     _onKeyDown(event) {
@@ -36,7 +79,7 @@ export class SingleLineInputSurface extends InputSurface {
          * not yet updated with the new value when the 'keydown' event fires. */
         setTimeout(() => {
             let newValue = this.getValue();
-            if(this._cachedValue !== newValue) {
+            if (this._cachedValue !== newValue) {
                 this._cachedValue = newValue;
                 this._eventOutput.emit('value', this._cachedValue);
             }
@@ -56,7 +99,7 @@ export class SingleLineInputSurface extends InputSurface {
         }
 
         let newValue = this.getValue();
-        if(this._cachedValue !== newValue) {
+        if (this._cachedValue !== newValue) {
             this._cachedValue = newValue;
             this._eventOutput.emit('value', this._cachedValue);
         }

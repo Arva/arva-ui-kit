@@ -107,13 +107,13 @@ export class Button extends Clickable {
         }
     }
 
-    _setEnabled(enabled) {
+    _setEnabled(enabled, changeBackground = true) {
         super._setEnabled(enabled);
         this.overlay.setProperties({
             cursor: enabled ? 'pointer' : 'inherit'
         });
 
-        if (this.background){
+        if (changeBackground && this.background){
             this.background.setProperties({
                 backgroundColor: enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray
             });
