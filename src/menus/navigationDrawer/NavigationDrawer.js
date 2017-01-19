@@ -247,7 +247,7 @@ export class NavigationDrawer extends View {
 
     _createTopBar() {
         if (!this.options.showTopMenu) return new Surface({properties: {backgroundColor: 'transparent'}});
-        return new this.options.topMenuClass(this.options.topMenuOptions);
+        return new this.options.topMenuClass(this.options.topMenuOptions, this.options.topBarHeight);
     }
 
     /**
@@ -267,7 +267,7 @@ export class NavigationDrawer extends View {
         } else {
             removeTopBarFromFlow();
         }
-        this.renderables.topBar.hide(animation ? this.renderables.topBar.options.hide : {transition: {duration: 0}}, callback);
+        this.renderables.topBar.hide(animation ? this.renderables.topBar.options.hide : {transition: {duration: 0}}, callback); // to test
     }
 
     /**
@@ -278,7 +278,7 @@ export class NavigationDrawer extends View {
     _revealTopBar(animation = true) {
         this.immediateAnimations = [];
         this.topBar.decorations.dock.size[1] = this.options.topBarHeight;
-        this.renderables.topBar.show(this.topBar, animation ? undefined : {transition: {duration: 0}});
+        this.renderables.topBar.show(this.topBar, animation ? undefined : {transition: {duration: 0}}); // todo test
         this.layout.reflowLayout();
     }
 
@@ -363,6 +363,7 @@ export class NavigationDrawer extends View {
      * @private
      */
     _closeMenu() {
+        // todo refactor old code
         if (this.topBar.topMenuView) this.topBar.topMenuView.close();
         this.sideMenu.close()
     }

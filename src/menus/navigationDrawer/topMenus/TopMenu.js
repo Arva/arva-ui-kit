@@ -2,10 +2,9 @@
  * Created by manuel on 09-09-15.
  */
 
-import AnimationController      from 'famous-flex/AnimationController.js';
-
+import Easing                   from 'famous/transitions/Easing.js';
 import {Injection}              from 'arva-js/utils/Injection.js';
-import {layout}                 from 'arva-js/layout/Decorators.js';
+import {layout, flow}           from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 
 import {UIBar}                  from '../../../uibars/UIBar.js';
@@ -16,10 +15,10 @@ import {HamburgerIcon}          from '../../../icons/HamburgerIcon.js';
 import {UIBarImageButton}       from '../../../buttons/UIBarImageButton.js';
 import {StatusBarExtension}     from '../../../utils/statusBar/StatusBarExtension.js';
 
-
 export class TopMenu extends UIBar {
 
-    @layout.animate({animation: AnimationController.Animation.Fade})
+    @flow.defaultState('visibile', {transition:{curve: Easing.outBack, duration:300}}, layout.opacity(1))
+    @flow.stateStep('invisible', {transition:{curve: Easing.outBack, duration:300}}, layout.opacity(0))
     @layout.size(true, true)
     @layout.stick.center()
     @layout.dock.left()
@@ -101,7 +100,7 @@ export class TopMenu extends UIBar {
 
     async setTemporaryLeftButton(leftButton) {
         this._eventOutput.emit('requestMenuClose');
-        await this.hideRenderable('menuButton');
+        await this.hideRenderable('menuButton'); // todo fix
         this.replaceRenderable('menuButton', leftButton);
         this.showRenderable('menuButton');
     }
