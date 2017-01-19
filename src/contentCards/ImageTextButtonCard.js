@@ -59,6 +59,7 @@ export class ImageTextButtonCard extends ContentCard {
             this.decorations.viewMargins[0] = this.decorations.viewMargins[2] = 0;
         }
 
+
         if (image) {
             let imageRenderable;
             if (this.options.imageHeight) {
@@ -133,7 +134,7 @@ export class ImageTextButtonCard extends ContentCard {
             } else {
                 let newButtons = new View();
                 for(let i of [0, 1]){
-                    buttons.addRenderable(new SolidTextButton({
+                    newButtons.addRenderable(new SolidTextButton({
                         content: buttons[i],
                         clickEventName: `buttonClicked`,
                         clickEventData: [this.options, i]
