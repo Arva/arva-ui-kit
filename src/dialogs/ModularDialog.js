@@ -3,14 +3,16 @@
  */
 
 import Surface                                              from 'famous/core/Surface.js';
-import {combineOptions}                                     from "arva-js/utils/CombineOptions.js";
+import {combineOptions}                                     from 'arva-js/utils/CombineOptions.js';
 import {layout}                                             from 'arva-js/layout/Decorators.js';
 import {View}                                               from 'arva-js/core/View.js';
+import {Dialog}                                             from 'arva-js/components/Dialog.js';
+
 import {UIBarTextButton}                                    from '../buttons/UIBarTextButton.js';
 import {UIBar}                                              from '../uibars/UIBar.js';
 import {UIBarTitle}                                         from '../text/UIBarTitle.js';
 
-export class ModularDialog extends View {
+export class ModularDialog extends Dialog {
 
     @layout.translate(0, 0, -10)
     @layout.fullSize()

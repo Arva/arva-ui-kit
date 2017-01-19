@@ -3,16 +3,18 @@
  */
 import Surface              from 'famous/core/Surface.js';
 
+import {Dialog}             from 'arva-js/components/Dialog.js';
 import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/combineOptions.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
+
 import {UITitle}            from '../defaults/DefaultTypefaces.js';
 import {UIRegular}          from '../defaults/DefaultTypefaces.js';
 
 /**
  * A dialog wth a title and text
  */
-export class BaseDialog extends View {
+export class BaseDialog extends Dialog {
 
     static get DEFAULT_SIZES(){
         return {
