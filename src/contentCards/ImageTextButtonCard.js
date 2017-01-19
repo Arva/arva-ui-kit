@@ -59,6 +59,7 @@ export class ImageTextButtonCard extends ContentCard {
             this.decorations.viewMargins[0] = this.decorations.viewMargins[2] = 0;
         }
 
+
         if (image) {
             let imageRenderable;
             if (this.options.imageHeight) {
