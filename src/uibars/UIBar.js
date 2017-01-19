@@ -94,7 +94,7 @@ export class UIBar extends View {
         }, options));
 
         let components = options.components;
-        this.componentNames = {left: [], right: [], center: []};
+        this.componentNames = {left: [], right: [], center: [], fill: []};
         for (let [renderable, renderableName, position] of components || []) {
             this.addComponent(renderable, renderableName, position);
         }
@@ -118,7 +118,7 @@ export class UIBar extends View {
     }
 
     removeAllComponents() {
-        let {left, right, center} = this.componentNames;
+        let {left, right, center, fill} = this.componentNames;
         while (left.length > 0) {
             this.removeRenderable(left.pop());
         }
@@ -127,6 +127,9 @@ export class UIBar extends View {
         }
         while (center.length > 0) {
             this.removeRenderable(center.pop());
+        }
+        while (fill.length > 0) {
+            this.removeRenderable(fill.pop());
         }
     }
 
