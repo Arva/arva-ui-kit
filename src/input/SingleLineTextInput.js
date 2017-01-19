@@ -14,17 +14,17 @@ import {FeedbackBubble}         from './textInput/FeedbackBubble.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 import {TypeFaces}              from '../defaults/DefaultTypefaces.js';
 
-let {searchField: {borderRadius}} = Dimensions;
-const transition = {transition: {curve: Easing.outCubic, duration: 200}, delay: 0};
-const closeTransition = {transition: {curve: Easing.outCubic, duration: 200}, delay: 0};
-const flowOptions = {transition: {curve: Easing.outCubic, duration: 300}, delay: 0};
+let { searchField: { borderRadius } } = Dimensions;
+const transition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
+const closeTransition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
+const flowOptions = { transition: { curve: Easing.outCubic, duration: 300 }, delay: 0 };
 const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.topLeft(), layout.translate(0, 4, 50)];
 const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
 
 @flow.viewStates({
-    correct: [{correct: 'shown', incorrect: 'hidden', required: 'hidden'}],
-    required: [{correct: 'hidden', incorrect: 'hidden', required: 'shown'}],
-    incorrect: [{correct: 'hidden', incorrect: 'shown', required: 'hidden'}]
+    correct: [{ correct: 'shown', incorrect: 'hidden', required: 'hidden' }],
+    required: [{ correct: 'hidden', incorrect: 'hidden', required: 'shown' }],
+    incorrect: [{ correct: 'hidden', incorrect: 'shown', required: 'hidden' }]
 })
 @layout.dockPadding(0, 4, 0, 0)
 export class SingleLineTextInput extends View {
@@ -54,15 +54,15 @@ export class SingleLineTextInput extends View {
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
     @flow.defaultState('hidden', closeTransition, ...hideBubble)
-    correct = new FeedbackBubble({variation: 'correct'});
+    correct = new FeedbackBubble({ variation: 'correct' });
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
     @flow.defaultState('hidden', closeTransition, ...hideBubble)
-    incorrect = new FeedbackBubble({variation: 'incorrect'});
+    incorrect = new FeedbackBubble({ variation: 'incorrect' });
 
     @flow.defaultState('hidden', flowOptions, ...hideBubble)
     @flow.stateStep('shown', closeTransition, ...showBubble)
-    required = new FeedbackBubble({variation: 'required', text: this.options.feedbackText});
+    required = new FeedbackBubble({ variation: 'required', text: this.options.feedbackText });
 
     /**
      * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
@@ -83,14 +83,16 @@ export class SingleLineTextInput extends View {
     constructor(options) {
         super(combineOptions({
             required: false,
+            enabled: true,
             usesFeedback: true,
-            inputOptions: {clearOnEnter: true},
+            inputOptions: { clearOnEnter: true },
             feedbackText: FeedbackBubble.texts.required
         }, options));
 
         if (!this.input) {
             this.addRenderable(new SingleLineInputSurface({
                 value: this.options.value || '',
+                enabled: this.options.enabled === undefined ? true : this.options.enabled,
                 type: this.options.password ? 'password' : 'text',
                 clearOnEnter: this.options.clearOnEnter,
                 placeholder: this.options.placeholder || '',
@@ -109,27 +111,27 @@ export class SingleLineTextInput extends View {
                     this._onFocus();
                 }
             ));
-            if(this.options.usesFeedback){
+            if (this.options.usesFeedback) {
                 this.input.on('valueChange', this._validateInput);
             }
         }
         /* The browser could auto-fill this stuff, so wait for deploy before checking if we have a value or not */
-        if(this.options.required)
-            
-        setTimeout(() =>
-        {
-            if(this.options.required){
-                if (this.getValue()) {
-                    this.setCorrectState(this.options.feedbackText);
-                } else {
-                    this.setRequiredState();
+        if (this.options.required)
+
+            setTimeout(() => {
+                if (this.options.required) {
+                    if (this.getValue()) {
+                        this.setCorrectState(this.options.feedbackText);
+                    } else {
+                        this.setRequiredState();
+                    }
                 }
-            }
-        }, 200);
-
-
+            }, 200);
     }
 
+    setEnabled(enabled = true){
+        return this.input.enable && this.input.enable(enabled);
+    }
 
 
     setValue() {
@@ -191,20 +193,20 @@ export class SingleLineTextInput extends View {
     }
 
     _validateInput(inputString) {
-        if(this.options.validator){
-            if(this.options.required && !inputString){
+        if (this.options.validator) {
+            if (this.options.required && !inputString) {
                 this.setRequiredState();
             } else {
-                let {isValid, feedback} = this.options.validator(inputString);
-                if(isValid){
+                let { isValid, feedback } = this.options.validator(inputString);
+                if (isValid) {
                     this.setCorrectState(feedback);
                 } else {
                     this.setIncorrectState(feedback);
                 }
             }
 
-        } else if(this.options.required) {
-            if(inputString){
+        } else if (this.options.required) {
+            if (inputString) {
                 this.setCorrectState(this.options.feedbackText);
             } else {
                 this.setRequiredState();
