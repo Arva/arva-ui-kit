@@ -133,7 +133,7 @@ export class ImageTextButtonCard extends ContentCard {
             } else {
                 let newButtons = new View();
                 for(let i of [0, 1]){
-                    buttons.addRenderable(new SolidTextButton({
+                    newButtons.addRenderable(new SolidTextButton({
                         content: buttons[i],
                         clickEventName: `buttonClicked`,
                         clickEventData: [this.options, i]

@@ -18,7 +18,7 @@ import {TextH2}             from '../text/TextH2.js';
 import {TextH3}             from '../text/TextH3.js';
 import {TextCaption}        from '../text/TextCaption.js';
 
-@layout.nativeScrollable()
+@layout.scrollable()
 @layout.dockSpace(32)
 @layout.columnDockPadding(720, [16, 32])
 export class ArticleView extends View {
