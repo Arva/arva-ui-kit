@@ -64,11 +64,16 @@ export class ModularDialog extends Dialog {
     }
 
     setContent(content) {
+        if(content == undefined){
+            console.warn('Content set to undefined in ModularDialog.setContent()!');
+            return;
+        }
         if(this.mainContent){
             this.replaceRenderable('mainContent', content);
         } else{
             this.addRenderable(content, 'mainContent', layout.dock.fill());
         }
+
 
     }
 

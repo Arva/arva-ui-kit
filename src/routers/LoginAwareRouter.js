@@ -37,12 +37,10 @@ export class LoginAwareRouter extends ArvaRouter {
             this.go('Login', 'Index');
         }
     }
-
+    
     async _initialize() {
         /* TODO: add timeout to early exit when user launches app without network */
         let dataSource = Injection.get(DataSource);
-        let user = await dataSource.getAuth();
-        this.setUser(user);
-        return this.getUser();
+        this.setUser(await dataSource.getAuth());
     }
 }

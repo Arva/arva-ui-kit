@@ -117,10 +117,12 @@ export class TopMenuView extends View {
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');
         });
+        /*this.clickableRightButtonSurface.on('click', () => {
+            this._eventOutput.emit('rightButtonClick');
+        });*/
 
         this._userNameEnabled = true;
 
-        // todo remove code from TGB
         this.layouts.push(() => {
             if (window.isTablet && this._userNameEnabled) {
                 if (!this.renderables.nameDisplay.get()) {

@@ -52,25 +52,33 @@ export class ImageTextButtonCard extends ContentCard {
             centerTitle: false
         }, options));
 
-        if (this.options.image) {
+        let {image, title, subtitle, body, decorationalText, button, buttons} = this.options;
+
+        if(image && !(title || subtitle || body || decorationalText || button || buttons)){
+            /* TODO: Set decoration viewMargins */
+            this.decorations.viewMargins[0] = this.decorations.viewMargins[2] = 0;
+        }
+
+
+        if (image) {
             let imageRenderable;
             if (this.options.imageHeight) {
                 imageRenderable = new BkImageSurface({
                     sizeMode: BkImageSurface.SizeMode.ASPECTFILL,
                     positionMode: BkImageSurface.PositionMode.CENTER,
-                    content: this.options.image
+                    content: image
                 });
             } else {
                 imageRenderable = new ImageSurface({
-                    content: this.options.image
+                    content: image
                 });
             }
             this.addRenderable(imageRenderable, 'image', layout.dock.top(this.options.imageHeight || ~300));
         } else {
             this.decorations.viewMargins[0] = this.decorations.viewMargins[2] = 32;
         }
-        if (this.options.title) {
-            this.addRenderable(new UITitle({content: this.options.title}), 'title', layout.dock.top(~50));
+        if (title) {
+            this.addRenderable(new UITitle({content: title}), 'title', layout.dock.top(~50));
             if (this.options.centerTitle) {
                 this.title.setProperties({textAlign: 'center'});
             } else {
@@ -78,25 +86,25 @@ export class ImageTextButtonCard extends ContentCard {
                 this.title.setProperties({padding: '0px 32px'});
             }
         }
-        if (this.options.subtitle) {
-            this.addRenderable(new UIRegular({content: this.options.subtitle}),
+        if (subtitle) {
+            this.addRenderable(new UIRegular({content: subtitle}),
                 'subtitle',
                 layout.dock.top(),
                 layout.stick.center(),
                 layout.size((width)=>Math.max(width - 64, 64), ~50));
         }
 
-        if (this.options.body) {
-            this.addRenderable(new UIRegular({content: this.options.body}),
+        if (body) {
+            this.addRenderable(new UIRegular({content: body}),
                 'body',
                 layout.dock.top(),
                 layout.stick.center(),
                 layout.size((width)=>Math.max(width - 64, 64), ~50));
         }
 
-        if (this.options.decorationalText) {
+        if (decorationalText) {
             this.addRenderable(new UIRegular({
-                    content: this.options.decorationalText,
+                    content: decorationalText,
                     properties: {
                         color: Colors.Gray,
                         padding: '16px 0',
@@ -110,9 +118,9 @@ export class ImageTextButtonCard extends ContentCard {
                 layout.size((width)=>Math.max(width - 64, 64), ~50));
         }
 
-        if (this.options.button) {
+        if (button) {
             this.addRenderable(new SolidTextButton({
-                content: this.options.button,
+                content: button,
                 clickEventName: 'buttonClicked',
                 clickEventData: [this.options]
             }), 'button',
@@ -120,14 +128,14 @@ export class ImageTextButtonCard extends ContentCard {
                 layout.dock.top(),
                 layout.stick.center());
 
-        } else if (this.options.buttons) {
-            if (this.options.buttons.length !== 2) {
+        } else if (buttons) {
+            if (buttons.length !== 2) {
                 console.log("Wrong number of buttons passed to ImageTextButtonCard");
             } else {
-                let buttons = new View();
+                let newButtons = new View();
                 for(let i of [0, 1]){
-                    buttons.addRenderable(new SolidTextButton({
-                        content: this.options.buttons[i],
+                    newButtons.addRenderable(new SolidTextButton({
+                        content: buttons[i],
                         clickEventName: `buttonClicked`,
                         clickEventData: [this.options, i]
                     }),
@@ -137,7 +145,7 @@ export class ImageTextButtonCard extends ContentCard {
                         layout.dockSpace(16)
                     )
                 }
-                this.addRenderable(buttons, 'buttons', layout.dock.top(), layout.stick.center(), layout.size(~200, true));
+                this.addRenderable(newButtons, 'buttons', layout.dock.top(), layout.stick.center(), layout.size(~200, true));
             }
         }
 

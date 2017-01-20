@@ -242,7 +242,6 @@ export class NavigationDrawer extends View {
      * Open the top menu and side menu
      */
     openMenu() {
-
         this.sideMenu.open();
     }
 
@@ -278,7 +277,7 @@ export class NavigationDrawer extends View {
         } else {
             removeTopBarFromFlow();
         }
-        this.renderables.topBar.hide(animation ? this.renderables.topBar.options.hide : {transition: {duration: 0}}, callback); // to test
+        this.renderables.topBar.hide(animation ? this.renderables.topBar.options.hide : {transition: {duration: 0}}, callback);
     }
 
     /**
@@ -289,7 +288,7 @@ export class NavigationDrawer extends View {
     _revealTopBar(animation = true) {
         this.immediateAnimations = [];
         this.topBar.decorations.dock.size[1] = this.options.topBarHeight;
-        this.renderables.topBar.show(this.topBar, animation ? undefined : {transition: {duration: 0}}); // todo test
+        this.renderables.topBar.show(this.topBar, animation ? undefined : {transition: {duration: 0}});
         this.layout.reflowLayout();
     }
 

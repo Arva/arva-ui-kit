@@ -1,17 +1,17 @@
 /**
  * Created by manuel on 09-09-15.
  */
-import {Injection} from 'arva-js/utils/Injection.js';
-import {layout} from 'arva-js/layout/Decorators.js';
-import {combineOptions} from 'arva-js/utils/CombineOptions.js';
-import {Router} from 'arva-js/core/Router.js';
-import {UIBar} from '../../../uibars/UIBar.js';
-import {UIBarTitle} from '../../../text/UIBarTitle.js';
-import {LeftIcon} from '../../../icons/LeftIcon.js';
-import {InfoIcon} from '../../../icons/InfoIcon.js';
-import {HamburgerIcon} from '../../../icons/HamburgerIcon.js';
-import {UIBarImageButton} from '../../../buttons/UIBarImageButton.js';
-import {StatusBarExtension} from '../../../utils/statusBar/StatusBarExtension.js';
+import {Injection}                                      from 'arva-js/utils/Injection.js';
+import {layout}                                         from 'arva-js/layout/Decorators.js';
+import {combineOptions}                                 from 'arva-js/utils/CombineOptions.js';
+import {Router}                                         from 'arva-js/core/Router.js';
+import {UIBar}                                          from '../../../uibars/UIBar.js';
+import {UIBarTitle}                                     from '../../../text/UIBarTitle.js';
+import {LeftIcon}                                       from '../../../icons/LeftIcon.js';
+import {InfoIcon}                                       from '../../../icons/InfoIcon.js';
+import {HamburgerIcon}                                  from '../../../icons/HamburgerIcon.js';
+import {UIBarImageButton}                               from '../../../buttons/UIBarImageButton.js';
+import {StatusBarExtension}                             from '../../../utils/statusBar/StatusBarExtension.js';
 
 
 export class TopMenu extends UIBar {

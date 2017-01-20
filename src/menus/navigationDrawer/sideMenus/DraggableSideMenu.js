@@ -181,8 +181,6 @@ export class DraggableSideMenu extends View {
             this.renderables.fullScreenOverlay.halt(true, ratio);
             this.direction = (dragEvent.position[0] > this.lastPosition);
             this.lastPosition = dragEvent.position[0];
-
-            this._eventOutput.emit('sideMenuUpdate');
         });
 
         this.setTabIndexSelected(0);
