@@ -22,6 +22,10 @@ export class NavigationDrawer extends View {
     @layout.dock.top(true)
     statusBarExtension = Injection.get(StatusBarExtension);
 
+    @layout.dock.fill()
+    @layout.translate(0, 0, 450)
+    sideMenu = new this.options.sideMenuClass();
+
     @layout.translate(0, 0, 500)
     @layout.animate({
         showInitially: true,
@@ -31,9 +35,6 @@ export class NavigationDrawer extends View {
     @layout.dock.top( function () { return this.options.topBarHeight })
     topBar = this._createTopBar();
 
-    @layout.dock.fill()
-    @layout.translate(0, 0, 450)
-    sideMenu = new this.options.sideMenuClass();
 
     /**
      *  @example
@@ -241,13 +242,22 @@ export class NavigationDrawer extends View {
      * Open the top menu and side menu
      */
     openMenu() {
-        if (this.topBar.topMenuView) this.topBar.topMenuView.open();
         this.sideMenu.open();
     }
 
     _createTopBar() {
-        if (!this.options.showTopMenu) return new Surface({properties: {backgroundColor: 'transparent'}});
-        return new this.options.topMenuClass(this.options.topMenuOptions);
+        let topBar;
+        if (!this.options.showTopMenu) {
+            return new Surface({properties: {backgroundColor: 'transparent'}});
+        }
+        topBar = new this.options.topMenuClass(this.options.topMenuOptions, this.options.topBarHeight);
+
+        /* Listen for sidemenu updates (drag events), so the Topbar can respond accordingly */
+        this.sideMenu.on('sideMenuUpdate', ()=>{
+           topBar.sideMenuUpdate && topBar.sideMenuUpdate();
+        });
+
+        return topBar;
     }
 
     /**
@@ -363,6 +373,7 @@ export class NavigationDrawer extends View {
      * @private
      */
     _closeMenu() {
+        // todo refactor old code
         if (this.topBar.topMenuView) this.topBar.topMenuView.close();
         this.sideMenu.close()
     }
