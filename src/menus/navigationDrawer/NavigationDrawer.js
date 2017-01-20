@@ -248,7 +248,9 @@ export class NavigationDrawer extends View {
 
     _createTopBar() {
         let topBar;
-        if (!this.options.showTopMenu) topBar = new Surface({properties: {backgroundColor: 'transparent'}});
+        if (!this.options.showTopMenu) {
+            return new Surface({properties: {backgroundColor: 'transparent'}});
+        }
         topBar = new this.options.topMenuClass(this.options.topMenuOptions, this.options.topBarHeight);
 
         /* Listen for sidemenu updates (drag events), so the Topbar can respond accordingly */
