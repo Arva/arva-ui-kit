@@ -101,6 +101,10 @@ export class UIBar extends View {
     }
 
     addComponent(renderable, renderableName, position) {
+        if(!renderable){
+            console.warn('renderable does not exist that is passed to iubar');
+            return;
+        }
         this.componentNames[position].push(renderableName);
         if (this.options.autoColoring) {
             /* Only change color of renderables which have a setVariation method. */
