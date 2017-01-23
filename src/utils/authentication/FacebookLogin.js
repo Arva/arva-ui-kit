@@ -26,7 +26,7 @@ export class FacebookLogin extends BaseLogin {
     }
 
     authenticate() {
-        return new Promise((resolve)=> {
+        return new Promise((resolve, reject)=> {
             facebookConnectPlugin.login(['public_profile', 'email'], (data) => {
                 resolve(data);
             }, (reason) => {
@@ -36,7 +36,7 @@ export class FacebookLogin extends BaseLogin {
     }
 
     getApiToken() {
-        return new Promise((resolve)=> {
+        return new Promise((resolve, reject)=> {
             facebookConnectPlugin.getAccessToken((data) => {
                 resolve(data);
             }, (reason) => {
@@ -47,15 +47,21 @@ export class FacebookLogin extends BaseLogin {
 
     async authenticateToDataSource() {
         await this.authenticate();
-        let token = await new Promise((resolve) => facebookConnectPlugin.getAccessToken(resolve));
-        if (token) {
-            let authData = await this._dataSource.authWithOAuthToken('facebook', token);
-            return {uid: authData.uid, profile: authData.facebook, provider: 'facebook'};
+        try {
+            let token = await this.getApiToken();
+            if (token) {
+                let authData = await this._dataSource.authWithOAuthToken('facebook', token);
+                return { uid: authData.uid, profile: authData, provider: 'facebook' };
+            } else {
+                throw new Error('No token received from Facebook plugin');
+            }
+        } catch(error) {
+            throw new Error(`Failed to login with Facebook: ${error.message || error}`);
         }
     }
 
     async deauthenticate() {
-        return await new Promise((resolve, reject) => Settings.facebookBrowserModule.logout(resolve, reject));
+        return await new Promise((resolve, reject) => facebookConnectPlugin.logout(resolve, reject));
     }
 
     deauthenticateFromDataSource() {

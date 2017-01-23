@@ -16,7 +16,7 @@ export class ModularDialog extends Dialog {
 
     @layout.translate(0, 0, -10)
     @layout.fullSize()
-    background = new Surface({properties: {backgroundColor: 'white', borderRadius: '4px'}});
+    background = new Surface({properties: {backgroundColor: this.options.backgroundColor, borderRadius: '4px'}});
 
     @layout.dock.top(true)
     uibar = new UIBar({bottomLine: true, ...this.options.UIBarOptions});
@@ -53,7 +53,8 @@ export class ModularDialog extends Dialog {
         let UIBarOptions = ModularDialog._setOptions(options);
 
         super(combineOptions({
-            UIBarOptions
+            UIBarOptions,
+            backgroundColor: 'white',
         }, options));
 
         if (this.options.content) {
@@ -69,9 +70,11 @@ export class ModularDialog extends Dialog {
             return;
         }
         if(this.mainContent){
+            this.hideRenderable('mainContent');
             this.replaceRenderable('mainContent', content);
+            this.showRenderable('mainContent');
         } else{
-            this.addRenderable(content, 'mainContent', layout.dock.fill());
+            this.addRenderable(content, 'mainContent', layout.dock.fill(), layout.animate());
         }
 
 
