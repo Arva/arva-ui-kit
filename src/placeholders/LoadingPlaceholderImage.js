@@ -50,7 +50,7 @@ export class LoadingPlaceholderImage extends View {
 
     @layout.fullSize()
     @layout.translate(0, 0, 20)
-    placeholder = new ImageSurface({content: this.options.placeholderContent, properties: this.options.placeholderProperties});
+    placeholder = new BkImageSurface({content: this.options.placeholderContent, sizeMode: this.options.sizeMode, properties: this.options.placeholderProperties});
 
     /**
      * A view that loads a given external image into a BkImageSurface, overlays a placeholder image on top of it,
