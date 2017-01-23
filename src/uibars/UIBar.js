@@ -131,6 +131,8 @@ export class UIBar extends View {
         while (fill.length > 0) {
             this.removeRenderable(fill.pop());
         }
+
+        return true;
     }
 
     removeComponents(position) {
@@ -138,12 +140,14 @@ export class UIBar extends View {
         while (currentComponents.length > 0) {
             this.removeRenderable(currentComponents.pop());
         }
+        return true;
     }
 
     addComponents(position, components) {
         for (let i = 0; i < components.length; i++) {
             this.addComponent(components[i], position + 'Button' + i, position);
         }
+        return true;
     }
 
     getComponents(position){
