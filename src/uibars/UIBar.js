@@ -146,6 +146,17 @@ export class UIBar extends View {
         }
     }
 
+    getComponents(position){
+        let componentNames = this.componentNames[position];
+        let components = [];
+        if(componentNames){
+            for(let componentName of componentNames){
+                components.push(this[componentName])
+            }
+        }
+        return components;
+    }
+
     replaceComponent(oldRenderableName, newRenderable) {
         this.replaceRenderable(oldRenderableName, newRenderable);
     }
