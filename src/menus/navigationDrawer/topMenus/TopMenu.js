@@ -21,6 +21,8 @@ export class TopMenu extends UIBar {
      *
      * @param {Object} options Construction options
      * @param {String} [options.defaultTitle] The default title to be displayed in the center of the TopMenu
+     * @param {Boolean} [options.persistentButtons] Whether the topMenu buttons should presist on route change. E.g: if a certain Controller/Method has
+     * specific buttons, change the buttons back to the previous buttons on route change.
      * @param {Object.Object.Object.Array} [options.dynamicButton] An option through which buttons can be customized per controller method.
      *          dynamicButtons: {
      *               'Home': {
@@ -32,7 +34,8 @@ export class TopMenu extends UIBar {
      *                           new UIBarImageButton({clickEventName: 'right0', icon: LeftIcon}),
      *                           new UIBarImageButton({clickEventName: 'right1', icon: LeftIcon})
      *                       ],
-     *                       title: 'First Page'
+     *                       title: 'First Page',
+     *                       persistentButtons: false,
      *                   },
      *                   'Edit': {
      *                       left: [
@@ -42,15 +45,21 @@ export class TopMenu extends UIBar {
      *                           new UIBarImageButton({clickEventName: 'right0', icon: LeftIcon}),
      *                           new UIBarImageButton({clickEventName: 'right1', icon: LeftIcon})
      *                       ],
-     *                       title: 'First Page'
+     *                       title: 'First Page',
+     *                       persistentButtons: false,
      *                   }
      *               }
      *           }
      */
+
+    buttonsCache = {};
+    persistentButtons = true;
+
     constructor(options = {}) {
         super(combineOptions({
+            bottomLine: true,
             components: [
-                [new UIBarTitle({content: options.defaultTitle || ''}), 'title', 'center'],
+                [new UIBarTitle({ content: options.defaultTitle || '' }), 'title', 'center'],
                 [options.rightButton || new UIBarImageButton({
                     clickEventName: 'rightButtonClick',
                     icon: InfoIcon
@@ -82,29 +91,49 @@ export class TopMenu extends UIBar {
             Injection.get(StatusBarExtension).setColor(color);
         }
 
+        this.catchCurrentComponents();
+
         this.router.on('routechange', this.onRouteChange);
     }
 
+    catchCurrentComponents() {
+        this.buttonsCache = { left: this.getComponents('left'), right: this.getComponents('right') };
+    }
+
+    setCacheButtons() {
+        this.buttonsCache && this.buttonsCache.left && this.removeComponents('left') && this.addComponents('left', this.buttonsCache.left);
+        this.buttonsCache && this.buttonsCache.right && this.removeComponents('right') && this.addComponents('right', this.buttonsCache.right);
+    }
+
     onRouteChange(route) {
-        let {controller, method} = route;
+
+        let { controller, method } = route;
         if (this.options.dynamicButtons
             && this.options.dynamicButtons[controller]
             && this.options.dynamicButtons[controller][method]) {
             let newComponents = this.options.dynamicButtons[controller][method];
-            let {left, right, title} = newComponents;
+            let { left, right, title } = newComponents;
             if (newComponents) {
-                this.removeComponents('left');
-                this.removeComponents('right');
                 if (left) {
+                    this.removeComponents('left');
                     this.addComponents('left', left);
                 }
                 if (right) {
+                    this.removeComponents('right');
                     this.addComponents('right', right);
                 }
                 if (title) {
                     this.setTitle(title);
                 }
             }
+            this.persistentButtons = this.options.dynamicButtons[controller][method].persistentButtons;
+        } else {
+            if (!this.persistentButtons) {
+                this.setCacheButtons();
+            } else {
+                this.catchCurrentComponents();
+            }
+            this.persistentButtons = true;
         }
     }
 
@@ -134,7 +163,7 @@ export class TopMenu extends UIBar {
         return this.title.getContent();
     }
 
-    setRightButton(newButton){
+    setRightButton(newButton) {
         this.replaceRenderable('rightButton', newButton);
     }
 
