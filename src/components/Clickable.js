@@ -39,9 +39,9 @@ export class Clickable extends View {
             clickEventName: 'buttonClick'
         }, options);
         super(options);
-
-        if (this.options.enabled === false) {
-            this.once('deploy', () => { this._setEnabled(false); })
+        this._enabled = this.options.enabled;
+        if (this._enabled === false) {
+            this.once('deploy', () => { this._setEnabled(this._enabled); })
         }
         this._enabled = options.enabled;
         this._setupListeners();
