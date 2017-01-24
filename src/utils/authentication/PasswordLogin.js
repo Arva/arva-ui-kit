@@ -14,7 +14,7 @@ export class PasswordLogin extends BaseLogin {
 
     async authenticateToDataSource(email, password) {
         let authData = await this._dataSource.authWithPassword({email: email, password: password});
-        return {uid: authData.uid, profile: {email, password}};
+        return {uid: authData.uid, profile: {email}};
     }
 
     deauthenticateFromDataSource() {
