@@ -20,4 +20,25 @@ export class PasswordLogin extends BaseLogin {
     deauthenticateFromDataSource() {
         this._dataSource.unauth();
     }
+
+    /**
+     * Currently only implemented for Firebase DataSource
+     */
+    async changePassword(oldPassword, newPassword){
+        let user = await this._dataSource.getAuth();
+        let oldCredential = this._dataSource._firebase.auth.EmailAuthProvider.credential(user.email, oldPassword);
+        try {
+            await user.reauthenticate(oldCredential);
+            user.updatePassword(newPassword).then(function () {
+                /* Done saving password, go back to Profile/Index */
+                return true;
+            }, function (error) {
+                /* Show dialog with error here */
+               throw new Error(error);
+            });
+        } catch (error) {
+            /* Show dialog with error here */
+            throw new Error(error);
+        }
+    }
 }
