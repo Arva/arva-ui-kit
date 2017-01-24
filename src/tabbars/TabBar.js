@@ -37,14 +37,15 @@ export class TabBar extends View {
      *
      * @param {Object} [options] Construction options
      * @param {Array} [items] The items to populate the TabBar with
-     * @param {Object} [options.tabOptions] The options to pass to a tab renderable
+     * @param {Object} [options.tabOptions] The options to pass to a tab renderable, for more info see TextButton.js/Clickable.js
      * @param {Boolean} [options.equalSizing] Whether the tab renderables should be evenly spaced and sized or whether it should not (thus docking.left with the size of the renderable)
      * @param {Number} [options.activeIndex] The index that should be active on initialisation
      * @param {Boolean} [options.reflow] Whether the TabBar should automatically reflow the active shape to the current active renderable
      * @param {Boolean} [options.usesIcon] Wheter the TabBar uses Icons or text
+     * @fires TabBar#tabClick Emit's a tabClick event once a tab renderable is clicked, with [id, tabData] as content. Content can be overwritten by setting tabOptions.clickEventData {Array}
      */
     constructor(options = {tabOptions: {}}, items = []){
-        super(combineOptions({equalSizing: false, activeIndex: 0, reflow: true}, options));
+        super(combineOptions({equalSizing: false, activeIndex: 0, reflow: true, tabOptions: {clickEventName: 'tabClick'}}, options));
 
 
         /* Bind helper functions to this class depending on layout options */
@@ -89,6 +90,7 @@ export class TabBar extends View {
         tab.on('activate', this._handleItemActive.bind(this, index, tab));
         tab.on('hoverOn', this.onHover.bind(this, index, tab));
         tab.on('hoverOff', this.offHover.bind(this, index, tab));
+        tab.pipe(this._eventOutput);
     }
 
     _calcCurrentPosition(id) {
