@@ -42,7 +42,7 @@ export class TabBar extends View {
      * @param {Number} [options.activeIndex] The index that should be active on initialisation
      * @param {Boolean} [options.reflow] Whether the TabBar should automatically reflow the active shape to the current active renderable
      * @param {Boolean} [options.usesIcon] Wheter the TabBar uses Icons or text
-     * @fires TabBar#tabClick Emit's a tabClick event once a tab renderable is clicked, with [id, tabData] as content. Content can be overwritten by setting tabOptions.clickEventData {Array}
+     * @fires TabBar#tabClick Emits a tabClick event once a tab renderable is clicked, with [id, tabData] as parameters. Content can be overwritten by setting tabOptions.clickEventData {Array}
      */
     constructor(options = {tabOptions: {}}, items = []){
         super(combineOptions({equalSizing: false, activeIndex: 0, reflow: true, tabOptions: {clickEventName: 'tabClick'}}, options));
