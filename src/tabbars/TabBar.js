@@ -37,6 +37,7 @@ export class TabBar extends View {
      *
      * @param {Object} [options] Construction options
      * @param {Array} [items] The items to populate the TabBar with
+     * @param {Object} [options.tabRenderable] A class that extends Tab, used for each of the rendered tabs
      * @param {Object} [options.tabOptions] The options to pass to a tab renderable, for more info see TextButton.js/Clickable.js
      * @param {Boolean} [options.equalSizing] Whether the tab renderables should be evenly spaced and sized or whether it should not (thus docking.left with the size of the renderable)
      * @param {Number} [options.activeIndex] The index that should be active on initialisation

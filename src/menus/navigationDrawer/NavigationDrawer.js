@@ -245,6 +245,23 @@ export class NavigationDrawer extends View {
         this.sideMenu.open();
     }
 
+
+    setTitle(newTitle) {
+        this.topBar.setTitle(newTitle);
+    }
+
+    setTopRightButton(button){
+        this.topBar.setRightButton(button);
+    }
+
+    setTopTemporaryLeftButton(button){
+        this.topBar.setTemporaryLeftButton(button);
+    }
+
+    removeTopTemporaryLeftButton(button){
+        this.topBar.removeTemporaryLeftButton(button);
+    }
+
     _createTopBar() {
         let topBar;
         if (!this.options.showTopMenu) {
@@ -377,7 +394,6 @@ export class NavigationDrawer extends View {
         if (this.topBar.topMenuView) this.topBar.topMenuView.close();
         this.sideMenu.close()
     }
-
     /**
      * Handle open or closing the top menu upon clicking the title
      * @private
@@ -388,22 +404,6 @@ export class NavigationDrawer extends View {
         } else {
             this.openMenu();
         }
-    }
-
-    setTitle(newTitle) {
-        this.topBar.setTitle(newTitle);
-    }
-
-    setTopRightButton(button){
-        this.topBar.setRightButton(button);
-    }
-
-    setTopTemporaryLeftButton(button){
-        this.topBar.setTemporaryLeftButton(button);
-    }
-
-    removeTopTemporaryLeftButton(button){
-        this.topBar.removeTemporaryLeftButton(button);
     }
 
 }
