@@ -55,7 +55,7 @@ export class TabBar extends View {
         }
 
 
-        this.once('newSize', ([width]) => {
+        this.onceNewSize().then(([width]) => {
             this._width = width;
             this._setItems(items);
 
@@ -63,7 +63,7 @@ export class TabBar extends View {
                 this.setIndexActive(this.options.activeIndex);
             }
 
-            this.on('newSize',([width]) => {
+            this.onNewSize(([width]) => {
                 this._width = width;
                 this.options.reflow && this.setIndexActive(this._currentItem);
             });
