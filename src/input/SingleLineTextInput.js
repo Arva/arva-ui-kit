@@ -85,6 +85,7 @@ export class SingleLineTextInput extends View {
             required: false,
             enabled: true,
             usesFeedback: true,
+            type: 'text',
             inputOptions: { clearOnEnter: true },
             feedbackText: FeedbackBubble.texts.required
         }, options));
@@ -93,7 +94,7 @@ export class SingleLineTextInput extends View {
             this.addRenderable(new SingleLineInputSurface({
                 value: this.options.value || '',
                 enabled: this.options.enabled === undefined ? true : this.options.enabled,
-                type: this.options.password ? 'password' : 'text',
+                type: this.options.password ? 'password' : this.options.type,
                 clearOnEnter: this.options.clearOnEnter,
                 placeholder: this.options.placeholder || '',
                 properties: {
