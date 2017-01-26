@@ -23,10 +23,15 @@ export let DockLeftLayout = {
     },
     _setItems(items) {
         this.items = items;
-
+        this._itemCount = 0;
         for (let index in items) {
             this._itemCount++;
+
+            if(!items[index].clickEventData){
+                items[index].clickEventData = [index, items[index]];
+            }
             let tab = new (this.options.tabRenderable || Tab)(combineOptions(this.options.tabOptions, items[index] || {}));
+            this[`item${index}`] && this.removeRenderable(`item${index}`);
             this._registerTabListeners(tab, index);
             this.addRenderable(tab, `item${index}`, layout.dock.left(~50))
         }
@@ -55,14 +60,19 @@ export let EqualSizeLayout = {
         return size;
     },
     _getCurrentSize(){
-        let size = this._width / this._itemCount;
+        let size = this._itemCount ? this._width / this._itemCount : 0;
         return size;
     },
     _setItems(items) {
         this.items = items;
+        this._itemCount = 0;
+        this.tabBar && this.removeRenderable('tabBar');
         this.addRenderable(new FlexTabBar({
             createRenderables: {
                 item: (id, data) => {
+                    if(!data.clickEventData){
+                       data.clickEventData = [this._itemCount, data];
+                    }
                     let tab = new this.options.tabRenderable(combineOptions(this.options.tabOptions, data || {}));
                     this._registerTabListeners(tab, this._itemCount);
                     this._itemCount++;
