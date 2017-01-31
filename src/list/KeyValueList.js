@@ -2,7 +2,6 @@
  * Created by vlad on 27/01/2017.
  */
 
-import Surface              from 'famous/core/Surface.js';
 import {KeyValueElement}    from 'arva-kit/list/KeyValueElement.js';
 import {View}               from 'arva-js/core/View.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
@@ -10,13 +9,6 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {TypeFaces}          from 'arva-kit/defaults/DefaultTypefaces.js';
 
 export class KeyValueList extends View {
-
-    @layout.fullSize()
-    background = new Surface({
-        properties: {
-            backgroundColor: this.options.backgroundColor
-        }
-    });
 
     /**
      * A list of key value text elements
@@ -36,7 +28,7 @@ export class KeyValueList extends View {
      *         key: TypeFaces.UISmallGray,
      *         value: TypeFaces.UISmall
      *     },
-     *     backgroundColor: 'rgba(255, 100, 255, 1)',
+     *     keyColumnWidth: 100,
      *     spacing: 16
      * });
      *
@@ -44,7 +36,7 @@ export class KeyValueList extends View {
      * @param {Array} [options.list] A list of objects containing each row's key and value. Each one of these object
      *        can also contain properties to be applied on that specific element's value text.
      * @param {Object} [options.textProperties] Contains the global custom key and value text properties.
-     * @param {String} [options.backgroundColor] Sets the background color of the KeyValueList
+     * @param {String} [options.keyColumnWidth] Sets the width of the key column
      * @param {Number} [options.spacing] Sets a custom spacing between elements
      */
     constructor(options = {}) {
@@ -54,7 +46,8 @@ export class KeyValueList extends View {
                 key: TypeFaces.UISmallGray,
                 value: TypeFaces.UISmall
             },
-            spacing: 16
+            spacing: 16,
+            keyColumnWidth: 100
         }, options));
 
         let list = this.options.list;
@@ -64,7 +57,8 @@ export class KeyValueList extends View {
                 new KeyValueElement({
                     key: element.key,
                     value: element.value,
-                    properties: combineOptions(this.options.textProperties, {value: element.properties})
+                    properties: combineOptions(this.options.textProperties, {value: element.properties}),
+                    keyColumnWidth: this.options.keyColumnWidth
                 }), `element ${i}`,
                 layout.dock.top(~20, this.options.spacing)
             );
