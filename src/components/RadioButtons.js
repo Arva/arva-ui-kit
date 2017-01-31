@@ -35,10 +35,10 @@ export class RadioButtons extends Clickable {
      * @param {Object} options Construction options
      * @param {Array} [options.buttons] Array containing settings for each radio button that will be included
      *        in the RadioButton instance created. These settings include:
-     *             -icon: the class of the icon to be used in the radio button (the class in which
+     *             -icon: (optional) the class of the icon to be used in the radio button (the class in which
      *                  the RadioButtons instance is created needs to import the icon class selected here)
      *             -text: the text which will appear in the radio button
-     *             -selected: boolean used to determine which radio button will be selected initially
+     *             -selected: (optional) boolean used to determine which radio button will be selected initially
      *                  (only the first occurrence of selected: true is taken into consideration;
      *                  subsequent occurrences are ignored)
      */
