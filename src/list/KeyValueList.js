@@ -2,11 +2,11 @@
  * Created by vlad on 27/01/2017.
  */
 
-import {KeyValueElement}    from 'arva-kit/list/KeyValueElement.js';
-import {View}               from 'arva-js/core/View.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {TypeFaces}          from 'arva-kit/defaults/DefaultTypefaces.js';
+import {KeyValueElement}            from 'arva-kit/list/KeyValueElement.js';
+import {View}                       from 'arva-js/core/View.js';
+import {layout}                     from 'arva-js/layout/Decorators.js';
+import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
+import {UISmallGray,UISmall}         from 'arva-kit/defaults/DefaultTypefaces.js';
 
 export class KeyValueList extends View {
 
@@ -25,8 +25,8 @@ export class KeyValueList extends View {
      *         {key: 'Sunday', value: 'Closed'},
      *     ],
      *     textProperties: {
-     *         key: TypeFaces.UISmallGray,
-     *         value: TypeFaces.UISmall
+     *         key: UISmallGray,
+     *         value: UISmall
      *     },
      *     keyColumnWidth: 100,
      *     spacing: 16
@@ -43,8 +43,8 @@ export class KeyValueList extends View {
         super(combineOptions({
             list: [],
             textProperties: {
-                key: TypeFaces.UISmallGray,
-                value: TypeFaces.UISmall
+                key: UISmallGray,
+                value: UISmall
             },
             spacing: 16,
             keyColumnWidth: 100
