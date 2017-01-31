@@ -23,6 +23,9 @@ export class SingleLineInputSurface extends InputSurface {
             inactiveColor: null,
             clearOnEnter: true,
             enabled: true,
+            attributes: {
+                type: options.type
+            }
         }, options);
 
         super(mergedOptions);

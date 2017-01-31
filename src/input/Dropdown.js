@@ -53,12 +53,14 @@ export class Dropdown extends View {
 
     /**
      * Dropdown, which actually doesn't strictly drops down, but expands in both ways similar to drop downs from Safari
-     * and various platforms. Emits the event 'itemChosen' with the 'data' argument passed in the options.items.
+     * and various platforms. Emits the event 'itemChosen' (can be changed with options.evetName) with the
+     * 'data' argument passed in the options.items.
      *
      * @param options
      * @param {Boolean} [options.fakeWithNative]. Set to true to fake with native
      * @param {Array} [options.items]. An array of options on the form {{String} text, {*} data, {Boolean} selected}.
      * Note that you should only set one of the items to "selected"
+     * @param {String} [options.eventName]. The event name to emit when an item has been chosen. Defaults to 'itemChosen'
      * @param {String} [options.placeholder]. If set, makes a placeholder when nothing is selected yet. If any of the items
      * is selected, this parameter won't do anything
      *
@@ -68,7 +70,8 @@ export class Dropdown extends View {
     constructor(options) {
         super(combineOptions({
             fakeWithNative: false,
-            items: [{text: 'This is the selected item', selected: true, data: 1}]
+            items: [{text: 'This is the selected item', selected: true, data: 1}],
+            eventName: 'itemChosen'
         }, options));
 
 
@@ -90,7 +93,7 @@ export class Dropdown extends View {
     ${this.options.items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
                 }), 'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40));
             this.nativeSelect.on('change', (event) => {
-                this._eventOutput.emit('itemChosen',this.options.items[event.target.selectedIndex].data);
+                this._eventOutput.emit(this.options.eventName,this.options.items[event.target.selectedIndex].data);
             });
             return this;
         }
@@ -233,7 +236,7 @@ export class Dropdown extends View {
             let item = this._selectedItem = items[index];
             await this._collapse();
             this[this._getNameFromIndex(index)].background.setProperties(this._getStandardBorderProperties());
-            this._eventOutput.emit('itemChosen', item.data);
+            this._eventOutput.emit(this.options.eventName, item.data);
         } else {
             this._expand();
         }
