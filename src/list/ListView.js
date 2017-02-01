@@ -18,7 +18,7 @@ export class ListView extends View {
     @layout.dock.fill()
     @layout.translate(0, 0, 10)
     list = new DataBoundScrollView({
-        ...this.options.scrollViewOptions,
+        ...this.options.dbsvOptions,
         dataStore: this.options.dataStore,
         itemTemplate: (listElement) => this.options.dataMapper
             ? new ListElement(this.options.dataMapper(listElement))
@@ -99,7 +99,7 @@ export class ListView extends View {
     constructor(options = {}) {
         super(combineOptions({
             templateMap: {},
-            scrollViewOptions: {}
+            dbsvOptions: {}
         }, options));
 
         let dataStore = this.options.dataStore;
