@@ -37,15 +37,6 @@ export function getShadow(options = {}){
     }
 }
 
-const rgbToRgba = (rgbString, alpha) => {
-    let color = new RGBColor(rgbString);
-    color.alpha = alpha;
-    return color.toRGBA();
-};
-
-let colorIsWhite = (color) => color === 'white' || color === '#000000' || color === '#000' || color.replace(/ /g,'') === 'rgb(255,255,255)'
-|| color.replace(/ /g,'').startsWith('rgba(255,255,255,');
-
 /* Override these methods to make your own hard/soft shadows*/
 export class Shadows {
     static getHardShadow(color, inset = false) {
@@ -82,3 +73,12 @@ export function getShadowType() {
 export function setShadowType(shadowType) {
     globalShadowType = shadowType;
 }
+
+const rgbToRgba = (rgbString, alpha) => {
+    let color = new RGBColor(rgbString);
+    color.alpha = alpha;
+    return color.toRGBA();
+};
+
+let colorIsWhite = (color) => color === 'white' || color === '#000000' || color === '#000' || color.replace(/ /g,'') === 'rgb(255,255,255)'
+|| color.replace(/ /g,'').startsWith('rgba(255,255,255,');

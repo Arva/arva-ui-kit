@@ -165,12 +165,14 @@ export class Switch extends Clickable {
         this.knob.draggable.setPosition([this._knobHorizontalRange, 0], curve);
         this.setRenderableFlowState('selectedOuterBox', 'visible');
         this._isOn = true;
+        this._eventOutput.emit('stateChange', true);
     }
 
     _switchOff() {
         this.knob.draggable.setPosition([0, 0], curve);
         this.setRenderableFlowState('selectedOuterBox', 'invisible');
         this._isOn = false;
+        this._eventOutput.emit('stateChange', false);
     }
 
     _setUpKnob(width) {

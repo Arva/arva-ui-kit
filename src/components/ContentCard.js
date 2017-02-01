@@ -23,7 +23,7 @@ export class ContentCard extends View {
     
     getSize() {
         let wrappedSize = super.getSize();
-        return [wrappedSize[0], Math.max(wrappedSize[1], 64)];
+        return [wrappedSize[0], Math.max(wrappedSize[1], this.options.minHeight)];
     }
 
     /**
@@ -33,7 +33,8 @@ export class ContentCard extends View {
      */
     constructor(options = {}) {
         super(combineOptions({
-            backgroundColor: 'white'
+            backgroundColor: 'white',
+            minHeight: 64
         }, options));
     }
 }
