@@ -5,11 +5,13 @@ import {Injection}                                      from 'arva-js/utils/Inje
 import {layout}                                         from 'arva-js/layout/Decorators.js';
 import {combineOptions}                                 from 'arva-js/utils/CombineOptions.js';
 import {Router}                                         from 'arva-js/core/Router.js';
+
 import {UIBar}                                          from '../../../uibars/UIBar.js';
-import {UIBarTitle}                                     from '../../../text/UIBarTitle.js';
 import {LeftIcon}                                       from '../../../icons/LeftIcon.js';
 import {InfoIcon}                                       from '../../../icons/InfoIcon.js';
+import {UIBarTitle}                                     from '../../../text/UIBarTitle.js';
 import {HamburgerIcon}                                  from '../../../icons/HamburgerIcon.js';
+import {Clickable}                                      from '../../../components/Clickable.js';
 import {UIBarImageButton}                               from '../../../buttons/UIBarImageButton.js';
 import {StatusBarExtension}                             from '../../../utils/statusBar/StatusBarExtension.js';
 
@@ -24,6 +26,7 @@ export class TopMenu extends UIBar {
      * @param {Boolean} [options.persistentButtons] Whether the topMenu buttons should presist on route change. E.g: if a certain Controller/Method has
      * specific buttons, change the buttons back to the previous buttons on route change.
      * @param {Object.Object.Object.Array} [options.dynamicButton] An option through which buttons can be customized per controller method.
+     *                                     If clickEventName is not provided, will emit 'left', 'left2', 'left3' etc automatically.
      *          dynamicButtons: {
      *               'Home': {
      *                   'Index': {
@@ -118,9 +121,11 @@ export class TopMenu extends UIBar {
                 this.removeComponents('left');
                 if (left) {
                     this.addComponents('left', left);
+                    this._setClickEventNames('left', left);
                 }
                 if (right) {
                     this.addComponents('right', right);
+                    this._setClickEventNames('right', right);
                 }
                 if (title) {
                     this.setTitle(title);
@@ -176,6 +181,22 @@ export class TopMenu extends UIBar {
     removeTemporaryLeftButton() {
         this.removeComponents('left');
         this.addComponent(this.isOpen ? this.arrowLeftButton : this.hamburgerButton, 'menuButton', 'left');
+    }
+
+    /**
+     * Sets component's clickEventName option to left, left2, left3, right, right2, etc, if it is a Clickable
+     * that does not have a special clickEventName already set.
+     * @param {Array} components List of components, as accepted by UIBar.
+     * @param {String} location One of the following: 'left', 'right', 'title'
+     * @private
+     */
+    _setClickEventNames(location, components) {
+        for(let index = 0; index < components.length; index++) {
+            let component = components[index];
+            if(component instanceof Clickable && component.options.clickEventName === 'buttonClick') {
+                component.options.clickEventName = `${location}${index > 0 ? index+1 : ''}`;
+            }
+        }
     }
 
 }
