@@ -14,6 +14,7 @@ import {ListElement}                from './ListElement.js';
 export class ListView extends View {
 
     _height = 0;
+    _spacing = 1;
 
     @layout.dock.fill()
     @layout.translate(0, 0, 10)
@@ -36,7 +37,7 @@ export class ListView extends View {
 
             }),
         layoutOptions: {
-            spacing: this.options.spacing ? 1 : 0
+            spacing: this.options.spacing ? this._spacing : 0
         }
     });
 
@@ -116,16 +117,18 @@ export class ListView extends View {
                 new Surface({properties: {backgroundColor: 'rgba(0, 0, 0, 0.1)'}}),
                 'background',
                 layout.dock.fill(),
-                layout.size(undefined, function (_, parentHeight) {
-                    return Math.min(this._height, parentHeight);
+                layout.size(undefined, function () {
+                    return this._height > 0 ? this._height - this._spacing : this._height;
                 }),
                 layout.translate(0, 0, -10)
             );
         }
+
+        window.dbsv = this.list;
     }
 
     _calculateSize() {
-        this._height = this.options.dataStore.length * 64;
+        this._height = this.list.getSize()[1];
         this.reflowRecursively();
     }
 
