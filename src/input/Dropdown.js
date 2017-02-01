@@ -136,6 +136,7 @@ export class Dropdown extends View {
             }
         }
         this._containerView = new ContainerView();
+        this._containerView.getValue = this.getValue;
 
         if(!this.placeholder){
             this._selectItemWithIndex(selectedItemIndex);
@@ -207,6 +208,9 @@ export class Dropdown extends View {
         return `item${index}`;
     }
 
+    getValue(){
+        return this.getSelectedItem();
+    }
 
     getSelectedItem() {
         return this.options.fakeWithNative ? this.nativeSelect._element.childNodes[1].value :  this._selectedItem.data;

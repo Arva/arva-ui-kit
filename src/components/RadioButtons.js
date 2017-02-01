@@ -51,6 +51,10 @@ export class RadioButtons extends Clickable {
         this.selectedIndex = -1;
 
         for (let [i, settings] of buttons.entries()) {
+            if (this.selectedIndex === -1 && settings.selected) {
+                this.selectedIndex = i;
+                this._emitSelected(i);
+            }
             this.selectedIndex = this.selectedIndex === -1 && settings.selected ? i : this.selectedIndex;
 
             this.addRenderable(new RadioButton({
@@ -71,8 +75,11 @@ export class RadioButtons extends Clickable {
     _updateSelectedButton(newSelectedIndex) {
         if (this.selectedIndex !== newSelectedIndex) {
             this['radioButton' + newSelectedIndex].select();
-            this['radioButton' + this.selectedIndex].deselect();
+            if (this.selectedIndex !== -1) {
+                this['radioButton' + this.selectedIndex].deselect();
+            }
             this.selectedIndex = newSelectedIndex;
+            this._emitSelected(newSelectedIndex);
         }
     }
 
@@ -94,6 +101,10 @@ export class RadioButtons extends Clickable {
 
     getValue(){
         return this['radioButton' + this.getSelected()].getValue();
+    }
+
+    _emitSelected(index) {
+        this._eventOutput.emit('buttonSelected', index);
     }
 
 }
