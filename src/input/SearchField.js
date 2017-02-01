@@ -82,6 +82,7 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
  * @param {Number} [options.resultOptions.groupHeight] Height of the result items' group headers, in pixels
  * @param {Function} [options.resultOptions.itemTemplate] A constructor that takes in a Model and returns a renderable for an item
  * @param {Function} [options.resultOptions.groupTemplate] A constructor that takes in a group value of any type and returns a renderable for a group header
+ * @param {Boolean} [options.expandable] Whether the SearchField can expand when used. Defaults to true.
  */
 @flow.viewStates({
     'active': [{ border: 'hidden', results: 'shown'}],
@@ -92,23 +93,36 @@ export class SearchField extends View {
     /* Translation of -1, -1 is to correct for the border being on the outside of the surface */
     @event.on('click', function(e) { this._onActivate(e); })
     @flow.stateStep('hidden', transition, layout.opacity(0))
-    @flow.defaultState('shown', transition, layout.size(undefined, 32), layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 210))
-    border = new Surface(combineOptions(
-        { properties: {
+    @flow.defaultState('shown', transition, layout.size(undefined, undefined), layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 210))
+    border = new Surface({
+        properties: {
             boxSizing: 'content-box',
             backgroundColor: 'rgb(255, 255, 255)',
             border: 'solid 1px rgba(0, 0, 0, 0.1)',
-            borderRadius: borderRadius
-        }}
-    ));
+            borderRadius
+        }
+    });
+
+    /* Always display the white background to avoid flickering when changing backgrounds */
+    @layout.fullSize()
+    @layout.translate(0, 0, 210)
+    whiteBackground = new Surface({
+        properties: {
+            backgroundColor: 'rgb(255, 255, 255)',
+            borderRadius
+        }
+
+    });
 
     @flow.stateStep('shown', transition, layout.opacity(1))
     @flow.stateStep('expanded', transition, layout.size(undefined, true))
-    @flow.stateStep('collapsed', transition, layout.size(undefined, 32))
-    @flow.stateStep('hidden', transition, layout.size(undefined, 32))
-    @flow.defaultState('hidden', transition, layout.opacity(0), layout.size(undefined, 32),
-        layout.stick.top(), layout.translate(0, 8, 210))
+    @flow.stateStep('collapsed', transition, layout.size(undefined, undefined))
+    @flow.stateStep('hidden', transition, layout.size(undefined, undefined))
+    @flow.defaultState('hidden', transition, layout.opacity(0), layout.size(undefined, undefined),
+        layout.stick.top(), layout.translate(0, 0, 210))
     results = new ResultsView({
+        /* If it isn't expandable, it shouldn't show content */
+        showContent: this.options.expandable,
         resultOptions: this.options.resultOptions
     });
 
@@ -137,7 +151,7 @@ export class SearchField extends View {
 
     @event.on('click', function(e) { this._onActivate(e); })
     @flow.stateStep('left', transition, layout.stick.left(), layout.translate(8, 0, 230))
-    @flow.defaultState('center', transition, layout.size(~50, 32), layout.stick.center(), layout.translate(0, 0, 230))
+    @flow.defaultState('center', transition, layout.size(~50, undefined), layout.stick.center(), layout.translate(0, 0, 230))
     placeholder = new Placeholder({
         properties: { borderRadius: borderRadius },
         placeholder: this.options.placeholder || 'Search'
@@ -165,8 +179,11 @@ export class SearchField extends View {
         await this.setViewFlowState('active');
 
         if(this.input.getValue()) {
-            this.setRenderableFlowState('results', 'expanded');
+            this._setExpanded(true);
         }
+
+        /* Reflow to let parents know that we changed */
+        this.reflowRecursively();
 
         return true;
     }
@@ -178,11 +195,15 @@ export class SearchField extends View {
         if(this.input.getValue().length === 0) {
             await this.setRenderableFlowState('placeholder', 'center');
         }
+
+        /* Reflow to let parents know that we changed */
+        this.reflowRecursively();
+
         return true;
     }
 
     async _onDoneClick (event) {
-        if(event.preventDefault) { event.preventDefault(); }
+        if(event.preventDefault) { event.preventDefault(); };
         this.input.setValue('');
         this._onInputValue('');
         this._onDeactivate();
@@ -191,7 +212,26 @@ export class SearchField extends View {
     async _onInputValue(value) {
         let hasContent = value.length > 0;
         this.placeholder[hasContent ? 'hideText' : 'showText']();
-        this.setRenderableFlowState('results', hasContent ? 'expanded' : 'collapsed');
+        this._setExpanded('results', hasContent);
         await this.setRenderableFlowState('done', hasContent ? 'shown' : 'hidden');
     }
+
+    _setExpanded(isExpanded) {
+        if(this.options.expandable){
+            return this.setRenderableFlowState('results', isExpanded ? 'expanded' : 'collapsed');
+        }
+    }
+
+    isExpanded() {
+        return this.getViewFlowState() === 'active';
+    }
+
+    getSize() {
+        return [undefined, 32];
+    }
+
+    constructor(options) {
+        super(combineOptions({expandable: true}, options));
+    }
+
 }
