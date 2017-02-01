@@ -134,6 +134,13 @@ export class SingleLineTextInput extends View {
         return this.input.enable && this.input.enable(enabled);
     }
 
+    enable() {
+        this.setEnabled(true);
+    }
+
+    disable() {
+        this.setEnabled(false);
+    }
 
     setValue() {
         return this.input.setValue(...arguments);
