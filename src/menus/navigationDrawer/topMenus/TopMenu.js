@@ -21,7 +21,7 @@ export class TopMenu extends UIBar {
      *
      * @param {Object} options Construction options
      * @param {String} [options.defaultTitle] The default title to be displayed in the center of the TopMenu
-     * @param {Boolean} [options.persistentButtons] Whether the topMenu buttons should presist on route change. E.g: if a certain Controller/Method has
+     * @param {Boolean} [options.persistentButtons] Whether the topMenu buttons should persist on route change. E.g: if a certain Controller/Method has
      * specific buttons, change the buttons back to the previous buttons on route change.
      * @param {Object.Object.Object.Array} [options.dynamicButton] An option through which buttons can be customized per controller method.
      *          dynamicButtons: {
