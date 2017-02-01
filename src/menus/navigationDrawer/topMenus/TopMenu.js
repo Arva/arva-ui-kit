@@ -113,13 +113,13 @@ export class TopMenu extends UIBar {
             && this.options.dynamicButtons[controller][method]) {
             let newComponents = this.options.dynamicButtons[controller][method];
             let { left, right, title } = newComponents;
-            if (newComponents) {
+            if (newComponents && (left || right)) {
+                this.removeComponents('right');
+                this.removeComponents('left');
                 if (left) {
-                    this.removeComponents('left');
                     this.addComponents('left', left);
                 }
                 if (right) {
-                    this.removeComponents('right');
                     this.addComponents('right', right);
                 }
                 if (title) {
