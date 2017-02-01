@@ -43,11 +43,6 @@ export class RadioButtonCircle extends Clickable {
         }
     });
 
-    @layout.size(24, 24)
-    @layout.stick.center()
-    @layout.translate(0, 0, 30)
-    icon = new this.options.icon();
-
     constructor(options = {}) {
         super(combineOptions({
             activeColor: Colors.PrimaryUIColor
@@ -58,16 +53,28 @@ export class RadioButtonCircle extends Clickable {
         } else {
             this.deselect();
         }
+
+        if (this.options.icon) {
+            this.addRenderable(new this.options.icon(), 'icon',
+                layout.size(24, 24),
+                layout.stick.center(),
+                layout.translate(0, 0, 30)
+            )
+        }
     }
 
     select() {
         this.setViewFlowState('selected');
-        this.icon.changeColor('rgb(255, 255, 255)');
+        if (this.icon) {
+            this.icon.changeColor('rgb(255, 255, 255)');
+        }
     }
 
     deselect() {
         this.setViewFlowState('deselected');
-        this.icon.changeColor(this.options.activeColor);
+        if (this.icon) {
+            this.icon.changeColor(this.options.activeColor);
+        }
     }
 
 }

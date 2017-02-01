@@ -21,7 +21,10 @@ export class LoginAwareRouter extends ArvaRouter {
     setUser(user) {
         let preExists = !!this._user;
         this._user = user;
-        this.emit(preExists ? 'loginchange' : 'login');
+        if(this._user){
+            this.emit(preExists ? 'loginchange' : 'login');
+        }
+
     }
 
     getUser() {

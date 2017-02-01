@@ -30,7 +30,6 @@ export class PasswordLogin extends BaseLogin {
         try {
             await user.reauthenticate(oldCredential);
             user.updatePassword(newPassword).then(function () {
-                /* Done saving password, go back to Profile/Index */
                 return true;
             }, function (error) {
                 /* Show dialog with error here */
@@ -41,4 +40,23 @@ export class PasswordLogin extends BaseLogin {
             throw new Error(error);
         }
     }
+
+    async updateEmail(email, password){
+        let user = await this._dataSource.getAuth();
+        let credentials = this._dataSource._firebase.auth.EmailAuthProvider.credential(user.email, password);
+        try {
+            await user.reauthenticate(credentials);
+            user.updateEmail(email).then(function () {
+                /* Done updating email */
+                return true;
+            }, function (error) {
+                /* Show dialog with error here */
+                throw new Error(error);
+            });
+        } catch (error) {
+            /* Show dialog with error here */
+            throw new Error(error);
+        }
+    }
 }
+

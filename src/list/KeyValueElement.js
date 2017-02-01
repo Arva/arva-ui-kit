@@ -11,14 +11,16 @@ export class KeyValueElement extends View {
 
     @layout.dock.left()
     @layout.stick.center()
-    @layout.size(~100, ~14)
+    @layout.size(function () {
+        return this.options.keyColumnWidth
+    }, ~14)
     key = new Text({
         content: this.options.key,
         properties: this.options.properties.key || {}
     });
 
-    @layout.dock.right()
-    @layout.stick.center()
+    @layout.dock.left()
+    @layout.stick.left()
     @layout.size(~100, ~14)
     value = new Text({
         content: this.options.value,
