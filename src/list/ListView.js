@@ -18,7 +18,7 @@ export class ListView extends View {
     @layout.dock.fill()
     @layout.translate(0, 0, 10)
     list = new DataBoundScrollView({
-        ...this.options.scrollViewOptions,
+        ...this.options.dbsvOptions,
         dataStore: this.options.dataStore,
         itemTemplate: (listElement) => this.options.dataMapper
             ? new ListElement(this.options.dataMapper(listElement))
@@ -99,8 +99,17 @@ export class ListView extends View {
     constructor(options = {}) {
         super(combineOptions({
             templateMap: {},
-            scrollViewOptions: {}
+            dbsvOptions: {}
         }, options));
+
+        let dataStore = this.options.dataStore;
+        if (dataStore) {
+            dataStore.on('child_added', this._calculateSize);
+            dataStore.on('child_changed', this._calculateSize);
+            dataStore.on('child_removed', this._calculateSize);
+        } else {
+            console.warn('No dataStore provided in ListView.');
+        }
 
         if (this.options.spacing) {
             this.addRenderable(
@@ -113,10 +122,6 @@ export class ListView extends View {
                 layout.translate(0, 0, -10)
             );
         }
-
-        this.options.dataStore.on('child_added', this._calculateSize);
-        this.options.dataStore.on('child_changed', this._calculateSize);
-        this.options.dataStore.on('child_removed', this._calculateSize);
     }
 
     _calculateSize() {

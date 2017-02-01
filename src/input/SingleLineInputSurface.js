@@ -50,9 +50,7 @@ export class SingleLineInputSurface extends InputSurface {
             color: this.options.activeColor || Colors.Black
         });
 
-        // this.setAttributes({
-        //     disabled: false
-        // });
+        this.removeAttributes(['disabled']);
     }
 
     _disableListeners(){
