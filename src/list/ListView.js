@@ -9,12 +9,11 @@ import {layout}                     from 'arva-js/layout/Decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {DataBoundScrollView}        from 'arva-js/components/DataBoundScrollView.js';
 import {ListElement}                from './ListElement.js';
+import {ListSpacing}                from '../defaults/DefaultDimensions.js';
 
 @layout.columnDockPadding(720, [0, 0, 0, 0])
 export class ListView extends View {
-
     _height = 0;
-    _spacing = 1;
 
     @layout.dock.fill()
     @layout.translate(0, 0, 10)
@@ -37,7 +36,7 @@ export class ListView extends View {
 
             }),
         layoutOptions: {
-            spacing: this.options.spacing ? this._spacing : 0
+            spacing: this.options.spacing ? ListSpacing : 0
         }
     });
 
@@ -118,13 +117,11 @@ export class ListView extends View {
                 'background',
                 layout.dock.fill(),
                 layout.size(undefined, function () {
-                    return this._height > 0 ? this._height - this._spacing : this._height;
+                    return this._height > 0 ? this._height - ListSpacing : this._height;
                 }),
                 layout.translate(0, 0, -10)
             );
         }
-
-        window.dbsv = this.list;
     }
 
     _calculateSize() {
