@@ -6,13 +6,14 @@ import {View}               from 'arva-js/core/View.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {UISmallGray}        from '../text/UISmallGray.js';
+import {UISmall}            from '../text/UISmall.js';
 
 export class SectionHeader extends View {
 
     @layout.fullSize()
-    text = new UISmallGray({
+    text = new (this.options.textVariation === 'gray' ? UISmallGray : UISmall)({
         properties: {
-            backgroundColor: this.options.colorVariation == 'white' ? 'rgb(255, 255, 255)' : 'rgb(250, 250, 250)',
+            backgroundColor: this.options.colorVariation == 'white' ? 'rgb(255, 255, 255)' : 'rgb(245, 245, 245)',
             borderBottom: this.options.lines ? '1px solid rgba(0, 0, 0, 0.1)' : '',
             borderTop: this.options.lines ? '1px solid rgba(0, 0, 0, 0.1)' : '',
             lineHeight: `${this.options.height}px`,
@@ -29,6 +30,7 @@ export class SectionHeader extends View {
      * @param {Object} [options] Construction options
      * @param {String} [options.content] The textual content that is shown centered in this component
      * @param {String} [options.colorVariation] Can be either 'gray' or 'white', and determines the background color
+     * @param {String} [options.textVariation] Can be either 'black' or 'gray', and determines the typeface color
      * @param {String} [options.lines] When set to true, adds 1px lines to the top and bottom of this component
      * @param {Number} [options.height] When set, uses this height if the component isn't being used in a decorated layout
      *
