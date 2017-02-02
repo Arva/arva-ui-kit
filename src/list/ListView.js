@@ -102,7 +102,8 @@ export class ListView extends View {
     constructor(options = {}) {
         super(combineOptions({
             templateMap: {},
-            dbsvOptions: {}
+            dbsvOptions: {},
+            spacing: true
         }, options));
 
 
