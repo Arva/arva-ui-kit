@@ -39,7 +39,7 @@ export class ListView extends View {
 
             }),
         layoutOptions: {
-            spacing: this.options.spacing ? ListSpacing : 0
+            spacing: this.options.spacing
         }
     });
 
@@ -90,8 +90,7 @@ export class ListView extends View {
      * @param {Object} options Construction options
      * @param {PrioritisedArray} [options.dataStore] PrioritisedArray to be used by the ListView DBSV
      * @param {Boolean} [options.bold] Make the main text of all the ListElements bold
-     * @param {Boolean} [options.spacing] Adds a 1px spacing between ListElements with a 10% opacity
-     *        in order for the background to be visible
+     * @param {Boolean} [options.spacing] Spacing between the list items
      * @param {Boolean} [options.profileImages] Set all the ListElement images to profile images
      * @param {Boolean} [options.alternatingColors] Alternates the ListElements colors
      * @param {Object} [options.forAllElements] ListElement options which will be used for all elements in the list
@@ -103,7 +102,7 @@ export class ListView extends View {
         super(combineOptions({
             templateMap: {},
             dbsvOptions: {},
-            spacing: true
+            spacing: ListSpacing
         }, options));
 
 
@@ -113,7 +112,7 @@ export class ListView extends View {
                 'background',
                 layout.dock.fill(),
                 layout.size(undefined, function () {
-                    return this._height > 0 ? this._height - ListSpacing : this._height;
+                    return this._height > 0 ? this._height - this.options.spacing : this._height;
                 }),
                 layout.translate(0, 0, -10)
             );
