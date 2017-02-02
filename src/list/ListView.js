@@ -5,7 +5,7 @@
 import Surface                      from 'famous/core/Surface.js';
 
 import {View}                       from 'arva-js/core/View.js';
-import {layout}                     from 'arva-js/layout/Decorators.js';
+import {layout, event}              from 'arva-js/layout/Decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {DataBoundScrollView}        from 'arva-js/components/DataBoundScrollView.js';
 import {ListElement}                from './ListElement.js';
@@ -16,6 +16,9 @@ export class ListView extends View {
     _height = 0;
     _spacing = 1;
 
+    @event.on('resize', function () {
+        this._calculateSize();
+    })
     @layout.dock.fill()
     @layout.translate(0, 0, 10)
     list = new DataBoundScrollView({
@@ -103,14 +106,6 @@ export class ListView extends View {
             dbsvOptions: {}
         }, options));
 
-        let dataStore = this.options.dataStore;
-        if (dataStore) {
-            dataStore.on('child_added', this._calculateSize);
-            dataStore.on('child_changed', this._calculateSize);
-            dataStore.on('child_removed', this._calculateSize);
-        } else {
-            console.warn('No dataStore provided in ListView.');
-        }
 
         if (this.options.spacing) {
             this.addRenderable(
@@ -123,8 +118,6 @@ export class ListView extends View {
                 layout.translate(0, 0, -10)
             );
         }
-
-        window.dbsv = this.list;
     }
 
     _calculateSize() {
