@@ -3,6 +3,7 @@
  */
 
 import get                  from 'lodash/get.js';
+import findIndex            from 'lodash/findIndex.js';
 import FamousContext        from 'famous/core/Context.js';
 import Easing               from 'famous/transitions/Easing.js';
 
@@ -91,13 +92,27 @@ export class NavigationTabBar extends View {
         let tabs = methodSpecificTabs || globalControllerTabs || null;
 
         this.currentController = controller;
-        if(this.currentItems !== tabs) { this.currentItems = tabs } else { return; }
+        if(this.currentItems !== tabs) {
+            this.currentItems = tabs
+        } else {
+            /* Even though the tabs haven't changed, the active tab might be a different one */
+            return this._setCorrectActiveTab(controller, method, tabs);
+        }
 
         if (tabs) {
             this.UIBar.tabBar.setItems(tabs);
             this.show();
+            this._setCorrectActiveTab(controller, method, tabs);
         } else {
             this.hide();
+        }
+    }
+
+    _setCorrectActiveTab(controller, method, tabs) {
+        let activeTabIndex = findIndex(tabs, (tab) => tab.goTo.method === method &&
+        (!tab.goTo.controller || tab.goTo.controller === controller));
+        if(activeTabIndex >= 0) {
+            this.UIBar.tabBar.setIndexActive(activeTabIndex);
         }
     }
 
