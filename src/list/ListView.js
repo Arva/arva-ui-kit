@@ -49,7 +49,6 @@ export class ListView extends View {
      * @example
      * listView = new ListView({
      *     profileImages: true,
-     *     spacing: true,
      *     alternatingColors: true,
      *     forAllElements: {
      *         leftButtons: [
