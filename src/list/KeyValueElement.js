@@ -21,7 +21,9 @@ export class KeyValueElement extends View {
 
     @layout.dock.left()
     @layout.stick.left()
-    @layout.size(~100, ~14)
+    @layout.size(function () {
+        return this.options.valueColumnWidth
+    }, ~14)
     value = new Text({
         content: this.options.value,
         properties: this.options.properties.value || {}

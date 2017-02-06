@@ -47,7 +47,8 @@ export class KeyValueList extends View {
                 value: UISmall
             },
             spacing: 16,
-            keyColumnWidth: 100
+            keyColumnWidth: 100,
+            valueColumnWidth: ~100
         }, options));
 
         let list = this.options.list;
@@ -58,7 +59,8 @@ export class KeyValueList extends View {
                     key: element.key,
                     value: element.value,
                     properties: combineOptions(this.options.textProperties, {value: element.properties}),
-                    keyColumnWidth: this.options.keyColumnWidth
+                    keyColumnWidth: this.options.keyColumnWidth,
+                    valueColumnWidth: this.options.valueColumnWidth
                 }), `element ${i}`,
                 layout.dock.top(~20, this.options.spacing)
             );
