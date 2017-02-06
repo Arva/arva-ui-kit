@@ -58,7 +58,10 @@ export class TabBar extends View {
 
         this.onceNewSize().then(([width]) => {
             this._width = width;
-            this._setItems(items);
+
+            if(!this.getItems()) {
+                this._setItems(items);
+            }
 
             if(this.options.activeIndex != undefined){
                 this.setIndexActive(this.options.activeIndex);

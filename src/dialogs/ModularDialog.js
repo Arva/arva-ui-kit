@@ -86,7 +86,7 @@ export class ModularDialog extends Dialog {
 
     maxSize = [800, 800];
 
-    static _setOptions({rightButton, leftButton, title, variation}) {
+    static _setOptions({rightButton, leftButton, title, variation, shadowType}) {
         let components = [];
 
         if (leftButton) {
@@ -99,6 +99,6 @@ export class ModularDialog extends Dialog {
             components.push([new UIBarTextButton(rightButton), 'rightButton', 'right']);
         }
 
-        return {variation, components};
+        return {variation, components, shadowType};
     }
 }

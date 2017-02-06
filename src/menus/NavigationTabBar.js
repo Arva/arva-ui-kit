@@ -1,8 +1,9 @@
 /**
- * Created by lundfall on 01/02/2017.
+ * Created by tom on 01/02/2017.
  */
 
 import get                  from 'lodash/get.js';
+import findIndex            from 'lodash/findIndex.js';
 import FamousContext        from 'famous/core/Context.js';
 import Easing               from 'famous/transitions/Easing.js';
 
@@ -69,18 +70,49 @@ export class NavigationTabBar extends View {
         });
     }
 
+    setParamsForPath(controller, method = null, params = {}) {
+        let tabs = get(this.options.tabsForRoutes, method ? `[${controller}][${method}]` : `[${controller}]`);
+        if(tabs) {
+            for(let tab of tabs) {
+                tab.goTo.params = params;
+            }
+        }
+    }
+
     _onRouteChange({ controller, method }) {
-        let tabs = this.options.tabsForRoutes;
-        let items = get(tabs, `['${controller}']['${method}']`) || null;
+        let paths = this.options.tabsForRoutes;
+
+        /* Check if a controller + method path is set */
+        let methodSpecificTabs = get(paths, `['${controller}']['${method}']`);
+
+        /* Otherwise, check if a path was set for just the controller */
+        let globalControllerTabs  = get(paths, `['${controller}']`);
+
+        /* Determine which tabs to show, if any, starting with the most specific ones */
+        let tabs = methodSpecificTabs || globalControllerTabs || null;
 
         this.currentController = controller;
-        if(this.currentItems !== items) { this.currentItems = items } else { return; }
+        if(this.currentItems !== tabs) {
+            this.currentItems = tabs
+        } else {
+            /* Even though the tabs haven't changed, the active tab might be a different one */
+            return this._setCorrectActiveTab(controller, method, tabs);
+        }
 
-        if (items) {
-            this.UIBar.tabBar.setItems(items);
+        if (tabs) {
+            this.UIBar.tabBar.setItems(tabs);
             this.show();
+            this._setCorrectActiveTab(controller, method, tabs);
         } else {
             this.hide();
+        }
+    }
+
+    _setCorrectActiveTab(controller, method, tabs) {
+        let activeTabIndex = findIndex(tabs, (tab) => tab.goTo.method === method &&
+        (!tab.goTo.controller || tab.goTo.controller === controller));
+        if(activeTabIndex >= 0) {
+            this.UIBar.tabBar.setIndexActive(activeTabIndex);
         }
     }
 

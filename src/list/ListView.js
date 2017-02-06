@@ -5,20 +5,23 @@
 import Surface                      from 'famous/core/Surface.js';
 
 import {View}                       from 'arva-js/core/View.js';
-import {layout}                     from 'arva-js/layout/Decorators.js';
+import {layout, event}              from 'arva-js/layout/Decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {DataBoundScrollView}        from 'arva-js/components/DataBoundScrollView.js';
 import {ListElement}                from './ListElement.js';
+import {ListSpacing}                from '../defaults/DefaultDimensions.js';
 
 @layout.columnDockPadding(720, [0, 0, 0, 0])
 export class ListView extends View {
-
     _height = 0;
 
+    @event.on('resize', function () {
+        this._calculateSize();
+    })
     @layout.dock.fill()
     @layout.translate(0, 0, 10)
     list = new DataBoundScrollView({
-        ...this.options.scrollViewOptions,
+        ...this.options.dbsvOptions,
         dataStore: this.options.dataStore,
         itemTemplate: (listElement) => this.options.dataMapper
             ? new ListElement(this.options.dataMapper(listElement))
@@ -36,7 +39,7 @@ export class ListView extends View {
 
             }),
         layoutOptions: {
-            spacing: this.options.spacing ? 1 : 0
+            spacing: this.options.spacing
         }
     });
 
@@ -46,7 +49,6 @@ export class ListView extends View {
      * @example
      * listView = new ListView({
      *     profileImages: true,
-     *     spacing: true,
      *     alternatingColors: true,
      *     forAllElements: {
      *         leftButtons: [
@@ -87,8 +89,7 @@ export class ListView extends View {
      * @param {Object} options Construction options
      * @param {PrioritisedArray} [options.dataStore] PrioritisedArray to be used by the ListView DBSV
      * @param {Boolean} [options.bold] Make the main text of all the ListElements bold
-     * @param {Boolean} [options.spacing] Adds a 1px spacing between ListElements with a 10% opacity
-     *        in order for the background to be visible
+     * @param {Boolean} [options.spacing] Spacing between the list items
      * @param {Boolean} [options.profileImages] Set all the ListElement images to profile images
      * @param {Boolean} [options.alternatingColors] Alternates the ListElements colors
      * @param {Object} [options.forAllElements] ListElement options which will be used for all elements in the list
@@ -99,28 +100,26 @@ export class ListView extends View {
     constructor(options = {}) {
         super(combineOptions({
             templateMap: {},
-            scrollViewOptions: {}
+            dbsvOptions: {},
+            spacing: ListSpacing
         }, options));
+
 
         if (this.options.spacing) {
             this.addRenderable(
                 new Surface({properties: {backgroundColor: 'rgba(0, 0, 0, 0.1)'}}),
                 'background',
                 layout.dock.fill(),
-                layout.size(undefined, function (_, parentHeight) {
-                    return Math.min(this._height, parentHeight);
+                layout.size(undefined, function () {
+                    return this._height > 0 ? this._height - this.options.spacing : this._height;
                 }),
                 layout.translate(0, 0, -10)
             );
         }
-
-        this.options.dataStore.on('child_added', this._calculateSize);
-        this.options.dataStore.on('child_changed', this._calculateSize);
-        this.options.dataStore.on('child_removed', this._calculateSize);
     }
 
     _calculateSize() {
-        this._height = this.options.dataStore.length * 64;
+        this._height = this.list.getSize()[1];
         this.reflowRecursively();
     }
 

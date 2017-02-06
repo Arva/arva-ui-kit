@@ -16,7 +16,7 @@ export class KeyValueElement extends View {
     }, ~14)
     key = new Text({
         content: this.options.key,
-        properties: this.options.properties.key || {}
+        properties: (this.options.properties.key || {}).properties
     });
 
     @layout.dock.left()
@@ -26,7 +26,7 @@ export class KeyValueElement extends View {
     }, ~14)
     value = new Text({
         content: this.options.value,
-        properties: this.options.properties.value || {}
+        properties: (this.options.properties.value || {}).properties
     });
 
     constructor(options = {}) {

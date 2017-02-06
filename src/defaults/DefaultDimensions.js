@@ -12,6 +12,9 @@ export let Dimensions = {
     UIBarThickHeight: 64,
     UIBarPadding: 4,
 
+    ListElementHeight: 64,
+    ListSpacing: 1,
+
     topBarHeight: 48,
     sideMenu: {
         itemHeight: 48,
@@ -29,6 +32,9 @@ export let ComponentPadding = Dimensions.ComponentPadding;
 export let UIBarHeight = Dimensions.UIBarHeight;
 export let UIBarThickHeight = Dimensions.UIBarThickHeight;
 export let UIBarPadding = Dimensions.UIBarPadding;
+
+export let ListElementHeight = Dimensions.ListElementHeight;
+export let ListSpacing = Dimensions.ListSpacing;
 
 export let TopBarHeight = Dimensions.topBarHeight;
 

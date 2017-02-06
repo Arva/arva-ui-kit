@@ -11,6 +11,7 @@ import {Clickable}                  from '../components/Clickable.js';
 import {ListElementCard}            from './ListElementCard.js';
 import {ImageButton}                from '../buttons/ImageButton.js';
 import {CirclecheckIcon}            from '../icons/CirclecheckIcon.js';
+import {ListElementHeight}          from '../defaults/DefaultDimensions.js';
 
 const transition = {curve: Easing.outCubic, duration: 200};
 
@@ -80,7 +81,7 @@ export class ListElement extends Clickable {
      */
     constructor(options = {}) {
         super(combineOptions({
-            elementHeight: 64
+            elementHeight: ListElementHeight
         }, options));
 
         /*This removes the default dock padding from Button class.*/

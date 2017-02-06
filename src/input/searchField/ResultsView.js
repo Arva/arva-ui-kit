@@ -28,6 +28,7 @@ export class ResultsView extends View {
         }}
     );
 
+    @layout.animate({showInitially: false})
     @layout.dock.fill()
     @layout.translate(0, 0, 10)
     content = new DataBoundScrollView({
@@ -46,9 +47,15 @@ export class ResultsView extends View {
     constructor(options = {}) {
         super({
             itemHeight: 48,
+            showContent: true,
             groupHeight: 32,
             ...options /* Can't use combineOptions() because options.resultOptions.dataStore is a PrioArray. */
         });
+
+        if(this.options.showContent){
+            this.showRenderable('content');
+        }
+
         this.content.on('resize', this.reflowRecursively);
     }
 

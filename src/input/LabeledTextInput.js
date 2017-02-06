@@ -51,5 +51,17 @@ export class LabeledTextInput extends View {
     setValue(value) {
         this.input.setValue(value);
     }
+
+    enable() {
+        if(this.input.enable && typeof this.input.enable === 'function') {
+            this.input.enable();
+        }
+    }
+
+    disable() {
+        if(this.input.disable && typeof this.input.disable === 'function') {
+            this.input.disable();
+        }
+    }
     
 }    
