@@ -85,6 +85,10 @@ export class LoadingPlaceholderImage extends View {
         this._createImageElement(imageUrl);
     }
 
+    getContent() {
+        return this.image.getContent();
+    }
+
     _onImageLoad() {
         this.image.animationController.show(this.image, undefined, () => {
             delete this.imgElement;
