@@ -21,7 +21,8 @@ import {Dimensions}         from 'arva-kit/defaults/DefaultDimensions.js';
 export class NavigationTabBar extends View {
 
     @layout.dock.top(true)
-    @layout.animate({ showInitially: true })
+    @layout.translate(0, 0, 1000)
+    @layout.animate({showInitially: true})
     UIBar = new UIBar({
         components: [[new this.options.tabBarType({ ...this.options, equalSizing: true }), 'tabBar', 'fill']],
         ...this.options.UIBarOptions

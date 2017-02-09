@@ -23,10 +23,10 @@ export class NavigationDrawer extends View {
     statusBarExtension = Injection.get(StatusBarExtension);
 
     @layout.dock.fill()
-    @layout.translate(0, 0, 450)
+    @layout.translate(0, 0, 1450)
     sideMenu = new this.options.sideMenuClass();
 
-    @layout.translate(0, 0, 500)
+    @layout.translate(0, 0, 1500)
     @layout.animate({
         showInitially: true,
         show: {animation: AnimationController.Animation.Slide.Down},
