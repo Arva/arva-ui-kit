@@ -70,8 +70,9 @@ export class OverlayingButtons extends View {
         this.router.on('routechange', this._onRouteChange);
 
         /* Add buttons dynamically */
-        this.currentButtons = [0, 1, 2, 3];
+        this.currentButtons = [];
         for (const index in this.options.buttons) {
+            this.currentButtons.push(index);
             let button = this.options.buttons[index].button;
             button.options.clickEventName = `button${index}`;
             this.addRenderable(
