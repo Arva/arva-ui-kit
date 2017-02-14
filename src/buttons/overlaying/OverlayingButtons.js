@@ -72,8 +72,10 @@ export class OverlayingButtons extends View {
         /* Add buttons dynamically */
         this.currentButtons = [0, 1, 2, 3];
         for (const index in this.options.buttons) {
+            let button = this.options.buttons[index].button;
+            button.options.clickEventName = `button${index}`;
             this.addRenderable(
-                this.options.buttons[index].button,
+                button,
                 `button${index}`,
                 ...this._getButtonDecorators(index)
             );
