@@ -41,14 +41,15 @@ export class OverlayingFloatingButtons extends OverlayingButtons {
      */
     constructor(options = {}) {
         let floatingButtons = [];
-        for (let buttonSettings of options.buttons) {
+        for (let [index, buttonSettings] of options.buttons.entries()) {
             floatingButtons.push({
                 button: new FloatingImageButton({
                     imageSize: [24, 24],
                     icon: buttonSettings.icon,
                     backgroundProperties: {
                         backgroundColor: buttonSettings.backgroundColor
-                    }
+                    },
+                    clickEventName: `button${index}`
                 }),
                 persistent: buttonSettings.persistent
             })
