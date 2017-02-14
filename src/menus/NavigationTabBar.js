@@ -21,6 +21,7 @@ import {Dimensions}         from 'arva-kit/defaults/DefaultDimensions.js';
 export class NavigationTabBar extends View {
 
     @layout.dock.top(true)
+    @layout.translate(0, 0, 1000)
     @layout.animate({showInitially: true})
     UIBar = new UIBar({
         components: [[new this.options.tabBarType({ ...this.options, equalSizing: true }), 'tabBar', 'fill']],
@@ -33,8 +34,8 @@ export class NavigationTabBar extends View {
             tabBarType: LineTabBar,
             UIBarOptions: { bottomLine: true, shadowType: 'noShadow' },
             tabOptions: { properties: { color: 'rgb(0, 0, 0)' } },
-            showAnimation: {transition: {duration: 0, curve: Easing.outBack}},
-            hideAnimation: {transition: {duration: 0, curve: Easing.outBack}},
+            showAnimation: { transition: { duration: 0, curve: Easing.outBack } },
+            hideAnimation: { transition: { duration: 0, curve: Easing.outBack } },
             ...options
         }));
 
@@ -59,12 +60,12 @@ export class NavigationTabBar extends View {
 
     show() {
         this.UIBar.decorations.dock.size[1] = Dimensions.UIBarHeight;
-        this.UIBar.animationController.show(this.UIBar, this.options.showAnimation || {transition: {duration: 0}});
+        this.UIBar.animationController.show(this.UIBar, this.options.showAnimation || { transition: { duration: 0 } });
         this.layout.reflowLayout();
     }
 
     hide() {
-        this.UIBar.animationController.hide(this.options.hideAnimation  || {transition: {duration: 0}}, () => {
+        this.UIBar.animationController.hide(this.options.hideAnimation || { transition: { duration: 0 } }, () => {
             this.UIBar.decorations.dock.size[1] = 0;
             this.layout.reflowLayout();
         });
@@ -72,8 +73,8 @@ export class NavigationTabBar extends View {
 
     setParamsForPath(controller, method = null, params = {}) {
         let tabs = get(this.options.tabsForRoutes, method ? `[${controller}][${method}]` : `[${controller}]`);
-        if(tabs) {
-            for(let tab of tabs) {
+        if (tabs) {
+            for (let tab of tabs) {
                 tab.goTo.params = params;
             }
         }
@@ -86,32 +87,36 @@ export class NavigationTabBar extends View {
         let methodSpecificTabs = get(paths, `['${controller}']['${method}']`);
 
         /* Otherwise, check if a path was set for just the controller */
-        let globalControllerTabs  = get(paths, `['${controller}']`);
+        let globalControllerTabs = get(paths, `['${controller}']`);
 
         /* Determine which tabs to show, if any, starting with the most specific ones */
-        let tabs = methodSpecificTabs || globalControllerTabs || null;
+        let tabs = methodSpecificTabs || (globalControllerTabs instanceof Array ? globalControllerTabs : null) || null;
 
         this.currentController = controller;
-        if(this.currentItems !== tabs) {
-            this.currentItems = tabs
-        } else {
-            /* Even though the tabs haven't changed, the active tab might be a different one */
-            return this._setCorrectActiveTab(controller, method, tabs);
-        }
 
         if (tabs) {
+
+            if (this.currentItems !== tabs) {
+                this.currentItems = tabs
+            } else {
+                /* Even though the tabs haven't changed, the active tab might be a different one */
+                return this._setCorrectActiveTab(controller, method, tabs);
+            }
+
             this.UIBar.tabBar.setItems(tabs);
             this.show();
             this._setCorrectActiveTab(controller, method, tabs);
         } else {
+            this.currentItems = null;
             this.hide();
         }
+
     }
 
     _setCorrectActiveTab(controller, method, tabs) {
         let activeTabIndex = findIndex(tabs, (tab) => tab.goTo.method === method &&
         (!tab.goTo.controller || tab.goTo.controller === controller));
-        if(activeTabIndex >= 0) {
+        if (activeTabIndex >= 0) {
             this.UIBar.tabBar.setIndexActive(activeTabIndex);
         }
     }

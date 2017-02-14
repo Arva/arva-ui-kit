@@ -185,19 +185,19 @@ export class SingleLineTextInput extends View {
         return [undefined, 48];
     }
 
+
+    revalidate() {
+        this._validateInput(this.getValue());
+    }
+
     _onFocus() {
         this.setRenderableFlowState('shadow', 'shown');
         this.correct.collapse();
         this.incorrect.collapse();
         this.required.collapse();
     }
-
     _onBlur() {
         this.setRenderableFlowState('shadow', 'hidden');
-    }
-
-    revalidate() {
-        this._validateInput(this.getValue());
     }
 
     _validateInput(inputString) {

@@ -102,7 +102,7 @@ export class UIBar extends View {
 
     addComponent(renderable, renderableName, position) {
         if(!renderable){
-            console.warn('renderable does not exist that is passed to iubar');
+            console.warn(`Renderable that is passed to UIBar (${renderableName}) does not exist`);
             return;
         }
         this.componentNames[position].push(renderableName);
