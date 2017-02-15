@@ -23,21 +23,28 @@ export class ListView extends View {
     list = new DataBoundScrollView({
         ...this.options.dbsvOptions,
         dataStore: this.options.dataStore,
-        itemTemplate: (listElement) => this.options.dataMapper
-            ? new ListElement(this.options.dataMapper(listElement))
-            : new ListElement({
-                ...this.options.forAllElements,
-                text: listElement[this.options.templateMap.text],
-                previewText: listElement[this.options.templateMap.previewText],
-                sideText: listElement[this.options.templateMap.sideText],
-                statusColor: listElement[this.options.templateMap.statusColor],
-                image: listElement[this.options.templateMap.image],
-                bold: listElement[this.options.templateMap.bold] || this.options.bold,
-                profileImage: this.options.profileImages,
-                elementHeight: listElement[this.options.templateMap.elementHeight],
-                backgroundColor: this._computeColor()
-
-            }),
+        itemTemplate: async (childData) => {
+            if (this.options.dataMapper) {
+                let listOptions = this.options.dataMapper(childData);
+                if(listOptions instanceof Promise){
+                    listOptions = await listOptions;
+                }
+                return new ListElement({...this.options.forAllElements, ...listOptions});
+            } else {
+                return  new ListElement({
+                    ...this.options.forAllElements,
+                    text: childData[this.options.templateMap.text],
+                    previewText: childData[this.options.templateMap.previewText],
+                    sideText: childData[this.options.templateMap.sideText],
+                    statusColor: childData[this.options.templateMap.statusColor],
+                    image: childData[this.options.templateMap.image],
+                    bold: childData[this.options.templateMap.bold] || this.options.bold,
+                    profileImage: this.options.profileImages,
+                    elementHeight: childData[this.options.templateMap.elementHeight],
+                    backgroundColor: this._computeColor()
+                });
+            }
+        },
         layoutOptions: {
             spacing: this.options.spacing
         }
@@ -125,7 +132,7 @@ export class ListView extends View {
 
     _computeColor() {
         return this.options.alternatingColors && this.list.getDataSource().getLength() % 2 !== 0
-                ? 'rgb(250, 250, 250)' : undefined;
+            ? 'rgb(250, 250, 250)' : undefined;
     }
 
 }
