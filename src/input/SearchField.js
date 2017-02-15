@@ -220,7 +220,8 @@ export class SearchField extends View {
     }
 
     async _onDeactivate () {
-        await new Promise((resolve) => Timer.after(resolve, 1));
+        /* We have to wait here to avoid race conditions so that the this.Results.on('child_click') can be caught */
+        await new Promise((resolve) => Timer.after(resolve, 2));
         this.setViewFlowState('inactive');
 
         /* Only move the placeholder back to the center if no text in input field */
