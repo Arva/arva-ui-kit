@@ -2,6 +2,7 @@
  * Created by tom on 19/08/16.
  */
 
+import Timer                    from 'famous/utilities/Timer.js';
 import Surface                  from 'famous/core/Surface.js';
 import Easing                   from 'famous/transitions/Easing.js';
 
@@ -83,6 +84,7 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
  * @param {Function} [options.resultOptions.itemTemplate] A constructor that takes in a Model and returns a renderable for an item
  * @param {Function} [options.resultOptions.groupTemplate] A constructor that takes in a group value of any type and returns a renderable for a group header
  * @param {Boolean} [options.expandable] Whether the SearchField can expand when used. Defaults to true.
+ * @param {Boolean} [options.displayClearButton] Whether the SearchField should have a clear button in the right hand corner saying 'done'
  */
 @flow.viewStates({
     'active': [{ border: 'hidden', results: 'shown'}],
@@ -131,7 +133,7 @@ export class SearchField extends View {
     @flow.stateStep('shown', transition,layout.opacity(1))
     @flow.stateStep('hidden', transition, layout.opacity(0))
     @flow.defaultState('hidden', instant, layout.opacity(0), layout.dock.right(), layout.size(1, 1), layout.translate(0, 0, 220))
-    done = new UIBarTextButton({ content: 'Done', properties: { cursor: 'pointer' }});
+    done = this.options.displayClearButton && new UIBarTextButton({ content: 'Done', properties: { cursor: 'pointer' }});
 
     @layout.dock.fill()
     @layout.translate(0, 0, 250)
@@ -157,6 +159,20 @@ export class SearchField extends View {
         placeholder: this.options.placeholder || 'Search'
     });
 
+    constructor(options) {
+        super(combineOptions({
+            expandable: true,
+            clearButton: true
+        }, options));
+        this.results.on('child_click', ({dataObject}) => {
+            let {content} = dataObject;
+            if(content){
+                this.input.setValue(content);
+                this._eventOutput.emit('itemChosen', dataObject);
+            }
+        });
+    }
+
     /**
      * Shows the models in the given results list inside the results DataBoundScrollView. Replaces old results.
      * @param {PrioritisedArray} results List of models to use in the ResultsView.
@@ -164,10 +180,25 @@ export class SearchField extends View {
     showResults(results) {
         this.results.content.setDataStore(results);
     }
+    isExpanded() {
+        return this.getViewFlowState() === 'active';
+    }
+
+    getSize() {
+        return [undefined, 32];
+    }
+
+    getValue() {
+        return this.input.getValue(...arguments);
+    }
+
+    setValue() {
+        return this.input.setValue(...arguments);
+    }
 
     /* Allow receiving focus e.g. through the keyboard, or programmatically (i.e. element.focus()). */
     async _onFocusEvent(event, type) {
-        await type === 'focus' ? this._onActivate(event) : this._onDeactivate(event);
+        await type === 'focus' ? this._onActivate(event) : setTimeout(() => this._onDeactivate(event), 1);
     }
 
     async _onActivate() {
@@ -189,6 +220,8 @@ export class SearchField extends View {
     }
 
     async _onDeactivate () {
+        /* We have to wait here to avoid race conditions so that the this.Results.on('child_click') can be caught */
+        await new Promise((resolve) => Timer.after(resolve, 2));
         this.setViewFlowState('inactive');
 
         /* Only move the placeholder back to the center if no text in input field */
@@ -221,17 +254,4 @@ export class SearchField extends View {
             return this.setRenderableFlowState('results', isExpanded ? 'expanded' : 'collapsed');
         }
     }
-
-    isExpanded() {
-        return this.getViewFlowState() === 'active';
-    }
-
-    getSize() {
-        return [undefined, 32];
-    }
-
-    constructor(options) {
-        super(combineOptions({expandable: true}, options));
-    }
-
 }
