@@ -106,7 +106,9 @@ export class Checkbox extends Clickable {
             this.cross.setProperties({display: isChecked ? 'block' : 'none'});
             this.background.setProperties({backgroundColor: isChecked ? this.options.inactiveColor : this.options.activeColor});
 
-            this.setViewFlowState(isChecked ? 'unchecked' : 'checked');
+            let state = isChecked ? 'unchecked' : 'checked';
+            this.setViewFlowState(state);
+            this._eventOutput.emit(state);
         }
     }
 
