@@ -106,6 +106,8 @@ export class Checkbox extends Clickable {
             this.background.setProperties({backgroundColor: isChecked ? this.options.inactiveColor : this.options.activeColor});
 
             this.setViewFlowState(isChecked ? 'unchecked' : 'checked');
+
+            this._eventOutput.emit(isChecked ? 'unchecked' : 'checked');
         }
     }
 
@@ -131,6 +133,7 @@ export class Checkbox extends Clickable {
             Timer.setTimeout(() => {
                 this._handleTapEnd();
             }, 50);
+
         }
     }
 
@@ -145,6 +148,7 @@ export class Checkbox extends Clickable {
             Timer.setTimeout(() => {
                 this._handleTapEnd();
             }, 50);
+
         }
     }
 
