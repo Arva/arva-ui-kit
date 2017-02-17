@@ -15,6 +15,7 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 export class GlobalTabBar extends View {
 
+    @layout.translate(0, 0, 100)
     @layout.dock.top(true)
     @layout.animate({ showInitially: true })
     get UIBar() {

@@ -3,14 +3,16 @@
  */
 
 import Surface                                              from 'famous/core/Surface.js';
-import {combineOptions}                                     from 'arva-js/utils/CombineOptions.js';
-import {layout}                                             from 'arva-js/layout/Decorators.js';
-import {View}                                               from 'arva-js/core/View.js';
-import {Dialog}                                             from 'arva-js/components/Dialog.js';
 
-import {UIBarTextButton}                                    from '../buttons/UIBarTextButton.js';
+import {View}                                               from 'arva-js/core/View.js';
+import {layout}                                             from 'arva-js/layout/Decorators.js';
+import {Dialog}                                             from 'arva-js/components/Dialog.js';
+import {combineOptions}                                     from 'arva-js/utils/CombineOptions.js';
+
 import {UIBar}                                              from '../uibars/UIBar.js';
 import {UIBarTitle}                                         from '../text/UIBarTitle.js';
+import {UIBarTextButton}                                    from '../buttons/UIBarTextButton.js';
+import {UIBarImageButton}                                   from '../buttons/UIBarImageButton.js';
 
 export class ModularDialog extends Dialog {
 
@@ -31,8 +33,7 @@ export class ModularDialog extends Dialog {
      *         variation: 'light'
      *     },
      *     rightButton: {
-     *         content: 'Done',
-     *         variation: 'default'
+     *         icon: CrossIcon // From arva-kit/icons/CrossIcon.js
      *     }
      *     content: new Surface()
      * });
@@ -45,9 +46,8 @@ export class ModularDialog extends Dialog {
      * @param {Boolean} [options.leftButton] Add a button on the left side of the ModalViewDialog's UIBar.
      *          Contains the sub-options 'content', which specifies the text inside the button, and 'variation', which can
      *          be set to 'light' in order to set button text typeface to UIButtonPrimaryLight instead of UIButtonPrimary.
-     * @param {Boolean} [options.rightButton] Add a button on the right side of the ModalViewDialog's UIBar.
-     *          Contains the sub-options 'content', which specifies the text inside the button, and 'variation', which can
-     *          be set to 'light' in order to set button text typeface to UIButtonPrimaryLight instead of UIButtonPrimary.
+     *          Alternatively, can have sub-option 'icon', which turns the button into a UIBarImageButton.
+     * @param {Boolean} [options.rightButton] Identical to leftButton, but on the right side of the ModalViewDialog's UIBar.
      */
     constructor(options = {}) {
         let UIBarOptions = ModularDialog._setOptions(options);
@@ -60,7 +60,6 @@ export class ModularDialog extends Dialog {
         if (this.options.content) {
             let {content} = options;
             this.setContent(content);
-
         }
     }
 
@@ -90,13 +89,15 @@ export class ModularDialog extends Dialog {
         let components = [];
 
         if (leftButton) {
-            components.push([new UIBarTextButton(leftButton), 'leftButton', 'left']);
+            let buttonType = leftButton.icon ? UIBarImageButton : UIBarTextButton;
+            components.push([new buttonType(leftButton), 'leftButton', 'left']);
         }
         if (title) {
             components.push([new UIBarTitle({content: title}), 'title', 'center']);
         }
         if (rightButton) {
-            components.push([new UIBarTextButton(rightButton), 'rightButton', 'right']);
+            let buttonType = rightButton.icon ? UIBarImageButton : UIBarTextButton;
+            components.push([new buttonType(rightButton), 'rightButton', 'right']);
         }
 
         return {variation, components, shadowType};

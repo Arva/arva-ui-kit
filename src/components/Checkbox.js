@@ -133,7 +133,6 @@ export class Checkbox extends Clickable {
             Timer.setTimeout(() => {
                 this._handleTapEnd();
             }, 50);
-
         }
     }
 
@@ -148,7 +147,6 @@ export class Checkbox extends Clickable {
             Timer.setTimeout(() => {
                 this._handleTapEnd();
             }, 50);
-
         }
     }
 

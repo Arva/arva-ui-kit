@@ -29,7 +29,7 @@ export class StackButtonDialog extends BaseDialog {
             this.addRenderable(new TextButton({
                     content: buttonText,
                     disableBoxShadow: true,
-                    clickEventName: 'closeDialog',
+                    clickEventName: `button${index}`,
                     clickEventData: [index],
                     backgroundProperties: {
                         borderTop: '1px #E6e6e6 solid',
