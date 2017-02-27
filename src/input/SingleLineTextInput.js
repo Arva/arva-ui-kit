@@ -80,7 +80,7 @@ export class SingleLineTextInput extends View {
      * @param {Boolean} [options.validator] Function that takes the string and returns {isValid: Boolean, feedback: String}
      * @param {Boolean} [options.feedbackText] The text that should display on feedback by default
      */
-    constructor(options) {
+    constructor(options = {}) {
         super(combineOptions({
             required: false,
             enabled: true,
@@ -105,7 +105,7 @@ export class SingleLineTextInput extends View {
                     ...TypeFaces.UIRegular,
                     lineHeight: 'normal' /* Don't reorder this to above UIRegular, or it will overwrite */
                 },
-                ...options.inputOptions
+                ...this.options.inputOptions
             }), 'input', layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
                 this._onBlur();
             }), event.on('focus', function () {
