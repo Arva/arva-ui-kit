@@ -76,20 +76,22 @@ export class Checkbox extends Clickable {
      * @example
      * checkbox = new Checkbox({
      *     shadowType: 'softShadow',
-     *     enabled: true
+     *     state: true
      * });
      *
      * @param {Object} options Construction options
-     * @param {Boolean} [options.enabled] Enable checkbox
+     * @param {Boolean} [options.enabled] Set the state of the checkbox
      * @param {String} [options.shadowType] The type of shadow to use ('noShadow' [default], 'softShadow', 'hardShadow')
      */
     constructor(options = {}) {
         super(combineOptions({
             activeColor: Colors.PrimaryUIColor,
-            inactiveColor: 'rgb(170, 170, 170)'
+            inactiveColor: 'rgb(170, 170, 170)',
+            state: true,
+            enabled: true
         }, options));
 
-        this.setViewFlowState(this.options.enabled ? 'checked' : 'unchecked');
+        this.setViewFlowState(this.options.state ? 'checked' : 'unchecked');
         this.on('mouseout', this._onMouseOut);
     }
 
