@@ -37,7 +37,7 @@ export class LabeledCheckbox extends View {
     }
 
     setLabels(label, subLabel) {
-        return this.labels(label, subLabel);
+        return this.labels.setLabels(label, subLabel);
     }
 }
 
