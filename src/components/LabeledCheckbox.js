@@ -25,7 +25,8 @@ export class LabeledCheckbox extends View {
         super(combineOptions({
             checkbox: {
                 shadowType: 'softShadow',
-                enabled: true
+                enabled: true,
+                state: true
             },
             label: {
                 properties: {
