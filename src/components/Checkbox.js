@@ -131,28 +131,26 @@ export class Checkbox extends Clickable {
      * Mark the checkbox as checked.
      */
     check() {
-        if (!this.isChecked()) {
-            this._handleTapStart();
-
-            /* Timout to handle the checked animation */
-            Timer.setTimeout(() => {
-                this._handleTapEnd();
-            }, 50);
-        }
+        !this.isChecked() && this.setCheckState();
     }
 
     /**
      * Mark the checkbox as unchecked.
      */
     unCheck() {
-        if (this.isChecked()) {
-            this._handleTapStart();
+        this.isChecked() && this.setCheckState();
+    }
 
-            /* Timout to handle the checked animation */
-            Timer.setTimeout(() => {
-                this._handleTapEnd();
-            }, 50);
-        }
+    /**
+     * this.state will be handled by handleTapEnd, as tapEnds can be triggered by MouseEvents too
+     */
+    setCheckState(){
+        this._handleTapStart();
+
+        /* Timout to handle the checked animation */
+        Timer.setTimeout(() => {
+            this._handleTapEnd();
+        }, 50);
     }
 
     /**
