@@ -17,11 +17,11 @@ export class LineTabBar extends TabBar {
     @layout.size(0, function () {
         return this.options.shapeHeight || 4
     })
-    @layout.dock.bottom(4)
+    @layout.stick.bottomLeft()
     @flow.defaultOptions(flowOptions)
     shape = new Surface({
         properties: {
-            'background-color': this.options.shapeColor
+            backgroundColor: this.options.shapeColor
         }
     });
 

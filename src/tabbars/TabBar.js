@@ -45,13 +45,18 @@ export class TabBar extends View {
      * @param {Boolean} [options.usesIcon] Wheter the TabBar uses Icons or text
      * @fires TabBar#tabClick Emits a tabClick event once a tab renderable is clicked, with [id, tabData] as parameters. Content can be overwritten by setting tabOptions.clickEventData {Array}
      */
-    constructor(options = {tabOptions: {}}, items = []){
-        super(combineOptions({equalSizing: false, activeIndex: 0, reflow: true, tabOptions: {clickEventName: 'tabClick'}}, options));
+    constructor(options = {tabOptions: {}}, items = []) {
+        super(combineOptions({
+            equalSizing: false,
+            activeIndex: 0,
+            reflow: true,
+            tabOptions: {clickEventName: 'tabClick'}
+        }, options));
 
 
         /* Bind helper functions to this class depending on layout options */
         let source = this.options.equalSizing ? EqualSizeLayout : DockLeftLayout;
-        for(let index of Object.keys(source)){
+        for (let index of Object.keys(source)) {
             this[index] = source[index].bind(this);
         }
 
@@ -59,12 +64,8 @@ export class TabBar extends View {
         this.onceNewSize().then(([width]) => {
             this._width = width;
 
-            if(!this.getItems()) {
+            if (!this.getItems()) {
                 this._setItems(items);
-            }
-
-            if(this.options.activeIndex != undefined){
-                this.setIndexActive(this.options.activeIndex);
             }
 
             this.onNewSize(([width]) => {
@@ -72,7 +73,14 @@ export class TabBar extends View {
                 this.options.reflow && this.setIndexActive(this._currentItem);
             });
 
+            if(this._currentItem !== this.options.activeIndex){
+                this.setIndexActive(this.options.activeIndex);
+            }
+
         });
+        if (this.options.activeIndex !== undefined) {
+            this.setIndexActive(this.options.activeIndex);
+        }
 
 
     }
@@ -81,7 +89,7 @@ export class TabBar extends View {
      * Layout new items in the tabBar, overwriting the old items
      * @param items
      */
-    setItems(items = []){
+    setItems(items = []) {
         this._setItems(items);
     }
 
@@ -121,7 +129,7 @@ export class TabBar extends View {
         /* To be inherited */
     }
 
-    getItem(index){
+    getItem(index) {
         /* Should be overwritten */
     }
 
@@ -137,7 +145,15 @@ export class TabBar extends View {
      * Set a tabBar item to active
      * @param index
      */
-    setIndexActive(index){
-        this._handleItemActive(index, this.getItem(index))
+    setIndexActive(index) {
+        this.options.activeIndex = index;
+        if (!this._width) {
+            this.onceNewSize().then(() => {
+                /* Read the active index from the option if overridden in subsequent calls to make resilient to race conditions */
+                this._handleItemActive(this.options.activeIndex, this.getItem(this.options.activeIndex));
+            })
+        } else {
+            this._handleItemActive(index, this.getItem(index));
+        }
     }
 }
