@@ -90,6 +90,8 @@ export class Checkbox extends Clickable {
             enabled: true
         }, options));
 
+        this.state = this.options.state;
+
         this.setViewFlowState(this.options.state ? 'checked' : 'unchecked');
         this.on('mouseout', this._onMouseOut);
     }
@@ -108,6 +110,7 @@ export class Checkbox extends Clickable {
             this.background.setProperties({backgroundColor: isChecked ? this.options.inactiveColor : this.options.activeColor});
 
             this.setViewFlowState(isChecked ? 'unchecked' : 'checked');
+            this.state = !isChecked;
 
             this._eventOutput.emit(isChecked ? 'unchecked' : 'checked');
         }
@@ -128,36 +131,34 @@ export class Checkbox extends Clickable {
      * Mark the checkbox as checked.
      */
     check() {
-        if (!this.isChecked()) {
-            this._handleTapStart();
-
-            /* Timout to handle the checked animation */
-            Timer.setTimeout(() => {
-                this._handleTapEnd();
-            }, 50);
-        }
+        !this.isChecked() && this.setCheckState();
     }
 
     /**
      * Mark the checkbox as unchecked.
      */
     unCheck() {
-        if (this.isChecked()) {
-            this._handleTapStart();
-
-            /* Timout to handle the checked animation */
-            Timer.setTimeout(() => {
-                this._handleTapEnd();
-            }, 50);
-        }
+        this.isChecked() && this.setCheckState();
     }
 
     /**
-     * Returns true is the checkbox is marked as checked.
+     * this.state will be handled by handleTapEnd, as tapEnds can be triggered by MouseEvents too
+     */
+    setCheckState(){
+        this._handleTapStart();
+
+        /* Timout to handle the checked animation */
+        Timer.setTimeout(() => {
+            this._handleTapEnd();
+        }, 50);
+    }
+
+    /**
+     * Returns true if the checkbox is marked as checked.
      * @returns {boolean}
      */
     isChecked() {
-        return this.background.getProperties().backgroundColor === this.options.activeColor;
+        return this.state;
     }
 
     getSize() {
