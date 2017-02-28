@@ -67,6 +67,22 @@ export class KeyValueList extends View {
         }
     }
 
+    setList(list) {
+        for (let i = 0; i < list.length; i++) {
+            let element = list[i];
+            this.addRenderable(
+                new KeyValueElement({
+                    key: element.key,
+                    value: element.value,
+                    properties: combineOptions(this.options.textProperties, {value: element.properties}),
+                    keyColumnWidth: this.options.keyColumnWidth,
+                    valueColumnWidth: this.options.valueColumnWidth
+                }), `element ${i}`,
+                layout.dock.top(~20, this.options.spacing)
+            );
+        }
+    }
+
     setKeyValue(elementIndex, key, value) {
         this.setKey(elementIndex, key);
         this.setValue(elementIndex, value);
