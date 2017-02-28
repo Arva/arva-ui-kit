@@ -38,6 +38,10 @@ export class LabeledCheckbox extends View {
     setLabels(label, subLabel) {
         return this.labels(label, subLabel);
     }
+
+    isChecked() {
+        return this.checkbox.isChecked();
+    }
 }
 
 class Labels extends View {
