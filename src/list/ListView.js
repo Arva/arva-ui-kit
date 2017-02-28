@@ -22,7 +22,6 @@ export class ListView extends View {
     @layout.translate(0, 0, 10)
     list = new DataBoundScrollView({
         ...this.options.dbsvOptions,
-        dataStore: this.options.dataStore,
         itemTemplate: async (childData) => {
             if (this.options.dataMapper) {
                 let listOptions = this.options.dataMapper(childData);
@@ -45,9 +44,6 @@ export class ListView extends View {
                     backgroundColor: this._computeColor()
                 });
             }
-        },
-        layoutOptions: {
-            spacing: this.options.spacing
         }
     });
 

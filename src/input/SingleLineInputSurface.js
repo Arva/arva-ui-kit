@@ -97,13 +97,15 @@ export class SingleLineInputSurface extends InputSurface {
             if (cordova.plugins && cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.close();
             }
+        } else {
+            let newValue = this.getValue();
+            if (this._cachedValue !== newValue) {
+                this._cachedValue = newValue;
+                this._eventOutput.emit('value', this._cachedValue);
+            }
         }
 
-        let newValue = this.getValue();
-        if (this._cachedValue !== newValue) {
-            this._cachedValue = newValue;
-            this._eventOutput.emit('value', this._cachedValue);
-        }
+
     }
 
     _onMessageComplete() {
@@ -114,6 +116,7 @@ export class SingleLineInputSurface extends InputSurface {
 
         if (this.options.clearOnEnter) {
             this.setValue('');
+            this._cachedValue = '';
         }
 
         this._eventOutput.emit('message', message);
