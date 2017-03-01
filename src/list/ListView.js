@@ -22,11 +22,10 @@ export class ListView extends View {
     @layout.translate(0, 0, 10)
     list = new DataBoundScrollView({
         ...this.options.dbsvOptions,
-        dataStore: this.options.dataStore,
         itemTemplate: async (childData) => {
             if (this.options.dataMapper) {
                 let listOptions = this.options.dataMapper(childData);
-                if(listOptions instanceof Promise){
+                if (listOptions instanceof Promise) {
                     listOptions = await listOptions;
                 }
                 return new ListElement({...this.options.forAllElements, ...listOptions});
@@ -38,15 +37,13 @@ export class ListView extends View {
                     sideText: childData[this.options.templateMap.sideText],
                     statusColor: childData[this.options.templateMap.statusColor],
                     image: childData[this.options.templateMap.image],
+                    icon: childData[this.options.templateMap.icon],
                     bold: childData[this.options.templateMap.bold] || this.options.bold,
                     profileImage: this.options.profileImages,
                     elementHeight: childData[this.options.templateMap.elementHeight],
                     backgroundColor: this._computeColor()
                 });
             }
-        },
-        layoutOptions: {
-            spacing: this.options.spacing
         }
     });
 
@@ -54,6 +51,8 @@ export class ListView extends View {
      * ListView that displays ListElements
      *
      * @example
+     *
+     * // Offline
      * listView = new ListView({
      *     profileImages: true,
      *     alternatingColors: true,
@@ -74,6 +73,7 @@ export class ListView extends View {
      *     }
      * });
      *
+     * // Online
      * listView2 = new ListView({
      *     bold: true,
      *     profileImages: true,
