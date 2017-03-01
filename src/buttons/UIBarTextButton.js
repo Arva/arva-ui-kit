@@ -23,18 +23,26 @@ export class UIBarTextButton extends TextButton {
 
     constructor(options = {}) {
         super(combineOptions(
-            {properties: options.variation === 'light' ? TypeFaces.UIButtonPrimaryLight : TypeFaces.UIButtonPrimary},
+            { properties: options.variation === 'light' ? TypeFaces.UIButtonPrimaryLight : TypeFaces.UIButtonPrimary },
             combineOptions({
-            backgroundProperties: {
-                backgroundColor: 'none'
-            },
-            useBoxShadow: false,
-            makeRipple: false
-        }, options)));
+                disabledColor: Colors.Gray,
+                backgroundProperties: {
+                    backgroundColor: 'none'
+                },
+                useBoxShadow: false,
+                makeRipple: false
+            }, options)));
     }
 
     setVariation(variation) {
-        this.setColor(UIBarTextButton.getColor(variation));
+        let color = this.options.properties.color = UIBarTextButton.getColor(variation);
+        this.setColor(this._enabled ? color : this.options.disabledColor);
+    }
+
+    _setEnabled(enabled) {
+        /* Don't change background if disabled */
+        super._setEnabled(enabled, false);
+        this.text.setProperties({ color: enabled ? this.options.properties.color : this.options.disabledColor });
     }
 
 }

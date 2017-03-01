@@ -57,8 +57,8 @@ export class TextButton extends Button {
         return this.text.getContent();
     }
 
-    _setEnabled(enabled) {
-        super._setEnabled(enabled);
+    _setEnabled(enabled, changeBackground = true) {
+        super._setEnabled(enabled, changeBackground);
         let options = enabled ? this.options : this.options.disabledOptions;
         this.text.setProperties(options.properties);
         this.text.setContent(options.content);
