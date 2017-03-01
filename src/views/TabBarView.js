@@ -10,6 +10,7 @@ import {LineTabBar}         from 'arva-kit/tabbars/LineTabBar.js';
 
 export class TabBarView extends View {
 
+    @layout.translate(0, 0, 50)
     @layout.dock.top(48)
     tabBar = new this.options.tabBarClass(
         this.options
@@ -17,7 +18,7 @@ export class TabBarView extends View {
 
     @layout.animate()
     @layout.stick.bottom()
-    @layout.size(undefined, (width, height) => height-60)
+    @layout.size(undefined, (width, height) => height-12)
     @layout.dock.fill()
     currentView = this.options.tabs[this.options.activeIndex].view;
 

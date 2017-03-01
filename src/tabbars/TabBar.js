@@ -1,9 +1,11 @@
 /**
  * Created by Manuel on 07/09/16.
  */
-
+import Surface                              from 'famous/core/Surface.js';
 import {View}                               from 'arva-js/core/View.js';
 import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
+import {layout}                             from 'arva-js/layout/Decorators.js'
+
 import {DockLeftLayout, EqualSizeLayout}    from './TabBarHelperFunctions.js';
 
 export class TabBar extends View {
@@ -16,6 +18,10 @@ export class TabBar extends View {
 
     /* Current _width of the TabBar */
     _width = 0;
+
+    @layout.translate(0, 0, -10)
+    @layout.fullSize()
+    background = new Surface(this.options.backgroundOptions);
 
     /**
      * Base TabBar for the UIBar. Class is meant to be extended
@@ -38,6 +44,7 @@ export class TabBar extends View {
      * @param {Object} [options] Construction options
      * @param {Array} [items] The items to populate the TabBar with
      * @param {Object} [options.tabRenderable] A class that extends Tab, used for each of the rendered tabs
+     * @param {Object} [options.backgroundOptions] Passed to the background of the tabBar
      * @param {Object} [options.tabOptions] The options to pass to a tab renderable, for more info see TextButton.js/Clickable.js
      * @param {Boolean} [options.equalSizing] Whether the tab renderables should be evenly spaced and sized or whether it should not (thus docking.left with the size of the renderable)
      * @param {Number} [options.activeIndex] The index that should be active on initialisation
