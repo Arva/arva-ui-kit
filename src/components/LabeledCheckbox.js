@@ -48,10 +48,8 @@ export class LabeledCheckbox extends View {
 class Labels extends View {
 
     @layout.dock.top(~20)
-    @layout.size(~100, ~20)
     label = new UIRegular(this.options.label);
 
-    @layout.size(~100, ~14)
     @layout.dock.top(~14, 2)
     subLabel = this.options.subLabel ? new UISmallGray(this.options.subLabel) : undefined;
 
