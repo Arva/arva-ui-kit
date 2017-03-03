@@ -101,8 +101,8 @@ export class UIBar extends View {
     }
 
     addComponent(renderable, renderableName, position) {
-        if(!renderable){
-            console.warn(`Renderable that is passed to UIBar (${renderableName}) does not exist`);
+        if (!renderable) {
+            console.warn(`Invalid Renderable (${renderableName}) passed to UIBar`);
             return;
         }
         this.componentNames[position].push(renderableName);
@@ -113,36 +113,52 @@ export class UIBar extends View {
             }
         }
         if (position === 'center') {
-            this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(...this.options.centerItemSize));
-            this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
+            this.addRenderable(renderable, renderableName,
+                layout.stick.center(),
+                layout.size(...this.options.centerItemSize),
+                layout.animate({animation: AnimationController.Animation.Fade, showInitially: false})
+            );
         } else {
-            this.addRenderable(renderable, renderableName, layout.dock[position](true));
-            this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
+            this.addRenderable(renderable, renderableName,
+                layout.dock[position](true),
+                layout.animate({animation: AnimationController.Animation.Fade, showInitially: false})
+            );
         }
+        this.showRenderable(renderableName);
     }
 
-    removeAllComponents() {
+    async removeAllComponents() {
         let {left, right, center, fill} = this.componentNames;
         while (left.length > 0) {
-            this.removeRenderable(left.pop());
+            const renderableName = left.pop();
+            await this.hideRenderable(renderableName);
+            this.removeRenderable(renderableName);
         }
         while (right.length > 0) {
-            this.removeRenderable(right.pop());
+            const renderableName = right.pop();
+            await this.hideRenderable(renderableName);
+            this.removeRenderable(renderableName);
         }
         while (center.length > 0) {
-            this.removeRenderable(center.pop());
+            const renderableName = center.pop();
+            await this.hideRenderable(renderableName);
+            this.removeRenderable(renderableName);
         }
         while (fill.length > 0) {
-            this.removeRenderable(fill.pop());
+            const renderableName = fill.pop();
+            await this.hideRenderable(renderableName);
+            this.removeRenderable(renderableName);
         }
 
         return true;
     }
 
-    removeComponents(position) {
+    async removeComponents(position) {
         let currentComponents = this.componentNames[position];
         while (currentComponents.length > 0) {
-            this.removeRenderable(currentComponents.pop());
+            const renderableName = currentComponents.pop();
+            await this.hideRenderable(renderableName);
+            this.removeRenderable(renderableName);
         }
         return true;
     }

@@ -109,7 +109,6 @@ export class TopMenu extends UIBar {
     }
 
     onRouteChange(route) {
-
         let { controller, method } = route;
         if (this.options.dynamicButtons
             && this.options.dynamicButtons[controller]
@@ -117,19 +116,22 @@ export class TopMenu extends UIBar {
             let newComponents = this.options.dynamicButtons[controller][method];
             let { left, right, title } = newComponents;
             if (newComponents && (left || right)) {
-                this.removeComponents('right');
-                this.removeComponents('left');
-                if (left) {
-                    this.addComponents('left', left);
-                    this._setClickEventNames('left', left);
-                }
-                if (right) {
-                    this.addComponents('right', right);
-                    this._setClickEventNames('right', right);
-                }
-                if (title) {
-                    this.setTitle(title);
-                }
+                Promise.all([
+                    this.removeComponents('right'),
+                    this.removeComponents('left')
+                ]).then(() => {
+                    if (left) {
+                        this.addComponents('left', left);
+                        this._setClickEventNames('left', left);
+                    }
+                    if (right) {
+                        this.addComponents('right', right);
+                        this._setClickEventNames('right', right);
+                    }
+                    if (title) {
+                        this.setTitle(title);
+                    }
+                });
             }
             this.persistentButtons = this.options.dynamicButtons[controller][method].persistentButtons;
         } else {
@@ -145,8 +147,7 @@ export class TopMenu extends UIBar {
     async open() {
         if (!this.isOpen) {
             this.isOpen = true;
-            await this.hideRenderable('menuButton');
-            this.removeComponents('left');
+            await this.removeComponents('left');
             this.addComponent(this.arrowLeftButton, 'menuButton', 'left');
         }
     }
@@ -154,8 +155,7 @@ export class TopMenu extends UIBar {
     async close() {
         if (this.isOpen) {
             this.isOpen = false;
-            await this.hideRenderable('menuButton');
-            this.removeComponents('left');
+            await this.removeComponents('left');
             this.addComponent(this.hamburgerButton, 'menuButton', 'left');
         }
     }
@@ -178,8 +178,8 @@ export class TopMenu extends UIBar {
         this.addComponent(leftButton, 'menuButton', 'left');
     }
 
-    removeTemporaryLeftButton() {
-        this.removeComponents('left');
+    async removeTemporaryLeftButton() {
+        await this.removeComponents('left');
         this.addComponent(this.isOpen ? this.arrowLeftButton : this.hamburgerButton, 'menuButton', 'left');
     }
 

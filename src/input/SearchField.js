@@ -162,7 +162,7 @@ export class SearchField extends View {
     constructor(options) {
         super(combineOptions({
             expandable: true,
-            clearButton: true
+            displayClearButton: false
         }, options));
         this.results.on('child_click', ({dataObject}) => {
             let {content} = dataObject;
@@ -246,7 +246,9 @@ export class SearchField extends View {
         let hasContent = value.length > 0;
         this.placeholder[hasContent ? 'hideText' : 'showText']();
         this._setExpanded('results', hasContent);
-        await this.setRenderableFlowState('done', hasContent ? 'shown' : 'hidden');
+        if (this.done) {
+            await this.setRenderableFlowState('done', hasContent ? 'shown' : 'hidden');
+        }
     }
 
     _setExpanded(isExpanded) {

@@ -258,8 +258,8 @@ export class NavigationDrawer extends View {
         this.topBar.setTemporaryLeftButton(button);
     }
 
-    removeTopTemporaryLeftButton(button){
-        this.topBar.removeTemporaryLeftButton(button);
+    async removeTopTemporaryLeftButton(button) {
+        await this.topBar.removeTemporaryLeftButton(button);
     }
 
     _createTopBar() {
