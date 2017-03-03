@@ -113,6 +113,7 @@ export class Checkbox extends Clickable {
             this.state = !isChecked;
 
             this._eventOutput.emit(isChecked ? 'unchecked' : 'checked');
+            this._eventOutput.emit('change', isChecked);
         }
     }
 
