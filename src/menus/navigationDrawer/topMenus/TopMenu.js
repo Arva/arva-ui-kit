@@ -75,17 +75,12 @@ export class TopMenu extends UIBar {
         }, options));
 
         this.hamburgerButton = this.menuButton;
-        this.arrowLeftButton = new UIBarImageButton({
-            clickEventName: 'requestMenuClose',
-            icon: LeftIcon
-        });
 
         this.router = Injection.get(Router);
 
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');
         });
-
 
         this.isOpen = false;
 
@@ -94,12 +89,12 @@ export class TopMenu extends UIBar {
             Injection.get(StatusBarExtension).setColor(color);
         }
 
-        this.catchCurrentComponents();
+        this.cacheCurrentComponents();
 
         this.router.on('routechange', this.onRouteChange);
     }
 
-    catchCurrentComponents() {
+    cacheCurrentComponents() {
         this.buttonsCache = { left: this.getComponents('left'), right: this.getComponents('right') };
     }
 
@@ -116,29 +111,26 @@ export class TopMenu extends UIBar {
             let newComponents = this.options.dynamicButtons[controller][method];
             let { left, right, title } = newComponents;
             if (newComponents && (left || right)) {
-                Promise.all([
-                    this.removeComponents('right'),
-                    this.removeComponents('left')
-                ]).then(() => {
-                    if (left) {
-                        this.addComponents('left', left);
-                        this._setClickEventNames('left', left);
-                    }
-                    if (right) {
-                        this.addComponents('right', right);
-                        this._setClickEventNames('right', right);
-                    }
-                    if (title) {
-                        this.setTitle(title);
-                    }
-                });
+                this.removeComponents('right');
+                this.removeComponents('left');
+                if (left) {
+                    this.addComponents('left', left);
+                    this._setClickEventNames('left', left);
+                }
+                if (right) {
+                    this.addComponents('right', right);
+                    this._setClickEventNames('right', right);
+                }
+                if (title) {
+                    this.setTitle(title);
+                }
             }
             this.persistentButtons = this.options.dynamicButtons[controller][method].persistentButtons;
         } else {
             if (!this.persistentButtons) {
                 this.setCacheButtons();
             } else {
-                this.catchCurrentComponents();
+                this.cacheCurrentComponents();
             }
             this.persistentButtons = true;
         }
@@ -147,16 +139,12 @@ export class TopMenu extends UIBar {
     async open() {
         if (!this.isOpen) {
             this.isOpen = true;
-            await this.removeComponents('left');
-            this.addComponent(this.arrowLeftButton, 'menuButton', 'left');
         }
     }
 
     async close() {
         if (this.isOpen) {
             this.isOpen = false;
-            await this.removeComponents('left');
-            this.addComponent(this.hamburgerButton, 'menuButton', 'left');
         }
     }
 
@@ -170,17 +158,6 @@ export class TopMenu extends UIBar {
 
     setRightButton(newButton) {
         this.replaceRenderable('rightButton', newButton);
-    }
-
-    async setTemporaryLeftButton(leftButton) {
-        this._eventOutput.emit('requestMenuClose');
-        await this.removeComponents('left');
-        this.addComponent(leftButton, 'menuButton', 'left');
-    }
-
-    async removeTemporaryLeftButton() {
-        await this.removeComponents('left');
-        this.addComponent(this.isOpen ? this.arrowLeftButton : this.hamburgerButton, 'menuButton', 'left');
     }
 
     /**

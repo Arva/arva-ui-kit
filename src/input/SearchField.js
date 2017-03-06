@@ -162,7 +162,7 @@ export class SearchField extends View {
     constructor(options) {
         super(combineOptions({
             expandable: true,
-            displayClearButton: false
+            displayClearButton: true
         }, options));
         this.results.on('child_click', ({dataObject}) => {
             let {content} = dataObject;

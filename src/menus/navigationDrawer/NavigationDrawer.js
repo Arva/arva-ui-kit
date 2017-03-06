@@ -254,14 +254,6 @@ export class NavigationDrawer extends View {
         this.topBar.setRightButton(button);
     }
 
-    setTopTemporaryLeftButton(button){
-        this.topBar.setTemporaryLeftButton(button);
-    }
-
-    async removeTopTemporaryLeftButton(button) {
-        await this.topBar.removeTemporaryLeftButton(button);
-    }
-
     _createTopBar() {
         let topBar;
         if (!this.options.showTopMenu) {
@@ -317,11 +309,7 @@ export class NavigationDrawer extends View {
         this.infoState = false;
 
         this.topBar.on('requestMenuOpen', ()=> {
-            this.openMenu();
-        });
-
-        this.topBar.on('requestMenuClose', ()=> {
-            this._onBackButton();
+            this._handleOpenClose();
         });
 
         this.topBar.on('titleClick', ()=> {

@@ -4,6 +4,7 @@
 
 import RGBColor                                     from 'rgbcolor';
 import Surface                                      from 'famous/core/Surface.js';
+import Easing                                       from 'famous/transitions/Easing.js';
 import AnimationController                          from 'famous-flex/AnimationController.js';
 import {View}                                       from 'arva-js/core/View.js';
 import {layout}                                     from 'arva-js/layout/Decorators.js';
@@ -21,6 +22,7 @@ const rgbToRgba = (rgbString, alpha) => {
     color.alpha = alpha;
     return color.toRGBA();
 };
+const componentSwapTransition = {curve: Easing.outCubic, duration: 200};
 
 @layout.dockPadding(0, UIBarPadding)
 export class UIBar extends View {
@@ -113,52 +115,36 @@ export class UIBar extends View {
             }
         }
         if (position === 'center') {
-            this.addRenderable(renderable, renderableName,
-                layout.stick.center(),
-                layout.size(...this.options.centerItemSize),
-                layout.animate({animation: AnimationController.Animation.Fade, showInitially: false})
-            );
+            this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(...this.options.centerItemSize));
+            this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
         } else {
-            this.addRenderable(renderable, renderableName,
-                layout.dock[position](true),
-                layout.animate({animation: AnimationController.Animation.Fade, showInitially: false})
-            );
+            this.addRenderable(renderable, renderableName, layout.dock[position](true));
+            this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
         }
-        this.showRenderable(renderableName);
     }
 
-    async removeAllComponents() {
+    removeAllComponents() {
         let {left, right, center, fill} = this.componentNames;
         while (left.length > 0) {
-            const renderableName = left.pop();
-            await this.hideRenderable(renderableName);
-            this.removeRenderable(renderableName);
+            this.removeRenderable(left.pop());
         }
         while (right.length > 0) {
-            const renderableName = right.pop();
-            await this.hideRenderable(renderableName);
-            this.removeRenderable(renderableName);
+            this.removeRenderable(right.pop());
         }
         while (center.length > 0) {
-            const renderableName = center.pop();
-            await this.hideRenderable(renderableName);
-            this.removeRenderable(renderableName);
+            this.removeRenderable(center.pop());
         }
         while (fill.length > 0) {
-            const renderableName = fill.pop();
-            await this.hideRenderable(renderableName);
-            this.removeRenderable(renderableName);
+            this.removeRenderable(fill.pop());
         }
 
         return true;
     }
 
-    async removeComponents(position) {
+    removeComponents(position) {
         let currentComponents = this.componentNames[position];
         while (currentComponents.length > 0) {
-            const renderableName = currentComponents.pop();
-            await this.hideRenderable(renderableName);
-            this.removeRenderable(renderableName);
+            this.removeRenderable(currentComponents.pop());
         }
         return true;
     }
