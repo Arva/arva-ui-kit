@@ -196,6 +196,11 @@ export class SearchField extends View {
         return this.input.setValue(...arguments);
     }
 
+    clear() {
+        this.setValue('');
+        this.placeholder.showText();
+    }
+
     /* Allow receiving focus e.g. through the keyboard, or programmatically (i.e. element.focus()). */
     async _onFocusEvent(event, type) {
         await type === 'focus' ? this._onActivate(event) : setTimeout(() => this._onDeactivate(event), 1);

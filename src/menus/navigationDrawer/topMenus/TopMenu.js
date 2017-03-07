@@ -60,7 +60,12 @@ export class TopMenu extends UIBar {
         super(combineOptions({
             bottomLine: true,
             components: [
-                [new UIBarTitle({ content: options.defaultTitle || '' }), 'title', 'center'],
+                [new UIBarTitle({
+                    content: options.defaultTitle || '',
+                    properties: {
+                        cursor: 'default'
+                    }
+                }), 'title', 'center'],
                 [options.rightButton || new UIBarImageButton({
                     clickEventName: 'rightButtonClick',
                     icon: InfoIcon
