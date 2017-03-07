@@ -254,6 +254,20 @@ export class NavigationDrawer extends View {
         this.topBar.setRightButton(button);
     }
 
+    /**
+     * @deprecated
+     * */
+    setTopTemporaryLeftButton(button) {
+        this.topBar.setTemporaryLeftButton(button);
+    }
+
+    /**
+     * @deprecated
+     * */
+    removeTopTemporaryLeftButton(button) {
+        this.topBar.removeTemporaryLeftButton(button);
+    }
+
     _createTopBar() {
         let topBar;
         if (!this.options.showTopMenu) {

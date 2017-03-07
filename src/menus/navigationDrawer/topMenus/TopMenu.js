@@ -2,12 +2,10 @@
  * Created by manuel on 09-09-15.
  */
 import {Injection}                                      from 'arva-js/utils/Injection.js';
-import {layout}                                         from 'arva-js/layout/Decorators.js';
 import {combineOptions}                                 from 'arva-js/utils/CombineOptions.js';
 import {Router}                                         from 'arva-js/core/Router.js';
 
 import {UIBar}                                          from '../../../uibars/UIBar.js';
-import {LeftIcon}                                       from '../../../icons/LeftIcon.js';
 import {InfoIcon}                                       from '../../../icons/InfoIcon.js';
 import {UIBarTitle}                                     from '../../../text/UIBarTitle.js';
 import {HamburgerIcon}                                  from '../../../icons/HamburgerIcon.js';
@@ -158,6 +156,23 @@ export class TopMenu extends UIBar {
 
     setRightButton(newButton) {
         this.replaceRenderable('rightButton', newButton);
+    }
+
+    /**
+     * @deprecated
+     * */
+    async setTemporaryLeftButton(leftButton) {
+        this._eventOutput.emit('requestMenuClose');
+        await this.removeComponents('left');
+        this.addComponent(leftButton, 'menuButton', 'left');
+    }
+
+    /**
+     * @deprecated
+     * */
+    removeTemporaryLeftButton() {
+        this.removeComponents('left');
+        this.addComponent(this.isOpen ? this.arrowLeftButton : this.hamburgerButton, 'menuButton', 'left');
     }
 
     /**
