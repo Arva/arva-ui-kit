@@ -149,6 +149,23 @@ export class Dropdown extends View {
         return this._containerView;
     }
 
+    getValue(){
+        return this.getSelectedItem();
+    }
+
+    getSelectedItem() {
+        return this.options.fakeWithNative ? this.nativeSelect._element.childNodes[1].value :  this._selectedItem.data;
+    }
+
+    /* Return a different size if collapsed or exapnded */
+    getSize() {
+        if (this._collapsed) {
+            return [undefined, 48];
+        } else {
+            return super.getSize();
+        }
+    }
+
     _addPlaceholder(placeholderText) {
         this._totalHeight += 32;
         this.addRenderable(
@@ -208,14 +225,6 @@ export class Dropdown extends View {
         return `item${index}`;
     }
 
-    getValue(){
-        return this.getSelectedItem();
-    }
-
-    getSelectedItem() {
-        return this.options.fakeWithNative ? this.nativeSelect._element.childNodes[1].value :  this._selectedItem.data;
-    }
-
     async _placeholderChosen() {
         if(!this._collapsed){
             await this._collapse();
@@ -263,15 +272,6 @@ export class Dropdown extends View {
             this.decorateRenderable(this._getNameFromIndex(otherIndice), layout.translate(...this._getThisTranslation()));
         }
         this.decorateRenderable('background', layout.translate(0, 0, 0));
-    }
-
-    /* Return a different size if collapsed or exapnded */
-    getSize() {
-        if (this._collapsed) {
-            return [undefined, 48];
-        } else {
-            return super.getSize();
-        }
     }
 
     async _expand() {
