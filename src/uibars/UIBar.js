@@ -4,6 +4,7 @@
 
 import RGBColor                                     from 'rgbcolor';
 import Surface                                      from 'famous/core/Surface.js';
+import Easing                                       from 'famous/transitions/Easing.js';
 import AnimationController                          from 'famous-flex/AnimationController.js';
 import {View}                                       from 'arva-js/core/View.js';
 import {layout}                                     from 'arva-js/layout/Decorators.js';
@@ -21,6 +22,7 @@ const rgbToRgba = (rgbString, alpha) => {
     color.alpha = alpha;
     return color.toRGBA();
 };
+const componentSwapTransition = {curve: Easing.outCubic, duration: 200};
 
 @layout.dockPadding(0, UIBarPadding)
 export class UIBar extends View {
@@ -101,8 +103,8 @@ export class UIBar extends View {
     }
 
     addComponent(renderable, renderableName, position) {
-        if(!renderable){
-            console.warn(`Renderable that is passed to UIBar (${renderableName}) does not exist`);
+        if (!renderable) {
+            console.warn(`Invalid Renderable (${renderableName}) passed to UIBar`);
             return;
         }
         this.componentNames[position].push(renderableName);

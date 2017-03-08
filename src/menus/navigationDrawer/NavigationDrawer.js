@@ -254,11 +254,17 @@ export class NavigationDrawer extends View {
         this.topBar.setRightButton(button);
     }
 
-    setTopTemporaryLeftButton(button){
+    /**
+     * @deprecated
+     * */
+    setTopTemporaryLeftButton(button) {
         this.topBar.setTemporaryLeftButton(button);
     }
 
-    removeTopTemporaryLeftButton(button){
+    /**
+     * @deprecated
+     * */
+    removeTopTemporaryLeftButton(button) {
         this.topBar.removeTemporaryLeftButton(button);
     }
 
@@ -317,11 +323,7 @@ export class NavigationDrawer extends View {
         this.infoState = false;
 
         this.topBar.on('requestMenuOpen', ()=> {
-            this.openMenu();
-        });
-
-        this.topBar.on('requestMenuClose', ()=> {
-            this._onBackButton();
+            this._handleOpenClose();
         });
 
         this.topBar.on('titleClick', ()=> {

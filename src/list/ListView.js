@@ -44,6 +44,9 @@ export class ListView extends View {
                     backgroundColor: this._computeColor()
                 });
             }
+        },
+        layoutOptions: {
+            spacing: this.options.spacing
         }
     });
 
@@ -100,7 +103,7 @@ export class ListView extends View {
      * @param {Boolean} [options.profileImages] Set all the ListElement images to profile images
      * @param {Boolean} [options.alternatingColors] Alternates the ListElements colors
      * @param {Object} [options.forAllElements] ListElement options which will be used for all elements in the list
-     * @param {Object} [options.templateMap] Used to map ListElement options to models
+     * @param {Object} [options.templateMap] Used to map ListElement options to model properties
      * @param {Object} [options.dataMapper] Used for customizing ListElement options
      *        while having individual ListElement data from the database available
      */

@@ -12,6 +12,7 @@ export class Item extends UIRegular {
             content: '',
             properties: {
                 textAlign: 'left',
+                cursor: 'pointer',
                 overflow: 'hidden',
                 padding: '0px 16px',
                 lineHeight: `${options.height || 48}px`

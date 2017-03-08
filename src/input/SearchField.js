@@ -162,7 +162,7 @@ export class SearchField extends View {
     constructor(options) {
         super(combineOptions({
             expandable: true,
-            clearButton: true
+            displayClearButton: true
         }, options));
         this.results.on('child_click', ({dataObject}) => {
             let {content} = dataObject;
@@ -194,6 +194,11 @@ export class SearchField extends View {
 
     setValue() {
         return this.input.setValue(...arguments);
+    }
+
+    clear() {
+        this.setValue('');
+        this.placeholder.showText();
     }
 
     /* Allow receiving focus e.g. through the keyboard, or programmatically (i.e. element.focus()). */
@@ -246,7 +251,9 @@ export class SearchField extends View {
         let hasContent = value.length > 0;
         this.placeholder[hasContent ? 'hideText' : 'showText']();
         this._setExpanded('results', hasContent);
-        await this.setRenderableFlowState('done', hasContent ? 'shown' : 'hidden');
+        if (this.done) {
+            await this.setRenderableFlowState('done', hasContent ? 'shown' : 'hidden');
+        }
     }
 
     _setExpanded(isExpanded) {
