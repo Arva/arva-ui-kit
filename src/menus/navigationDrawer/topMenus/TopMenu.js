@@ -2,7 +2,7 @@
  * Created by manuel on 09-09-15.
  */
 import {Injection}                                      from 'arva-js/utils/Injection.js';
-import {layout, flow}                                   from 'arva-js/layout/Decorators.js';
+import {layout}                                         from 'arva-js/layout/Decorators.js';
 import {combineOptions}                                 from 'arva-js/utils/CombineOptions.js';
 import {Router}                                         from 'arva-js/core/Router.js';
 
@@ -75,8 +75,7 @@ export class TopMenu extends UIBar {
         }, options));
 
         this.hamburgerButton = this.menuButton;
-
-        let arrowLeftButton = new UIBarImageButton({
+        this.arrowLeftButton = new UIBarImageButton({
             clickEventName: 'requestMenuClose',
             icon: LeftIcon
         });
@@ -86,6 +85,7 @@ export class TopMenu extends UIBar {
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');
         });
+
 
         this.isOpen = false;
 
@@ -97,12 +97,6 @@ export class TopMenu extends UIBar {
         this.catchCurrentComponents();
 
         this.router.on('routechange', this.onRouteChange);
-
-        this.addRenderable(arrowLeftButton, 'arrowLeftButton', layout.stick.left(), layout.size(true, true), layout.opacity(0));
-        this._setHiddenFlowState && this._setHiddenFlowState('arrowLeftButton');
-        this._setShownFlowState && this._setShownFlowState('arrowLeftButton');
-        this._setHiddenFlowState && this._setHiddenFlowState('menuButton');
-        this._setShownFlowState && this._setShownFlowState('menuButton');
     }
 
     catchCurrentComponents() {
@@ -151,24 +145,18 @@ export class TopMenu extends UIBar {
     async open() {
         if (!this.isOpen) {
             this.isOpen = true;
-
-            this.setRenderableFlowState('arrowLeftButton', 'shown');
-            this.setRenderableFlowState('leftButton0', 'hidden');
-            // await this.hideRenderable('menuButton');
-            // this.removeComponents('left');
-            // this.addComponent(this.arrowLeftButton, 'menuButton', 'left');
+            await this.hideRenderable('menuButton');
+            this.removeComponents('left');
+            this.addComponent(this.arrowLeftButton, 'menuButton', 'left');
         }
     }
 
     async close() {
         if (this.isOpen) {
             this.isOpen = false;
-
-            this.setRenderableFlowState('arrowLeftButton', 'hidden');
-            this.setRenderableFlowState('leftButton0', 'shown');
-            // await this.hideRenderable('menuButton');
-            // this.removeComponents('left');
-            // this.addComponent(this.hamburgerButton, 'menuButton', 'left');
+            await this.hideRenderable('menuButton');
+            this.removeComponents('left');
+            this.addComponent(this.hamburgerButton, 'menuButton', 'left');
         }
     }
 
@@ -203,20 +191,12 @@ export class TopMenu extends UIBar {
      * @private
      */
     _setClickEventNames(location, components) {
-        for (let index = 0; index < components.length; index++) {
+        for(let index = 0; index < components.length; index++) {
             let component = components[index];
-            if (component instanceof Clickable && component.options.clickEventName === 'buttonClick') {
-                component.options.clickEventName = `${location}${index > 0 ? index + 1 : ''}`;
+            if(component instanceof Clickable && component.options.clickEventName === 'buttonClick') {
+                component.options.clickEventName = `${location}${index > 0 ? index+1 : ''}`;
             }
         }
-    }
-
-    _setHiddenFlowState(renderableName) {
-        this.renderables[renderableName] && this.decorateRenderable(renderableName, flow.stateStep('hidden', {}, layout.opacity(0)))
-    }
-
-    _setShownFlowState(renderableName) {
-        this.renderables[renderableName] && this.decorateRenderable(renderableName, flow.stateStep('shown', {}, layout.opacity(1)))
     }
 
 }

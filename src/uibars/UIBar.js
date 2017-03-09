@@ -119,10 +119,6 @@ export class UIBar extends View {
             this.addRenderable(renderable, renderableName, layout.dock[position](true));
             this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
         }
-
-        /* Add flow states if possible */
-        this._setHiddenFlowState && this._setHiddenFlowState(renderableName);
-        this._setShownFlowState && this._setShownFlowState(renderableName);
     }
 
     removeAllComponents() {
