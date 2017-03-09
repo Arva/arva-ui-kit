@@ -2,12 +2,10 @@
  * Created by manuel on 09-09-15.
  */
 import {Injection}                                      from 'arva-js/utils/Injection.js';
-import {layout}                                         from 'arva-js/layout/Decorators.js';
 import {combineOptions}                                 from 'arva-js/utils/CombineOptions.js';
 import {Router}                                         from 'arva-js/core/Router.js';
 
 import {UIBar}                                          from '../../../uibars/UIBar.js';
-import {LeftIcon}                                       from '../../../icons/LeftIcon.js';
 import {InfoIcon}                                       from '../../../icons/InfoIcon.js';
 import {UIBarTitle}                                     from '../../../text/UIBarTitle.js';
 import {HamburgerIcon}                                  from '../../../icons/HamburgerIcon.js';
@@ -62,7 +60,12 @@ export class TopMenu extends UIBar {
         super(combineOptions({
             bottomLine: true,
             components: [
-                [new UIBarTitle({ content: options.defaultTitle || '' }), 'title', 'center'],
+                [new UIBarTitle({
+                    content: options.defaultTitle || '',
+                    properties: {
+                        cursor: 'default'
+                    }
+                }), 'title', 'center'],
                 [options.rightButton || new UIBarImageButton({
                     clickEventName: 'rightButtonClick',
                     icon: InfoIcon
@@ -75,17 +78,12 @@ export class TopMenu extends UIBar {
         }, options));
 
         this.hamburgerButton = this.menuButton;
-        this.arrowLeftButton = new UIBarImageButton({
-            clickEventName: 'requestMenuClose',
-            icon: LeftIcon
-        });
 
         this.router = Injection.get(Router);
 
         this.title.on('click', () => {
             this._eventOutput.emit('titleClick');
         });
-
 
         this.isOpen = false;
 
@@ -94,12 +92,12 @@ export class TopMenu extends UIBar {
             Injection.get(StatusBarExtension).setColor(color);
         }
 
-        this.catchCurrentComponents();
+        this.cacheCurrentComponents();
 
         this.router.on('routechange', this.onRouteChange);
     }
 
-    catchCurrentComponents() {
+    cacheCurrentComponents() {
         this.buttonsCache = { left: this.getComponents('left'), right: this.getComponents('right') };
     }
 
@@ -109,7 +107,6 @@ export class TopMenu extends UIBar {
     }
 
     onRouteChange(route) {
-
         let { controller, method } = route;
         if (this.options.dynamicButtons
             && this.options.dynamicButtons[controller]
@@ -136,7 +133,7 @@ export class TopMenu extends UIBar {
             if (!this.persistentButtons) {
                 this.setCacheButtons();
             } else {
-                this.catchCurrentComponents();
+                this.cacheCurrentComponents();
             }
             this.persistentButtons = true;
         }
@@ -145,18 +142,12 @@ export class TopMenu extends UIBar {
     async open() {
         if (!this.isOpen) {
             this.isOpen = true;
-            await this.hideRenderable('menuButton');
-            this.removeComponents('left');
-            this.addComponent(this.arrowLeftButton, 'menuButton', 'left');
         }
     }
 
     async close() {
         if (this.isOpen) {
             this.isOpen = false;
-            await this.hideRenderable('menuButton');
-            this.removeComponents('left');
-            this.addComponent(this.hamburgerButton, 'menuButton', 'left');
         }
     }
 
@@ -172,12 +163,18 @@ export class TopMenu extends UIBar {
         this.replaceRenderable('rightButton', newButton);
     }
 
+    /**
+     * @deprecated
+     * */
     async setTemporaryLeftButton(leftButton) {
         this._eventOutput.emit('requestMenuClose');
         await this.removeComponents('left');
         this.addComponent(leftButton, 'menuButton', 'left');
     }
 
+    /**
+     * @deprecated
+     * */
     removeTemporaryLeftButton() {
         this.removeComponents('left');
         this.addComponent(this.isOpen ? this.arrowLeftButton : this.hamburgerButton, 'menuButton', 'left');

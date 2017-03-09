@@ -24,20 +24,20 @@ export function mockDependency(dependency, replacement) {
 
 export async function mockArvaViewDependencies() {
     mockDependency('famous/surfaces/ImageSurface.js');
-    mockDependency('famous/Surfaces/ContainerSurface.js', () => ({add: () => {}}));
+    mockDependency('famous/surfaces/ContainerSurface.js', () => ({add: () => {}}));
     mockDependency('famous/core/Context.js', () => ({add: () => {}}) );
     mockDependency('css', {fetch: () => 'export default "";'});
 
     await mockDOMGlobals();
     let ElementOutput = await System.import('famous/core/ElementOutput');
-    let Decorators = await System.import('arva-js/layout/decorators.js');
+    let Decorators = await System.import('arva-js/layout/Decorators.js');
     Decorators.layout.margins = () => (() => {});
 
     //Mock for the Famous Surface
     mockDependency('./ElementOutput.js', ElementOutput);
     mockDependency('famous/core/Group.js');
     mockDependency('famous/utilities/Timer.js');
-    mockDependency('arva-js/layout/decorators.js', Decorators);
+    mockDependency('arva-js/layout/Decorators.js', Decorators);
     mockDependency('arva-js/utils/Injection.js', { Injection: { get: (something) => new something() } });
     mockDependency('famous-flex/LayoutUtility.js', { registerHelper: () => {} });
     mockDependency('famous-flex/FlexScrollView.js', () => ({ options: {} }));

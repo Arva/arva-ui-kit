@@ -7,7 +7,7 @@
  */
 
 import Surface                  from 'famous/core/Surface.js';
-import ImageSurface             from 'famous/Surfaces/ImageSurface.js';
+import ImageSurface             from 'famous/surfaces/ImageSurface.js';
 
 import {View}                   from 'arva-js/core/View.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';

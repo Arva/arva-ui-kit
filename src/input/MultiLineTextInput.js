@@ -3,7 +3,7 @@
  */
 import AutosizeTextareaSurface      from 'famous-autosizetextarea/AutosizeTextareaSurface.js';
 
-import {flow, layout, event}        from 'arva-js/layout/decorators.js';
+import {flow, layout, event}        from 'arva-js/layout/Decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {replaceEmojiAtEnd}          from './Emoji.js';
 import {SingleLineTextInput}        from 'arva-kit/input/SingleLineTextInput.js';
