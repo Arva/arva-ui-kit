@@ -108,11 +108,12 @@ export class ListView extends View {
         super(combineOptions({
             templateMap: {},
             dbsvOptions: {},
-            spacing: ListSpacing
+            spacing: ListSpacing,
+            showBackground: true
         }, options));
 
 
-        if (this.options.spacing) {
+        if (this.options.spacing && this.options.showBackground) {
             this.addRenderable(
                 new Surface({properties: {backgroundColor: 'rgba(0, 0, 0, 0.1)'}}),
                 'background',
