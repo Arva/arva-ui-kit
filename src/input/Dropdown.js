@@ -149,6 +149,23 @@ export class Dropdown extends View {
         return this._containerView;
     }
 
+    getValue(){
+        return this.getSelectedItem();
+    }
+
+    getSelectedItem() {
+        return this.options.fakeWithNative ? this.nativeSelect._element.childNodes[1].value :  this._selectedItem.data;
+    }
+
+    /* Return a different size if collapsed or exapnded */
+    getSize() {
+        if (this._collapsed) {
+            return [undefined, 48];
+        } else {
+            return super.getSize();
+        }
+    }
+
     setItemsFakeWithNative(items) {
         this.removeRenderable('nativeSelect');
         this.addRenderable(
