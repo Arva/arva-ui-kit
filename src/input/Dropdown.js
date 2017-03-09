@@ -149,6 +149,30 @@ export class Dropdown extends View {
         return this._containerView;
     }
 
+    setItemsFakeWithNative(items) {
+        this.removeRenderable('nativeSelect');
+        this.addRenderable(
+        new Surface({
+            content: `
+                <select style ="
+                    height: 48px;
+                    overflow: hidden;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    background-color: white;
+                    border-radius: 4px;
+                    padding: 0 0 0 16px;
+                    outline: none;
+                    -webkit-appearance: none; /* Doesn't work for IE and firefox */
+                    width: 100%;
+                ">
+                ${items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
+            }), 'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40));
+        this.nativeSelect.on('change', (event) => {
+            this._eventOutput.emit(this.options.eventName,items[event.target.selectedIndex].data);
+        });
+        return this;
+    }
+
     _addPlaceholder(placeholderText) {
         this._totalHeight += 32;
         this.addRenderable(
