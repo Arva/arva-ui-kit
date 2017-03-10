@@ -3,7 +3,7 @@
  */
 
 import {View}                       from 'arva-js/core/View.js';
-import {flow, layout, event}        from 'arva-js/layout/Decorators.js';
+import {flow, layout, event}        from 'arva-js/layout/decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 import Surface                      from 'famous/core/Surface.js';
@@ -106,9 +106,6 @@ export class Dropdown extends View {
         if(placeholder){
             this._addPlaceholder(placeholder);
         }
-        if(selectedItemIndex === -1){
-            selectedItemIndex = 0;
-        }
 
         for (let [index, item] of items.entries()) {
             this.addRenderable(
@@ -138,13 +135,13 @@ export class Dropdown extends View {
         this._containerView = new ContainerView();
         this._containerView.getValue = this.getValue;
 
-        if(!this.placeholder){
-            this._selectItemWithIndex(selectedItemIndex);
-        } else {
-            this._selectedItemIndex = -1;
-            this._collapsed = true;
-            this._collapse();
+        if(selectedItemIndex > -1) {
+            this._selectItemWithIndex(selectedItemIndex, false);
         }
+
+        this._selectedItemIndex = selectedItemIndex;
+        this._collapsed = true;
+        this._collapse();
 
         return this._containerView;
     }
@@ -164,6 +161,30 @@ export class Dropdown extends View {
         } else {
             return super.getSize();
         }
+    }
+
+    setItemsFakeWithNative(items) {
+        this.removeRenderable('nativeSelect');
+        this.addRenderable(
+        new Surface({
+            content: `
+                <select style ="
+                    height: 48px;
+                    overflow: hidden;
+                    border: 1px solid rgba(0, 0, 0, 0.1);
+                    background-color: white;
+                    border-radius: 4px;
+                    padding: 0 0 0 16px;
+                    outline: none;
+                    -webkit-appearance: none; /* Doesn't work for IE and firefox */
+                    width: 100%;
+                ">
+                ${items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
+            }), 'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40));
+        this.nativeSelect.on('change', (event) => {
+            this._eventOutput.emit(this.options.eventName,items[event.target.selectedIndex].data);
+        });
+        return this;
     }
 
     _addPlaceholder(placeholderText) {
@@ -225,6 +246,14 @@ export class Dropdown extends View {
         return `item${index}`;
     }
 
+    getValue(){
+        return this.getSelectedItem();
+    }
+
+    getSelectedItem() {
+        return this.options.fakeWithNative ? this.nativeSelect._element.childNodes[1].value :  this._selectedItem.data;
+    }
+
     async _placeholderChosen() {
         if(!this._collapsed){
             await this._collapse();
@@ -234,7 +263,7 @@ export class Dropdown extends View {
         }
     }
 
-    async _selectItemWithIndex(index) {
+    async _selectItemWithIndex(index, emitEvent = true) {
         if(this.placeholder){
             this.removeRenderable('placeholder');
             this._totalHeight -= 32;
@@ -245,7 +274,7 @@ export class Dropdown extends View {
             let item = this._selectedItem = items[index];
             await this._collapse();
             this[this._getNameFromIndex(index)].background.setProperties(this._getStandardBorderProperties());
-            this._eventOutput.emit(this.options.eventName, item.data);
+            emitEvent && this._eventOutput.emit(this.options.eventName, item.data);
         } else {
             this._expand();
         }
@@ -272,6 +301,15 @@ export class Dropdown extends View {
             this.decorateRenderable(this._getNameFromIndex(otherIndice), layout.translate(...this._getThisTranslation()));
         }
         this.decorateRenderable('background', layout.translate(0, 0, 0));
+    }
+
+    /* Return a different size if collapsed or exapnded */
+    getSize() {
+        if (this._collapsed) {
+            return [undefined, 48];
+        } else {
+            return super.getSize();
+        }
     }
 
     async _expand() {

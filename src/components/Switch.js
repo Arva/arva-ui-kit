@@ -118,13 +118,14 @@ export class Switch extends Clickable {
 
         this.setRenderableFlowState('selectedOuterBox', 'invisible');
 
+        this._setUpKnob();
+
         this.once('newSize', ([width]) => {
             this._switchWidth = width;
 
             /* Choose knob width based on variation. */
             this._knobWidth = Switch.getKnobWidth(variation);
 
-            this._setUpKnob(this._switchWidth);
             if (this.options.enabled) {
                 this.switchOn();
             }
@@ -175,7 +176,7 @@ export class Switch extends Clickable {
         this._eventOutput.emit('stateChange', false);
     }
 
-    _setUpKnob(width) {
+    _setUpKnob() {
 
         /* Set knob size and horizontal range. */
         this.decorateRenderable('knob',
@@ -186,6 +187,7 @@ export class Switch extends Clickable {
         this.knob.draggable.on('update', (event) => {
             this.decorateRenderable('selectedOuterBox', layout.opacity(event.position[0] / this._knobHorizontalRange));
         });
+
     }
 
     _enableHardShadow() {
