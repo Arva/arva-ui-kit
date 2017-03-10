@@ -106,9 +106,6 @@ export class Dropdown extends View {
         if(placeholder){
             this._addPlaceholder(placeholder);
         }
-        if(selectedItemIndex === -1){
-            selectedItemIndex = 0;
-        }
 
         for (let [index, item] of items.entries()) {
             this.addRenderable(
@@ -138,13 +135,13 @@ export class Dropdown extends View {
         this._containerView = new ContainerView();
         this._containerView.getValue = this.getValue;
 
-        if(!this.placeholder){
-            this._selectItemWithIndex(selectedItemIndex);
-        } else {
-            this._selectedItemIndex = -1;
-            this._collapsed = true;
-            this._collapse();
+        if(selectedItemIndex > -1) {
+            this._selectItemWithIndex(selectedItemIndex, false);
         }
+
+        this._selectedItemIndex = selectedItemIndex;
+        this._collapsed = true;
+        this._collapse();
 
         return this._containerView;
     }
@@ -266,7 +263,7 @@ export class Dropdown extends View {
         }
     }
 
-    async _selectItemWithIndex(index) {
+    async _selectItemWithIndex(index, emitEvent = true) {
         if(this.placeholder){
             this.removeRenderable('placeholder');
             this._totalHeight -= 32;
@@ -277,7 +274,7 @@ export class Dropdown extends View {
             let item = this._selectedItem = items[index];
             await this._collapse();
             this[this._getNameFromIndex(index)].background.setProperties(this._getStandardBorderProperties());
-            this._eventOutput.emit(this.options.eventName, item.data);
+            emitEvent && this._eventOutput.emit(this.options.eventName, item.data);
         } else {
             this._expand();
         }
