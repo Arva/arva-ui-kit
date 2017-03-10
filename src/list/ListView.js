@@ -122,6 +122,7 @@ export class ListView extends View {
                 new Surface({properties: {backgroundColor: 'rgba(0, 0, 0, 0.1)'}}),
                 'background',
                 layout.dock.fill(),
+                event.pipe('list'),
                 layout.size(undefined, function () {
                     return this._height > 0 ? this._height - this.options.spacing : this._height;
                 }),

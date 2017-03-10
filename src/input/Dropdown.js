@@ -69,7 +69,8 @@ export class Dropdown extends View {
      */
     constructor(options) {
         super(combineOptions({
-            fakeWithNative: false,
+            //TODO Change to false once final
+            fakeWithNative: true,
             items: [{text: 'This is the selected item', selected: true, data: 1}],
             eventName: 'itemChosen'
         }, options));
