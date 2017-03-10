@@ -25,7 +25,11 @@ export class IconTextButton extends Button {
 
     constructor(options = {}){
         super(combineOptions({
-            properties: {color: Colors.PrimaryUIColor}
+            properties: {color: Colors.PrimaryUIColor},
+            iconProperties:{
+                width:48,
+                height:48
+            }
         }, options));
     }
 
@@ -52,4 +56,13 @@ class IconAndText extends View {
     @layout.size(~100, ~16)
     @layout.stick.left()
     text = new Surface(this.options);
+
+    constructor(options = {}) {
+        super(options);
+
+        let iconFudge = -(this.options.iconProperties.width - 24.0)/2.0;
+        this.decorateRenderable('icon', layout.size(this.options.iconProperties.width, this.options.iconProperties.height));
+        this.decorateRenderable('icon', layout.translate(iconFudge, 0, 50));
+        this.decorateRenderable('text', layout.translate(iconFudge, 0, 30));
+    }
 }
