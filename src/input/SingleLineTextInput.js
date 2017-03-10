@@ -86,7 +86,7 @@ export class SingleLineTextInput extends View {
             enabled: true,
             usesFeedback: true,
             type: 'text',
-            inputOptions: { clearOnEnter: true },
+            inputOptions: { clearOnEnter: options.clearOnEnter },
             feedbackText: FeedbackBubble.texts.required
         }, options));
 
