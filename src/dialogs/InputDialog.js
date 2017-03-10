@@ -6,17 +6,18 @@ import {layout}                 from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}             from './BaseDialog.js';
 import {TextButton}             from '../buttons/TextButton.js';
-import {SingleLineInputSurface} from "../input/SingleLineInputSurface";
+import {SingleLineInputSurface} from '../input/SingleLineInputSurface';
+import {ComponentHeight}        from '../defaults/DefaultDimensions.js';
 
 @layout.dockPadding(24,0,0,0)
 export class InputDialog extends BaseDialog {
 
-    @layout.dock.top( function(){return this.options.buttonHeight || 44}, 24)
+    @layout.dock.top( function(){return this.options.buttonHeight || ComponentHeight}, 24)
     input = new SingleLineInputSurface({
         placeholder: this.options.inputText || 'input'
     });
 
-    @layout.dock.top( function(){return this.options.buttonHeight || 64}, 24, 10)
+    @layout.dock.top( function(){return this.options.buttonHeight || ComponentHeight}, 24, 10)
     button = new TextButton({
         content: this.options.buttonText,
         disableBoxShadow: true,
