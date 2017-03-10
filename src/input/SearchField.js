@@ -156,7 +156,7 @@ export class SearchField extends View {
     @flow.defaultState('center', transition, layout.size(~50, undefined), layout.stick.center(), layout.translate(0, 0, 230))
     placeholder = new Placeholder({
         properties: { borderRadius: borderRadius },
-        placeholder: this.options.placeholder || 'Search'
+        content: this.options.placeholder || 'Search'
     });
 
     constructor(options) {
