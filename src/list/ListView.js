@@ -80,7 +80,9 @@ export class ListView extends View {
      * listView2 = new ListView({
      *     bold: true,
      *     profileImages: true,
-     *     dataStore: window.listElements = this.dataStore = Injection.get(ListElements)
+     *     dbsvOptions: {
+     *          dataStore: window.listElements = this.dataStore = Injection.get(ListElements)
+     *     },
      *     dataMapper: (data) => ({
      *         text: data.title,
      *         previewText: data.previewText,
