@@ -57,9 +57,10 @@ export class TopMenu extends UIBar {
     persistentButtons = true;
 
     constructor(options = {}) {
-        super(combineOptions({
-            bottomLine: true,
-            components: [
+
+        /* We have to do this because combineOptions merges arrays */
+        if(!options.components){
+            options.components = [
                 [new UIBarTitle({
                     content: options.defaultTitle || '',
                     properties: {
@@ -75,6 +76,10 @@ export class TopMenu extends UIBar {
                     icon: HamburgerIcon,
                 }), 'menuButton', 'left']
             ]
+        }
+
+        super(combineOptions({
+            bottomLine: true,
         }, options));
 
         this.hamburgerButton = this.menuButton;
