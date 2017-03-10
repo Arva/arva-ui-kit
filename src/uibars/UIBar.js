@@ -144,7 +144,8 @@ export class UIBar extends View {
     removeComponents(position) {
         let currentComponents = this.componentNames[position];
         while (currentComponents.length > 0) {
-            this.removeRenderable(currentComponents.pop());
+            let renderableName = currentComponents.pop();
+            this.renderables[renderableName] && this.removeRenderable(renderableName);
         }
         return true;
     }
