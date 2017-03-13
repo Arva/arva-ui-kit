@@ -34,7 +34,7 @@ import {Avenir}                 from '../fonts/Avenir.js';
 // - [ ] Big
 
 export let TypeFaces = merge({
-    UITitle: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.BasicTextColor; } , whiteSpace: 'nowrap'},
+    UITitle: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.BasicTextColor; } , whiteSpace: 'inherit'},
     UIRegular: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
     UISmall: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
     UISmallGray: {
@@ -43,10 +43,10 @@ export let TypeFaces = merge({
         }
     },
     UITiny: {fontSize: '10px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
-    UIButtonPrimary: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.PrimaryUIColor; } , whiteSpace: 'nowrap'},
-    UIButtonPrimaryLight: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.PrimaryUIColor; } , whiteSpace: 'nowrap'},
-    UIButtonSecondary: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.SecondaryUIColor; } , whiteSpace: 'nowrap'},
-    UIButtonSecondaryLight: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.SecondaryUIColor; } , whiteSpace: 'nowrap'},
+    UIButtonPrimary: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.PrimaryUIColor; } , whiteSpace: 'inherit'},
+    UIButtonPrimaryLight: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.PrimaryUIColor; } , whiteSpace: 'inherit'},
+    UIButtonSecondary: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.SecondaryUIColor; } , whiteSpace: 'inherit'},
+    UIButtonSecondaryLight: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.SecondaryUIColor; } , whiteSpace: 'inherit'},
 
     TextBody: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.ArticleTextColor; } },
     TextH1: {fontSize: '64px', fontWeight: 'bold', get color() { return Colors.ArticleTextColor; }  },
