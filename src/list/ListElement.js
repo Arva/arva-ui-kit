@@ -27,6 +27,7 @@ export class ListElement extends Clickable {
         image: this.options.image,
         icon: this.options.icon,
         text: this.options.text,
+        enabled: this.options.enabled,
         sideText: this.options.sideText,
         previewText: this.options.previewText,
         profileImage: this.options.profileImage,
@@ -233,6 +234,8 @@ export class ListElement extends Clickable {
             }
         });
     }
+
+
 
     getSize() {
         return [undefined, this.options.elementHeight];
