@@ -28,6 +28,7 @@ let fastTransition = {curve: Easing.outCubic, duration: 50};
 @layout.translate(0, 0, 20)
 export class Dropdown extends View {
 
+    _collapsed = true;
 
     @flow.stateStep('hidden', {}, layout.opacity(0))
     @flow.defaultState('shown', {}, layout.opacity(1), layout.stick.right(), layout.size(32, 32), layout.translate(-4, 0, 50))
@@ -141,7 +142,6 @@ export class Dropdown extends View {
         }
 
         this._selectedItemIndex = selectedItemIndex;
-        this._collapsed = true;
         this._collapse();
 
         return this._containerView;

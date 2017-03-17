@@ -11,6 +11,7 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {Button}             from '../buttons/Button.js';
 import {ListElementText}    from './ListElementText.js';
 import {UISmallGray}        from '../text/UISmallGray.js';
+import {Colors}             from '../defaults/DefaultColors';
 
 export class ListElementCard extends Button {
 
@@ -92,6 +93,14 @@ export class ListElementCard extends Button {
                 layout.size(16, 16),
                 layout.stick.topRight()
             );
+        }
+    }
+
+    _setEnabled(enabled) {
+        /* Don't change background if disabled */
+        super._setEnabled(enabled, false);
+        if(this.text){
+            this.text.text.setProperties({ color: enabled ? Colors.BasicTextColor : Colors.Gray });
         }
     }
 
