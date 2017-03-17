@@ -85,10 +85,10 @@ export class TabBar extends View {
             }
 
         });
+
         if (this.options.activeIndex !== undefined) {
             this.setIndexActive(this.options.activeIndex);
         }
-
 
     }
 
@@ -98,6 +98,11 @@ export class TabBar extends View {
      */
     setItems(items = []) {
         this._setItems(items);
+
+        this.onceNewSize().then(([width])=>{
+            this._width = width;
+            this.options.reflow && this.setIndexActive(this._currentItem);
+        });
     }
 
     /* Layout and display the items in the TabBar */
