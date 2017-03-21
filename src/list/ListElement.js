@@ -142,6 +142,16 @@ export class ListElement extends Clickable {
         });
     }
 
+    disable() {
+        this.elementCard.disable();
+        super.disable();
+    }
+
+    enable() {
+        this.elementCard.enable();
+        super.enable();
+    }
+
     _onResize([width]) {
         this._width = width;
     }
