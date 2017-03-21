@@ -25,4 +25,9 @@ export class SolidTextButton extends TextButton {
             SolidTextButton.generateOptions(options)
             , options));
     }
+
+    setBackgroundColor(color) {
+        this.options.backgroundProperties.backgroundColor = color;
+    }
+
 }

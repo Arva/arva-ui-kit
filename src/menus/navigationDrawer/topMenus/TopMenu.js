@@ -1,6 +1,8 @@
 /**
  * Created by manuel on 09-09-15.
  */
+import isEqual                                          from 'lodash/isEqual.js';
+
 import {Injection}                                      from 'arva-js/utils/Injection.js';
 import {combineOptions}                                 from 'arva-js/utils/CombineOptions.js';
 import {Router}                                         from 'arva-js/core/Router.js';
@@ -118,21 +120,8 @@ export class TopMenu extends UIBar {
             && this.options.dynamicButtons[controller][method]) {
             let newComponents = this.options.dynamicButtons[controller][method];
             let { left, right, title } = newComponents;
-            if (newComponents && (left || right)) {
-                this.removeComponents('right');
-                this.removeComponents('left');
-                if (left) {
-                    this.addComponents('left', left);
-                    this._setClickEventNames('left', left);
-                }
-                if (right) {
-                    this.addComponents('right', right);
-                    this._setClickEventNames('right', right);
-                }
-                if (title) {
-                    this.setTitle(title);
-                }
-            }
+            this._updateComponents(left, right, title);
+
             this.persistentButtons = this.options.dynamicButtons[controller][method].persistentButtons;
         } else {
             if (!this.persistentButtons) {
@@ -183,6 +172,27 @@ export class TopMenu extends UIBar {
     removeTemporaryLeftButton() {
         this.removeComponents('left');
         this.addComponent(this.isOpen ? this.arrowLeftButton : this.hamburgerButton, 'menuButton', 'left');
+    }
+
+    _updateComponents(left, right, title) {
+        this._updateComponentsOnSide(left, 'left');
+        this._updateComponentsOnSide(right, 'right');
+
+        let centerComponents = this.getComponents('center');
+        let currentTitle = centerComponents && centerComponents.length ? centerComponents[0] : '';
+        if (title !== currentTitle) {
+            this.setTitle(title || '');
+        }
+    }
+
+    _updateComponentsOnSide(components, side) {
+        if (!isEqual(components, this.getComponents(side))) {
+            this.removeComponents(side);
+            if (components) {
+                this.addComponents(side, components);
+                this._setClickEventNames(side, components);
+            }
+        }
     }
 
     /**
