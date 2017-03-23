@@ -15,15 +15,15 @@ import sideArrows                   from './dropdown/sideArrows.svg.txt!text';
 import Easing                       from 'famous/transitions/Easing.js';
 import AnimationController          from 'famous-flex/AnimationController.js';
 
-let expandShrinkTransition = {curve: Easing.outCubic, duration: 2000};
-let fastTransition = {curve: Easing.outCubic, duration: 50};
+let expandShrinkTransition = { curve: Easing.outCubic, duration: 2000 };
+let fastTransition = { curve: Easing.outCubic, duration: 50 };
 
 //TODO: Fix behaviour that happens when the content go outside the screen
 //TODO: Fix behaviour to collapse when outside screen
 
 @flow.viewStates({
-    expanded: [{extendButton: 'hidden'}],
-    collapsed: [{extendButton: 'shown'}]
+    expanded: [{ extendButton: 'hidden' }],
+    collapsed: [{ extendButton: 'shown' }]
 })
 @layout.translate(0, 0, 20)
 export class Dropdown extends View {
@@ -32,11 +32,11 @@ export class Dropdown extends View {
 
     @flow.stateStep('hidden', {}, layout.opacity(0))
     @flow.defaultState('shown', {}, layout.opacity(1), layout.stick.right(), layout.size(32, 32), layout.translate(-4, 0, 50))
-    extendButton = new Surface({content: sideArrows});
+    extendButton = new Surface({ content: sideArrows });
 
     @layout.translate(0, 0, 0)
     @layout.fullSize()
-    background = new Surface({properties: {backgroundColor: 'white', borderRadius: '4px'}});
+    background = new Surface({ properties: { backgroundColor: 'white', borderRadius: '4px' } });
 
     /* Using animate instead of flow state to avoid unwanted transitions when resizing */
     @layout.fullSize()
@@ -72,10 +72,14 @@ export class Dropdown extends View {
         super(combineOptions({
             //TODO Change to false once final
             fakeWithNative: true,
-            items: [{text: 'This is the selected item', selected: true, data: 1}],
+            items: [{ text: 'This is the selected item', selected: true, data: 1 }],
             eventName: 'itemChosen'
         }, options));
 
+
+
+        let { items, placeholder } = this.options;
+        let selectedItemIndex = items.findIndex(({ selected }) => selected);
 
         if (this.options.fakeWithNative) {
             this.addRenderable(
@@ -94,18 +98,24 @@ export class Dropdown extends View {
             ">
     ${this.options.items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
                 }), 'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40));
+            if(selectedItemIndex === -1){
+                selectedItemIndex = 0;
+            }
+            this._selectedItem = this.options.items[selectedItemIndex];
             this.nativeSelect.on('change', (event) => {
-                this._eventOutput.emit(this.options.eventName,this.options.items[event.target.selectedIndex].data);
+                this._selectedItemIndex = event.target.selectedIndex;
+                this._selectedItem = this.options.items[this._selectedItemIndex];
+                this._eventOutput.emit(this.options.eventName, this._selectedItem.data);
             });
             return this;
         }
 
-        let {items, placeholder} = this.options;
+
         this._totalHeight = items.length * 32;
 
-        let selectedItemIndex = items.findIndex(({selected}) => selected);
 
-        if(placeholder){
+
+        if (placeholder) {
             this._addPlaceholder(placeholder);
         }
 
@@ -127,7 +137,7 @@ export class Dropdown extends View {
         class ContainerView extends View {
 
             @layout.size(undefined, true)
-            @flow.defaultOptions({transition: expandShrinkTransition})
+            @flow.defaultOptions({ transition: expandShrinkTransition })
             dropdown = this;
 
             getSize() {
@@ -137,7 +147,7 @@ export class Dropdown extends View {
         this._containerView = new ContainerView();
         this._containerView.getValue = this.getValue;
 
-        if(selectedItemIndex > -1) {
+        if (selectedItemIndex > -1) {
             this._selectItemWithIndex(selectedItemIndex, false);
         }
 
@@ -147,12 +157,12 @@ export class Dropdown extends View {
         return this._containerView;
     }
 
-    getValue(){
+    getValue() {
         return this.getSelectedItem();
     }
 
     getSelectedItem() {
-        return this.options.fakeWithNative ? this.nativeSelect._element.childNodes[1].value :  this._selectedItem.data;
+        return this._selectedItem.data;
     }
 
     /* Return a different size if collapsed or exapnded */
@@ -167,8 +177,8 @@ export class Dropdown extends View {
     setItemsFakeWithNative(items) {
         this.removeRenderable('nativeSelect');
         this.addRenderable(
-        new Surface({
-            content: `
+            new Surface({
+                content: `
                 <select style ="
                     height: 48px;
                     overflow: hidden;
@@ -183,7 +193,7 @@ export class Dropdown extends View {
                 ${items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
             }), 'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40));
         this.nativeSelect.on('change', (event) => {
-            this._eventOutput.emit(this.options.eventName,items[event.target.selectedIndex].data);
+            this._eventOutput.emit(this.options.eventName, items[event.target.selectedIndex].data);
         });
         return this;
     }
@@ -221,7 +231,7 @@ export class Dropdown extends View {
     }
 
     _getExpandedBorderFromIndex(index) {
-        let {length} = this.options.items;
+        let { length } = this.options.items;
         return {
             border: 'none',
             borderBottom: index === length - 1 ? 'none' : '1px solid rgba(0, 0, 0, 0.1)',
@@ -247,16 +257,16 @@ export class Dropdown extends View {
         return `item${index}`;
     }
 
-    getValue(){
+    getValue() {
         return this.getSelectedItem();
     }
 
     getSelectedItem() {
-        return this.options.fakeWithNative ? this.nativeSelect._element.childNodes[1].value :  this._selectedItem.data;
+        return this.options.fakeWithNative ? this.nativeSelect._element.childNodes[1].value : this._selectedItem.data;
     }
 
     async _placeholderChosen() {
-        if(!this._collapsed){
+        if (!this._collapsed) {
             await this._collapse();
             this.placeholder.background.setProperties(this._getStandardBorderProperties());
         } else {
@@ -265,13 +275,13 @@ export class Dropdown extends View {
     }
 
     async _selectItemWithIndex(index, emitEvent = true) {
-        if(this.placeholder){
+        if (this.placeholder) {
             this.removeRenderable('placeholder');
             this._totalHeight -= 32;
         }
         if (!this._collapsed) {
             this._selectedItemIndex = index;
-            let {items} = this.options;
+            let { items } = this.options;
             let item = this._selectedItem = items[index];
             await this._collapse();
             this[this._getNameFromIndex(index)].background.setProperties(this._getStandardBorderProperties());
