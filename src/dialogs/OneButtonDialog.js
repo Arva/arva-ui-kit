@@ -6,6 +6,7 @@ import {layout}             from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}         from './BaseDialog.js';
 import {TextButton}         from '../buttons/TextButton.js';
+import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 export class OneButtonDialog extends BaseDialog {
 
@@ -14,16 +15,13 @@ export class OneButtonDialog extends BaseDialog {
      * new OneButtonDialog({button: {buttonText: 'Confirm'}, title: 'Hello', body: 'World'})
      *
      * @param {Object} [options] Constructor options
-     * @param {String} [options.button.buttonText] The text for the button
+     * @param {String} [options.button.buttonText] The text for the button. Defaults to 'Ok'
      * @param {String} [options.title] The title of the Dialog
      * @param {String} [options.body] The body of the Dialog
      */
     constructor(options = {}) {
-        super(options);
+        super(combineOptions(options, {button: {buttonText: 'Ok'}}));
         let {button} = options;
-        if (!button) {
-            throw new Error("No button specified for dialog");
-        }
         this.addRenderable(new TextButton({
                 content: button.buttonText,
                 disableBoxShadow: true,
