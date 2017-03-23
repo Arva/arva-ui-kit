@@ -34,7 +34,7 @@ export class Checkbox extends Clickable {
     @layout.translate(0, 0, -10)
     background = new Surface({
         properties: {
-            backgroundColor: this.options.enabled ? this.options.activeColor : this.options.inactiveColor,
+            backgroundColor: this.options.state ? this.options.activeColor : this.options.inactiveColor,
             borderRadius: '4px',
             boxShadow: getShadow({
                 inset: true,

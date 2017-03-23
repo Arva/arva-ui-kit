@@ -46,7 +46,8 @@ export class ListView extends View {
             }
         },
         layoutOptions: {
-            spacing: this.options.spacing
+            spacing: this.options.spacing,
+            direction: 1
         }
     });
 
