@@ -257,10 +257,6 @@ export class Dropdown extends View {
         return `item${index}`;
     }
 
-    getValue() {
-        return this.getSelectedItem();
-    }
-    
 
     async _placeholderChosen() {
         if (!this._collapsed) {
@@ -311,14 +307,6 @@ export class Dropdown extends View {
         this.decorateRenderable('background', layout.translate(0, 0, 0));
     }
 
-    /* Return a different size if collapsed or exapnded */
-    getSize() {
-        if (this._collapsed) {
-            return [undefined, 48];
-        } else {
-            return super.getSize();
-        }
-    }
 
     async _expand() {
         await this.setViewFlowState('expanded');
