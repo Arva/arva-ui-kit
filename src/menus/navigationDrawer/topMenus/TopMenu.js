@@ -73,7 +73,7 @@ export class TopMenu extends UIBar {
                     clickEventName: 'rightButtonClick',
                     icon: InfoIcon
                 }), 'rightButton', 'right'],
-                [new UIBarImageButton({
+                [options.leftButton || new UIBarImageButton({
                     clickEventName: 'requestMenuOpen',
                     icon: HamburgerIcon,
                 }), 'menuButton', 'left']
