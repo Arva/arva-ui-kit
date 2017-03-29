@@ -85,7 +85,8 @@ export class NavigationTabBar extends View {
           this.UIBar.tabBar.setIndexActive(index);
       }
     }
-    findAddSetActiveIndex(controller, method) {
+
+    setActiveIndexByRoute(controller, method) {
         let activeTabIndex = findIndex(this.currentItems, (tab) => tab.goTo.method === method &&
         (!tab.goTo.controller || tab.goTo.controller === controller));
 
