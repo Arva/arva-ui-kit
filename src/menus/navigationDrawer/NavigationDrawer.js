@@ -124,7 +124,6 @@ export class NavigationDrawer extends View {
      * @param route
      */
     onRouteChange(route) {
-
         /* Hide the menu on specific route changes */
         if (this.options.showTopMenu && this.options.hideOnRoutes) {
             if (find(this.options.hideOnRoutes, (hideRoute)=> {
