@@ -80,6 +80,20 @@ export class NavigationTabBar extends View {
         }
     }
 
+    setIndexActive(index = null){
+      if(index != null){
+          this.UIBar.tabBar.setIndexActive(index);
+      }
+    }
+
+    setActiveIndexByRoute(controller, method) {
+        let activeTabIndex = findIndex(this.currentItems, (tab) => tab.goTo.method === method &&
+        (!tab.goTo.controller || tab.goTo.controller === controller));
+
+        if (activeTabIndex >= 0) {
+            this.UIBar.tabBar.setIndexActive(activeTabIndex);
+        }
+    }
     _onRouteChange({ controller, method }) {
         let paths = this.options.tabsForRoutes;
 
@@ -127,4 +141,5 @@ export class NavigationTabBar extends View {
             this.router.go(controller, method, params);
         }
     }
+
 }
