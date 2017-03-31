@@ -31,6 +31,10 @@ export class LoginAwareRouter extends ArvaRouter {
         return this._user;
     }
 
+    getUID(){
+        return this.getUser().uid;
+    }
+
     async _executeRoute(rule, route) {
         await this.isReady;
 
