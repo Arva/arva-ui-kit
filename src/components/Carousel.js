@@ -62,17 +62,20 @@ const defaultAnimationOptions = {
 const createThemeOptions = function(options) {
     let iconOrImage = !!options.icon || !!options.image;
 
+    let backgroundColor = '#000',
+        indicatorColor = '#fff';
+
     if (options.variation === 'dark') {
         return {
             backgroundProperties: {
-                backgroundColor: "black"
+                backgroundColor
             },
             navIconProperties: {
-                backgroundColor: "black",
+                backgroundColor
             },
             indicatorDefaultProperties: {
-                backgroundColor: iconOrImage ? 'black' : 'white',
-                borderColor: iconOrImage ? 'black' : 'white',
+                backgroundColor: iconOrImage ? backgroundColor : indicatorColor,
+                borderColor: iconOrImage ? backgroundColor : indicatorColor,
             },
             indicatorActiveProperties: {},
             indicatorInactiveProperties: {},
