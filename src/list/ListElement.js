@@ -82,7 +82,8 @@ export class ListElement extends Clickable {
      */
     constructor(options = {}) {
         super(combineOptions({
-            elementHeight: ListElementHeight
+            elementHeight: ListElementHeight,
+            enabled: true
         }, options));
 
         /*This removes the default dock padding from Button class.*/
