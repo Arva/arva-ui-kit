@@ -86,7 +86,7 @@ export class ModularDialog extends Dialog {
         return [undefined, undefined];
     }
 
-    maxSize = [800, 800];
+    maxSize = [720, 720];
 
     static _setOptions({rightButton, leftButton, title, variation, shadowType}) {
         let components = [];
