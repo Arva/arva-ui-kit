@@ -199,7 +199,7 @@ export class PageCarousel extends View {
     @layout.stick.center()
     @layout.size(undefined, 48)
     @layout.translate(-buttonSize/2, 0, 21)
-    pages = new Cycle(this.options.layout);
+    pageIndicators = new Cycle(this.options.layout);
 
     @layout.dock.left(48)
     @layout.size(buttonSize, buttonSize)
@@ -274,10 +274,10 @@ export class PageCarousel extends View {
 
         if (this.options.overflowToCounter && itemsAreOverflowing){
             let counterObj = this._createCounter();
-            this.pages.setRenderables([counterObj]);
+            this.pageIndicators.setRenderables([counterObj]);
         } else if (!this.options.overflowToCounter || !itemsAreOverflowing) {
             let items = new Array(numberItems).fill(0).map( (val, key) => this._createPage(key, this.options) );
-            this.pages.setRenderables(items);
+            this.pageIndicators.setRenderables(items);
         }
 
         this.nextPage.on('click', (e) => {
@@ -340,17 +340,17 @@ export class PageCarousel extends View {
     }
 
     _setCounter(index){
-        this.pages.counter.setCurrentNumber(index+1)
+        this.pageIndicators.counter.setCurrentNumber(index+1)
     }
 
     _changeActiveIndicatorToInactive(){
-        this.pages[`p${this._activeIndex}`].setOptions({properties: {...this._properties, ...this._inactiveProperties}});
-        this.pages.setRenderableFlowState(`p${this._activeIndex}`, 'inactive');
+        this.pageIndicators[`p${this._activeIndex}`].setOptions({properties: {...this._properties, ...this._inactiveProperties}});
+        this.pageIndicators.setRenderableFlowState(`p${this._activeIndex}`, 'inactive');
     }
 
     _changeInactiveIndicatorToActive(){
-        this.pages[`p${this._activeIndex}`].setOptions({properties: {...this._properties, ...this._activeProperties}});
-        this.pages.setRenderableFlowState(`p${this._activeIndex}`, 'active');
+        this.pageIndicators[`p${this._activeIndex}`].setOptions({properties: {...this._properties, ...this._activeProperties}});
+        this.pageIndicators.setRenderableFlowState(`p${this._activeIndex}`, 'active');
     }
 
     _doItemsOverflow(){
