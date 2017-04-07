@@ -29,10 +29,12 @@ export class NavigationDrawer extends View {
     @layout.translate(0, 0, 1500)
     @layout.animate({
         showInitially: true,
-        show: {animation: AnimationController.Animation.Slide.Down},
-        hide: {animation: AnimationController.Animation.Slide.Up}
+        show: { animation: AnimationController.Animation.Slide.Down },
+        hide: { animation: AnimationController.Animation.Slide.Up }
     })
-    @layout.dock.top( function () { return this.options.topBarHeight })
+    @layout.dock.top(function () {
+        return this.options.topBarHeight
+    })
     topBar = this._createTopBar();
 
 
@@ -78,10 +80,11 @@ export class NavigationDrawer extends View {
                 backgroundColor: globalBackgroundColor || undefined,
                 menuItems: [],
                 menuItem: globalBackgroundColor
-                    ? {backgroundProperties: {backgroundColor: globalBackgroundColor}}
+                    ? { backgroundProperties: { backgroundColor: globalBackgroundColor } }
                     : {}
             },
             closeOnRouteChange: true,
+            displayTabOnController: true,
             topBarHeight: Dimensions.topBarHeight,
             showTopMenu: true,
             showInitial: true,
@@ -89,7 +92,7 @@ export class NavigationDrawer extends View {
             enabled: true,
             topMenuClass: TopMenu,
             topMenuOptions: globalBackgroundColor
-                ? {backgroundProperties: {backgroundColor: globalBackgroundColor}}
+                ? { backgroundProperties: { backgroundColor: globalBackgroundColor } }
                 : {},
             sideMenuClass: DraggableSideMenu
         }, options));
@@ -99,7 +102,9 @@ export class NavigationDrawer extends View {
 
         /* Hijack Famous Context's add() method */
         famousContext.add(this);
-        if (!famousContext.addToRoot) {famousContext.addToRoot = famousContext.add.bind(famousContext);}
+        if (!famousContext.addToRoot) {
+            famousContext.addToRoot = famousContext.add.bind(famousContext);
+        }
         famousContext.add = this.addToContent;
         this._initSideMenuTopBarConnection();
         this.idCounter = 0;
@@ -108,7 +113,7 @@ export class NavigationDrawer extends View {
         /* Set the options */
         let initSideMenu = (options) => this.sideMenu.initWithOptions(options);
         let sideMenuOptions = this.options.sideMenu;
-        if(sideMenuOptions instanceof Promise){
+        if (sideMenuOptions instanceof Promise) {
             sideMenuOptions.then(initSideMenu);
         } else {
             initSideMenu(sideMenuOptions);
@@ -126,7 +131,7 @@ export class NavigationDrawer extends View {
     onRouteChange(route) {
         /* Hide the menu on specific route changes */
         if (this.options.showTopMenu && this.options.hideOnRoutes) {
-            if (find(this.options.hideOnRoutes, (hideRoute)=> {
+            if (find(this.options.hideOnRoutes, (hideRoute) => {
                     return hideRoute.controller === route.controller && (!hideRoute.methods || hideRoute.methods.length === 0 || ~hideRoute.methods.indexOf(route.method) );
                 }) !== undefined) {
                 this.hideTopBar();
@@ -136,12 +141,19 @@ export class NavigationDrawer extends View {
         }
 
         /* Change the menu on route changes */
-        let currentMenuIndex = findIndex(this.options.sideMenu.menuItems, (menuItem)=> {
+        let currentMenuIndex = findIndex(this.options.sideMenu.menuItems, (menuItem) => {
             return menuItem.controller && menuItem.controller === route.controller && menuItem.method && menuItem.method === route.method &&
-                ((menuItem.arguments && route.values.length) ? every(menuItem.arguments, (entry)=> {
-                    return ~route.values.indexOf(entry)
-                }) : true)
+                ((menuItem.arguments && route.values.length) ? every(menuItem.arguments, (entry) => {
+                        return ~route.values.indexOf(entry)
+                    }) : true)
         });
+
+        /* If no route is found, try to find a index for the controller only */
+        if((currentMenuIndex === undefined || currentMenuIndex === -1) && this.options.displayTabOnController){
+            currentMenuIndex = findIndex(this.options.sideMenu.menuItems, (menuItem) => {
+                return menuItem.controller && menuItem.controller === route.controller;
+            });
+        }
 
         if (currentMenuIndex !== undefined && ~currentMenuIndex) {
             if (this.topBar.setTitle) this.topBar.setTitle(this.options.sideMenu.menuItems[currentMenuIndex].text);
@@ -249,7 +261,7 @@ export class NavigationDrawer extends View {
         this.topBar.setTitle(newTitle);
     }
 
-    setTopRightButton(button){
+    setTopRightButton(button) {
         this.topBar.setRightButton(button);
     }
 
@@ -270,13 +282,13 @@ export class NavigationDrawer extends View {
     _createTopBar() {
         let topBar;
         if (!this.options.showTopMenu) {
-            return new Surface({properties: {backgroundColor: 'transparent'}});
+            return new Surface({ properties: { backgroundColor: 'transparent' } });
         }
         topBar = new this.options.topMenuClass(this.options.topMenuOptions, this.options.topBarHeight);
 
         /* Listen for sidemenu updates (drag events), so the Topbar can respond accordingly */
-        this.sideMenu.on('sideMenuUpdate', ()=>{
-           topBar.sideMenuUpdate && topBar.sideMenuUpdate();
+        this.sideMenu.on('sideMenuUpdate', () => {
+            topBar.sideMenuUpdate && topBar.sideMenuUpdate();
         });
 
         return topBar;
@@ -299,7 +311,7 @@ export class NavigationDrawer extends View {
         } else {
             removeTopBarFromFlow();
         }
-        this.renderables.topBar.hide(animation ? this.renderables.topBar.options.hide : {transition: {duration: 0}}, callback);
+        this.renderables.topBar.hide(animation ? this.renderables.topBar.options.hide : { transition: { duration: 0 } }, callback);
     }
 
     /**
@@ -310,7 +322,7 @@ export class NavigationDrawer extends View {
     _revealTopBar(animation = true) {
         this.immediateAnimations = [];
         this.topBar.decorations.dock.size[1] = this.options.topBarHeight;
-        this.renderables.topBar.show(this.topBar, animation ? undefined : {transition: {duration: 0}});
+        this.renderables.topBar.show(this.topBar, animation ? undefined : { transition: { duration: 0 } });
         this.layout.reflowLayout();
     }
 
@@ -321,11 +333,11 @@ export class NavigationDrawer extends View {
     _initSideMenuTopBarConnection() {
         this.infoState = false;
 
-        this.topBar.on('requestMenuOpen', ()=> {
+        this.topBar.on('requestMenuOpen', () => {
             this._handleOpenClose();
         });
 
-        this.topBar.on('titleClick', ()=> {
+        this.topBar.on('titleClick', () => {
             this._handleOpenClose();
         });
 
@@ -337,12 +349,12 @@ export class NavigationDrawer extends View {
      * @private
      */
     _initSideMenuListeners() {
-        this.sideMenu.on('close', ()=> {
+        this.sideMenu.on('close', () => {
             this._eventOutput.emit('sideMenuClose');
             if (this.topBar.close) this.topBar.close();
         });
 
-        this.sideMenu.on('open', ()=> {
+        this.sideMenu.on('open', () => {
             this._eventOutput.emit('sideMenuOpen');
             this.showTopBar();
             if (this.topBar.open) this.topBar.open();
@@ -395,6 +407,7 @@ export class NavigationDrawer extends View {
         if (this.topBar.topMenuView) this.topBar.topMenuView.close();
         this.sideMenu.close()
     }
+
     /**
      * Handle open or closing the top menu upon clicking the title
      * @private

@@ -64,6 +64,7 @@ export class ModularDialog extends Dialog {
     }
 
     setContent(content) {
+        this.content = content;
         if(content == undefined){
             console.warn('Content set to undefined in ModularDialog.setContent()!');
             return;
@@ -75,15 +76,17 @@ export class ModularDialog extends Dialog {
         } else{
             this.addRenderable(content, 'mainContent', layout.dock.fill(), layout.animate());
         }
+    }
 
-
+    getContent(){
+        return this.content;
     }
 
     getSize(){
         return [undefined, undefined];
     }
 
-    maxSize = [800, 800];
+    maxSize = [720, 720];
 
     static _setOptions({rightButton, leftButton, title, variation, shadowType}) {
         let components = [];

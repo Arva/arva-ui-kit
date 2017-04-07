@@ -118,10 +118,6 @@ export class OverlayingButtons extends View {
         this.currentButtons = null;
     }
 
-    addToContent(renderable) {
-        this.addRenderable(renderable, `renderable${this.idCounter++}`, layout.dock.fill());
-    }
-
     _replaceButton(position, newButtonIndex) {
         this.replaceRenderable(`button${position}`, this.options.buttons[newButtonIndex].button);
         this.decorateRenderable(`button${position}`, ...this._getButtonDecorators(position));
@@ -147,10 +143,6 @@ export class OverlayingButtons extends View {
                 layout.translate(-24, -0, 8000),
                 ...commonLayout
             ];
-    }
-
-    _addAnimation(index) {
-        return this
     }
 
     _onRouteChange({controller, method}) {
