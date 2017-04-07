@@ -15,6 +15,23 @@ export class Cycle extends View {
 
     /**
      *
+     * @param options
+     * @param {Number} spacing - spacing between the cycle elements
+     * @param {Number} height - height of the elements
+     * @param {Number} width - width of the elements
+     * @param {Array} direction - [x, y, x] direction to order the element in
+     */
+    constructor(options) {
+        super(combineOptions({
+            spacing:8,
+            height:64,
+            width:64,
+            direction:[-1, 0, 0]
+        }, options))
+    }
+
+    /**
+     *
      * @param {Object[]} renderables - Array of renderables to place within the component
      * @param {Function} renderables[].renderable
      * @param {String} renderables[].renderableName
@@ -41,13 +58,12 @@ export class Cycle extends View {
         }
     }
 
-    constructor(options) {
-        super(combineOptions({
-            spacing:8,
-            height:64,
-            width:64,
-            direction:[-1, 0, 0]
-        }, options))
-
+    /**
+     * Clear all the current renderables in the cycles
+     */
+    clearRenderables(){
+        Object.entries(this.renderables).forEach( ([key, renderable]) => {
+            this.removeRenderable(key)
+        })
     }
 }

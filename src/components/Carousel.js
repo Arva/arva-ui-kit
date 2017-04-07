@@ -23,6 +23,7 @@ import {LoadingPlaceholderImage}    from 'arva-kit/placeholders/LoadingPlacehold
 import {Cycle}                      from './Cycle';
 import {Counter}                    from './Counter.js'
 
+const buttonSize = 48;
 
 const timingFunctionsMap = {
     inQuad:     "cubic-bezier(0.550,  0.085, 0.680, 0.530)",
@@ -50,7 +51,6 @@ const timingFunctionsMap = {
     inOutCirc:  "cubic-bezier(0.785,  0.135, 0.150, 0.860)",
     inOutBack:  "cubic-bezier(0.680, -0.550, 0.265, 1.550)"
 };
-
 
 const defaultAnimationOptions = {
     transition: {
@@ -252,36 +252,84 @@ export class PageCarousel extends View {
         this._properties = this.options.indicatorDefaultProperties;
         this._activeProperties = this.options.indicatorActiveProperties || [];
         this._inactiveProperties = this.options.indicatorInactiveProperties || [];
-        this._activeDecoratorObjects = this.options.decorators.active;
-        this._inactiveDecoratorObjects = this.options.decorators.inactive;
-        this._activeDecorators = this._createDecorators(this._activeDecoratorObjects);
-        this._inactiveDecorators = this._createDecorators(this._inactiveDecoratorObjects);
+        this._activeDecorators = this._createDecorators(this.options.decorators.active);
+        this._inactiveDecorators = this._createDecorators(this.options.decorators.inactive);
 
-        let transitionableProps = this._makeTransitionableProperties();
+        this._nextButtonEnabled = true;
+        this._prevButtonEnabled = true;
 
-        let timing = this.options.animationOptions.transition.duration;
-        let curve = this.options.animationOptions.transition.curve.name;
+        this._setCssTransitions();
+        this._createIndicatorsOrCounter();
 
-        let cssCurveName = timingFunctionsMap[curve];
+        this._addEventListeners()
+    }
 
-
-        this._properties.transition = transitionableProps.map( property => {
-            return `${property} ${timing/1000}s ${cssCurveName}`
-        }).join(', ');
-
-        let numberItems = this.options.numberOfPages;
-        let itemsAreOverflowing = this._doItemsOverflow();
-
-        if (this.options.overflowToCounter && itemsAreOverflowing){
-            let counterObj = this._createCounter();
-            this.pageIndicators.setRenderables([counterObj]);
-        } else if (!this.options.overflowToCounter || !itemsAreOverflowing) {
-            let items = new Array(numberItems).fill(0).map( (val, key) => this._createPage(key, this.options) );
-            this.pageIndicators.setRenderables(items);
+    /**
+     *
+     * @param {Number} The index to move the page indicators or counter to
+     */
+    setIndex(index) {
+        if (index > this.options.numberOfPages -1 || index < 0) return;
+        if (this._usesCounter){
+            this._setActiveIndex(index);
+            this._setCounter(index);
+        } else {
+            this._changeActiveIndicatorToInactive();
+            this._setActiveIndex(index);
+            this._changeInactiveIndicatorToActive(index);
         }
+    }
 
+    /**
+     *
+     * @returns {*|number} The current Index
+     */
+    getIndex(){
+        return this._activeIndex;
+    }
+
+    enableNextButton(){
+        this._nextButtonEnabled = true;
+        this.nextPage._setEnabled(true)
+    }
+
+    disableNextButton(){
+        this._nextButtonEnabled = false;
+        this.nextPage._setEnabled(false)
+    }
+
+    enablePrevButton(){
+        this._prevButtonEnabled = true;
+        this.prevPage._setEnabled = true;
+    }
+
+    disablePrevButton(){
+        this._prevButtonEnabled = false;
+        this.prevPage._setEnabled = false;
+    }
+
+    /**
+     * @param {Number} Set the number of page indicators / counter after initial creation
+      */
+    resetPageIndicators(number){
+        this._setNumberOfPages(number);
+        this.pageIndicators.clearRenderables();
+        this._createIndicatorsOrCounter();
+        this._setActiveIndex(0);
+    }
+
+    _setNumberOfPages(number){
+        this.options.numberOfPages = number;
+    }
+
+    _setActiveIndex(index){
+        this._activeIndex = index;
+    }
+
+    _addEventListeners(){
         this.nextPage.on('click', (e) => {
-            if (this._activeIndex  === numberItems-1) return;
+            if (!this._nextButtonEnabled) return;
+            if (this._activeIndex  === this.options.numberOfPages-1) return;
 
             this._eventOutput.emit('nextPage', {e:e, activeIndex: this._activeIndex});
             this.setIndex(this._activeIndex + 1)
@@ -299,34 +347,30 @@ export class PageCarousel extends View {
         })
     }
 
+    _setCssTransitions(){
+        let transitionableProps = this._makeTransitionableProperties();
 
-    /**
-     * sets the carousel to an index
-     * @param {Number} index
-     */
+        let timing = this.options.animationOptions.transition.duration;
+        let curve = this.options.animationOptions.transition.curve.name;
 
-    setIndex(index) {
-        if (index > this.options.numberOfPages -1 || index < 0) return;
-        if (this._usesCounter){
-            this._setActiveIndex(index);
-            this._setCounter(index);
-        } else {
-            this._changeActiveIndicatorToInactive();
-            this._setActiveIndex(index);
-            this._changeInactiveIndicatorToActive();
+        let cssCurveName = timingFunctionsMap[curve];
+
+        this._properties.transition = transitionableProps.map( property => {
+            return `${property} ${timing/1000}s ${cssCurveName}`
+        }).join(', ');
+    }
+
+    _createIndicatorsOrCounter(){
+        let numberItems = this.options.numberOfPages;
+        let itemsAreOverflowing = this._doItemsOverflow();
+
+        if (this.options.overflowToCounter && itemsAreOverflowing){
+            let counterObj = this._createCounter();
+            this.pageIndicators.setRenderables([counterObj]);
+        } else if (!this.options.overflowToCounter || !itemsAreOverflowing) {
+            let items = new Array(numberItems).fill(0).map( (val, key) => this._createPageIndicator(key, this.options) );
+            this.pageIndicators.setRenderables(items);
         }
-    }
-
-    /**
-     * Return the current index of the carousel
-     */
-
-    getIndex(){
-        return this._activeIndex;
-    }
-
-    _setActiveIndex(index){
-        this._activeIndex = index;
     }
 
     _createCounter(){
@@ -343,12 +387,12 @@ export class PageCarousel extends View {
         this.pageIndicators.counter.setCurrentNumber(index+1)
     }
 
-    _changeActiveIndicatorToInactive(){
+    _changeActiveIndicatorToInactive(index){
         this.pageIndicators[`p${this._activeIndex}`].setOptions({properties: {...this._properties, ...this._inactiveProperties}});
         this.pageIndicators.setRenderableFlowState(`p${this._activeIndex}`, 'inactive');
     }
 
-    _changeInactiveIndicatorToActive(){
+    _changeInactiveIndicatorToActive(index){
         this.pageIndicators[`p${this._activeIndex}`].setOptions({properties: {...this._properties, ...this._activeProperties}});
         this.pageIndicators.setRenderableFlowState(`p${this._activeIndex}`, 'active');
     }
@@ -356,7 +400,8 @@ export class PageCarousel extends View {
     _doItemsOverflow(){
         let width = this.options.numberOfPages * this.options.layout.width + (this.options.numberOfPages - 1) * this.options.layout.spacing;
         let size = this.getSize()[0] || window.innerWidth;
-        return (width + buttonSize * 3) > size;
+        let willOverflow = (width + buttonSize * 3) > size;
+        return willOverflow;
     }
 
     _makeTransitionableProperties(){
@@ -383,7 +428,7 @@ export class PageCarousel extends View {
         });
     }
 
-    _createPage(key) {
+    _createPageIndicator(key) {
         let { icon, image, animationOptions } = this.options;
         let renderableType,
             otherOptions = {},

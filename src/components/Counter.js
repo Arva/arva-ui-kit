@@ -14,7 +14,7 @@ export class Counter extends View {
     @layout.size(true, true)
     @layout.translate(-20, 0, 1000)
     currentNumber = new UITitle({
-        content: this.options.currentNumber,
+        content: this.options.currentNumber || 0,
         properties: {
             color: Colors.PrimaryUIColor
         }
@@ -39,6 +39,13 @@ export class Counter extends View {
             color: Colors.PrimaryUIColor
         }
     });
+
+    /**
+     *
+     * @param options
+     * @param {Number} options.currentNumber - the number to set the counter to
+     * @param {Number} options.totalNumber - the number to set the counter total to
+     */
 
     constructor(options={}){
         super(options)
