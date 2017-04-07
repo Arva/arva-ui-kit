@@ -26,17 +26,17 @@ export class Cycle extends View {
         let center = ((count+1)/2) - 1;
 
         for (let i = 0; i < count; i++) {
-            let r = renderables[i];
+            let renderable = renderables[i];
 
-            if (!r.decorators) r.decorators = [];
+            if (!renderable.decorators) renderable.decorators = [];
 
-            let d = (center-i)*(this.options.width + this.options.spacing);
-            this.addRenderable(r.renderable,
-                r.renderableName,
+            let offset = (center-i)*(this.options.width + this.options.spacing);
+            this.addRenderable(renderable.renderable,
+                renderable.renderableName,
                 layout.stick.center(),
                 layout.size(this.options.width, this.options.height),
-                layout.translate(d*this.options.direction[0],d*this.options.direction[1],d*this.options.direction[2]),
-                ...r.decorators
+                layout.translate(offset*this.options.direction[0],offset*this.options.direction[1],offset*this.options.direction[2]),
+                ...renderable.decorators
             )
         }
     }
