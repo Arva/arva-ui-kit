@@ -87,6 +87,7 @@ export class NavigationDrawer extends View {
             displayTabOnController: true,
             topBarHeight: Dimensions.topBarHeight,
             showTopMenu: true,
+            showSideMenu: true,
             showInitial: true,
             hideOnRoutes: [],
             enabled: true,
@@ -149,7 +150,7 @@ export class NavigationDrawer extends View {
         });
 
         /* If no route is found, try to find a index for the controller only */
-        if((currentMenuIndex === undefined || currentMenuIndex === -1) && this.options.displayTabOnController){
+        if ((currentMenuIndex === undefined || currentMenuIndex === -1) && this.options.displayTabOnController) {
             currentMenuIndex = findIndex(this.options.sideMenu.menuItems, (menuItem) => {
                 return menuItem.controller && menuItem.controller === route.controller;
             });
@@ -253,7 +254,9 @@ export class NavigationDrawer extends View {
      * Open the top menu and side menu
      */
     openMenu() {
-        this.sideMenu.open();
+        if (this.options.showSideMenu) {
+            this.sideMenu.open();
+        }
     }
 
 
