@@ -53,7 +53,7 @@ export class ImageHelper {
                     resolve(xhr.response);
                 };
                 xhr.open('GET', url);
-                xhr.onerror(reject);
+                xhr.onerror = reject;
                 xhr.send();
             });
         } else {
