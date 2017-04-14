@@ -12,7 +12,7 @@ describe('TopMenu', () => {
     before(async function() {
         await mockArvaViewDependencies();
         imports = await loadDependencies({
-            TopMenu: './src/menus/navigationDrawer/navigationViews/TopMenu.js',
+            TopMenu: './src/menus/navigationDrawer/topMenus/TopMenu.js',
         });
     });
 

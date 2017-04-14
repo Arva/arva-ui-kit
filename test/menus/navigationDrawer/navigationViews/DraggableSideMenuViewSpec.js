@@ -12,7 +12,7 @@ describe('DraggableSideMenuView', () => {
     before(async function() {
         await mockArvaViewDependencies();
         imports = await loadDependencies({
-            DraggableSideMenuView: './src/menus/navigationDrawer/navigationViews/DraggableSideMenuView.js',
+            DraggableSideMenuView: './src/menus/navigationDrawer/sideMenus/DraggableSideMenuView.js',
         });
     });
 

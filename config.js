@@ -38,12 +38,14 @@ System.config({
       "famous-flex": "github:bizboard/famous-flex@master",
       "fastclick": "npm:fastclick@1.0.6",
       "firebase": "github:firebase/firebase-bower@3.2.1",
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
       "lodash": "npm:lodash@4.14.0",
+      "lodash-decorators": "npm:lodash-decorators@3.0.2",
       "ordered-hashmap": "npm:ordered-hashmap@1.0.0",
-      "path": "github:jspm/nodelibs-path@0.1.0",
       "request-animation-frame-mock": "github:erykpiast/request-animation-frame-mock@0.1.8",
       "xml2js": "npm:xml2js@0.4.17"
+    },
+    "github:bizboard/famous-flex@master": {
+      "es6-map": "npm:es6-map@0.1.5"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
@@ -114,14 +116,55 @@ System.config({
     "npm:core-util-is@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
+    "npm:d@1.0.0": {
+      "es5-ext": "npm:es5-ext@0.10.15"
+    },
     "npm:degrees-radians@1.0.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
+    },
+    "npm:es5-ext@0.10.15": {
+      "es6-iterator": "npm:es6-iterator@2.0.1",
+      "es6-symbol": "npm:es6-symbol@3.1.1",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:es6-iterator@2.0.1": {
+      "d": "npm:d@1.0.0",
+      "es5-ext": "npm:es5-ext@0.10.15",
+      "es6-symbol": "npm:es6-symbol@3.1.1"
+    },
+    "npm:es6-map@0.1.5": {
+      "d": "npm:d@1.0.0",
+      "es5-ext": "npm:es5-ext@0.10.15",
+      "es6-iterator": "npm:es6-iterator@2.0.1",
+      "es6-set": "npm:es6-set@0.1.5",
+      "es6-symbol": "npm:es6-symbol@3.1.1",
+      "event-emitter": "npm:event-emitter@0.3.5"
+    },
+    "npm:es6-set@0.1.5": {
+      "d": "npm:d@1.0.0",
+      "es5-ext": "npm:es5-ext@0.10.15",
+      "es6-iterator": "npm:es6-iterator@2.0.1",
+      "es6-symbol": "npm:es6-symbol@3.1.1",
+      "event-emitter": "npm:event-emitter@0.3.5"
+    },
+    "npm:es6-symbol@3.1.1": {
+      "d": "npm:d@1.0.0",
+      "es5-ext": "npm:es5-ext@0.10.15"
+    },
+    "npm:event-emitter@0.3.5": {
+      "d": "npm:d@1.0.0",
+      "es5-ext": "npm:es5-ext@0.10.15",
+      "events": "github:jspm/nodelibs-events@0.1.1"
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:isarray@1.0.0": {
       "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
+    "npm:lodash-decorators@3.0.2": {
+      "lodash": "npm:lodash@4.14.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
@@ -168,7 +211,8 @@ System.config({
     },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",
-      "process": "github:jspm/nodelibs-process@0.1.2"
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:vm-browserify@0.0.4": {
       "indexof": "npm:indexof@0.0.1"
