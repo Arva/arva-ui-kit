@@ -77,34 +77,32 @@ export class Dropdown extends View {
         }, options));
 
 
-
         let { items, placeholder } = this.options;
         let selectedItemIndex = items.findIndex(({ selected }) => selected);
 
         if (this.options.fakeWithNative) {
             this.addRenderable(
                 new Surface({
-                    content: `
-            <select style ="
-                height: 48px;
-                overflow: hidden;
-                border: 1px solid rgba(0, 0, 0, 0.1);
-                background-color: white;
-                border-radius: 4px;
-                padding: 0 0 0 16px;
-                outline: none;
-                -webkit-appearance: none; /* Doesn't work for IE and firefox */
-                width: 100%;
-            ">
-    ${this.options.items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
-                }), 'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40));
-            if(selectedItemIndex === -1){
+                    content: this._generateNativeDropdownHtml()
+                }),
+                'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40)
+            )
+            ;
+            if (selectedItemIndex === -1) {
                 selectedItemIndex = 0;
             }
             this._selectedItem = this.options.items[selectedItemIndex];
             this.nativeSelect.on('change', (event) => {
                 this._selectedItemIndex = event.target.selectedIndex;
-                this._selectedItem = this.options.items[this._selectedItemIndex];
+                let {items} = this.options;
+                this._selectedItem = items[this._selectedItemIndex];
+                for(let item of items){
+                    if(item === this._selectedItem){
+                        item.selected = true;
+                    } else {
+                        item.selected = false;
+                    }
+                }
                 this._eventOutput.emit(this.options.eventName, this._selectedItem.data);
             });
             return this;
@@ -112,7 +110,6 @@ export class Dropdown extends View {
 
 
         this._totalHeight = items.length * 32;
-
 
 
         if (placeholder) {
@@ -172,6 +169,16 @@ export class Dropdown extends View {
         } else {
             return super.getSize();
         }
+    }
+
+    setItemText(index, text) {
+        if(this.options.fakeWithNative){
+            this.options.items[index].text = text;
+            this.nativeSelect.setContent(this._generateNativeDropdownHtml());
+        } else {
+            console.log(`Dropdown.setItemText: Not supported for non-native`);
+        }
+
     }
 
     setItemsFakeWithNative(items) {
@@ -333,4 +340,19 @@ export class Dropdown extends View {
             , 50];
     }
 
+    _generateNativeDropdownHtml() {
+        return `
+            <select style ="
+                height: 48px;
+                overflow: hidden;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                background-color: white;
+                border-radius: 4px;
+                padding: 0 0 0 16px;
+                outline: none;
+                -webkit-appearance: none; /* Doesn't work for IE and firefox */
+                width: 100%;
+            ">
+    ${this.options.items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
+    }
 }
