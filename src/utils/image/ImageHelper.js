@@ -13,7 +13,11 @@ export class ImageHelper {
      * @returns {Promise.<*>}
      */
     static async getBase64ImageFromUrl(url) {
-        return ImageHelper.getBase64FromBlob(await ImageHelper.getBlobFromUrl(url));
+        try {
+            return ImageHelper.getBase64FromBlob(await ImageHelper.getBlobFromUrl(url));
+        } catch(error) {
+            throw error;
+        }
     }
 
     /**
@@ -44,11 +48,12 @@ export class ImageHelper {
         if (url) {
             const xhr = new XMLHttpRequest();
             xhr.responseType = 'blob';
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 xhr.onload = () => {
                     resolve(xhr.response);
                 };
                 xhr.open('GET', url);
+                xhr.onerror = reject;
                 xhr.send();
             });
         } else {

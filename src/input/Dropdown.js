@@ -3,7 +3,7 @@
  */
 
 import {View}                       from 'arva-js/core/View.js';
-import {flow, layout, event}        from 'arva-js/layout/decorators.js';
+import {flow, layout, event}        from 'arva-js/layout/Decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 import Surface                      from 'famous/core/Surface.js';

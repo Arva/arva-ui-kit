@@ -10,7 +10,7 @@ import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {
     UISmallGray,
     UIRegular
-}                               from 'arva-kit/defaults/DefaultTypeFaces.js';
+}                               from 'arva-kit/defaults/DefaultTypefaces.js';
 
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 import {MultiLineInput}         from './MultiLineInput.js';

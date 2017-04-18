@@ -12,7 +12,7 @@ describe('MenuItem', () => {
     before(async function() {
         await mockArvaViewDependencies();
         imports = await loadDependencies({
-            MenuItem: './src/menus/navigationDrawer/navigationViews/MenuItem.js',
+            MenuItem: './src/menus/navigationDrawer/topMenus/MenuItem.js',
         });
     });
 

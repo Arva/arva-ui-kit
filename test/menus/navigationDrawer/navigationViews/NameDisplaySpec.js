@@ -12,7 +12,7 @@ describe('NameDisplay', () => {
     before(async function() {
         await mockArvaViewDependencies();
         imports = await loadDependencies({
-            NameDisplay: './src/menus/navigationDrawer/navigationViews/NameDisplay.js',
+            NameDisplay: './src/menus/navigationDrawer/topMenus/NameDisplay.js',
         });
     });
 

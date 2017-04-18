@@ -12,7 +12,7 @@ import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {
     UISmallGray,
     UIRegular
-}                               from 'arva-kit/defaults/DefaultTypeFaces.js';
+}                               from 'arva-kit/defaults/DefaultTypefaces.js';
 
 import {ResultsView}            from './searchField/ResultsView.js';
 import {Placeholder}            from './searchField/Placeholder.js';
