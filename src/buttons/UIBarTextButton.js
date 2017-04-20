@@ -12,12 +12,12 @@ export class UIBarTextButton extends TextButton {
 
     static getColor(variation = 'white') {
         switch (variation) {
-            default:
-                console.log('Invalid variation selected. Falling back to default settings (white).');
             case 'white':
                 return Colors.PrimaryUIColor;
             case 'colored':
                 return 'rgb(255, 255, 255)';
+            default:
+                console.log('Invalid variation selected. Falling back to default settings (white).');
         }
     }
 
@@ -25,13 +25,11 @@ export class UIBarTextButton extends TextButton {
         super(combineOptions(
             { properties: options.variation === 'light' ? TypeFaces.UIButtonPrimaryLight : TypeFaces.UIButtonPrimary },
             combineOptions({
-                disabledColor: Colors.Gray,
-                backgroundProperties: {
-                    backgroundColor: 'none'
-                },
-                useBoxShadow: false,
-                makeRipple: false
-            }, options)));
+            disabledColor: Colors.Gray,
+            useBackground: false,
+            useBoxShadow: false,
+            makeRipple: false
+        }, options)));
     }
 
     setVariation(variation) {
