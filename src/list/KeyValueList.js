@@ -81,7 +81,7 @@ export class KeyValueList extends View {
                     keyColumnWidth: this.options.keyColumnWidth,
                     valueColumnWidth: this.options.valueColumnWidth
                 }), `element ${i}`,
-                layout.dock.top(~20, this.options.spacing)
+                layout.dock.top(~20, this.options.spacing), this.options.layout.stick()
             );
         }
     }
