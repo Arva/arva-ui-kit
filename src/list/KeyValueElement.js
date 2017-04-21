@@ -9,8 +9,9 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 export class KeyValueElement extends View {
 
-    @layout.dock.left()
-    @layout.stick.center()
+    @layout.dock.left(function () {
+        return this.options.keyColumnWidth
+    })
     @layout.size(function () {
         return this.options.keyColumnWidth
     }, ~14)
@@ -19,8 +20,9 @@ export class KeyValueElement extends View {
         properties: this.options.properties.key || {}
     });
 
-    @layout.dock.left()
-    @layout.stick.left()
+    @layout.dock.left(function () {
+        return this.options.valueColumnWidth
+    })
     @layout.size(function () {
         return this.options.valueColumnWidth
     }, ~14)
@@ -31,7 +33,16 @@ export class KeyValueElement extends View {
 
     constructor(options = {}) {
         super(combineOptions({
-            properties: {}
+            properties: {
+                key: {
+                    overflowX:'hidden',
+                    width:'100%'
+                },
+                value: {
+                    overflowX:'hidden',
+                    width:'100%'
+                }
+            }
         }, options));
     }
 

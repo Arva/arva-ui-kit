@@ -48,7 +48,10 @@ export class KeyValueList extends View {
             },
             spacing: 16,
             keyColumnWidth: 100,
-            valueColumnWidth: ~100
+            valueColumnWidth: ~100,
+            layout:{
+                stick:layout.stick.left
+            }
         }, options));
 
         let list = this.options.list;
@@ -62,7 +65,7 @@ export class KeyValueList extends View {
                     keyColumnWidth: this.options.keyColumnWidth,
                     valueColumnWidth: this.options.valueColumnWidth
                 }), `element ${i}`,
-                layout.dock.top(~20, this.options.spacing)
+                layout.dock.top(~20, this.options.spacing), this.options.layout.stick()
             );
         }
     }
@@ -101,5 +104,4 @@ export class KeyValueList extends View {
             element.setValue(value);
         }
     }
-
 }
