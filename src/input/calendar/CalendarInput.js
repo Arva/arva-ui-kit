@@ -56,15 +56,17 @@ export class CalendarInput extends View {
 
         this.renderables.calendarInputField = new InputSurface(
             _.extend(this.options,{type: 'text',
-                borderRadius: '4px',
-                border: 'inset 1px solid rgba(0, 0, 0, 0.1)',
+                properties: {
+                    border: '1px solid rgba(0, 0, 0, 0.1)',
+                    borderRadius: '4px'
+                },
                 placeholder: this.options.dateFormat.toLowerCase(),
                 //Prevent inputfield from centering placeholder because it looks ugly with this type of field
                 classes: ['leftAlignedPlaceholder']
             }));
 
 
-        this.renderables.calendarInputField.on('fieldChange', this._onFieldChange);
+        this.renderables.calendarInputField.on('valueChange', this._onFieldChange);
 
 
         this.renderables.extensionArrow = new BkImageSurface({
