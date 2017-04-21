@@ -28,7 +28,7 @@ export class Placeholder extends View {
     @layout.dockSpace(MARGIN)
     /* TODO: figure out what arva-js bug is causing this translation to be necessary. The MARGIN should be all we needed here. */
     @layout.translate(-5, 1, 0)
-    text = new UIRegular({content: this.options.content, properties: { cursor: 'text', color: 'rgb(170, 170, 170)' }});
+    text = new UIRegular({content: this.options.content, properties: { whiteSpace: 'nowrap', cursor: 'text', color: 'rgb(170, 170, 170)' }});
 
     constructor(options = {}) {
         super(combineOptions({

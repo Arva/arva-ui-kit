@@ -137,6 +137,8 @@ export class MultiLineInput extends View {
             if (this.options.isFormField) {
                 this._setBorderBottomColor(currentValue);
             }
+
+            this._eventOutput.emit('valueChange', currentValue);
         }
     }
 
