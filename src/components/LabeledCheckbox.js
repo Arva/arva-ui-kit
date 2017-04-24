@@ -2,23 +2,24 @@
  * Created by tom on 08/02/2017.
  */
 
-import {View}               from 'arva-js/core/View.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
+import {View}                                   from 'arva-js/core/View.js';
+import {layout}                                 from 'arva-js/layout/Decorators.js';
+import {combineOptions}                         from 'arva-js/utils/CombineOptions.js';
+import {Checkbox}                               from './Checkbox.js';
+import {UIRegular}                              from '../text/UIRegular.js';
+import {UISmallGray}                            from '../text/UISmallGray.js';
+import {ComponentHeight, ComponentPadding}      from '../defaults/DefaultDimensions.js';
 
-import {Checkbox}           from './Checkbox.js';
-import {UIRegular}          from '../text/UIRegular.js';
-import {UISmallGray}        from '../text/UISmallGray.js';
-import {ComponentHeight}    from '../defaults/DefaultDimensions.js';
+const ComponentSpacing = 20;
 
 export class LabeledCheckbox extends View {
 
-    @layout.dock.left(ComponentHeight, 0, 20)
+    @layout.dock.left(ComponentHeight, 0, ComponentSpacing)
     checkbox = new Checkbox(this.options.checkbox);
 
-    @layout.stick.left()
-    @layout.size(~100, ~36)
-    @layout.dock.left(~100, 16, 20)
+    @layout.stick.center()
+    @layout.size((width) => (width - (ComponentHeight + ComponentSpacing + ComponentPadding)), ~8)
+    @layout.translate((ComponentHeight - ComponentPadding), 0, 20)
     labels = new Labels(this.options);
 
     constructor(options = {}) {
@@ -30,9 +31,13 @@ export class LabeledCheckbox extends View {
             },
             label: {
                 properties: {
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    width:'100%',
+                    overflowX: 'hidden',
+                    textOverflow:'ellipsis'
                 }
-            }
+            },
+            center: false
         }, options));
     }
 
@@ -43,21 +48,30 @@ export class LabeledCheckbox extends View {
     isChecked() {
         return this.checkbox.isChecked();
     }
+
+    unCheck() {
+        this.checkbox.unCheck()
+
+    }
+
+    check() {
+        this.checkbox.check()
+    }
 }
 
 class Labels extends View {
 
-    @layout.dock.top(~20)
+    @layout.dock.top(~1)
     label = new UIRegular(this.options.label);
 
-    @layout.dock.top(~14, 2)
+    @layout.dock.top(~1, 2)
     subLabel = this.options.subLabel ? new UISmallGray(this.options.subLabel) : undefined;
 
     constructor(options) {
         super(options);
 
-        if(!this.options.subLabel) {
-            this.decorateRenderable('label', layout.stick.left(), layout.dock.top(ComponentHeight))
+        if (!this.options.subLabel && !this.options.center) {
+            this.decorateRenderable('label', layout.stick.left(), layout.dock.top(ComponentHeight));
         }
     }
 
