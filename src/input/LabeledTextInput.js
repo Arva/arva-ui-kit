@@ -68,5 +68,9 @@ export class LabeledTextInput extends View {
         this.setValue('');
         this.input.setRequiredState();
     }
+
+    isStateCorrect() {
+        return this.input.isStateCorrect();
+    }
     
 }    
