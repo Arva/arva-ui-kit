@@ -201,6 +201,11 @@ export class SearchField extends View {
         this.placeholder.showText();
     }
 
+    disable() {
+        this._onDeactivate();
+        this.input.enable(false);
+    }
+
     /* Allow receiving focus e.g. through the keyboard, or programmatically (i.e. element.focus()). */
     async _onFocusEvent(event, type) {
         await type === 'focus' ? this._onActivate(event) : setTimeout(() => this._onDeactivate(event), 1);
