@@ -63,5 +63,14 @@ export class LabeledTextInput extends View {
             this.input.disable();
         }
     }
+
+    clearInput() {
+        this.setValue('');
+        this.input.setRequiredState();
+    }
+
+    isStateCorrect() {
+        return this.input.isStateCorrect();
+    }
     
 }    

@@ -230,12 +230,13 @@ export class SearchField extends View {
 
     disable() {
         this._enabled = false;
-        this.input.setAttributes({disabled: true});
+        this._onDeactivate();
+        this.input.enable(false);
     }
 
     enable() {
         this._enabled = true;
-        this.input.removeAttributes(['disabled']);
+        this.input.enable(true);
     }
 
     setPlaceholder(placeholderText) {
