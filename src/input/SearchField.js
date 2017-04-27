@@ -20,7 +20,7 @@ import {SingleLineInputSurface} from './SingleLineInputSurface.js';
 import {UIBarTextButton}        from '../buttons/UIBarTextButton.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 
-let {searchField: {borderRadius}} = Dimensions;
+let { searchField: { borderRadius } } = Dimensions;
 const instant = { transition: { curve: Easing.outCubic, duration: 0 } };
 const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
 
@@ -87,13 +87,17 @@ const transition = { transition: { curve: Easing.outCubic, duration: 200 } };
  * @param {Boolean} [options.displayClearButton] Whether the SearchField should have a clear button in the right hand corner saying 'done'
  */
 @flow.viewStates({
-    'active': [{ border: 'hidden', results: 'shown'}],
+    'active': [{ border: 'hidden', results: 'shown' }],
     'inactive': [{ border: 'shown', results: 'hidden' }]
 })
 export class SearchField extends View {
 
+    _enabled = true;
+
     /* Translation of -1, -1 is to correct for the border being on the outside of the surface */
-    @event.on('click', function(e) { this._onActivate(e); })
+    @event.on('click', function (e) {
+        this._onActivate(e);
+    })
     @flow.stateStep('hidden', transition, layout.opacity(0))
     @flow.defaultState('shown', transition, layout.size(undefined, undefined), layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 210))
     border = new Surface({
@@ -128,30 +132,47 @@ export class SearchField extends View {
         resultOptions: this.options.resultOptions
     });
 
-    @event.on('click', function(e){ this._onDoneClick(e); })
+    @event.on('click', function (e) {
+        this._onDoneClick(e);
+    })
     @flow.stateStep('shown', instant, layout.size(~50, undefined), layout.translate(0, 0, 260))
-    @flow.stateStep('shown', transition,layout.opacity(1))
+    @flow.stateStep('shown', transition, layout.opacity(1))
     @flow.stateStep('hidden', transition, layout.opacity(0))
     @flow.defaultState('hidden', instant, layout.opacity(0), layout.dock.right(), layout.size(1, 1), layout.translate(0, 0, 220))
-    done = this.options.displayClearButton && new UIBarTextButton({ content: 'Done', properties: { cursor: 'pointer' }});
+    done = this.options.displayClearButton && new UIBarTextButton({
+            content: 'Done',
+            properties: { cursor: 'pointer' }
+        });
 
     @layout.dock.fill()
     @layout.translate(0, 0, 250)
-    @event.on('click', function(e) { this._onActivate(e); })
-    @event.on('focus', function(e) { this._onFocusEvent(e, 'focus'); })
-    @event.on('blur', function(e) { this._onFocusEvent(e, 'blur'); })
-    @event.on('value', function(value) { this._onInputValue(value); })
+    @event.on('click', function (e) {
+        this._onActivate(e);
+    })
+    @event.on('focus', function (e) {
+        this._onFocusEvent(e, 'focus');
+    })
+    @event.on('blur', function (e) {
+        this._onFocusEvent(e, 'blur');
+    })
+    @event.on('value', function (value) {
+        this._onInputValue(value);
+    })
     input = new SingleLineInputSurface(combineOptions(
         UIRegular,
-        { properties: {
-            backgroundColor: 'transparent',
-            borderRadius: borderRadius,
-            boxShadow: 'none',
-            padding: '0px 0px 0px 32px'
-        }, placeholder: '' , clearOnEnter: false}
+        {
+            properties: {
+                backgroundColor: 'transparent',
+                borderRadius: borderRadius,
+                boxShadow: 'none',
+                padding: '0px 0px 0px 32px'
+            }, placeholder: '', clearOnEnter: false
+        }
     ));
 
-    @event.on('click', function(e) { this._onActivate(e); })
+    @event.on('click', function (e) {
+        this._onActivate(e);
+    })
     @flow.stateStep('left', transition, layout.stick.left(), layout.translate(8, 0, 230))
     @flow.defaultState('center', transition, layout.size(~50, undefined), layout.stick.center(), layout.translate(0, 0, 230))
     placeholder = new Placeholder({
@@ -164,10 +185,11 @@ export class SearchField extends View {
             expandable: true,
             displayClearButton: true
         }, options));
-        this.results.on('child_click', ({dataObject}) => {
-            let {content} = dataObject;
-            if(content){
+        this.results.on('child_click', ({ dataObject }) => {
+            let { content } = dataObject;
+            if (content) {
                 this.input.setValue(content);
+                this.placeholder.hideText();
                 this._eventOutput.emit('itemChosen', dataObject);
             }
         });
@@ -180,6 +202,11 @@ export class SearchField extends View {
     showResults(results) {
         this.results.content.setDataStore(results);
     }
+
+    filterResults(filterFunction) {
+        this.results.content.reloadFilter(filterFunction);
+    }
+
     isExpanded() {
         return this.getViewFlowState() === 'active';
     }
@@ -201,20 +228,40 @@ export class SearchField extends View {
         this.placeholder.showText();
     }
 
+    disable() {
+        this._enabled = false;
+        this.input.setAttributes({disabled: true});
+    }
+
+    enable() {
+        this._enabled = true;
+        this.input.removeAttributes(['disabled']);
+    }
+
+    setPlaceholder(placeholderText) {
+        this.placeholder.setContent(placeholderText);
+    }
+
+
     /* Allow receiving focus e.g. through the keyboard, or programmatically (i.e. element.focus()). */
     async _onFocusEvent(event, type) {
         await type === 'focus' ? this._onActivate(event) : setTimeout(() => this._onDeactivate(event), 1);
     }
 
     async _onActivate() {
-        if(this.getViewFlowState() === 'active') { return false; }
+        if (!this._enabled) {
+            return;
+        }
+        if (this.getViewFlowState() === 'active') {
+            return false;
+        }
 
-        if(this.getRenderableFlowState('placeholder') !== 'left') {
+        if (this.getRenderableFlowState('placeholder') !== 'left') {
             this.setRenderableFlowState('placeholder', 'left');
         }
         await this.setViewFlowState('active');
 
-        if(this.input.getValue()) {
+        if (this.input.getValue()) {
             this._setExpanded(true);
         }
 
@@ -224,13 +271,13 @@ export class SearchField extends View {
         return true;
     }
 
-    async _onDeactivate () {
+    async _onDeactivate() {
         /* We have to wait here to avoid race conditions so that the this.Results.on('child_click') can be caught */
         await new Promise((resolve) => Timer.after(resolve, 2));
         this.setViewFlowState('inactive');
 
         /* Only move the placeholder back to the center if no text in input field */
-        if(this.input.getValue().length === 0) {
+        if (this.input.getValue().length === 0) {
             await this.setRenderableFlowState('placeholder', 'center');
         }
 
@@ -240,8 +287,11 @@ export class SearchField extends View {
         return true;
     }
 
-    async _onDoneClick (event) {
-        if(event.preventDefault) { event.preventDefault(); };
+    async _onDoneClick(event) {
+        if (event.preventDefault) {
+            event.preventDefault();
+        }
+        ;
         this.input.setValue('');
         this._onInputValue('');
         this._onDeactivate();
@@ -257,7 +307,7 @@ export class SearchField extends View {
     }
 
     _setExpanded(isExpanded) {
-        if(this.options.expandable){
+        if (this.options.expandable) {
             return this.setRenderableFlowState('results', isExpanded ? 'expanded' : 'collapsed');
         }
     }
