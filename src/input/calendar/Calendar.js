@@ -16,7 +16,7 @@ export class Calendar extends View {
     static get DEFAULT_OPTIONS() {
         return {
             headerHeight: 30,
-            backgroundColor: 'rgba(128, 128, 128, 0.9)',
+            backgroundColor: 'rgba(155, 155, 155, 0.95)',
             margins: [5,5,5,5],
             headerSpace: 5
         };
