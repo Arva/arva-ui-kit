@@ -6,7 +6,8 @@ import {KeyValueElement}            from 'arva-kit/list/KeyValueElement.js';
 import {View}                       from 'arva-js/core/View.js';
 import {layout}                     from 'arva-js/layout/Decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
-import {UISmallGray,UISmall}         from 'arva-kit/defaults/DefaultTypefaces.js';
+import {UISmallGray,UISmall}        from 'arva-kit/defaults/DefaultTypefaces.js';
+import {Colors}                     from '../defaults/DefaultColors.js';
 
 export class KeyValueList extends View {
 
@@ -43,8 +44,15 @@ export class KeyValueList extends View {
         super(combineOptions({
             list: [],
             textProperties: {
-                key: UISmallGray,
-                value: UISmall
+                key:{
+                    ...UISmallGray,
+                    color: Colors.Gray,
+                    fontWeight:600
+                },
+                value:{
+                    ...UISmall,
+                    fontWeight:600
+                }
             },
             spacing: 16,
             keyColumnWidth: 100,
