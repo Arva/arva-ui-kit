@@ -45,7 +45,7 @@ export class CalendarHeader extends View {
         let monthPicker = new DatePicker({
             formatString: "MMMM",
             datePickerComponent: FamousDatePicker.Component.Month,
-            itemProperties: {'text-align': 'left', lineHeight: '250px'},
+            itemProperties: {'text-align': 'left'},
             date: this.options.date
         });
 
