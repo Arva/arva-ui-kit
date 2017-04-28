@@ -127,7 +127,7 @@ export class Dropdown extends View {
                 this._getNameFromIndex(index),
                 layout.dock.top(48),
                 flow.defaultOptions({}),
-                event.on('click', this._selectItemWithIndex.bind(this, index)),
+                event.on('click', this.selectItemWithIndex.bind(this, index)),
                 layout.animate({
                     transition: fastTransition,
                     animation: AnimationController.Animation.Fade,
@@ -150,7 +150,7 @@ export class Dropdown extends View {
         this._containerView.getValue = this.getValue;
 
         if (selectedItemIndex > -1) {
-            this._selectItemWithIndex(selectedItemIndex, false);
+            this.selectItemWithIndex(selectedItemIndex, false);
         }
 
         this._selectedItemIndex = selectedItemIndex;
@@ -183,6 +183,10 @@ export class Dropdown extends View {
         } else {
             console.log(`Dropdown.setItemText: Not supported for non-native`);
         }
+    }
+
+    getItems() {
+        return this.options.items;
     }
 
     setPlaceholder(placeholder) {
@@ -276,7 +280,23 @@ export class Dropdown extends View {
         }
     }
 
-    async _selectItemWithIndex(index, emitEvent = true) {
+    selectItemWithData(dataToSelect, emitEvent = true) {
+        let indexToSelect = this.getItems().findIndex(
+            ({data: dataObject}) => dataObject === dataToSelect);
+        if(indexToSelect === -1){
+            console.log(`Dropdown could not select item with data ${dataToSelect} (not found)`);
+            return;
+        }
+        return this.selectItemWithIndex(indexToSelect, emitEvent);
+    }
+    async selectItemWithIndex(index, emitEvent = true) {
+        if(this.options.fakeWithNative){
+            this.options.items = this.options.items.map((item) => ({...item, selected: false}));
+            this.options.items[index].selected = true;
+            this.setItems(this.options.items);
+            emitEvent && this._eventOutput.emit(this.options.eventName, this._selectedItem.data);
+            return Promise.resolve();
+        }
         if (this.placeholder) {
             this.removeRenderable('placeholder');
             this._totalHeight -= 32;
