@@ -9,7 +9,7 @@ import {replaceEmojiAtEnd}          from './Emoji.js';
  * Emits 'valueChange' when input is changed
  */
 export class InputSurface extends FamousInputSurface {
-    constructor(options) {
+    constructor(options = {}) {
         let properties = {
             outline: 'none',
             borderBottom: 'none',

@@ -45,7 +45,7 @@ export class DatePicker extends View {
 
                     let item = new  ReadOnlyText({
                         content: data,
-                        properties: _.extend(this.options.itemProperties,{lineHeight: '200%', paddingTop:4})
+                        properties: _.extend(this.options.itemProperties,{lineHeight: '30px', paddingTop:4})
                     });
                     item.pipe(this._eventOutput);
                     return item;

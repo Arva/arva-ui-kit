@@ -72,6 +72,11 @@ export class SingleLineInputSurface extends InputSurface {
      * @param enabled
      */
     enable(enabled = true) {
+        if(enabled){
+            this.setAttributes({disabled: true});
+        } else {
+            this.removeAttributes(['disabled']);
+        }
         return enabled ? this._initListeners() : this._disableListeners();
     }
 

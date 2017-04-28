@@ -49,22 +49,25 @@ export class CalendarInput extends View {
         this._initCalendar();
 
 
-        if(this.options.value){
+        if (this.options.value) {
             this.date = this.options.value;
             this.options.value = this._formatDate(this.options.value);
         }
 
         this.renderables.calendarInputField = new InputSurface(
-            _.extend(this.options,{type: 'text',
-                borderRadius: '4px',
-                border: 'inset 1px solid rgba(0, 0, 0, 0.1)',
+            _.extend(this.options, {
+                type: 'text',
+                properties: {
+                    border: '1px solid rgba(0, 0, 0, 0.1)',
+                    borderRadius: '4px'
+                },
                 placeholder: this.options.dateFormat.toLowerCase(),
                 //Prevent inputfield from centering placeholder because it looks ugly with this type of field
                 classes: ['leftAlignedPlaceholder']
             }));
 
 
-        this.renderables.calendarInputField.on('fieldChange', this._onFieldChange);
+        this.renderables.calendarInputField.on('valueChange', this._onFieldChange);
 
 
         this.renderables.extensionArrow = new BkImageSurface({
@@ -77,7 +80,7 @@ export class CalendarInput extends View {
         });
 
         this.renderables.calendar = new AnimationController({
-            transition: {duration: 150, curve: 'easeInOut'},
+            transition: { duration: 150, curve: 'easeInOut' },
             animation: (show, size) => {
                 return {
                     transform: Transform.translate(0, show ? -0.1 * size[1] : 0.1 * size[1], 0),
@@ -92,7 +95,7 @@ export class CalendarInput extends View {
                 size: [this.options.calendarWidth, this.options.calendarHeight],
                 origin: [0, 0],
                 align: [0, 1],
-                transform: [0, 0, 10]
+                translate: [0, 0, 60]
 
             });
 
@@ -114,21 +117,21 @@ export class CalendarInput extends View {
         this._initMouseBehaviour();
 
 
-        this.calendar.on('datePicked', async function(date) {
+        this.calendar.on('datePicked', async function (date) {
             this.date = date;
             let dateText = this._formatDate(date);
             this.renderables.calendarInputField.setValue(dateText);
-            if(this.getValue() !== this._formatDate(date)){
+            if (this.getValue() !== this._formatDate(date)) {
                 await this.renderables.calendarInputField.once('deploy');
             }
-            this._eventOutput.emit('fieldChange', dateText);
+            this._eventOutput.emit('datePicked', date);
             setTimeout(() => this._setCalendarVisible(false), 150);
         }.bind(this));
     }
 
     _initCalendar() {
 
-        this.calendar = new Calendar({date: this.options.value});
+        this.calendar = new Calendar({ date: this.options.value });
 
         this.calendar.on('mousedown', () => {
             this.calendarMouseDown = true;
@@ -221,9 +224,9 @@ export class CalendarInput extends View {
                 this._showingCalendar = true;
                 this.renderables.calendarInputField.focus();
 
-                if(this.date){
+                if (this.date) {
                     this.calendar.chooseDate(this.date);
-                } else if (this.options.date){
+                } else if (this.options.date) {
                     this.calendar.setDate(this.options.date);
                 }
             });
@@ -239,28 +242,41 @@ export class CalendarInput extends View {
         return this.date ? this.date.getTime() : null;
     }
 
-    setDate(date){
+    setDate(date) {
         this.setValue(date);
     }
 
     _onFieldChange(value) {
         let parsedDate = new moment(value, this.options.dateFormat, true);
-        if(parsedDate.isValid()){
+        if (parsedDate.isValid()) {
             this.date = parsedDate.toDate();
-            if(this._showingCalendar){
+            if (this._showingCalendar) {
                 this.calendar.chooseDate(this.date);
             }
         } else {
+            this._eventOutput.emit('valueChange', value);
             this.date = null;
         }
     }
 
     setValue(value = null) {
-        this.renderables.calendarInputField.setValue(this._formatDate(value));
-        this.date = new Date(value);
+        this.renderables.calendarInputField.setValue(value);
+        let parsedDate = new moment(value, this.options.dateFormat, true);
+        this.date = parsedDate.isValid() ? new Date(value) : null;
     }
 
-    _formatDate(date){
+    setDate(date) {
+        this.renderables.calendarInputField.setValue(moment(date).format(this.options.dateFormat));
+        this.date = date;
+        this.calendar.chooseDate(date);
+    }
+
+
+    getDate() {
+        return this.date;
+    }
+
+    _formatDate(date) {
         return date ? new moment(date).format(this.options.dateFormat) : '';
     }
 

@@ -94,6 +94,11 @@ export class Dropdown extends View {
             this._selectedItem = this.options.items[selectedItemIndex];
             this.nativeSelect.on('change', (event) => {
                 this._selectedItemIndex = event.target.selectedIndex;
+                if(this.options.placeholder){
+                    /* The placeholder takes up one space in the beginning,
+                     * so decrease the index by 1 since you can't select the placeholder */
+                    this._selectedItemIndex--;
+                }
                 let {items} = this.options;
                 this._selectedItem = items[this._selectedItemIndex];
                 for(let item of items){
@@ -178,30 +183,27 @@ export class Dropdown extends View {
         } else {
             console.log(`Dropdown.setItemText: Not supported for non-native`);
         }
+    }
 
+    setPlaceholder(placeholder) {
+        if(this.options.fakeWithNative){
+            this.options.placeholder = placeholder;
+        } else {
+            console.log(`Dropdown.setPlaceholder: Not supported for non-native`);
+        }
+    }
+
+    setItems(items) {
+        if(this.options.fakeWithNative){
+            return this.setItemsFakeWithNative(items);
+        }
+        console.log(`Dropdown.setItems: Not supported for non-native`);
     }
 
     setItemsFakeWithNative(items) {
-        this.removeRenderable('nativeSelect');
-        this.addRenderable(
-            new Surface({
-                content: `
-                <select style ="
-                    height: 48px;
-                    overflow: hidden;
-                    border: 1px solid rgba(0, 0, 0, 0.1);
-                    background-color: white;
-                    border-radius: 4px;
-                    padding: 0 0 0 16px;
-                    outline: none;
-                    -webkit-appearance: none; /* Doesn't work for IE and firefox */
-                    width: 100%;
-                ">
-                ${items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
-            }), 'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40));
-        this.nativeSelect.on('change', (event) => {
-            this._eventOutput.emit(this.options.eventName, items[event.target.selectedIndex].data);
-        });
+        this.options.items = items;
+        this._selectedItem = items.find(({selected}) => selected);
+        this.nativeSelect.setContent(this._generateNativeDropdownHtml());
         return this;
     }
 
@@ -341,6 +343,13 @@ export class Dropdown extends View {
     }
 
     _generateNativeDropdownHtml() {
+        /* TODO Placeholder will only work in the following browsers
+        * Google Chrome - v.43.0.2357.132
+        * Mozilla Firefox - v.39.0
+        * Safari - v.8.0.7 (Placeholder is visible in dropdown but is not selectable)
+        * Microsoft Internet Explorer - v.11 (Placeholder is visible in dropdown but is not selectable)
+        * Project Spartan - v.15.10130 (Placeholder is visible in dropdown but is not selectable)
+        * */
         return `
             <select style ="
                 height: 48px;
@@ -353,6 +362,7 @@ export class Dropdown extends View {
                 -webkit-appearance: none; /* Doesn't work for IE and firefox */
                 width: 100%;
             ">
-    ${this.options.items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
+            ${this.options.placeholder ? `<option value="" disabled selected hidden>${this.options.placeholder}</option>` : ''}
+            ${this.options.items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
     }
 }

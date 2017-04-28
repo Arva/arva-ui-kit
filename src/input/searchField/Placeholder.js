@@ -43,4 +43,8 @@ export class Placeholder extends View {
     hideText() {
         this.text.setProperties({ display: 'none' });
     }
+
+    setContent(content) {
+        this.text.setContent(content);
+    }
 }

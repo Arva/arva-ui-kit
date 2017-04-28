@@ -49,6 +49,7 @@ export class ResultsView extends View {
             itemHeight: 48,
             showContent: true,
             groupHeight: 32,
+            maxHeight: 300,
             ...options /* Can't use combineOptions() because options.resultOptions.dataStore is a PrioArray. */
         });
 
@@ -71,6 +72,6 @@ export class ResultsView extends View {
         let amountOfGroups = Object.keys(this.content.getGroups() || {}).length;
         let groupHeight = amountOfGroups * this.options.groupHeight;
 
-        return [undefined, ((itemHeight + groupHeight) || placeholderHeight) + 32];
+        return [undefined, Math.min(((itemHeight + groupHeight) || placeholderHeight) + 32, this.options.maxHeight)];
     }
 }    
