@@ -25,6 +25,7 @@ export class GlobalTabBar extends View {
             controller: router.defaultController,
             method: router.defaultMethod
         });
+
         if(activeTabIndex === -1){
             activeTabIndex = undefined;
         }
@@ -41,7 +42,7 @@ export class GlobalTabBar extends View {
         super(combineOptions({
             tabsForRoutes: {},
             tabBarType: LineTabBar,
-            items: [{ content: 'Default tab' }],
+            items: [],
             UIBarOptions: { bottomLine: true, shadowType: 'noShadow' },
             tabOptions: { properties: { color: 'rgb(0, 0, 0)' } },
             equalSizing: true,
@@ -50,6 +51,8 @@ export class GlobalTabBar extends View {
             ...options
 
         }));
+
+        this.items = [];
 
         const famousContext = Injection.get(FamousContext);
         this.router = Injection.get(Router);
@@ -64,6 +67,19 @@ export class GlobalTabBar extends View {
 
         this.router.on('routechange', this._onRouteChange);
         this.UIBar.tabBar.on('tabClick', this._onTabChange);
+
+        if(this.options.tabs){
+            this.setItems(this.options.tabs);
+        }
+
+        if(this.options.items){
+            this.setItems(this.options.items);
+        }
+    }
+
+    setItems(items){
+        this.items = items;
+        this.UIBar.tabBar.setItems(items);
     }
 
     addToContent(renderable) {
@@ -84,8 +100,16 @@ export class GlobalTabBar extends View {
         }
     }
 
+    refreshIndex(){
+       let route = this.router.getRoute();
+       this._setTabIndexFromRoute(route);
+    }
+
     _findTabIndex({ controller, method = 'Index' }) {
-        return this.options.tabs.findIndex(({ goTo }) => goTo.controller === controller && (goTo.method === method || !goTo.method));
+        if(this.items === undefined){
+            this.items = [];
+        }
+        return this.items.findIndex(({ goTo }) => goTo && goTo.controller === controller && (goTo.method === method || !goTo.method));
     }
 
     _onTabChange(id, tabData) {
