@@ -143,7 +143,9 @@ export class SingleLineTextInput extends View {
     }
 
     setValue() {
-        return this.input.setValue(...arguments);
+        let result = this.input.setValue(...arguments);
+        this._validateInput(this.getValue());
+        return result;
     }
 
     getValue() {
