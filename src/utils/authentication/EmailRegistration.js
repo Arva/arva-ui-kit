@@ -6,8 +6,8 @@ import {Injection}              from 'arva-js/utils/Injection.js';
 import {DataSource}             from 'arva-js/data/DataSource.js';
 
 export class EmailRegistration {
-    constructor() {
-        this._dataSource = Injection.get(DataSource);
+    constructor(instance  =  Injection.get(DataSource)) {
+        this._dataSource = instance;
     }
 
     register(email, password) {
