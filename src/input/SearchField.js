@@ -180,19 +180,26 @@ export class SearchField extends View {
         content: this.options.placeholder || 'Search'
     });
 
+    chooseItem(dataObject) {
+        let { content } = dataObject;
+        if (content) {
+            this.setRenderableFlowState('placeholder', 'left');
+            this.input.setValue(content);
+            this.placeholder.hideText();
+            this._eventOutput.emit('itemChosen', dataObject);
+        }
+    }
+
     constructor(options) {
         super(combineOptions({
             expandable: true,
+            enabled: true,
             displayClearButton: true
         }, options));
-        this.results.on('child_click', ({ dataObject }) => {
-            let { content } = dataObject;
-            if (content) {
-                this.input.setValue(content);
-                this.placeholder.hideText();
-                this._eventOutput.emit('itemChosen', dataObject);
-            }
-        });
+        this.results.on('child_click', ({ dataObject }) => this.chooseItem(dataObject));
+        if(!this.options.enabled){
+            this.disable();
+        }
     }
 
     /**
