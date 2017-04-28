@@ -125,7 +125,7 @@ export class SearchField extends View {
     @flow.stateStep('collapsed', transition, layout.size(undefined, undefined))
     @flow.stateStep('hidden', transition, layout.size(undefined, undefined))
     @flow.defaultState('hidden', transition, layout.opacity(0), layout.size(undefined, undefined),
-        layout.stick.top(), layout.translate(0, 0, 210))
+        layout.stick.top(), layout.translate(0, 0, 200))
     results = new ResultsView({
         /* If it isn't expandable, it shouldn't show content */
         showContent: this.options.expandable,
