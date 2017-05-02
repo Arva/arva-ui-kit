@@ -112,10 +112,14 @@ export class SingleLineTextInput extends View {
                     this._onFocus();
                 }
             ));
-            if (this.options.usesFeedback) {
-                this.input.on('valueChange', this._validateInput);
-            }
+
         }
+
+        this.input.on('change', this._validateInput);
+        this.on('paste', this._validateInput);
+        this.on('input', this._validateInput);
+        this.on('propertychange', this._validateInput);
+
         /* The browser could auto-fill this stuff, so wait for deploy before checking if we have a value or not */
         if (this.options.required)
 
@@ -161,6 +165,7 @@ export class SingleLineTextInput extends View {
             this.correct.setText(message);
         }
         this.setViewFlowState('correct');
+
         this._eventOutput.emit('stateCorrect');
     }
 
@@ -202,12 +207,14 @@ export class SingleLineTextInput extends View {
         this.setRenderableFlowState('shadow', 'hidden');
     }
 
-    _validateInput(inputString) {
+    _validateInput() {
+        let inputString = this.input.getValue();
+
         if (this.options.validator) {
             if (this.options.required && !inputString) {
                 this.setRequiredState();
             } else {
-                let { isValid, feedback } = this.options.validator(inputString);
+                let { isValid, feedback } = this.options.usesFeedback? this.options.validator(inputString):true;
                 if (isValid) {
                     this.setCorrectState(feedback);
                 } else {
@@ -221,6 +228,8 @@ export class SingleLineTextInput extends View {
             } else {
                 this.setRequiredState();
             }
+        } else {
+            this._eventOutput.emit('stateCorrect'); // we only emit the correct state on change -- there is no feedback elements
         }
     }
 }
