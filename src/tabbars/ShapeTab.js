@@ -24,7 +24,7 @@ export class ShapeTab extends Tab {
     text = new Surface(this.options);
 
     constructor(options = {}) {
-        super(combineOptions(options, {activeColor: 'white'}));
+        super(combineOptions({activeColor: 'white'}, options));
     }
 
     setActive() {

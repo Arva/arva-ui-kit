@@ -52,13 +52,13 @@ export class ShapeTabBar extends TabBar {
             options.borderRadius = "50%";
         }
 
-        super(combineOptions(options, {
+        super(combineOptions({
             makeRipple: false, useBackground: false, useBoxShadow: false, shapeHeight: 32,
             shapeWidth: 0,
             shapeColor: Colors.PrimaryUIColor,
             tabRenderable: ShapeTab,
             tabOptions: {inActiveColor: Colors.PrimaryUIColor, activeColor: 'white'}
-        }), items);
+        }, options), items);
     }
 
     /**

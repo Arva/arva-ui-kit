@@ -32,6 +32,7 @@ export class NavigationTabBar extends View {
         super(combineOptions({
             tabsForRoutes: {},
             tabBarType: LineTabBar,
+            hideOnOtherRoutes: true,
             UIBarOptions: { bottomLine: true, shadowType: 'noShadow' },
             tabOptions: { properties: { color: 'rgb(0, 0, 0)' } },
             showAnimation: { transition: { duration: 0, curve: Easing.outBack } },
@@ -122,7 +123,9 @@ export class NavigationTabBar extends View {
             this._setCorrectActiveTab(controller, method, tabs);
         } else {
             this.currentItems = null;
-            this.hide();
+            if(this.options.hideOnOtherRoutes){
+                this.hide();
+            }
         }
 
     }
