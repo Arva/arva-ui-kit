@@ -59,7 +59,8 @@ export class MultiLineTextInput extends SingleLineTextInput {
                 outline: 'none',
                 overflow: 'hidden',
                 ...TypeFaces.UIRegular
-            }
+            },
+            debug:"G"
         }, options));
 
         /* Set properties specificly as resize property is not set on construction */

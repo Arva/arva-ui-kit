@@ -66,10 +66,10 @@ export class InputSurface extends FamousInputSurface {
 
     }
 
+    // TODO We should emit a change event instead, and prevent the parent change event. valueChange event is only emitted by SOME input components.
     _onFieldChange() {
         let currentValue = this.getValue();
         if (currentValue != this._value) {
-
             if(this.options.emojiEnabled) {
                 currentValue = replaceEmojiAtEnd(currentValue);
                 this.setValue(currentValue);
