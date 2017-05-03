@@ -15,6 +15,7 @@ export class ContentCard extends View {
     background = new Surface({
         properties: {
             backgroundColor: this.options.backgroundColor,
+            border: this.options.border,
             borderRadius: '4px',
             boxShadow: getShadow({type: this.options.shadow}),
             cursor: this.options.enabled ? 'pointer' : 'initial'
