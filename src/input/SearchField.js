@@ -299,8 +299,7 @@ export class SearchField extends View {
         if (event.preventDefault) {
             event.preventDefault();
         }
-        ;
-        this.input.setValue('');
+        this.input.setValue('', true);
         this._onInputValue('');
         this._onDeactivate();
     }
