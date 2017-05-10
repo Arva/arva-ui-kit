@@ -164,10 +164,10 @@ export class Dropdown extends View {
     }
 
     getSelectedItem() {
-        return this._selectedItem.data;
+        return this._selectedItem ? this._selectedItem.data : null;
     }
 
-    /* Return a different size if collapsed or exapnded */
+    /* Return a different size if collapsed or expanded */
     getSize() {
         if (this._collapsed) {
             return [undefined, 48];
