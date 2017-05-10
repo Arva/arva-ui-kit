@@ -116,9 +116,9 @@ export class SingleLineTextInput extends View {
         }
 
         this.input.on('change', this._validateInput);
-        this.on('paste', this._validateInput);
-        this.on('input', this._validateInput);
-        this.on('propertychange', this._validateInput);
+        this.input.on('paste', this._validateInput);
+        this.input.on('input', this._validateInput);
+        this.input.on('propertychange', this._validateInput);
 
         /* The browser could auto-fill this stuff, so wait for deploy before checking if we have a value or not */
         if (this.options.required)

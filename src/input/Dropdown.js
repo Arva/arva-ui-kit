@@ -206,7 +206,7 @@ export class Dropdown extends View {
 
     setItemsFakeWithNative(items) {
         this.options.items = items;
-        this._selectedItem = items.find(({selected}) => selected);
+        this._selectedItem = items.find(({selected}) => selected) || items[0];
         this.nativeSelect.setContent(this._generateNativeDropdownHtml());
         return this;
     }

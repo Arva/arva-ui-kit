@@ -44,11 +44,16 @@ export class InputSurface extends FamousInputSurface {
         target.name = this._name;
     }
 
-    setValue(value) {
+    setValue(value, emitEvent = false) {
+
         if (this.options.isFormField) {
             this._setBorderBottomColor(value);
         }
-        return super.setValue(...arguments);
+        let result =  super.setValue(...arguments);
+        if(emitEvent){
+            this._onNewValue(value);
+        }
+        return result;
     }
 
     focus() {
@@ -70,16 +75,20 @@ export class InputSurface extends FamousInputSurface {
     _onFieldChange() {
         let currentValue = this.getValue();
         if (currentValue != this._value) {
-            if(this.options.emojiEnabled) {
-                currentValue = replaceEmojiAtEnd(currentValue);
-                this.setValue(currentValue);
-            }
-
-            this._value = currentValue;
-            if (this.options.isFormField) {
-                this._setBorderBottomColor(currentValue);
-            }
-            this.emit('valueChange', currentValue);
+            this._onNewValue(currentValue);
         }
+    }
+
+    _onNewValue(currentValue) {
+        if(this.options.emojiEnabled) {
+            currentValue = replaceEmojiAtEnd(currentValue);
+            this.setValue(currentValue);
+        }
+
+        this._value = currentValue;
+        if (this.options.isFormField) {
+            this._setBorderBottomColor(currentValue);
+        }
+        this.emit('valueChange', currentValue);
     }
 }
