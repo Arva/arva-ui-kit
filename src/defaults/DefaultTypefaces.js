@@ -36,6 +36,11 @@ import {Avenir}                 from '../fonts/Avenir.js';
 export let TypeFaces = merge({
     UITitle: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.BasicTextColor; } , whiteSpace: 'nowrap'},
     UIRegular: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
+    UIRegularGray: {
+        fontSize: '18px', fontWeight: 'normal', get color() {
+            return Colors.ModestTextColor;
+        }
+    },
     UISmall: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
     UISmallGray: {
         fontSize: '14px', fontWeight: 'normal', get color() {
@@ -72,6 +77,7 @@ export function setTypefaces(...faces){
 
 export let UITitle                  = {properties: TypeFaces.UITitle};
 export let UIRegular                = {properties: TypeFaces.UIRegular};
+export let UIRegularGray = {properties: TypeFaces.UIRegularGray};
 export let UISmall                  = {properties: TypeFaces.UISmall};
 export let UISmallGray              = {properties: TypeFaces.UISmallGray};
 export let UITiny                   = {properties: TypeFaces.UITiny};

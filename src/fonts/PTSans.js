@@ -11,6 +11,7 @@ export let PTSans = {
     UI: {
         UITitle: {fontFamily: ptSans, lineHeight: '1.0'},
         UIRegular: {fontFamily: ptSans, lineHeight: '1.0'},
+        UIRegularGray: {fontFamily: ptSans, lineHeight: '1.0'},
         UISmall: {fontFamily: ptSans, lineHeight: '1.0'},
         UISmallGray: {fontFamily: ptSans, lineHeight: '1.0'},
         UITiny: {fontFamily: ptSans, lineHeight: '1.0'},
