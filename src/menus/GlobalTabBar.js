@@ -29,7 +29,7 @@ export class GlobalTabBar extends View {
         if(activeTabIndex === -1){
             activeTabIndex = undefined;
         }
-        return new UIBar({
+        return new this.options.UIBarType({
             components: [[new this.options.tabBarType({
                 ...this.options,
                 activeIndex: activeTabIndex
@@ -42,6 +42,7 @@ export class GlobalTabBar extends View {
         super(combineOptions({
             tabsForRoutes: {},
             tabBarType: LineTabBar,
+            UIBarType: UIBar,
             items: [],
             UIBarOptions: { bottomLine: true, shadowType: 'noShadow' },
             tabOptions: { properties: { color: 'rgb(0, 0, 0)' } },
