@@ -65,7 +65,6 @@ export class Form extends View {
     }
 
     setupStateListeners() {
-        console.log(this._inputNames);
         for (let renderableName of this._inputNames) {
             let renderable = this[renderableName] || undefined;
             if (renderable) {
