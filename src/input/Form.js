@@ -81,7 +81,6 @@ export class Form extends View {
         inputRenderable.on('stateCorrect', () => {
             if (this.isStateCorrect()) {
                 this._eventOutput.emit('formFilledCorrectly');
-                console.log("Tss")
             }
         });
     }
