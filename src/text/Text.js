@@ -35,8 +35,8 @@ export class Text extends Base {
     }
 
     setContent(content) {
-        this._originalContent = content;
         if (this.options.transform && this.options.transformer && _.isString(content)) {
+            this._originalContent = content;
             this._newContent = this.options.transformer(content);
             super.setContent(this._newContent);
         } else {
