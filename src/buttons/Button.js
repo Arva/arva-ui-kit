@@ -105,6 +105,8 @@ export class Button extends Clickable {
             let boundingBox = this.overlay._currentTarget.getBoundingClientRect();
             this.ripple.show(x - boundingBox.left, y - boundingBox.top);
         }
+        super._handleTapStart({x, y});
+
     }
 
     _setEnabled(enabled, changeBackground = true) {
