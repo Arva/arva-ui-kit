@@ -1,9 +1,11 @@
 /**
  * Created by Manuel on 22/09/16.
  */
-
+import bowser                       from 'bowser';
+import {Router}                     from 'arva-js/core/Router.js';
+import {Injection}                  from 'arva-js/utils/Injection.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
-import {FirebaseStorageManager}     from '../firebaseStorage/FirebaseStorageManager.js';
+import {FirebaseFileSource}         from 'arva-js/data/storage/FirebaseFileSource.js';
 
 export class PictureSelector {
 
@@ -21,6 +23,28 @@ export class PictureSelector {
             correctOrientation: true  //Corrects Android orientation quirks
         }
     };
+
+    static async uploadPicture(usesCamera = true, path = null) {
+        try {
+            try {
+                let file;
+                if(bowser.mobile || bowser.tablet){
+                    let pictureUrl = usesCamera ? await PictureSelector.getCameraPicture() : await PictureSelector.getLibraryPicture();
+                    file = await PictureSelector.processImage(pictureUrl);
+                } else {
+                    file = await PictureSelector.getFileSelectorPicture();
+                }
+
+                let router = Injection.get(Router);
+
+                return await Injection.get(FirebaseFileSource, path || `images/${router.getUser().uid}`).push(file);
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 
     /**
      * Fetch in image from camera/library, and upload the file directly to firebase
@@ -66,24 +90,62 @@ export class PictureSelector {
         });
     }
 
+    static getFileSelectorPicture() {
+        return new Promise((resolve, reject) => {
+            let id = 'PictureSelectorFileSelector';
+            let input = document.getElementById(id);
+            if (!input) {
+                input = document.createElement('input');
+                input.id = id;
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.style.display = 'none';
+                document.body.appendChild(input);
+            }
+
+
+            /* Remove any old listeners */
+            input.removeEventListener('change', PictureSelector.listener);
+            input.value = '';
+            PictureSelector.listener = input.addEventListener('change', (event) => {
+                let files = event.currentTarget.files;
+                resolve(files[0]);
+
+            });
+
+            /* This is a work around needed to detect whether a cancel event occurs.
+             */
+            input.onclick = () => {
+                document.body.onfocus = () => setTimeout(() => {
+                    if (input.value.length === 0) {
+                        resolve(null)
+                    }
+                    document.body.onfocus = null;
+                }, 100)
+            };
+
+            input.click();
+
+        });
+    }
+
     /**
      *
      * @param localImagePath
-     * @returns {Promise} Returns a Promise with a file Blob
+     * @returns {Promise.File} Returns a Promise that resolves a BLOB
      */
-    static proccesImage(localImagePath = '') {
-        PictureSelector._canBeUsed();
-
-        return new Promise((resolve, reject)=> {
-            window.resolveLocalFileSystemURL(localImagePath, (fileEntry)=> {
-                fileEntry.file((file)=> {
-                    var reader = new FileReader();
-                    reader.onloadend = ()=> {
-                        var blob = new Blob([new Uint8Array(reader.result)], {type: "image/jpeg"});
-                        resolve(blob);
+    static processImage(localImagePath = '') {
+        return new Promise((resolve, reject) => {
+            window.resolveLocalFileSystemURL(localImagePath, (fileEntry) => {
+                fileEntry.file((file) => {
+                    let reader = new FileReader();
+                    reader.onloadend = function (evt) {
+                        resolve(new Blob([evt.target.result], { type: "image/jpeg" }));
+                    }
+                    reader.onerror = function (e) {
+                        console.error("Failed file read: " + e.toString());
                     };
                     reader.readAsArrayBuffer(file);
-                    reader.onerror = reject;
                 });
             }, reject);
         });
