@@ -15,7 +15,7 @@ System.config({
   },
 
   map: {
-    "arva-js": "github:bizboard/arva-js@1.2.5",
+    "arva-js": "github:bizboard/arva-js@1.2.6",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "bowser": "npm:bowser@1.4.3",
@@ -30,7 +30,7 @@ System.config({
     "lodash": "npm:lodash@4.17.4",
     "rgbcolor": "npm:rgbcolor@0.0.4",
     "text": "github:systemjs/plugin-text@0.0.8",
-    "github:bizboard/arva-js@1.2.5": {
+    "github:bizboard/arva-js@1.2.6": {
       "bowser": "npm:bowser@1.4.3",
       "camelcase": "npm:camelcase@2.1.1",
       "eventemitter3": "npm:eventemitter3@1.2.0",
@@ -113,24 +113,24 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.1"
     },
     "npm:d@1.0.0": {
-      "es5-ext": "npm:es5-ext@0.10.18"
+      "es5-ext": "npm:es5-ext@0.10.21"
     },
     "npm:degrees-radians@1.0.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0"
     },
-    "npm:es5-ext@0.10.18": {
+    "npm:es5-ext@0.10.21": {
       "es6-iterator": "npm:es6-iterator@2.0.1",
       "es6-symbol": "npm:es6-symbol@3.1.1",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:es6-iterator@2.0.1": {
       "d": "npm:d@1.0.0",
-      "es5-ext": "npm:es5-ext@0.10.18",
+      "es5-ext": "npm:es5-ext@0.10.21",
       "es6-symbol": "npm:es6-symbol@3.1.1"
     },
     "npm:es6-map@0.1.5": {
       "d": "npm:d@1.0.0",
-      "es5-ext": "npm:es5-ext@0.10.18",
+      "es5-ext": "npm:es5-ext@0.10.21",
       "es6-iterator": "npm:es6-iterator@2.0.1",
       "es6-set": "npm:es6-set@0.1.5",
       "es6-symbol": "npm:es6-symbol@3.1.1",
@@ -138,18 +138,18 @@ System.config({
     },
     "npm:es6-set@0.1.5": {
       "d": "npm:d@1.0.0",
-      "es5-ext": "npm:es5-ext@0.10.18",
+      "es5-ext": "npm:es5-ext@0.10.21",
       "es6-iterator": "npm:es6-iterator@2.0.1",
       "es6-symbol": "npm:es6-symbol@3.1.1",
       "event-emitter": "npm:event-emitter@0.3.5"
     },
     "npm:es6-symbol@3.1.1": {
       "d": "npm:d@1.0.0",
-      "es5-ext": "npm:es5-ext@0.10.18"
+      "es5-ext": "npm:es5-ext@0.10.21"
     },
     "npm:event-emitter@0.3.5": {
       "d": "npm:d@1.0.0",
-      "es5-ext": "npm:es5-ext@0.10.18",
+      "es5-ext": "npm:es5-ext@0.10.21",
       "events": "github:jspm/nodelibs-events@0.1.1"
     },
     "npm:inherits@2.0.1": {
