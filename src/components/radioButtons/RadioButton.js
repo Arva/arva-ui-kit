@@ -28,7 +28,8 @@ export class RadioButton extends Clickable {
     text = new Surface(combineOptions(this.options.typeface || UIRegular, {
         content: this.options.text,
         properties: {
-            lineHeight: '48px'
+            lineHeight: '48px',
+            whiteSpace: 'nowrap'
         }
     }));
 
