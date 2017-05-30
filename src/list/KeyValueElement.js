@@ -17,7 +17,7 @@ export class KeyValueElement extends View {
     }, ~14)
     key = new Text({
         content: this.options.key,
-        properties: this.options.properties.key || {}
+        properties: combineOptions({ whiteSpace: 'nowrap', cursor: 'default' }, this.options.properties.key)
     });
 
     @layout.dock.left(function () {
@@ -28,7 +28,7 @@ export class KeyValueElement extends View {
     }, ~14)
     value = new Text({
         content: this.options.value,
-        properties: this.options.properties.value || {}
+        properties: combineOptions({ whiteSpace: 'nowrap', cursor: 'default' }, this.options.properties.value)
     });
 
     constructor(options = {}) {

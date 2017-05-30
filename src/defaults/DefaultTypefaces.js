@@ -36,17 +36,9 @@ import {Avenir}                 from '../fonts/Avenir.js';
 export let TypeFaces = merge({
     UITitle: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.BasicTextColor; } , whiteSpace: 'nowrap'},
     UIRegular: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
-    UIRegularGray: {
-        fontSize: '18px', fontWeight: 'normal', get color() {
-            return Colors.ModestTextColor;
-        }
-    },
+    UIRegularGray: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } },
     UISmall: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
-    UISmallGray: {
-        fontSize: '14px', fontWeight: 'normal', get color() {
-            return Colors.ModestTextColor;
-        }
-    },
+    UISmallGray: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } },
     UITiny: {fontSize: '10px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
     UIButtonPrimary: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.PrimaryUIColor; } , whiteSpace: 'nowrap'},
     UIButtonPrimaryLight: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.PrimaryUIColor; } , whiteSpace: 'nowrap'},
