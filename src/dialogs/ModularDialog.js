@@ -96,7 +96,7 @@ export class ModularDialog extends Dialog {
             components.push([new buttonType(leftButton), 'leftButton', 'left']);
         }
         if (title) {
-            components.push([new UIBarTitle({content: title}), 'title', 'center']);
+            components.push([new UIBarTitle({ content: title, properties: { cursor: 'default' } }), 'title', 'center']);
         }
         if (rightButton) {
             let buttonType = rightButton.icon ? UIBarImageButton : UIBarTextButton;
