@@ -102,7 +102,7 @@ export class UIBar extends View {
         }
     }
 
-    addComponent(renderable, renderableName, position) {
+    addComponent(renderable, renderableName, position, ...decorators) {
         if (!renderable) {
             console.warn(`Invalid Renderable (${renderableName}) passed to UIBar`);
             return;
@@ -115,10 +115,10 @@ export class UIBar extends View {
             }
         }
         if (position === 'center') {
-            this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(...this.options.centerItemSize));
+            this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(...this.options.centerItemSize), ...decorators);
             this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
         } else {
-            this.addRenderable(renderable, renderableName, layout.dock[position](true));
+            this.addRenderable(renderable, renderableName, layout.dock[position](true), ...decorators);
             this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
         }
     }
