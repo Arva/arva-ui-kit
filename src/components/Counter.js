@@ -14,7 +14,7 @@ export class Counter extends View {
     @layout.size(true, true)
     @layout.translate(-20, 0, 1000)
     currentNumber = new UITitle({
-        content: this.options.currentNumber || 0,
+        content: ""+this.options.currentNumber || '0',
         properties: {
             color: Colors.PrimaryUIColor
         }
@@ -34,7 +34,7 @@ export class Counter extends View {
     @layout.size(true, true)
     @layout.translate(20, 0, 1000)
     totalNumber = new UITitle({
-        content: this.options.totalNumber || 0,
+        content: ""+this.options.totalNumber || '0',
         properties: {
             color: Colors.PrimaryUIColor
         }
@@ -57,7 +57,7 @@ export class Counter extends View {
      */
 
     setCurrentNumber(number){
-        this.currentNumber.setContent(number)
+        this.currentNumber.setContent(""+number)
     }
 
     /**
@@ -66,7 +66,7 @@ export class Counter extends View {
      */
 
     setTotalNumber(number){
-        this.totalNumber.setContent(number)
+        this.totalNumber.setContent(""+number)
     }
 
 }

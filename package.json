@@ -15,6 +15,7 @@
     },
     "dependencies": {
       "arva-js": "github:bizboard/arva-js@develop",
+      "node-html-encoder": "npm:node-html-encoder@^0.0.2",
       "bowser": "npm:bowser@1.4.3",
       "color": "npm:color@^0.11.3",
       "degrees-radians": "npm:degrees-radians@^1.0.3",
