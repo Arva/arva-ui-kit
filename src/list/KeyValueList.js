@@ -45,13 +45,12 @@ export class KeyValueList extends View {
             list: [],
             textProperties: {
                 key:{
-                    ...UISmallGray,
-                    color: Colors.Gray,
-                    fontWeight:600
+                    ...UISmallGray.properties,
+                    fontWeight: 600
                 },
                 value:{
-                    ...UISmall,
-                    fontWeight:600
+                    ...UISmall.properties,
+                    fontWeight: 600
                 }
             },
             spacing: 16,
