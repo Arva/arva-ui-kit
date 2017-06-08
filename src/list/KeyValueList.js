@@ -40,7 +40,7 @@ export class KeyValueList extends View {
      * @param {String} [options.keyColumnWidth] Sets the width of the key column
      * @param {Number} [options.spacing] Sets a custom spacing between elements
      */
-    constructor(options = {}) {
+    constructor(options) {
         super(combineOptions({
             list: [],
             textProperties: {
