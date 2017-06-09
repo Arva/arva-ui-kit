@@ -61,6 +61,12 @@ export class Clickable extends View {
         }
     }
 
+    getClickEventName(name) {
+        if (name) {
+            this.options.clickEventName = name;
+        }
+    }
+
     _setupListeners() {
         if ('ontouchstart' in document.documentElement) {
             this.on('touchstart', this._onTapStart);

@@ -40,18 +40,17 @@ export class KeyValueList extends View {
      * @param {String} [options.keyColumnWidth] Sets the width of the key column
      * @param {Number} [options.spacing] Sets a custom spacing between elements
      */
-    constructor(options = {}) {
+    constructor(options) {
         super(combineOptions({
             list: [],
             textProperties: {
                 key:{
-                    ...UISmallGray,
-                    color: Colors.Gray,
-                    fontWeight:600
+                    ...UISmallGray.properties,
+                    fontWeight: 600
                 },
                 value:{
-                    ...UISmall,
-                    fontWeight:600
+                    ...UISmall.properties,
+                    fontWeight: 600
                 }
             },
             spacing: 16,
