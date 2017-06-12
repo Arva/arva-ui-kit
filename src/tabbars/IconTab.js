@@ -23,12 +23,12 @@ export class IconTab extends Button {
      * @param {Number} [options.icon] The icon's renderable Class, won't be used when an image is defined. Defaults to AccountIcon
      */
     constructor(options = {}) {
-        super(combineOptions(options, {
+        super(combineOptions({
             icon: AccountIcon,
             makeRipple: false,
             useBackground: false,
             useBoxShadow: false
-        }));
+        }, options));
     }
 
     @layout.translate(0, 0, 30)
