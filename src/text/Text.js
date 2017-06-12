@@ -47,4 +47,12 @@ export class Text extends Base {
     getValue() {
         return this._originalContent;
     }
+
+    getSize() {
+        if (this.options.autoSize && this._element) {
+            return [this._element.scrollWidth, this._element.scrollHeight];
+        } else {
+            return super.getSize()
+        }
+    }
 }
