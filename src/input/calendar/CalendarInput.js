@@ -55,7 +55,7 @@ export class CalendarInput extends View {
         }
 
         this.renderables.calendarInputField = new InputSurface(
-            _.extend(this.options, {
+            _.merge(this.options, {
                 type: 'text',
                 properties: {
                     border: '1px solid rgba(0, 0, 0, 0.1)',
