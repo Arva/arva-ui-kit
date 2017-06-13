@@ -20,7 +20,6 @@ export class LabeledTextInput extends View {
 
     @layout.dock.top(~48)
     @layout.dockSpace(4)
-    @layout.size(~128, ~48)
     input = new this.options.inputType(this.options);
 
     /**
