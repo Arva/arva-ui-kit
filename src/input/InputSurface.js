@@ -9,6 +9,8 @@ import {replaceEmojiAtEnd}          from './Emoji.js';
  * Emits 'valueChange' when input is changed
  */
 export class InputSurface extends FamousInputSurface {
+    static tabIndex = 1;
+
     constructor(options = {}) {
         let properties = {
             outline: 'none',
@@ -24,7 +26,10 @@ export class InputSurface extends FamousInputSurface {
         }
 
         super(combineOptions({
-            properties
+            properties,
+            attributes: {
+                tabIndex: InputSurface.tabIndex++
+            }
         }, options));
         this.on('paste', this._onFieldChange);
         this.on('input', this._onFieldChange);
