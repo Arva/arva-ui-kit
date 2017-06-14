@@ -14,7 +14,7 @@ export class TabBar extends View {
     _itemCount = 0;
 
     /* Current active item */
-    _currentItem = 0;
+    _currentItem = null;
 
     /* Current _width of the TabBar */
     _width = 0;
