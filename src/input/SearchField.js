@@ -196,7 +196,7 @@ export class SearchField extends View {
             enabled: true,
             displayClearButton: true
         }, options));
-        this.results.on('child_click', ({ dataObject }) => this.chooseItem(dataObject));
+        this.results.on('resultChosen', this.chooseItem);
         if(!this.options.enabled){
             this.disable();
         }

@@ -34,7 +34,18 @@ export class ResultsView extends View {
     content = new DataBoundScrollView({
         useContainer: true,
         placeholderTemplate: () => new LoadingSpinnerSquares({loaderSize: [this.options.itemHeight, this.options.itemHeight]}),
-        itemTemplate: (model) => new Item({ size: [undefined, this.options.itemHeight], content: model.content || '' }),
+        itemTemplate: (model) => {
+            let item = new Item({ size: [undefined, this.options.itemHeight], content: model.content || '' });
+            /* Need to listen to mousedown and touchstart, not click, because they trigger the focus lost that implodes the
+            *  ResultsView from SearchBar */
+            item.on('mousedown', () => {
+                this._eventOutput.emit('resultChosen', model);
+            });
+            item.on('touchstart', () => {
+                this._eventOutput.emit('resultChosen', model);
+            });
+            return item;
+        },
         groupTemplate: (content) => new SectionHeader({ content, textAlign: 'center' }),
         ...this.options.resultOptions
     });
