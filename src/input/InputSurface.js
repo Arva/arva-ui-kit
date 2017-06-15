@@ -37,18 +37,6 @@ export class InputSurface extends FamousInputSurface {
         this.on('change', this._onFieldChange);
     }
 
-    /**
-     * Bugfix 1: Placeholder is wrongly assigned
-     * Bugfix 2: value is assigned before type, which can have constraints that causes the browser to reject the change
-     * @param target
-     */
-    deploy(target) {
-        target.placeholder = this._placeholder || '';
-        target.type = this._type;
-        target.value = this._value;
-        target.name = this._name;
-    }
-
     setValue(value, emitEvent = false) {
 
         if (this.options.isFormField) {
