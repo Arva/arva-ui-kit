@@ -14,7 +14,7 @@
       "lib": "src"
     },
     "dependencies": {
-      "arva-js": "github:bizboard/arva-js@beone-v0.0.1",
+      "arva-js": "github:bizboard/arva-js@1.3.1",
       "node-html-encoder": "npm:node-html-encoder@^0.0.2",
       "bowser": "npm:bowser@1.4.3",
       "color": "npm:color@^0.11.3",

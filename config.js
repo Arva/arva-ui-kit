@@ -15,7 +15,7 @@ System.config({
   },
 
   map: {
-    "arva-js": "github:bizboard/arva-js@beone-v0.0.1",
+    "arva-js": "github:bizboard/arva-js@1.3.1",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "bowser": "npm:bowser@1.4.3",
@@ -30,7 +30,7 @@ System.config({
     "lodash": "npm:lodash@4.14.0",
     "rgbcolor": "npm:rgbcolor@0.0.4",
     "text": "github:systemjs/plugin-text@0.0.8",
-    "github:bizboard/arva-js@beone-v0.0.1": {
+    "github:bizboard/arva-js@1.3.1": {
       "bowser": "npm:bowser@1.4.3",
       "camelcase": "npm:camelcase@2.1.1",
       "eventemitter3": "npm:eventemitter3@1.2.0",
