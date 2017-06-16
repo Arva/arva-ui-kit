@@ -1,14 +1,11 @@
 /**
  * Created by tom on 08/06/15.
  */
-import _                  from 'lodash';
-import Surface            from 'famous/core/Surface.js';
-import {combineOptions}   from 'arva-js/utils/CombineOptions.js';
-import {TextBody}         from '../defaults/DefaultTypefaces.js';
-import Encoder            from 'node-html-encoder';
-
-import {HTMLTextTransformer}       from '../defaults/Transformers';
-
+import _                        from 'lodash';
+import Surface                  from 'famous/core/Surface.js';
+import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
+import {TextBody}               from '../defaults/DefaultTypefaces.js';
+import {HTMLTextTransformer}    from '../defaults/Transformers.js';
 /**
  * Since we don't want 'defaults' that we can set globally, we need this class to be able to have options set up
  * by default for Text.
@@ -22,7 +19,7 @@ class Base extends Surface {
 
 export class Text extends Base {
     constructor(options){
-        super(combineOptions({...TextBody}, {transform:true, transformer: HTMLTextTransformer, ...options, content:''}));
+        super(combineOptions({...TextBody}, {transform: true, transformer: HTMLTextTransformer, ...options, content:''}));
 
         this._originalContent = options.content;
 
