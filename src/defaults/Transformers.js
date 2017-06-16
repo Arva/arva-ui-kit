@@ -1,7 +1,6 @@
-import Encoder        from 'node-html-encoder';
 
-let HTMLEncoder = new Encoder.Encoder('entity');
+let htmlRegexp = new RegExp(/[\<\>]+/g);
 
-export let HTMLTextTransformer = (Text) => {
-    return HTMLEncoder.htmlEncode(Text);
+export let HTMLTextTransformer = (transformable) => {
+    return (transformable + '').replace(htmlRegexp, '')
 };
