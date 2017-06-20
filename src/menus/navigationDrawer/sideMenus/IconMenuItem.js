@@ -5,6 +5,7 @@ import Surface          from 'famous/core/Surface.js';
 
 import {layout}         from 'arva-js/layout/Decorators.js';
 import {combineOptions} from 'arva-js/utils/CombineOptions.js';
+import {AccountIcon}    from '../../../icons/AccountIcon.js';
 
 import {Text}           from '../../../text/Text.js';
 import {Colors}         from '../../../defaults/DefaultColors.js';
@@ -46,6 +47,7 @@ export class IconMenuItem extends Button {
             highlightedBackgroundColor: Colors.SecondaryUIColor,
             makeRipple: true,
             useBoxShadow: false,
+            icon: AccountIcon,
             delay: 0,
             backgroundProperties: {
                 borderRadius: '0px'
