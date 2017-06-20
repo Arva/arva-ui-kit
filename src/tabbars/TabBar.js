@@ -93,6 +93,14 @@ export class TabBar extends View {
     }
 
     /**
+     * Returns the active tab index of the TabBar
+     * @returns {number|Number|*}
+     */
+    getActiveIndex(){
+        return this.options.activeIndex;
+    }
+
+    /**
      * Layout new items in the tabBar, overwriting the old items
      * @param items
      */
