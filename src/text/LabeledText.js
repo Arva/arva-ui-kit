@@ -14,15 +14,15 @@ export class LabeledText extends View {
      * @parma {String} [options.text] Main Text
      */
 
-    @layout.dock.top(function(){return this.options.labelHeight})
+    @layout.dock.top(function(){return this.options.labelHeight}, 0, 10)
     @layout.size(true, function(){return this.options.labelHeight})
     label = new UISmallGray({
         content: `${this.options.label}`,
         properties: this.options.labelProperties
     });
 
-    @layout.dock.top(function(){return this.options.labelHeight})
-    @layout.size(true, function(){return this.options.labelHeight})
+    @layout.dock.top(function(){return this.options.textHeight}, 5, 10)
+    @layout.size(true, function(){return this.options.textHeight})
     text = new ImpactBig({
         content:  this.options.text,
         properties: this.options.textProperties,
