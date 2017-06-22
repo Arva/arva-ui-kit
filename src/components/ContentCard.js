@@ -14,6 +14,7 @@ export class ContentCard extends View {
     @layout.fullSize()
     background = new Surface({
         properties: {
+            ...this.options.backgroundProperties,
             backgroundColor: this.options.backgroundColor,
             border: this.options.border,
             borderRadius: '4px',
@@ -34,6 +35,7 @@ export class ContentCard extends View {
      */
     constructor(options = {}) {
         super(combineOptions({
+            backgroundProperties: {},
             backgroundColor: 'white',
             minHeight: 64
         }, options));
