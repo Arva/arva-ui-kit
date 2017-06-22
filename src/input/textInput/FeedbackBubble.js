@@ -12,8 +12,8 @@ import {BaseIcon}               from '../../icons/views/BaseIcon.js';
 import asteriskImage            from './asterisk.svg.txt!text';
 import {Button}                 from '../../buttons/Button.js';
 
-import crossImage			    from '../../icons/resources/cross_default.svg.txt!text';
-import doneImage			    from '../../icons/resources/done_default.svg.txt!text';
+import crossImage                from '../../icons/resources/cross_default.svg.txt!text';
+import doneImage                from '../../icons/resources/done_default.svg.txt!text';
 
 const transitions = { transition: { curve: Easing.outCubic, duration: 100 } };
 const closeTransition = { transition: { curve: Easing.outCubic, duration: 20 } };
@@ -72,18 +72,22 @@ export class FeedbackBubble extends Button {
         this.text.setContent(text);
     }
 
-    expand() {
-        this.setRenderableFlowState('background', 'shown');
-        this.setRenderableFlowState('text', 'shown');
+    async expand() {
+        await Promise.all(this.setRenderableFlowState('background', 'shown'), this.setRenderableFlowState('text', 'shown'));
+        this.reflowRecursively();
     }
 
-    collapse() {
-        this.setRenderableFlowState('text', 'hidden');
+    async collapse() {
+        await this.setRenderableFlowState('text', 'hidden');
+        this.reflowRecursively();
+
     }
 
-    toggle() {
+    async toggle() {
         let newState = this.getRenderableFlowState('text') === 'shown' ? 'hidden' : 'shown';
-        this.setRenderableFlowState('text', newState);
+        await this.setRenderableFlowState('text', newState);
+        this.reflowRecursively();
+
     }
 
     constructor(options) {
