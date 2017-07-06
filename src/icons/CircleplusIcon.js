@@ -3,6 +3,6 @@ import iconImage					from './resources/circleplus_default.svg.txt!text';
 
 export class CircleplusIcon extends BaseIcon {
     constructor(options){
-        super({...options, icon: iconImage});
+        static icon = iconImage;
     }
  }

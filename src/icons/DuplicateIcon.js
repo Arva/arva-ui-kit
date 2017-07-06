@@ -3,6 +3,6 @@ import iconImage					from './resources/duplicate_default.svg.txt!text';
 
 export class DuplicateIcon extends BaseIcon {
     constructor(options){
-        super({...options, icon: iconImage});
+        static icon = iconImage;
     }
  }

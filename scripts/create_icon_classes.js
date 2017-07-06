@@ -31,7 +31,7 @@ import iconImage\t\t\t\t\tfrom './resources/${defaultFilePath}!text';
 
 export class ${icon}Icon extends BaseIcon {
     constructor(options){
-        super({...options, icon: iconImage});
+        static icon = iconImage;
     }
  }`);
 

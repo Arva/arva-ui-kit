@@ -7,17 +7,19 @@ import {Colors}                         from '../../defaults/DefaultColors.js';
 import {replaceColors}                  from './ReplaceColors.js';
 
 export class BaseIcon extends Surface {
-    constructor(options = {}){
-        super({
-           content: replaceColors(options.icon, options.color || Colors.PrimaryUIColor),
+
+
+    static with(options) {
+        return super.with({
+            content: replaceColors(this.icon, options.color || Colors.PrimaryUIColor),
             ...options
-        });
-        this.options = options;
+        })
     }
 
     changeColor(color) {
-        let {options} = this;
+        let { options } = this;
         options.color = color;
         this.setContent(replaceColors(options.icon, color));
     }
+
 }

@@ -3,6 +3,6 @@ import iconImage					from './resources/info_default.svg.txt!text';
 
 export class InfoIcon extends BaseIcon {
     constructor(options){
-        super({...options, icon: iconImage});
+        static icon = iconImage;
     }
  }
