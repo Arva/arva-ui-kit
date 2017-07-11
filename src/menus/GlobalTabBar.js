@@ -120,7 +120,7 @@ export class GlobalTabBar extends View {
                 this.router.go(controller, method, params);
             }
             if (typeof tabData.goTo === 'string') {
-                this.router.go(tabData.goTo);
+                window.open(tabData.goTo,'_blank');
             }
         }
     }
