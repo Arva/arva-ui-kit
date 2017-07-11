@@ -119,8 +119,8 @@ export class GlobalTabBar extends View {
                 const { controller = this.currentController, method = 'Index', params } = tabData.goTo;
                 this.router.go(controller, method, params);
             }
-            if (typeof tabData.goTo === 'string') {
-                window.open(tabData.goTo,'_blank');
+            if (typeof tabData.goTo === 'function') {
+                tabData.goTo()
             }
         }
     }
