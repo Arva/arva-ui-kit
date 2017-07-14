@@ -34,6 +34,7 @@ import {Avenir}                 from '../fonts/Avenir.js';
 // - [ ] Big
 
 export let TypeFaces = merge({
+    UIHeader: {fontSize: "32px", fontWeight: 'bold', get color(){ return Colors.BasicTextColor; }, whiteSpace: 'nowrap'},
     UITitle: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.BasicTextColor; } , whiteSpace: 'nowrap'},
     UIRegular: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.BasicTextColor; } },
     UIRegularGray: {fontSize: '18px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } },
@@ -54,9 +55,6 @@ export let TypeFaces = merge({
     TextQuoteEmphasis: {fontSize: '24px', fontWeight: 'normal', fontStyle: 'italic', get color() { return Colors.PrimaryUIColor; } },
     TextInfoLabel: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } , textTransform: 'uppercase'},
 
-    // TODO: remove
-    ImpactHuge: {fontSize: '64px', fontWeight: 'bold', get color() { return Colors.ImageTextColor; } },
-    ImpactBig: {fontSize: '32px', fontWeight: 'bold', get color() { return Colors.ImageTextColor; } }
 }, Avenir.UI, Avenir.Text, Avenir.Impact);
 
 export function useTypefaces() {
@@ -68,6 +66,7 @@ export function setTypefaces(...faces){
     merge(TypeFaces, ...faces);
 }
 
+export let UIHeader                 = {properties: TypeFaces.UIHeader};
 export let UITitle                  = {properties: TypeFaces.UITitle};
 export let UIRegular                = {properties: TypeFaces.UIRegular};
 export let UIRegularGray = {properties: TypeFaces.UIRegularGray};
@@ -86,5 +85,3 @@ export let TextCaption              = {properties: TypeFaces.TextCaption};
 export let TextQuote                = {properties: TypeFaces.TextQuote};
 export let TextQuoteEmphasis        = {properties: TypeFaces.TextQuoteEmphasis};
 export let TextInfoLabel            = {properties: TypeFaces.TextInfoLabel};
-export let ImpactHuge               = {properties: TypeFaces.ImpactHuge};
-export let ImpactBig                = {properties: TypeFaces.ImpactBig};
