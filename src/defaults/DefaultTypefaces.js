@@ -54,6 +54,7 @@ export let TypeFaces = merge({
     TextQuoteEmphasis: {fontSize: '24px', fontWeight: 'normal', fontStyle: 'italic', get color() { return Colors.PrimaryUIColor; } },
     TextInfoLabel: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } , textTransform: 'uppercase'},
 
+    // TODO: remove
     ImpactHuge: {fontSize: '64px', fontWeight: 'bold', get color() { return Colors.ImageTextColor; } },
     ImpactBig: {fontSize: '32px', fontWeight: 'bold', get color() { return Colors.ImageTextColor; } }
 }, Avenir.UI, Avenir.Text, Avenir.Impact);
