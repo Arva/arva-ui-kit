@@ -15,7 +15,7 @@ System.config({
   },
 
   map: {
-    "arva-js": "github:bizboard/arva-js@1.3.1",
+    "arva-js": "github:bizboard/arva-js@1.4.0",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
     "bowser": "npm:bowser@1.4.3",
@@ -23,19 +23,19 @@ System.config({
     "core-js": "npm:core-js@1.2.7",
     "css": "github:systemjs/plugin-css@0.1.25",
     "degrees-radians": "npm:degrees-radians@1.0.3",
-    "famous": "github:bizboard/famous@0.4.1",
+    "famous": "github:bizboard/famous@0.4.2",
     "famous-autosizetextarea": "github:ijzerenhein/famous-autosizetextarea@0.3.1",
     "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
-    "famous-flex": "github:bizboard/famous-flex@1.4.1",
+    "famous-flex": "github:bizboard/famous-flex@1.4.2",
     "lodash": "npm:lodash@4.14.0",
     "rgbcolor": "npm:rgbcolor@0.0.4",
     "text": "github:systemjs/plugin-text@0.0.8",
-    "github:bizboard/arva-js@1.3.1": {
+    "github:bizboard/arva-js@1.4.0": {
       "bowser": "npm:bowser@1.4.3",
       "camelcase": "npm:camelcase@2.1.1",
       "eventemitter3": "npm:eventemitter3@1.2.0",
-      "famous": "github:bizboard/famous@0.4.1",
-      "famous-flex": "github:bizboard/famous-flex@1.4.1",
+      "famous": "github:bizboard/famous@0.4.2",
+      "famous-flex": "github:bizboard/famous-flex@1.4.2",
       "fastclick": "npm:fastclick@1.0.6",
       "firebase": "github:firebase/firebase-bower@3.2.1",
       "lodash": "npm:lodash@4.14.0",
@@ -44,7 +44,7 @@ System.config({
       "request-animation-frame-mock": "github:erykpiast/request-animation-frame-mock@0.1.8",
       "xml2js": "npm:xml2js@0.4.17"
     },
-    "github:bizboard/famous-flex@1.4.1": {
+    "github:bizboard/famous-flex@1.4.2": {
       "es6-map": "npm:es6-map@0.1.5"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
