@@ -115,8 +115,13 @@ export class GlobalTabBar extends View {
 
     _onTabChange(id, tabData) {
         if (tabData.goTo) {
-            const { controller = this.currentController, method = 'Index', params } = tabData.goTo;
-            this.router.go(controller, method, params);
+            if (typeof tabData.goTo === 'object') {
+                const { controller = this.currentController, method = 'Index', params } = tabData.goTo;
+                this.router.go(controller, method, params);
+            }
+            if (typeof tabData.goTo === 'function') {
+                tabData.goTo()
+            }
         }
     }
 }
