@@ -4,9 +4,15 @@
 import Timer                from 'famous/utilities/Timer.js';
 
 import {View}               from 'arva-js/core/View.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
+import { layout, bindings, event, dynamic }             from 'arva-js/layout/Decorators.js'
 
 
+@bindings.setup({
+  enabled: true,
+  clickEventName: 'buttonClick',
+  easyPress: false,
+  disableAfterClick: false
+})
 export class Clickable extends View {
 
     /**
@@ -31,19 +37,11 @@ export class Clickable extends View {
      * and _handleClick on tap start instead of click
      *
      */
-    constructor(options = {}) {
-        options = combineOptions({
-            easyPress: false,
-            disableAfterClick: false,
-            enabled: true,
-            clickEventName: 'buttonClick'
-        }, options);
+    constructor(options ) {
         super(options);
-        this._enabled = this.options.enabled;
-        if (this._enabled === false) {
-            this.once('deploy', () => { this._setEnabled(this._enabled); })
+        if (this.options.enabled === false) {
+            this.once('deploy', () => { this._setEnabled(this.options.enabled); })
         }
-        this._enabled = options.enabled;
         this._setupListeners();
     }
 
@@ -130,7 +128,7 @@ export class Clickable extends View {
 
     _onTapStart(mouseEvent) {
         this._tapActive = true;
-        if (this._isEnabled()) {
+        if (this.options.enabled) {
             let args = mouseEvent.touches ? {x: mouseEvent.touches[0].clientX, y: mouseEvent.touches[0].clientY} :
                 {x: mouseEvent.clientX, y: mouseEvent.clientY};
             this._handleTapStart(args);
@@ -143,13 +141,13 @@ export class Clickable extends View {
      * @private
      */
     _handleTapStart() {
-        if (this.options.easyPress && this._isEnabled()) {
+        if (this.options.easyPress && this.options.enabled) {
             this._handleClick();
         }
     }
 
     _onClick(mouseEvent) {
-        if (!this.options.easyPress && this._isEnabled()) {
+        if (!this.options.easyPress && this.options.enabled) {
             this._handleClick(mouseEvent);
         }
     }
@@ -172,16 +170,6 @@ export class Clickable extends View {
             emit();
         }
     }
-
-    _isEnabled() {
-        return this._enabled;
-    }
-
-    _setEnabled(enabled) {
-        this._enabled = enabled;
-        this.reflowRecursively();
-    }
-    
 
     /**
      * Returns the touch location x and y coordinates relative to the element selected.

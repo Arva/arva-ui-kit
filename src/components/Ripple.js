@@ -10,8 +10,9 @@ import {layout}             from 'arva-js/layout/Decorators.js';
 
 export class Ripple extends View {
 
-    @layout.translate(0, 0, 10)
-    @layout.animate({
+    @layout
+      .translate(0, 0, 10)
+      .animate({
         showInitially: false,
         show: {
             transition: {duration: 10000, curve: Easing.inSine}
@@ -32,8 +33,8 @@ export class Ripple extends View {
             }
         }
     })
-    @layout.size(function() {return this._rippleSize}, function() {return this._rippleSize})
-    ripple = new Surface({
+      .size(function() {return this._rippleSize}, function() {return this._rippleSize})
+    ripple = Surface.with({
         properties: {
             borderRadius: '100%',
             /* Center it aligned to the clipping surface */
@@ -48,7 +49,8 @@ export class Ripple extends View {
         this.onNewSize(([width, height]) => {
             let sizeMultiplier = this.options.sizeMultiplier || 2;
             this._rippleSize = sizeMultiplier*Math.sqrt((width*width)+(height*height));
-            this.renderables.ripple.setOptions({show: {transition: {duration:0.5*this._rippleSize}}});
+            this._actualRipple = this.getActualRenderable(this.ripple);
+            this._actualRipple.setOptions({show: {transition: {duration:0.5*this._rippleSize}}});
         });
     }
 
@@ -68,17 +70,17 @@ export class Ripple extends View {
             decorations.translate[1] = y - rippleSize / 2;
             this.layout.reflowLayout();
 
-            this.renderables.ripple.show(this.ripple, null, () => {
+            this._actualRipple.show(this.ripple, null, () => {
                 resolve();
             });
         });
     }
 
     hide() {
-        if (this.renderables.ripple.get()) {
-            this.renderables.ripple._viewStack[0].state = 1;
+        if (this.isRenderableShowing(this.ripple)) {
+            this.getActualRenderable(this.ripple)._viewStack[0].state = 1;
         }
-        this.hideRenderable('ripple');
+        this.hideRenderable(this.ripple);
     }
 
 

@@ -2,7 +2,7 @@
  * Created by lundfall on 12/07/16.
  */
 import ImageSurface                         from 'famous/surfaces/ImageSurface.js';
-import {layout}                             from 'arva-js/layout/Decorators.js';
+import {layout, bindings, dynamic}          from 'arva-js/layout/Decorators.js';
 import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
 
 import {Button}                             from './Button.js';
@@ -11,14 +11,30 @@ import {Colors}                             from '../defaults/DefaultColors.js';
 import {ArrowleftIcon}                      from '../icons/rounded/thin/ArrowleftIcon.js';
 import {ComponentHeight}                    from '../defaults/DefaultDimensions.js';
 
-
+@bindings.setup({
+  image: undefined,
+  icon: ArrowleftIcon,
+  properties: {color: Colors.PrimaryUIColor},
+  imageSize: [undefined, undefined],
+  backgroundProperties: {}
+})
+/*@bindings.preprocess((options) => {
+    if(options.imageOnly){
+      options.backgroundProperties = {...options.backgroundProperties, backgroundColor: 'none'}
+      options.variation = 'noShadow';
+    }
+    Object.assign(options, TextButton.generateBoxShadowVariations(options.variation))
+})*/
 export class ImageButton extends Button {
     @layout.translate(0, 0, 30)
-    @layout.dock.fill()
-    @layout.stick.center()
+      .dock.fill()
+      .stick.center()
+    @dynamic(options =>
+        layout.size(...options.imageSize)
+    )
     image = this.options.image
-        ? new ImageSurface({content: this.options.image})
-        : new this.options.icon({
+        ? ImageSurface.with({content: this.options.image})
+        : this.options.icon.with({
             color: this.options.properties.color
         });
 
@@ -27,23 +43,6 @@ export class ImageButton extends Button {
         return [ComponentHeight, ComponentHeight];
     }
 
-    constructor(options = {}) {
-        if (!options.image && !options.icon) {
-            options.icon = ArrowleftIcon;
-        }
-        if (options.imageOnly) {
-            options.backgroundProperties = {...options.backgroundProperties, backgroundColor: 'none'};
-            options.variation = 'noShadow';
-        }
-        super(combineOptions({
-            properties: {color: Colors.PrimaryUIColor},
-            ...TextButton.generateBoxShadowVariations(options.variation)
-        }, options));
-
-        if (this.options.imageSize) {
-            this.decorateRenderable('image', layout.size(...this.options.imageSize));
-        }
-    }
 
     setContent(iconConstructor) {
         this.image.setContent(new iconConstructor({color: this.options.properties.color}).getContent());
@@ -53,6 +52,7 @@ export class ImageButton extends Button {
         return this.image.changeColor(...arguments);
     }
 
+    //TODO support this
     _setEnabled(enabled) {
         /* Pass false to parent button because we don't need the background to change, it is sufficient only to change the icon color */
         super._setEnabled(enabled, false);

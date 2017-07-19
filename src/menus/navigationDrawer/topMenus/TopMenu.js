@@ -11,11 +11,17 @@ import {UIBar}                                          from '../../../uibars/UI
 import {InfoIcon}                                       from '../../../icons/InfoIcon.js';
 import {UIBarTitle}                                     from '../../../text/UIBarTitle.js';
 import {HamburgerIcon}                                  from '../../../icons/HamburgerIcon.js';
+import {ArrowleftIcon}                                  from '../../../icons/ArrowleftIcon.js';
 import {Clickable}                                      from '../../../components/Clickable.js';
 import {UIBarImageButton}                               from '../../../buttons/UIBarImageButton.js';
 import {StatusBarExtension}                             from '../../../utils/statusBar/StatusBarExtension.js';
+import { layout, bindings, event, dynamic }             from 'arva-js/layout/Decorators.js'
 
-
+@bindings.setup({
+  bottomLine: true,
+  titleText: '',
+  isOpen: false
+})
 export class TopMenu extends UIBar {
 
     /**
@@ -58,157 +64,47 @@ export class TopMenu extends UIBar {
     buttonsCache = {};
     persistentButtons = true;
 
+    @event.on('click', function () {
+      this._eventOutput.emit('titleClick');
+    })
+    @layout.stick.center().size(true, true)
+    title = UIBarTitle.with({
+      content: this.options.titleText
+    })
+
+    @layout.animate()
+    @layout.dock.left(true)
+    menuButton = this.options.isOpen ? UIBarImageButton.with({
+      clickEventName: 'requestMenuClose',
+      icon: ArrowleftIcon,
+    }) : UIBarImageButton.with({
+      clickEventName: 'requestMenuOpen',
+      icon: HamburgerIcon,
+    }) ;
+
+    @layout.dock.right(true)
+    rightButton = UIBarImageButton.with({
+      clickEventName: 'rightButtonClick',
+      icon: InfoIcon
+    });
+
     constructor(options = {}) {
 
-        /* We have to do this because combineOptions merges arrays */
-        if(!options.components){
-            options.components = [
-                [new UIBarTitle({
-                    content: options.defaultTitle || '',
-                    properties: {
-                        cursor: 'default'
-                    }
-                }), 'title', 'center'],
-                [options.rightButton || new UIBarImageButton({
-                    clickEventName: 'rightButtonClick',
-                    icon: InfoIcon
-                }), 'rightButton', 'right'],
-                [options.leftButton || new UIBarImageButton({
-                    clickEventName: 'requestMenuOpen',
-                    icon: HamburgerIcon,
-                }), 'menuButton', 'left']
-            ]
-        }
-
-        super(combineOptions({
-            bottomLine: true,
-        }, options));
-
-        this.hamburgerButton = this.menuButton;
+        super(options);
 
         this.router = Injection.get(Router);
-
-        this.title.on('click', () => {
-            this._eventOutput.emit('titleClick');
-        });
-
-        this.isOpen = false;
 
         if (window.StatusBar) {
             let color = this.options.colored ? this.options.backgroundProperties.backgroundColor : 'rgb(255, 255, 255)';
             Injection.get(StatusBarExtension).setColor(color);
         }
 
-        this.cacheCurrentComponents();
 
         this.router.on('routechange', this.onRouteChange);
     }
 
-    cacheCurrentComponents() {
-        this.buttonsCache = { left: this.getComponents('left'), right: this.getComponents('right') };
-    }
-
-    setCacheButtons() {
-        this.buttonsCache && this.buttonsCache.left && this.removeComponents('left') && this.addComponents('left', this.buttonsCache.left);
-        this.buttonsCache && this.buttonsCache.right && this.removeComponents('right') && this.addComponents('right', this.buttonsCache.right);
-    }
-
     onRouteChange(route) {
         let { controller, method } = route;
-        if (this.options.dynamicButtons
-            && this.options.dynamicButtons[controller]
-            && this.options.dynamicButtons[controller][method]) {
-            let newComponents = this.options.dynamicButtons[controller][method];
-            let { left, right, title } = newComponents;
-            this._updateComponents(left, right, title);
-
-            this.persistentButtons = this.options.dynamicButtons[controller][method].persistentButtons;
-        } else {
-            if (!this.persistentButtons) {
-                this.setCacheButtons();
-            } else {
-                this.cacheCurrentComponents();
-            }
-            this.persistentButtons = true;
-        }
+        //todo fill with code
     }
-
-    async open() {
-        if (!this.isOpen) {
-            this.isOpen = true;
-        }
-    }
-
-    async close() {
-        if (this.isOpen) {
-            this.isOpen = false;
-        }
-    }
-
-    setTitle(newTitle) {
-        return this.title.setContent(newTitle);
-    }
-
-    getTitle() {
-        return this.title.getContent();
-    }
-
-    setRightButton(newButton) {
-        this.replaceRenderable('rightButton', newButton);
-    }
-
-    /**
-     * @deprecated
-     * */
-    async setTemporaryLeftButton(leftButton) {
-        this._eventOutput.emit('requestMenuClose');
-        await this.removeComponents('left');
-        this.addComponent(leftButton, 'menuButton', 'left');
-    }
-
-    /**
-     * @deprecated
-     * */
-    removeTemporaryLeftButton() {
-        this.removeComponents('left');
-        this.addComponent(this.isOpen ? this.arrowLeftButton : this.hamburgerButton, 'menuButton', 'left');
-    }
-
-    _updateComponents(left, right, title) {
-        this._updateComponentsOnSide(left, 'left');
-        this._updateComponentsOnSide(right, 'right');
-
-        let centerComponents = this.getComponents('center');
-        let currentTitle = centerComponents && centerComponents.length ? centerComponents[0] : '';
-        if (title !== currentTitle) {
-            this.setTitle(title || '');
-        }
-    }
-
-    _updateComponentsOnSide(components, side) {
-        if (!isEqual(components, this.getComponents(side))) {
-            this.removeComponents(side);
-            if (components) {
-                this.addComponents(side, components);
-                this._setClickEventNames(side, components);
-            }
-        }
-    }
-
-    /**
-     * Sets component's clickEventName option to left, left2, left3, right, right2, etc, if it is a Clickable
-     * that does not have a special clickEventName already set.
-     * @param {Array} components List of components, as accepted by UIBar.
-     * @param {String} location One of the following: 'left', 'right', 'title'
-     * @private
-     */
-    _setClickEventNames(location, components) {
-        for(let index = 0; index < components.length; index++) {
-            let component = components[index];
-            if(component instanceof Clickable && component.options.clickEventName === 'buttonClick') {
-                component.options.clickEventName = `${location}${index > 0 ? index+1 : ''}`;
-            }
-        }
-    }
-
 }

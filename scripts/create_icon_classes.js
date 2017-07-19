@@ -30,9 +30,7 @@ for(let filePath of fs.readdirSync('./src/icons/resources')){
 import iconImage\t\t\t\t\tfrom './resources/${defaultFilePath}!text';
 
 export class ${icon}Icon extends BaseIcon {
-    constructor(options){
-        static icon = iconImage;
-    }
+    static icon = iconImage;
  }`);
 
 

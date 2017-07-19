@@ -97,7 +97,7 @@ export class DraggableSideMenu extends View {
             this.draggable.setPosition([0, 0, 0], {duration: 250, curve: Easing.outQuint});
             this._hideSideBar();
         }
-        this.hideRenderable('fullScreenOverlay');
+        this.hideRenderable(this.fullScreenOverlay);
 
         this._eventOutput.emit('close');
     }
@@ -147,13 +147,13 @@ export class DraggableSideMenu extends View {
         let hiddenSurfaceNode = new RenderNode();
         hiddenSurfaceNode.add(hiddenSurfaceMod).add(this.draggable).add(this.hiddenSurface);
 
-        this.renderables.hiddenSurface = hiddenSurfaceNode;
+        this._realRenderables.hiddenSurface = hiddenSurfaceNode;
         this.hiddenSurface.pipe(this.draggable);
 
         let mod = new StateModifier();
         let dragNode = new RenderNode();
         dragNode.add(mod).add(this.draggable).add(this.sideMenuView);
-        this.renderables.control = dragNode;
+        this._realRenderables.control = dragNode;
 
         this.sideMenuView.pipe(this.draggable);
         this.fullScreenOverlay.pipe(this.draggable);
@@ -170,15 +170,15 @@ export class DraggableSideMenu extends View {
         this.draggable.on('update', (dragEvent)=> {
             let ratio = 1 - dragEvent.position[0] / this.controlWidth;
             /* Because AnimationController....... */
-            if (this.renderables.fullScreenOverlay.get()) {
-                this.hideRenderable('fullScreenOverlay');
+            if (this.isRenderableShowing(this.fullScreenOverlay)) {
+                this.hideRenderable(this.fullScreenOverlay);
             } else if (!this._isOpen) {
-                this.showRenderable('fullScreenOverlay');
+                this.showRenderable(this.fullScreenOverlay);
             }
             if (!this._isOpen) {
                 ratio = 1 - ratio;
             }
-            this.renderables.fullScreenOverlay.halt(true, ratio);
+            this.getActualRenderable(this.fullScreenOverlay).halt(true, ratio);
             this.direction = (dragEvent.position[0] > this.lastPosition);
             this.lastPosition = dragEvent.position[0];
         });
@@ -295,7 +295,7 @@ export class DraggableSideMenu extends View {
                 let tabSpec = options.menuItems[event.index];
                 /* Request that the menu changes title */
                 this._eventOutput.emit('changeTitle', tabSpec.text);
-                if (tabSpec.controller || tabSpec.method || tabSpec.arguments) this._eventOutput.emit('changeRouter', tabSpec);
+                if (tabSpec.controller || tabSpec.method || tabSpec.arguments) this._eventOutput.emit('changeRoute', tabSpec);
             }
         });
 
@@ -313,8 +313,8 @@ export class DraggableSideMenu extends View {
      * @constructor
      */
     ShowSideBar() {
-        this.showRenderable('fullScreenOverlay');
-        this.renderables.sideMenuView.show(this.sideMenuScrollController);
+        this.showRenderable(this.fullScreenOverlay);
+        // this.renderables.sideMenuView.show(this.sideMenuScrollController);
     }
 
     /**
@@ -322,11 +322,12 @@ export class DraggableSideMenu extends View {
      * @private
      */
     _hideSideBar() {
-        if (this.renderables.fullScreenOverlay.get()) {
-            this.renderables.fullScreenOverlay._viewStack[0].state = 6;
-            this.hideRenderable('fullScreenOverlay');
+        if (this.isRenderableShowing(this.fullScreenOverlay)) {
+            /* Hack to interrupt hiding of sideBar */
+            this.getActualRenderable(this.fullScreenOverlay)._viewStack[0].state = 6;
+            this.hideRenderable(this.fullScreenOverlay);
         }
-        this.renderables.sideMenuView.hide(this.sideMenuScrollController);
+        // this.renderables.sideMenuView.hide(this.sideMenuScrollController);
     }
 
     /**
