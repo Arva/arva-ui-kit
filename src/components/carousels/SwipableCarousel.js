@@ -28,11 +28,18 @@ export class SwipableCarousel extends View {
     // TODO: adapt this to be transparent, change the name of the component, etc.
     @layout.stick.bottom(true)
     @layout.size(undefined, 48)
-    carouselIndicators = new PageCarousel({numberOfPages: this.options.items.length});
+    carouselIndicators = new PageCarousel({
+        numberOfPages: this.options.items.length,
+        showButtons: false,
+        variation: 'transparent'
+    });
 
     constructor(options={}){
         super(options);
         this.carouselIndicators.setIndex(this.options.startIndex)
+        this.wall.on('change-index', (idx) => {
+            this.carouselIndicators.setIndex(idx);
+        })
     }
 }
 
@@ -127,6 +134,7 @@ class CarouselWall extends View {
         }
 
         this.goToIdx(this.focusedItem);
+        this._eventOutput.emit('change-index', this.focusedItem);
         this.addDragEventListener(this.focusedItem);
     }
 

@@ -1,7 +1,7 @@
 
 /**
 
-     * Created by chrwc on 2017-03-24.
+     * Created by joe on 2017-03-24.
  * */
 
 import Surface                      from 'famous/core/Surface.js';
@@ -89,6 +89,34 @@ const createThemeOptions = function(options) {
                 },
                 inactive: {
                     opacity: 0.1,
+                }
+            }
+        }
+    } else if (options.variation === 'transparent') {
+        return {
+            backgroundProperties: {
+                backgroundColor: 'transparent'
+            },
+            navIconProperties: {
+                backgroundColor: 'transparent'
+            },
+            indicatorDefaultProperties: {
+                // if an icon or image, set it's background to the same container background
+                backgroundColor: iconOrImage ? backgroundColor : indicatorColor,
+                borderColor: iconOrImage ? 'none' : indicatorColor,
+            },
+            indicatorActiveProperties: {
+                backgroundColor: iconOrImage ? backgroundColor : indicatorColor
+            },
+            indicatorInactiveProperties: {
+                backgroundColor: backgroundColor
+            },
+            decorators: {
+                active: {
+                    opacity: 1,
+                },
+                inactive: {
+                    opacity: 0.6,
                 }
             }
         }
@@ -207,7 +235,7 @@ export class PageCarousel extends View {
 
     @layout.dock.left(48)
     @layout.size(buttonSize, buttonSize)
-    cancel = new ImageButton({
+    cancel = this.options.showButtons && new ImageButton({
         icon: CrossIcon,
         backgroundProperties: {
             borderRadius: '0px',
@@ -218,7 +246,7 @@ export class PageCarousel extends View {
 
     @layout.dock.right(48)
     @layout.size(buttonSize, buttonSize)
-    nextPage = new ImageButton({
+    nextPage = this.options.showButtons && new ImageButton({
         icon: RightIcon,
         backgroundProperties: {
             borderRadius: '0px',
@@ -229,7 +257,7 @@ export class PageCarousel extends View {
 
     @layout.dock.right(48)
     @layout.size(48,48)
-    prevPage = new ImageButton({
+    prevPage = this.options.showButtons && new ImageButton({
         icon: LeftIcon,
         backgroundProperties: {
             borderRadius: '0px',
@@ -239,7 +267,7 @@ export class PageCarousel extends View {
     });
 
     constructor(options = {variation: 'light'}) {
-        if(!['light', 'dark'].includes(options.variation)) { options.variation = 'light'; }
+        if(!['light', 'dark', 'transparent'].includes(options.variation)) { options.variation = 'light'; }
         super(combineOptions({
             numberOfPages: 7,
             layout: {
@@ -249,7 +277,8 @@ export class PageCarousel extends View {
             },
             animationOptions: defaultAnimationOptions,
             ...createThemeOptions(options),
-            overflowToCounter: true
+            overflowToCounter: true,
+            showButtons: true
         }, options));
 
         this._activeIndex = 0;
@@ -265,7 +294,7 @@ export class PageCarousel extends View {
         this._setCssTransitions();
         this._createIndicatorsOrCounter();
 
-        this._addEventListeners()
+        if (this.options.showButtons) this._addEventListeners()
     }
 
     /**
