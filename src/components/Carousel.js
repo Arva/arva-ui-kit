@@ -1,7 +1,8 @@
 
 /**
+
      * Created by chrwc on 2017-03-24.
-     */
+ * */
 
 import Surface                      from 'famous/core/Surface.js';
 import ImageSurface                 from 'famous/surfaces/ImageSurface.js';
@@ -23,7 +24,10 @@ import {LoadingPlaceholderImage}    from 'arva-kit/placeholders/LoadingPlacehold
 import {Cycle}                      from './Cycle';
 import {Counter}                    from './Counter.js'
 
+// todo: get rid of this
 const buttonSize = 48;
+
+// TODO: move these somewhere more modular
 
 const timingFunctionsMap = {
     inQuad:     "cubic-bezier(0.550,  0.085, 0.680, 0.530)",
