@@ -21,7 +21,7 @@ import {TypeFaces}                  from 'arva-kit/defaults/DefaultTypefaces';
 import {SingleLineInputSurface}     from 'arva-kit/input/SingleLineInputSurface';
 import {LoadingPlaceholderImage}    from 'arva-kit/placeholders/LoadingPlaceholderImage';
 
-import {Cycle}                      from './Cycle';
+import {Cycle}                      from '../Cycle.js';
 import {Counter}                    from './Counter.js'
 
 // todo: get rid of this
@@ -155,7 +155,7 @@ const createThemeOptions = function(options) {
     }
 };
 
-export class PageCarousel extends View {
+export class CarouselIndicators extends View {
 
 
     /**
@@ -230,7 +230,6 @@ export class PageCarousel extends View {
 
     @layout.stick.center()
     @layout.size(undefined, 48)
-    @layout.translate(-buttonSize/2, 0, 21)
     pageIndicators = new Cycle(this.options.layout);
 
     @layout.dock.left(48)
@@ -404,6 +403,9 @@ export class PageCarousel extends View {
             let items = new Array(numberItems).fill(0).map( (val, key) => this._createPageIndicator(key, this.options) );
             this.pageIndicators.setRenderables(items);
         }
+
+        let xTranslation = this.options.showButtons ? -buttonSize / 2 : 0;
+        this.decorateRenderable('pageIndicators', layout.translate(xTranslation, 0, 24));
     }
 
     _createCounter(){

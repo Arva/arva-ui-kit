@@ -1,14 +1,11 @@
+
 import Easing                       from 'famous/transitions/Easing.js';
 
 import {View}                       from 'arva-js/core/View.js';
 import {layout, flow}               from 'arva-js/layout/Decorators.js';
-import BkImageSurface               from 'famous-bkimagesurface/BkImageSurface.js'
-// import {LoadingPlaceholderImage}    from '../placeholders/LoadingPlaceholderImage.js';
-// import {LoadingSpinnerSquares}      from '../loaders/LoadingSpinnerSquares.js';
-
-import { PageCarousel }             from '../Carousel.js';
 import { limit }                    from 'arva-js/utils/Limiter.js'
 
+import { CarouselIndicators }       from './CarouselIndicators.js';
 
 
 /**
@@ -25,10 +22,9 @@ export class SwipableCarousel extends View {
     @layout.size(undefined, undefined)
     wall = new CarouselWall(this.options);
 
-    // TODO: adapt this to be transparent, change the name of the component, etc.
     @layout.stick.bottom(true)
     @layout.size(undefined, 48)
-    carouselIndicators = new PageCarousel({
+    carouselIndicators = new CarouselIndicators({
         numberOfPages: this.options.items.length,
         showButtons: false,
         variation: 'transparent'
