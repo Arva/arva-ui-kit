@@ -92,7 +92,7 @@ export class UIBar extends View {
         super(combineOptions({
             backgroundProperties,
             autoColoring: true,
-            centerItemSize: [~300, ~30]
+            centerItemSize: [~300, ~30],
         }, options));
 
         let components = options.components;

@@ -5,7 +5,7 @@
 import RGBColor                                     from 'rgbcolor';
 
 
-let globalShadowType = 'soft';
+let globalShadowType = 'none';
 
 /**
  * @example
