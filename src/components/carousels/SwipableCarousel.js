@@ -4,6 +4,7 @@ import Easing                       from 'famous/transitions/Easing.js';
 import {View}                       from 'arva-js/core/View.js';
 import {layout, flow}               from 'arva-js/layout/Decorators.js';
 import { limit }                    from 'arva-js/utils/Limiter.js'
+import { combineOptions }           from 'arva-js/utils/CombineOptions.js';
 
 import { CarouselIndicators }       from './CarouselIndicators.js';
 
@@ -27,12 +28,17 @@ export class SwipableCarousel extends View {
     carouselIndicators = new CarouselIndicators({
         numberOfPages: this.options.items.length,
         showButtons: false,
-        variation: 'transparent'
+        ...this.options.carouselIndicatorProperties
     });
 
     constructor(options={}){
-        super(options);
-        this.carouselIndicators.setIndex(this.options.startIndex)
+        super(combineOptions({
+            carouselIndicatorProperties: {
+                variation: 'transparent-light'
+            }
+        },options));
+
+        this.carouselIndicators.setIndex(this.options.startIndex);
         this.wall.on('change-index', (idx) => {
             this.carouselIndicators.setIndex(idx);
         })
@@ -91,7 +97,7 @@ class CarouselWall extends View {
             duration: (750 - Math.abs((data.velocity[0] * 150)))
         });
 
-        this._determineSwipeEvents(x, y)
+        this._determineSwipeEvents(x, y, data.velocity[0])
     }
 
     createItem(boundItemConstructor, idx){
@@ -138,14 +144,17 @@ class CarouselWall extends View {
         this.moveItems([-width * idx, 0], {duration: 300});
     }
 
-    _determineSwipeEvents(endX = 0, endY = 0) {
+    _determineSwipeEvents(endX = 0, endY = 0, velocity) {
         let xThreshold = this.swipableOptions.xThreshold || [undefined, undefined];
 
         // normalise the displacement based on the current index
         endX = endX + (width * this.focusedItem);
-
-        if (endX > xThreshold[1] && this.focusedItem > 0) {
-            this.swipe(false)
+        if (velocity > 0.2 && this.focusedItem > 0){
+            this.swipe(false);
+        } else if (velocity < -0.2 && this.focusedItem < this.options.items.length -1){
+            this.swipe(true);
+        } else if (endX > xThreshold[1] && this.focusedItem > 0) {
+            this.swipe(false);
         } else if (endX < xThreshold[0] && this.focusedItem < this.options.items.length-1) {
             this.swipe(true);
         } else {

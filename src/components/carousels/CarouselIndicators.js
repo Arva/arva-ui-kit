@@ -69,7 +69,56 @@ const createThemeOptions = function(options) {
     let backgroundColor = '#000',
         indicatorColor = '#fff';
 
-    if (options.variation === 'dark') {
+    if (options.variation === 'transparent-light') {
+        return {
+            backgroundProperties: {
+                backgroundColor: 'transparent'
+            },
+            navIconProperties: {
+                backgroundColor: 'transparent'
+            },
+            indicatorDefaultProperties: {
+                // if an icon or image, set it's background to the same container background
+                backgroundColor: indicatorColor,
+            },
+            indicatorActiveProperties: {
+                backgroundColor: indicatorColor
+            },
+            indicatorInactiveProperties: {
+                backgroundColor: indicatorColor
+            },
+            decorators: {
+                active: {
+                    opacity: 1,
+                },
+                inactive: {
+                    opacity: 0.6,
+                }
+            }
+        }
+    } else if (options.variation === 'transparent-dark') {
+        return {
+            backgroundProperties: {
+                backgroundColor: 'transparent'
+            },
+            navIconProperties: {
+                backgroundColor: 'transparent'
+            },
+            indicatorDefaultProperties: {
+                backgroundColor,
+            },
+            indicatorActiveProperties: {},
+            indicatorInactiveProperties: {},
+            decorators: {
+                active: {
+                    opacity: 1.0,
+                },
+                inactive: {
+                    opacity: 0.1,
+                }
+            }
+        }
+    } else if (options.variation === 'dark') {
         return {
             backgroundProperties: {
                 backgroundColor
@@ -89,34 +138,6 @@ const createThemeOptions = function(options) {
                 },
                 inactive: {
                     opacity: 0.1,
-                }
-            }
-        }
-    } else if (options.variation === 'transparent') {
-        return {
-            backgroundProperties: {
-                backgroundColor: 'transparent'
-            },
-            navIconProperties: {
-                backgroundColor: 'transparent'
-            },
-            indicatorDefaultProperties: {
-                // if an icon or image, set it's background to the same container background
-                backgroundColor: iconOrImage ? backgroundColor : indicatorColor,
-                borderColor: iconOrImage ? 'none' : indicatorColor,
-            },
-            indicatorActiveProperties: {
-                backgroundColor: iconOrImage ? backgroundColor : indicatorColor
-            },
-            indicatorInactiveProperties: {
-                backgroundColor: backgroundColor
-            },
-            decorators: {
-                active: {
-                    opacity: 1,
-                },
-                inactive: {
-                    opacity: 0.6,
                 }
             }
         }
@@ -266,7 +287,7 @@ export class CarouselIndicators extends View {
     });
 
     constructor(options = {variation: 'light'}) {
-        if(!['light', 'dark', 'transparent'].includes(options.variation)) { options.variation = 'light'; }
+        if(!['light', 'dark', 'transparent-light', 'transparent-dark'].includes(options.variation)) { options.variation = 'light'; }
         super(combineOptions({
             numberOfPages: 7,
             layout: {
@@ -486,11 +507,9 @@ export class CarouselIndicators extends View {
         } else {
             renderableType = Surface;
             properties = {
-                borderRadius:'50%',
-                borderStyle:'solid',
-                borderWidth: '2px',
                 ...this._properties,
-                ...this._inactiveProperties
+                ...this._inactiveProperties,
+                borderRadius:'50%',
             }
         }
 
