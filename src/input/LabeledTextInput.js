@@ -12,9 +12,11 @@ export class LabeledTextInput extends View {
 
     @layout.dock.top(~20)
     label = new UISmallGray({
-        content: this.options.label, properties: {
+        content: this.options.label,
+        properties: {
             /* Prevent line-breaks from happening */
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+            cursor: 'default'
         }
     });
 
