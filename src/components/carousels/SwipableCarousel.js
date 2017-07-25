@@ -10,8 +10,13 @@ import { CarouselIndicators }       from './CarouselIndicators.js';
 
 
 /**
- * @param Number startIndex: index of initial component to show in the carousel
- * @param [Constructor] items: array of constructors for creating the elements
+ *
+ * Swipable Carousel that will align and control swiping between views or surfaces
+ * Always uses the full width of the screen
+ *
+ * @param {Number} [options.startIndex]: index of initial component to show in the carousel
+ * @param [Renderable] items: array of renderable constructors, with bound arguments
+ *
  *
  */
 
@@ -62,15 +67,6 @@ class CarouselWall extends View {
             xThreshold: [-150, 150]
         };
 
-        this.createXThresholds()
-    }
-
-    createXThresholds(){
-        this.xThresholds = {};
-        let [negThreshold, posThreshold] = this.swipableOptions.xThreshold;
-        this.options.items.forEach( (elt, idx) => {
-            this.xThresholds[idx] = [idx * width + negThreshold, idx * width + posThreshold];
-        });
     }
 
     createItems(){
