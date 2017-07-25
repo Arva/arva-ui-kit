@@ -15,7 +15,7 @@ const flowOptions = {transition: {curve: Easing.outCubic, duration: 200}};
 export class LineTabBar extends TabBar {
 
     @layout.size(0, function () {
-        return this.options.shapeHeight || 4
+        return this.options.shapeHeight
     })
     @layout.stick.bottomLeft()
     @flow.defaultOptions(flowOptions)
@@ -46,7 +46,7 @@ export class LineTabBar extends TabBar {
             useBackground: false,
             useBoxShadow: false,
             shapeColor: Colors.PrimaryUIColor,
-            shapeHeight: 4,
+            shapeHeight: 2,
             tabOptions: {},
             tabRenderable: LineTab
         }, options), items);
