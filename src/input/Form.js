@@ -69,7 +69,7 @@ export class Form extends View {
     setupStateListeners() {
         for (let renderableName of this._inputNames) {
             let renderable = this[renderableName] || undefined;
-            if (renderable) {
+            if (renderable && renderable instanceof LabeledTextInput) {
                 this._setupStateListener(renderable);
             }
         }
