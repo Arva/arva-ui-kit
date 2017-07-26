@@ -50,7 +50,23 @@ export class TextButton extends Button {
     }
 
     setContent(value) {
+        this.options.content = value;
+        this.options.disabledOptions.content = value;
         this.text.setContent(value);
+    }
+
+    setEnabledContent(value) {
+        this.options.content = value;
+        if (this._isEnabled()) {
+            this.text.setContent(value);
+        }
+    }
+
+    setDisabledContent(value) {
+        this.options.disabledOptions.content = value;
+        if (!this._isEnabled()) {
+            this.text.setContent(value);
+        }
     }
 
     getContent(){
