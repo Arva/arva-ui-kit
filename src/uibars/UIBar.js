@@ -96,7 +96,7 @@ export class UIBar extends View {
         }, options));
 
         let components = options.components;
-        this.componentNames = {left: [], right: [], center: [], fill: []};
+        this.componentNames = {left: [], right: [], center: [], fill: [], manual: []};
         for (let [renderable, renderableName, position, ...decorators] of components || []) {
             this.addComponent(renderable, renderableName, position, ...decorators);
         }
