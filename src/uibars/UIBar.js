@@ -97,8 +97,8 @@ export class UIBar extends View {
 
         let components = options.components;
         this.componentNames = {left: [], right: [], center: [], fill: []};
-        for (let [renderable, renderableName, position] of components || []) {
-            this.addComponent(renderable, renderableName, position);
+        for (let [renderable, renderableName, position, ...decorators] of components || []) {
+            this.addComponent(renderable, renderableName, position, ...decorators);
         }
     }
 
@@ -116,6 +116,9 @@ export class UIBar extends View {
         }
         if (position === 'center') {
             this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(...this.options.centerItemSize), ...decorators);
+            this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
+        } else if (position === 'manual') {
+            this.addRenderable(renderable, renderableName, ...decorators);
             this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
         } else {
             this.addRenderable(renderable, renderableName, layout.dock[position](true), ...decorators);
