@@ -95,6 +95,10 @@ export class UIBar extends View {
             centerItemSize: [~300, ~30],
         }, options));
 
+        if (options.maxWidth) {
+            this.setMaxContentWidth(options.maxWidth);
+        }
+
         let components = options.components;
         this.componentNames = {left: [], right: [], center: [], fill: [], manual: []};
         for (let [renderable, renderableName, position, ...decorators] of components || []) {
