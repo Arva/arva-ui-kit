@@ -30,7 +30,7 @@ export class BaseDialog extends Dialog {
 
     @layout.translate(0, 0, -10)
     @layout.fullSize()
-    background = new Surface({properties: {backgroundColor: 'white', borderRadius: '4px'}});
+    background = new Surface({properties: {backgroundColor: 'white', borderRadius: this.options.borderRadius}});
 
     @layout.size(48, 48)
     @layout.stick.topLeft()
@@ -58,6 +58,7 @@ export class BaseDialog extends Dialog {
      * @param {String} [options.body] The body of the dialog
      */
     constructor(options) {
+        options.borderRadius = options.rounded ? "24px" : "4px";
         super(options);
         this.layout.on('layoutstart', ({size}) => {
 

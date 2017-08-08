@@ -19,6 +19,7 @@ export class StackButtonDialog extends BaseDialog {
      * @param {String} [options.body] The body of the Dialog
      */
     constructor(options = {}) {
+        options.borderRadius = options.rounded ? "24px" : "4px";
         super(options);
         let {buttons} = options;
         if (!buttons) {
@@ -33,7 +34,7 @@ export class StackButtonDialog extends BaseDialog {
                     clickEventData: [index],
                     backgroundProperties: {
                         borderTop: '1px #E6e6e6 solid',
-                        borderRadius: index !== buttons.length - 1 ? '0px' : '0px 0px 4px 4px'
+                        borderRadius: index !== buttons.length - 1 ? '0px' : `0px 0px ${this.options.borderRadius} ${this.options.borderRadius}`
                     }
                 }
             ), `button${index}`, layout.dock.top(buttonHeight, 0), layout.translate(0, 0, 100));

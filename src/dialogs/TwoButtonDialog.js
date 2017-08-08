@@ -52,13 +52,14 @@ class BottomButtonView extends View{
     buttonRight = new WhiteTextButton(this.options.buttonRight);
 
     constructor(options) {
+        options.borderRadius = options.rounded ? "24px" : "4px";
         super(combineOptions({
             buttonLeft: {
                 disableBoxShadow: true,
                 clickEventName: 'closeDialog',
                 backgroundProperties: {
                     borderTop: '1px #E6e6e6 solid',
-                    borderRadius: '0px 0px 0px 4px',
+                    borderRadius: `0px 0px 0px ${options.borderRadius}`,
                     borderRight: '1px #E6e6e6 solid'
                 }
             },
@@ -67,7 +68,7 @@ class BottomButtonView extends View{
                 clickEventName: 'closeDialog',
                 backgroundProperties: {
                     borderTop: '1px #E6e6e6 solid',
-                    borderRadius: '0px 0px 4px 0px'
+                    borderRadius: `0px 0px ${options.borderRadius} 0px`
                 }
             }
         }, options));
