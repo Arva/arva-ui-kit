@@ -48,6 +48,7 @@ export class Button extends Clickable {
      * @param {Boolean} [options.autoEnable] If true, automatically enables the button when the deploy event is triggered.
      * Defaults to false
      * @param {Boolean} [options.backgroundProperties] The properties that should be passed to the background, if using one.
+     * @param {Boolean} [options.rounded] use rounded button variation
      */
     constructor(options) {
         super(combineOptions({
@@ -55,8 +56,9 @@ export class Button extends Clickable {
             useBoxShadow: true,
             useBackground: true,
             autoEnable: false,
+            rounded: false,
             backgroundProperties: {
-                borderRadius: '4px',
+                borderRadius: options.rounded ? "24px" : '4px',
                 backgroundColor: 'white'
             }
         }, options));
