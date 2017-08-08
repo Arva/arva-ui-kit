@@ -36,7 +36,7 @@ export class Dropdown extends View {
 
     @layout.translate(0, 0, 0)
     @layout.fullSize()
-    background = new Surface({ properties: { backgroundColor: 'white', borderRadius: '4px' } });
+    background = new Surface({ properties: { backgroundColor: 'white', borderRadius: this.options.borderRadius } });
 
     /* Using animate instead of flow state to avoid unwanted transitions when resizing */
     @layout.fullSize()
@@ -48,7 +48,7 @@ export class Dropdown extends View {
     shadow = new Surface({
         properties: {
             boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',
-            borderRadius: '4px'
+            borderRadius: this.options.borderRadius
         }
     });
 
@@ -73,7 +73,8 @@ export class Dropdown extends View {
             //TODO Change to false once final
             fakeWithNative: true,
             items: [{ text: 'This is the selected item', selected: true, data: 1 }],
-            eventName: 'itemChosen'
+            eventName: 'itemChosen',
+            borderRadius: options.rounded ? "24px" : "4px",
         }, options));
 
 
@@ -376,7 +377,7 @@ export class Dropdown extends View {
                 overflow: hidden;
                 border: 1px solid rgba(0, 0, 0, 0.1);
                 background-color: white;
-                border-radius: 4px;
+                border-radius: ${this.options.borderRadius};
                 padding: 0 0 0 16px;
                 outline: none;
                 -webkit-appearance: none; /* Doesn't work for IE and firefox */

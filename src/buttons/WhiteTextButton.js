@@ -29,6 +29,7 @@ export class WhiteTextButton extends Button {
             properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor},
             ...WhiteTextButton.generateBoxShadowVariations(options.variation, options.disableBoxShadow)
         }, options));
+
         this.layout.on('layoutstart', ({size}) => {
             let newLineHeight = size[1] + 'px';
             let {text} = this;

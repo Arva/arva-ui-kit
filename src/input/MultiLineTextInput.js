@@ -10,7 +10,6 @@ import {SingleLineTextInput}        from 'arva-kit/input/SingleLineTextInput.js'
 
 import {Dimensions}                 from '../defaults/DefaultDimensions.js';
 import {TypeFaces}                  from '../defaults/DefaultTypefaces';
-let {searchField: {borderRadius}} = Dimensions;
 
 export class MultiLineTextInput extends SingleLineTextInput {
 
@@ -53,7 +52,7 @@ export class MultiLineTextInput extends SingleLineTextInput {
                 backgroundColor: 'transparent',
                 padding: options.usesFeedback ? '16px 48px 16px 16px' : '16px',
                 border: '0px transparent',
-                borderRadius: borderRadius,
+                borderRadius: options.rounded ? "24px" : "4px",
                 boxShadow: 'none',
                 resize: 'none',
                 outline: 'none',

@@ -14,7 +14,6 @@ import {FeedbackBubble}         from './textInput/FeedbackBubble.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 import {TypeFaces}              from '../defaults/DefaultTypefaces.js';
 
-let { searchField: { borderRadius } } = Dimensions;
 const transition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
 const closeTransition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
 const flowOptions = { transition: { curve: Easing.outCubic, duration: 300 }, delay: 0 };
@@ -35,7 +34,7 @@ export class SingleLineTextInput extends View {
             properties: {
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
                 backgroundColor: 'rgb(255, 255, 255)',
-                borderRadius: borderRadius,
+                borderRadius: this.options.borderRadius,
                 boxSizing: 'content-box'
             }
         }
@@ -47,22 +46,22 @@ export class SingleLineTextInput extends View {
             properties: {
                 boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',
                 backgroundColor: 'rgb(255, 255, 255)',
-                borderRadius: borderRadius
+                borderRadius: this.options.borderRadius
             }
         }
     );
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
     @flow.defaultState('hidden', closeTransition, ...hideBubble)
-    correct = new FeedbackBubble({ variation: 'correct' });
+    correct = new FeedbackBubble({ variation: 'correct', rounded: this.options.rounded });
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
     @flow.defaultState('hidden', closeTransition, ...hideBubble)
-    incorrect = new FeedbackBubble({ variation: 'incorrect' });
+    incorrect = new FeedbackBubble({ variation: 'incorrect', rounded: this.options.rounded  });
 
     @flow.defaultState('hidden', flowOptions, ...hideBubble)
     @flow.stateStep('shown', closeTransition, ...showBubble)
-    required = new FeedbackBubble({ variation: 'required', text: this.options.feedbackText });
+    required = new FeedbackBubble({ variation: 'required', text: this.options.feedbackText, rounded: this.options.rounded });
 
     /**
      * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
@@ -87,7 +86,8 @@ export class SingleLineTextInput extends View {
             usesFeedback: true,
             type: 'text',
             inputOptions: { clearOnEnter: options.clearOnEnter },
-            feedbackText: FeedbackBubble.texts.required
+            feedbackText: FeedbackBubble.texts.required,
+            borderRadius: options.rounded ? "24px" : "4px"
         }, options));
 
         if (!this.input) {
@@ -100,7 +100,7 @@ export class SingleLineTextInput extends View {
                 properties: {
                     backgroundColor: 'transparent',
                     padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
-                    borderRadius: borderRadius,
+                    borderRadius: this.options.borderRadius,
                     boxShadow: 'none',
                     ...TypeFaces.UIRegular,
                     lineHeight: 'normal' /* Don't reorder this to above UIRegular, or it will overwrite */

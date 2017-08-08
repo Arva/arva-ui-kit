@@ -94,7 +94,6 @@ export class FeedbackBubble extends Button {
         super(combineOptions({
             backgroundProperties: {
                 backgroundColor: FeedbackBubble.colors[options.variation],
-                borderRadius: '2px',
                 cursor: 'pointer'
             },
             useBoxShadow: false
