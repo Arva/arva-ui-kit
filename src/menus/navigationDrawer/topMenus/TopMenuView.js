@@ -13,7 +13,7 @@ import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 import {ArrowleftIcon}          from '../../../icons/ArrowleftIcon.js';
 import {HamburgerIcon}          from '../../../icons/HamburgerIcon.js';
 import {InfoIcon}               from '../../../icons/InfoIcon.js';
-import {ImageButton}            from '../../../buttons/ImageButton.js';
+import {WhiteIconButton}            from '../../../buttons/WhiteIconButton.js';
 import {FloatingImageButton}    from '../../../buttons/FloatingImageButton.js';
 
 import {UITitle}                from '../../../defaults/DefaultTypefaces.js';
@@ -58,7 +58,7 @@ export class TopMenuView extends View {
     @layout.translate(0, 0, 20)
     /* Getter will be overwritten by the decorators, so won't be called twice */
     get menuButton() {
-        this.hamburgerButton = new ImageButton({
+        this.hamburgerButton = new WhiteIconButton({
             clickEventName: 'requestMenuOpen',
             imageOnly: true,
             icon: HamburgerIcon,
@@ -68,7 +68,7 @@ export class TopMenuView extends View {
             indicatePress: true,
             backgroundProperties: {borderRadius: 0}
         });
-        this.arrowLeftButton = new ImageButton({
+        this.arrowLeftButton = new WhiteIconButton({
             clickEventName: 'requestMenuClose',
             imageOnly: true,
             icon: ArrowleftIcon,

@@ -5,7 +5,7 @@
 import {layout}             from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}         from './BaseDialog.js';
-import {TextButton}         from '../buttons/TextButton.js';
+import {WhiteTextButton}         from '../buttons/WhiteTextButton.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 export class OneButtonDialog extends BaseDialog {
@@ -22,7 +22,7 @@ export class OneButtonDialog extends BaseDialog {
     constructor(options = {}) {
         super(combineOptions(options, {button: {buttonText: 'Ok'}}));
         let {button} = options;
-        this.addRenderable(new TextButton({
+        this.addRenderable(new WhiteTextButton({
                 content: button.buttonText,
                 disableBoxShadow: true,
                 clickEventName: 'closeDialog',

@@ -7,7 +7,7 @@ import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 import {BaseDialog}         from './BaseDialog.js';
-import {TextButton}         from '../buttons/TextButton.js';
+import {WhiteTextButton}         from '../buttons/WhiteTextButton.js';
 
 export class TwoButtonDialog extends BaseDialog {
 
@@ -45,11 +45,11 @@ class BottomButtonView extends View{
 
     @layout.dock.left()
     @layout.size((size)=>(Math.floor(size/2)), 64)
-    buttonLeft = new TextButton(this.options.buttonLeft);
+    buttonLeft = new WhiteTextButton(this.options.buttonLeft);
 
     @layout.dock.right()
     @layout.size((size)=>(Math.floor(size/2)), 64)
-    buttonRight = new TextButton(this.options.buttonRight);
+    buttonRight = new WhiteTextButton(this.options.buttonRight);
 
     constructor(options) {
         super(combineOptions({

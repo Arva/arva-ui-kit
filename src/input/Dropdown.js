@@ -8,7 +8,7 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 import Surface                      from 'famous/core/Surface.js';
 
-import {TextButton}                 from '../buttons/TextButton.js';
+import {WhiteTextButton}                 from '../buttons/WhiteTextButton.js';
 import {UIRegular}                  from '../defaults/DefaultTypefaces.js';
 import sideArrows                   from './dropdown/sideArrows.svg.txt!text';
 
@@ -123,7 +123,7 @@ export class Dropdown extends View {
 
         for (let [index, item] of items.entries()) {
             this.addRenderable(
-                new TextButton(this._getItemOptions(item.text)),
+                new WhiteTextButton(this._getItemOptions(item.text)),
                 this._getNameFromIndex(index),
                 layout.dock.top(48),
                 flow.defaultOptions({}),
@@ -214,7 +214,7 @@ export class Dropdown extends View {
     _addPlaceholder(placeholderText) {
         this._totalHeight += 32;
         this.addRenderable(
-            new TextButton(this._getItemOptions(placeholderText, true)),
+            new WhiteTextButton(this._getItemOptions(placeholderText, true)),
             'placeholder',
             layout.dock.top(48),
             flow.defaultOptions({}),

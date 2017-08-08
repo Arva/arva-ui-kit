@@ -10,7 +10,7 @@ import {UIButtonPrimary}        from '../defaults/DefaultTypefaces.js';
 import {Colors}                 from '../defaults/DefaultColors.js';
 import {ComponentHeight}        from '../defaults/DefaultDimensions.js';
 
-export class TextButton extends Button {
+export class WhiteTextButton extends Button {
     @layout.translate(0, 0, 30)
     @layout.dock.top()
     @layout.size(true, undefined)
@@ -27,7 +27,7 @@ export class TextButton extends Button {
                 }
             },
             properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor},
-            ...TextButton.generateBoxShadowVariations(options.variation, options.disableBoxShadow)
+            ...WhiteTextButton.generateBoxShadowVariations(options.variation, options.disableBoxShadow)
         }, options));
         this.layout.on('layoutstart', ({size}) => {
             let newLineHeight = size[1] + 'px';

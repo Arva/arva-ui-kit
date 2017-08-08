@@ -6,13 +6,13 @@ import {layout}                             from 'arva-js/layout/Decorators.js';
 import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
 
 import {Button}                             from './Button.js';
-import {TextButton}                         from './TextButton.js';
+import {WhiteTextButton}                         from './WhiteTextButton.js';
 import {Colors}                             from '../defaults/DefaultColors.js';
 import {ArrowleftIcon}                      from '../icons/rounded/thin/ArrowleftIcon.js';
 import {ComponentHeight}                    from '../defaults/DefaultDimensions.js';
 
 
-export class ImageButton extends Button {
+export class WhiteIconButton extends Button {
     @layout.translate(0, 0, 30)
     @layout.dock.fill()
     @layout.stick.center()
@@ -37,7 +37,7 @@ export class ImageButton extends Button {
         }
         super(combineOptions({
             properties: {color: Colors.PrimaryUIColor},
-            ...TextButton.generateBoxShadowVariations(options.variation)
+            ...WhiteTextButton.generateBoxShadowVariations(options.variation)
         }, options));
 
         if (this.options.imageSize) {

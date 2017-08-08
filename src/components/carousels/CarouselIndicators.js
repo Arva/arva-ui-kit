@@ -16,7 +16,7 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions';
 import {LeftIcon}                   from 'arva-kit/icons/LeftIcon.js';
 import {CrossIcon}                  from 'arva-kit/icons/CrossIcon.js';
 import {RightIcon}                  from 'arva-kit/icons/RightIcon.js';
-import {ImageButton}                from 'arva-kit/buttons/ImageButton';
+import {WhiteIconButton}                from 'arva-kit/buttons/WhiteIconButton';
 import {TypeFaces}                  from 'arva-kit/defaults/DefaultTypefaces';
 import {SingleLineInputSurface}     from 'arva-kit/input/SingleLineInputSurface';
 import {LoadingPlaceholderImage}    from 'arva-kit/placeholders/LoadingPlaceholderImage';
@@ -255,7 +255,7 @@ export class CarouselIndicators extends View {
 
     @layout.dock.left(48)
     @layout.size(buttonSize, buttonSize)
-    cancel = this.options.showButtons && new ImageButton({
+    cancel = this.options.showButtons && new WhiteIconButton({
         icon: CrossIcon,
         backgroundProperties: {
             borderRadius: '0px',
@@ -266,7 +266,7 @@ export class CarouselIndicators extends View {
 
     @layout.dock.right(48)
     @layout.size(buttonSize, buttonSize)
-    nextPage = this.options.showButtons && new ImageButton({
+    nextPage = this.options.showButtons && new WhiteIconButton({
         icon: RightIcon,
         backgroundProperties: {
             borderRadius: '0px',
@@ -277,7 +277,7 @@ export class CarouselIndicators extends View {
 
     @layout.dock.right(48)
     @layout.size(48,48)
-    prevPage = this.options.showButtons && new ImageButton({
+    prevPage = this.options.showButtons && new WhiteIconButton({
         icon: LeftIcon,
         backgroundProperties: {
             borderRadius: '0px',

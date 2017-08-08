@@ -80,7 +80,7 @@ export class UIBar extends View {
      *          new UIBar({
      *              components: [
      *                  [new Surface(), 'icon1', 'right'],
-     *                  [new ImageButton(), 'button2', 'right'],
+     *                  [new WhiteIconButton(), 'button2', 'right'],
      *                  [new textButton(), 'icon3', 'left'],
      *                  [new iconButton(), 'button3', 'center']
      *              ]

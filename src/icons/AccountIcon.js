@@ -5,4 +5,4 @@ export class AccountIcon extends BaseIcon {
     constructor(options){
         super({...options, icon: iconImage});
     }
- }
+}

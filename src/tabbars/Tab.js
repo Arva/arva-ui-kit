@@ -3,9 +3,9 @@
  */
 
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {TextButton}         from '../buttons/TextButton.js';
+import {WhiteTextButton}         from '../buttons/WhiteTextButton.js';
 
-export class Tab extends TextButton {
+export class Tab extends WhiteTextButton {
 
     /* If current tab is set to active */
     _active = false;

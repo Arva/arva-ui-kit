@@ -9,7 +9,7 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
 
 import {CrossIcon}          from '../icons/CrossIcon.js';
-import {ImageButton}        from '../buttons/ImageButton.js';
+import {WhiteIconButton}        from '../buttons/WhiteIconButton.js';
 import {UITitle}            from '../defaults/DefaultTypefaces.js';
 import {TextBody}           from '../defaults/DefaultTypefaces.js';
 
@@ -35,7 +35,7 @@ export class BaseDialog extends Dialog {
     @layout.size(48, 48)
     @layout.stick.topLeft()
     @layout.translate(4, 0, 0)
-    closeButton = this.options.showCloseButton && new ImageButton({
+    closeButton = this.options.showCloseButton && new WhiteIconButton({
         icon: CrossIcon,
         clickEventName: 'dialogClosed',
         variation: 'noShadow'

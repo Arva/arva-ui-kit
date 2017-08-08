@@ -3,10 +3,10 @@
  */
 
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {TextButton}         from './TextButton.js';
+import {WhiteTextButton}         from './WhiteTextButton.js';
 import {Colors}             from '../defaults/DefaultColors.js';
 
-export class SolidTextButton extends TextButton {
+export class SolidTextButton extends WhiteTextButton {
 
     static generateOptions(options = {}) {
         return {
@@ -16,7 +16,7 @@ export class SolidTextButton extends TextButton {
             properties: {
                 color: 'white'
             },
-            ...TextButton.generateBoxShadowVariations(options.variation)
+            ...WhiteTextButton.generateBoxShadowVariations(options.variation)
         }
     }
 

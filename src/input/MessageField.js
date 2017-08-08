@@ -14,7 +14,7 @@ import {
 
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 import {MultiLineInput}         from './MultiLineInput.js';
-import {TextButton}             from '../buttons/TextButton.js';
+import {WhiteTextButton}             from '../buttons/WhiteTextButton.js';
 import {Colors}                 from '../defaults/DefaultColors.js';
 
 let {searchField: {borderRadius}} = Dimensions;
@@ -61,7 +61,7 @@ export class MessageField extends View {
 
     @flow.defaultOptions({transition: {duration: 0}})
     @flow.defaultState('default', {}, layout.opacity(1), layout.size(true, (_, height) => Math.min(height, 32)), layout.stick.bottomRight(), layout.translate(0, 0, 10))
-    sendButton = new TextButton({
+    sendButton = new WhiteTextButton({
         useBackground: false,
         useBoxShadow: false,
         content: this.options.buttonText,

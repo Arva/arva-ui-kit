@@ -5,7 +5,7 @@
 import {layout}             from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}         from './BaseDialog.js';
-import {TextButton}         from '../buttons/TextButton.js';
+import {WhiteTextButton}         from '../buttons/WhiteTextButton.js';
 
 export class StackButtonDialog extends BaseDialog {
 
@@ -26,7 +26,7 @@ export class StackButtonDialog extends BaseDialog {
         }
         for (let [index, buttonText] of buttons.entries()) {
             let buttonHeight = 64;
-            this.addRenderable(new TextButton({
+            this.addRenderable(new WhiteTextButton({
                     content: buttonText,
                     disableBoxShadow: true,
                     clickEventName: `button${index}`,

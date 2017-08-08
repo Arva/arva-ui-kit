@@ -5,9 +5,9 @@
 import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
 
 import {Colors}                             from '../defaults/DefaultColors.js';
-import {ImageButton}                        from './ImageButton.js';
+import {WhiteIconButton}                        from './WhiteIconButton.js';
 
-export class UIBarImageButton extends ImageButton {
+export class UIBarImageButton extends WhiteIconButton {
 
     static getColor(variation = 'white') {
         switch (variation) {
