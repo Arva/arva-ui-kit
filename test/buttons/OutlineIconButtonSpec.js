@@ -6,13 +6,13 @@ import {
 
 let should = chai.should();
 
-describe('SolidImageButton', () => {
+describe('OutlineIconButton', () => {
     let imports = {};
 
     before(async function() {
         await mockArvaViewDependencies();
         imports = await loadDependencies({
-            SolidImageButton: './src/buttons/SolidImageButton.js',
+            OutlineIconButton: './src/buttons/OutlineIconButton.js',
         });
     });
 
@@ -22,7 +22,7 @@ describe('SolidImageButton', () => {
 
     describe('#constructor', () => {
         it('constructs without exceptions', () => {
-            let instance = new imports.SolidImageButton();
+            let instance = new imports.OutlineIconButton();
             should.exist(instance);
         });
     });

@@ -6,7 +6,7 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {WhiteTextButton}         from './WhiteTextButton.js';
 import {Colors}             from '../defaults/DefaultColors.js';
 
-export class SolidTextButton extends WhiteTextButton {
+export class ColoredTextButton extends WhiteTextButton {
 
     static generateOptions(options = {}) {
         return {
@@ -22,7 +22,7 @@ export class SolidTextButton extends WhiteTextButton {
 
     constructor(options) {
         super(combineOptions(
-            SolidTextButton.generateOptions(options)
+            ColoredTextButton.generateOptions(options)
             , options));
     }
 

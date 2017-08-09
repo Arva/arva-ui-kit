@@ -4,11 +4,11 @@
 
 import {WhiteIconButton}            from './WhiteIconButton.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {SolidTextButton}    from './SolidTextButton.js';
+import {ColoredTextButton}    from './ColoredTextButton.js';
 
 
-export class SolidImageButton extends WhiteIconButton {
+export class ColoredIconButton extends WhiteIconButton {
     constructor(options){
-        super(combineOptions(SolidTextButton.generateOptions(options), options));
+        super(combineOptions(ColoredTextButton.generateOptions(options), options));
     }
 }

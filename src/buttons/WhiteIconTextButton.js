@@ -15,9 +15,9 @@ import {UIButtonPrimary}        from '../defaults/DefaultTypefaces.js';
 
 import {Button}                 from './Button.js';
 
-export class IconTextButton extends Button {
+export class WhiteIconTextButton extends Button {
 
-    @layout.stick.center()
+    @layout.dock.left(~100)
     @layout.size(~100, 48)
     iconAndText = new IconAndText(this.options);
 

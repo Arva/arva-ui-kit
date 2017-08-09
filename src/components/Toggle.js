@@ -8,7 +8,7 @@ import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 import {WhiteTextButton}    from '../buttons/WhiteTextButton.js';
-import {SolidTextButton}    from '../buttons/SolidTextButton.js';
+import {ColoredTextButton}    from '../buttons/ColoredTextButton.js';
 
 export class Toggle extends View {
 
@@ -37,13 +37,13 @@ export class Toggle extends View {
             curve: Easing.outCubic
         }
     })
-    activeButton = new SolidTextButton({
+    activeButton = new ColoredTextButton({
         ...this.options,
         properties: this.options.activeProperties
     });
 
     constructor(options={}){
-        options.initialButton = options.active ? SolidTextButton : WhiteTextButton;
+        options.initialButton = options.active ? ColoredTextButton : WhiteTextButton;
         super(combineOptions({
             makeRipple: false,
             active: false,

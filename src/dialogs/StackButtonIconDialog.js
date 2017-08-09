@@ -5,7 +5,7 @@
 import {layout}                 from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}             from './BaseDialog.js';
-import {IconTextButton}         from '../buttons/IconTextButton.js';
+import {WhiteIconTextButton}         from '../buttons/WhiteIconTextButton.js';
 import {LocationIcon}           from '../icons/LocationIcon.js';
 import {Colors}                 from '../defaults/DefaultColors.js';
 
@@ -36,7 +36,7 @@ export class StackButtonIconDialog extends BaseDialog {
 
             this._buttons.push(`button${index}`);
 
-            this.addRenderable(new IconTextButton({
+            this.addRenderable(new WhiteIconTextButton({
                     content: buttonText,
                     icon: LocationIcon,
                     properties: {
