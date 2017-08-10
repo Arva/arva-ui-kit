@@ -70,11 +70,11 @@ export class Button extends Clickable {
             this.addRenderable(new Surface({
                 classes: this.options.backgroundClasses || [],
                 properties: {
+                    boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : '',
                     ...(this.options.useBackground ? {
                         border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : '',
                         ...backgroundProperties
                     } : {}),
-                    boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : ''
                 }
             }), 'background', layout.fullSize(), layout.translate(0, 0, -10));
         }
