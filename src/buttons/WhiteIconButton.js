@@ -14,7 +14,10 @@ import {ComponentHeight}                    from '../defaults/DefaultDimensions.
 
 export class WhiteIconButton extends Button {
     @layout.translate(0, 0, 30)
-    @layout.dock.fill()
+    @layout.size(
+        function(){ return this.options.iconSize },
+        function(){ return this.options.iconSize }
+    )
     @layout.stick.center()
     image = this.options.image
         ? new ImageSurface({content: this.options.image})
@@ -37,7 +40,8 @@ export class WhiteIconButton extends Button {
         }
         super(combineOptions({
             properties: {color: Colors.PrimaryUIColor},
-            ...WhiteTextButton.generateBoxShadowVariations(options.variation)
+            ...WhiteTextButton.generateBoxShadowVariations(options.variation),
+            iconSize: 24
         }, options));
 
         if (this.options.imageSize) {
