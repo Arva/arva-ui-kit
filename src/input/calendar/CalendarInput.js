@@ -59,7 +59,7 @@ export class CalendarInput extends View {
                 type: 'text',
                 properties: {
                     border: '1px solid rgba(0, 0, 0, 0.1)',
-                    borderRadius: '4px'
+                    borderRadius: options.rounded ? '24px' : '4px',
                 },
                 placeholder: this.options.dateFormat.toLowerCase(),
                 //Prevent inputfield from centering placeholder because it looks ugly with this type of field

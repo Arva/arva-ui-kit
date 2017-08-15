@@ -36,7 +36,7 @@ export class Dropdown extends View {
 
     @layout.translate(0, 0, 0)
     @layout.fullSize()
-    background = new Surface({ properties: { backgroundColor: 'white', borderRadius: this.options.borderRadius } });
+    background = new Surface({ properties: { backgroundColor: this.options.backgroundProperties.backgroundColor, borderRadius: this.options.borderRadius } });
 
     /* Using animate instead of flow state to avoid unwanted transitions when resizing */
     @layout.fullSize()
@@ -75,6 +75,9 @@ export class Dropdown extends View {
             items: [{ text: 'This is the selected item', selected: true, data: 1 }],
             eventName: 'itemChosen',
             borderRadius: options.rounded ? "24px" : "4px",
+            backgroundProperties: {
+                backgroundColor: 'white'
+            }
         }, options));
 
 
@@ -215,7 +218,7 @@ export class Dropdown extends View {
     _addPlaceholder(placeholderText) {
         this._totalHeight += 32;
         this.addRenderable(
-            new WhiteTextButton(this._getItemOptions(placeholderText, true)),
+            new WhiteTextButton(combineOptions(this._getItemOptions(placeholderText, true), this.options.placeholderOptions)),
             'placeholder',
             layout.dock.top(48),
             flow.defaultOptions({}),
@@ -249,10 +252,10 @@ export class Dropdown extends View {
         return {
             border: 'none',
             borderBottom: index === length - 1 ? 'none' : '1px solid rgba(0, 0, 0, 0.1)',
-            borderTopLeftRadius: index === 0 ? '4px' : '0px',
-            borderTopRightRadius: index === 0 ? '4px' : '0px',
-            borderBottomLeftRadius: index === length - 1 ? '4px' : '0px',
-            borderBottomRightRadius: index === length - 1 ? '4px' : '0px'
+            borderTopLeftRadius: index === 0 ? (this.options.rounded ? '25px' : '4px') : '0px',
+            borderTopRightRadius: index === 0 ? (this.options.rounded ? '25px' : '4px') : '0px',
+            borderBottomLeftRadius: index === length - 1 ? (this.options.rounded ? '25px' : '4px') : '0px',
+            borderBottomRightRadius: index === length - 1 ? (this.options.rounded ? '25px' : '4px') : '0px'
         }
     }
 
@@ -260,10 +263,10 @@ export class Dropdown extends View {
         return {
             border: '1px solid rgba(0, 0, 0, 0.1)',
             borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-            borderTopLeftRadius: '4px',
-            borderTopRightRadius: '4px',
-            borderBottomLeftRadius: '4px',
-            borderBottomRightRadius: '4px'
+            borderTopLeftRadius: (this.options.rounded ? '25px' : '4px'),
+            borderTopRightRadius: (this.options.rounded ? '25px' : '4px'),
+            borderBottomLeftRadius: (this.options.rounded ? '25px' : '4px'),
+            borderBottomRightRadius: (this.options.rounded ? '25px' : '4px')
         }
     }
 
@@ -365,18 +368,19 @@ export class Dropdown extends View {
 
     _generateNativeDropdownHtml() {
         /* TODO Placeholder will only work in the following browsers
-        * Google Chrome - v.43.0.2357.132
-        * Mozilla Firefox - v.39.0
-        * Safari - v.8.0.7 (Placeholder is visible in dropdown but is not selectable)
-        * Microsoft Internet Explorer - v.11 (Placeholder is visible in dropdown but is not selectable)
-        * Project Spartan - v.15.10130 (Placeholder is visible in dropdown but is not selectable)
-        * */
+         * Google Chrome - v.43.0.2357.132
+         * Mozilla Firefox - v.39.0
+         * Safari - v.8.0.7 (Placeholder is visible in dropdown but is not selectable)
+         * Microsoft Internet Explorer - v.11 (Placeholder is visible in dropdown but is not selectable)
+         * Project Spartan - v.15.10130 (Placeholder is visible in dropdown but is not selectable)
+         * */
         return `
             <select style ="
                 height: 48px;
                 overflow: hidden;
+                ${(this.options.properties && this.options.properties.color) ? `color: ${this.options.properties.color};` : ''  }
                 border: 1px solid rgba(0, 0, 0, 0.1);
-                background-color: white;
+                ${(this.options.backgroundProperties && this.options.backgroundProperties.backgroundColor) ? `background-color: ${this.options.backgroundProperties.backgroundColor};` : '' }
                 border-radius: ${this.options.borderRadius};
                 padding: 0 0 0 16px;
                 outline: none;
