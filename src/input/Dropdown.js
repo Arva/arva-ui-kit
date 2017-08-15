@@ -379,7 +379,7 @@ export class Dropdown extends View {
                 height: 48px;
                 overflow: hidden;
                 ${(this.options.properties && this.options.properties.color) ? `color: ${this.options.properties.color};` : ''  }
-                border: 1px solid rgba(0, 0, 0, 0.1);
+                ${(this.options.properties && this.options.properties.border) ? `border: ${this.options.properties.border}` : 'border: 1px solid rgba(0, 0, 0, 0.1)' };
                 ${(this.options.backgroundProperties && this.options.backgroundProperties.backgroundColor) ? `background-color: ${this.options.backgroundProperties.backgroundColor};` : '' }
                 border-radius: ${this.options.borderRadius};
                 padding: 0 0 0 16px;
