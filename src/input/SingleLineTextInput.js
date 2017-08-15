@@ -103,7 +103,8 @@ export class SingleLineTextInput extends View {
                     borderRadius: this.options.borderRadius,
                     boxShadow: 'none',
                     ...TypeFaces.UIRegular,
-                    lineHeight: 'normal' /* Don't reorder this to above UIRegular, or it will overwrite */
+                    lineHeight: 'normal', /* Don't reorder this to above UIRegular, or it will overwrite */
+                    ...this.options.backgroundProperties
                 },
                 ...this.options.inputOptions
             }), 'input', layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
@@ -164,7 +165,7 @@ export class SingleLineTextInput extends View {
         if (message) {
             this.correct.setText(message);
         }
-        this.setViewFlowState('correct');
+        this.options.usesFeedback && this.setViewFlowState('correct');
 
         this._eventOutput.emit('stateCorrect');
     }
@@ -174,7 +175,7 @@ export class SingleLineTextInput extends View {
         if (message) {
             this.incorrect.setText(message);
         }
-        this.setViewFlowState('incorrect');
+        this.options.usesFeedback && this.setViewFlowState('incorrect');
         this._eventOutput.emit('stateIncorrect');
     }
 
@@ -184,7 +185,7 @@ export class SingleLineTextInput extends View {
 
     setRequiredState() {
         /* This is incorrect state, because there's nothing in the field as of now */
-        this.setViewFlowState('required');
+        this.options.usesFeedback && this.setViewFlowState('required');
         this._eventOutput.emit('stateIncorrect');
     }
 
