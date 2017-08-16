@@ -25,12 +25,12 @@ const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(
     required: [{ correct: 'hidden', incorrect: 'hidden', required: 'shown' }],
     incorrect: [{ correct: 'hidden', incorrect: 'shown', required: 'hidden' }]
 })
-@layout.dockPadding(0, 4, 0, 0)
+@layout.dockPadding(0, 0, 0, 0)
 export class SingleLineTextInput extends View {
 
     @flow.stateStep('hidden', transition, layout.opacity(0))
     @flow.defaultState('shown', transition, layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 10))
-    border = new Surface({
+    border = this.options.showBorder ? new Surface({
             properties: {
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
                 backgroundColor: 'rgb(255, 255, 255)',
@@ -38,7 +38,7 @@ export class SingleLineTextInput extends View {
                 boxSizing: 'content-box'
             }
         }
-    );
+    ) : null;
 
     @flow.stateStep('shown', transition, layout.opacity(1))
     @flow.defaultState('hidden', transition, layout.stick.center(), layout.opacity(0), layout.translate(0, 0, 20))
@@ -85,6 +85,7 @@ export class SingleLineTextInput extends View {
             enabled: true,
             usesFeedback: true,
             type: 'text',
+            showBorder: true,
             inputOptions: { clearOnEnter: options.clearOnEnter },
             feedbackText: FeedbackBubble.texts.required,
             borderRadius: options.rounded ? "24px" : "4px"
