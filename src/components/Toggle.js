@@ -24,6 +24,7 @@ export class Toggle extends View {
     })
     inactiveButton = new WhiteTextButton({
         ...this.options,
+        backgroundProperties: this.options.inactiveBackgroundProperties,
         properties: this.options.inactiveProperties
     });
 
@@ -39,6 +40,7 @@ export class Toggle extends View {
     })
     activeButton = new ColoredTextButton({
         ...this.options,
+        backgroundProperties: this.options.activeBackgroundProperties,
         properties: this.options.activeProperties
     });
 
