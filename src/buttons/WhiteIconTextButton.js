@@ -15,6 +15,7 @@ import {UIButtonPrimary}        from '../defaults/DefaultTypefaces.js';
 
 import {Button}                 from './Button.js';
 
+@layout.dockPadding(0,24,0,24)
 export class WhiteIconTextButton extends Button {
 
     @layout.dock.left(~100)
@@ -28,7 +29,8 @@ export class WhiteIconTextButton extends Button {
 
     constructor(options = {}){
         super(combineOptions({
-            properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor}
+            textProperties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor},
+            iconProperties: {color: Colors.PrimaryUIColor}
         }, options));
     }
 
@@ -48,12 +50,15 @@ class IconAndText extends View {
     @layout.size(24, 24)
     @layout.align(0,0.5)
     @layout.origin(0,0.5)
-    icon = this.options.image ? new ImageSurface({ content: this.options.image }) : new this.options.icon({color: this.options.properties.color});
+    icon = this.options.image ? new ImageSurface({ content: this.options.image }) : new this.options.icon({color: this.options.iconProperties.color});
 
     @layout.translate(0, 0, 30)
     @layout.dock.left(true, 8)
     @layout.size(true, ~16)
     @layout.align(0,0.5)
     @layout.origin(0,0.5)
-    text = new Surface(this.options);
+    text = new Surface({
+        ...this.options,
+        properties: this.options.textProperties,
+    });
 }

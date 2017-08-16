@@ -30,7 +30,7 @@ export class BaseDialog extends Dialog {
 
     @layout.translate(0, 0, -10)
     @layout.fullSize()
-    background = new Surface({properties: {backgroundColor: 'white', borderRadius: this.options.borderRadius}});
+    background = new Surface({properties: this.options.backgroundProperties });
 
     @layout.size(48, 48)
     @layout.stick.topLeft()
@@ -43,11 +43,11 @@ export class BaseDialog extends Dialog {
 
     @layout.dock.top( ~50)
     @layout.stick.top()
-    title = new Surface(combineOptions({ content: this.options.title, properties: { textAlign: "left", whitespace: "nowrap" } }, UITitle));
+    title = new Surface(combineOptions({ content: this.options.title, properties: this.options.titleProperties }, UITitle));
 
     @layout.stick.top()
     @layout.dock.top( ~50, 8)
-    body = new Surface(combineOptions({ content: this.options.body, properties: { textAlign: 'left' } }, TextBody));
+    body = new Surface(combineOptions({ content: this.options.body, properties: this.options.bodyProperties }, TextBody));
 
     /**
      * @example
@@ -58,8 +58,19 @@ export class BaseDialog extends Dialog {
      * @param {String} [options.body] The body of the dialog
      */
     constructor(options) {
-        options.borderRadius = options.rounded ? "24px" : "4px";
-        super(options);
+        super(combineOptions({
+            titleProperties: {
+                textAlign: "left", whitespace: "nowrap"
+            },
+            bodyProperties: {
+                textAlign: 'left'
+            },
+            backgroundProperties: {
+                backgroundColor: 'white',
+                borderRadius: options.rounded ? "24px" : "4px"
+            }
+        }, options));
+
         this.layout.on('layoutstart', ({size}) => {
 
             /*Set the inner size of the items */

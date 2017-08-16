@@ -12,10 +12,8 @@ export class LabeledTextInput extends View {
 
     @layout.dock.top(~20)
     label = new UISmallGray({
-        content: this.options.label, properties: {
-            /* Prevent line-breaks from happening */
-            whiteSpace: 'nowrap'
-        }
+        content: this.options.label,
+        properties: this.options.labelProperties
     });
 
     @layout.dock.top(~48)
@@ -40,7 +38,11 @@ export class LabeledTextInput extends View {
             clearOnEnter: false,
             usesFeedback: false,
             password: false,
-            inputType: SingleLineTextInput
+            inputType: SingleLineTextInput,
+            labelProperties:{
+                /* Prevent line-breaks from happening */
+                whiteSpace: 'nowrap'
+            }
         }, options));
     }
 

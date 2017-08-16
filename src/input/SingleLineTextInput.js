@@ -35,7 +35,8 @@ export class SingleLineTextInput extends View {
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
                 backgroundColor: 'rgb(255, 255, 255)',
                 borderRadius: this.options.borderRadius,
-                boxSizing: 'content-box'
+                boxSizing: 'content-box',
+                ...this.options.borderProperties
             }
         }
     ) : null;
@@ -46,7 +47,8 @@ export class SingleLineTextInput extends View {
             properties: {
                 boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',
                 backgroundColor: 'rgb(255, 255, 255)',
-                borderRadius: this.options.borderRadius
+                borderRadius: this.options.borderRadius,
+                ...this.options.shadowProperties
             }
         }
     );
@@ -104,7 +106,8 @@ export class SingleLineTextInput extends View {
                     borderRadius: this.options.borderRadius,
                     boxShadow: 'none',
                     ...TypeFaces.UIRegular,
-                    lineHeight: 'normal' /* Don't reorder this to above UIRegular, or it will overwrite */
+                    lineHeight: 'normal', /* Don't reorder this to above UIRegular, or it will overwrite */
+                    ...this.options.backgroundProperties
                 },
                 ...this.options.inputOptions
             }), 'input', layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
@@ -165,7 +168,7 @@ export class SingleLineTextInput extends View {
         if (message) {
             this.correct.setText(message);
         }
-        this.setViewFlowState('correct');
+        this.options.usesFeedback && this.setViewFlowState('correct');
 
         this._eventOutput.emit('stateCorrect');
     }
@@ -175,7 +178,7 @@ export class SingleLineTextInput extends View {
         if (message) {
             this.incorrect.setText(message);
         }
-        this.setViewFlowState('incorrect');
+        this.options.usesFeedback && this.setViewFlowState('incorrect');
         this._eventOutput.emit('stateIncorrect');
     }
 
@@ -185,7 +188,7 @@ export class SingleLineTextInput extends View {
 
     setRequiredState() {
         /* This is incorrect state, because there's nothing in the field as of now */
-        this.setViewFlowState('required');
+        this.options.usesFeedback && this.setViewFlowState('required');
         this._eventOutput.emit('stateIncorrect');
     }
 
