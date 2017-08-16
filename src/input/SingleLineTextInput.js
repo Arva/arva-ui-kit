@@ -35,7 +35,8 @@ export class SingleLineTextInput extends View {
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
                 backgroundColor: 'rgb(255, 255, 255)',
                 borderRadius: this.options.borderRadius,
-                boxSizing: 'content-box'
+                boxSizing: 'content-box',
+                ...this.options.borderProperties
             }
         }
     );
@@ -46,7 +47,8 @@ export class SingleLineTextInput extends View {
             properties: {
                 boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',
                 backgroundColor: 'rgb(255, 255, 255)',
-                borderRadius: this.options.borderRadius
+                borderRadius: this.options.borderRadius,
+                ...this.options.shadowProperties
             }
         }
     );

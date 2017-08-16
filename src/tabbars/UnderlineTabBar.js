@@ -37,7 +37,8 @@ export class UnderlineTabBar extends View {
         super(combineOptions({
             underlineColor: 'rgba(0,0,0,0.1)',
             tabBarWidth: 0.5,
-            tabBar: LineTabBar
+            tabBar: LineTabBar,
+            tabBarPosition: 'center'
         }, options));
 
         this._addTabBar()
@@ -46,9 +47,11 @@ export class UnderlineTabBar extends View {
     _addTabBar(){
         let decorators = [
             layout.dock.bottom(48),
-            layout.stick.center(),
+            layout.stick[this.options.tabBarPosition](),
             layout.size(this.options.tabBarWidth, 48)
         ];
+
+        this.options.tabBarTranslate && decorators.push(layout.translate.apply(layout, this.options.tabBarTranslate));
 
         let uibar = new UIBar({
             bottomLine: true,
