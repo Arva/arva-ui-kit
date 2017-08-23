@@ -34,11 +34,21 @@ export class WhiteIconTextButton extends Button {
         }, options));
     }
 
-
-    _setEnabled(enabled) {
-        super._setEnabled(enabled);
-        if(this.icon && this.icon.changeColor) {
-            this.icon.changeColor(enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray);
+    _setEnabled(enabled, changeBackGround = true, colorProperties = null) {
+        super._setEnabled(enabled, changeBackGround, colorProperties ? colorProperties : null);
+        if(this.iconAndText.icon && this.iconAndText.icon.changeColor && changeBackGround) {
+            if (colorProperties) {
+                this.iconAndText.icon.changeColor(enabled ? colorProperties.activeTextAndIconColor : colorProperties.inActiveTextAndIconColor);
+            } else {
+                this.iconAndText.icon.changeColor(enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray);
+            }
+        }
+        if(this.iconAndText.text && changeBackGround) {
+            if (colorProperties) {
+                this.iconAndText.text.setProperties({color: enabled ? colorProperties.activeTextAndIconColor : colorProperties.inActiveTextAndIconColor});
+            } else {
+                this.iconAndText.text.setProperties({color: enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray});
+            }
         }
     }
 }
