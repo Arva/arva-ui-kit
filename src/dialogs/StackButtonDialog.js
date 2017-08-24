@@ -35,7 +35,8 @@ export class StackButtonDialog extends BaseDialog {
                     backgroundProperties: {
                         borderTop: '1px #E6e6e6 solid',
                         borderRadius: index !== buttons.length - 1 ? '0px' : `0px 0px ${this.options.borderRadius} ${this.options.borderRadius}`
-                    }
+                    },
+                    ...this.options.buttonOptions
                 }
             ), `button${index}`, layout.dock.top(buttonHeight, 0), layout.translate(0, 0, 100));
         }

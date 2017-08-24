@@ -11,10 +11,10 @@ import {Colors}                     from '../defaults/DefaultColors';
 export class ColoredIconTextButton extends WhiteIconTextButton {
     constructor(options){
         super(combineOptions({
-            textProperties: {color: 'white'},
-            iconProperties: {color: 'white'},
+            textProperties: options.colorProperties ? {color: options.colorProperties.activeTextAndIconColor} : {color: 'white'},
+            iconProperties: options.colorProperties ? {color: options.colorProperties.activeTextAndIconColor} : {color: 'white'},
             backgroundProperties: {
-                backgroundColor: Colors.PrimaryUIColor
+                backgroundColor: options.colorProperties ? options.colorProperties.activeBackgroundColor : Colors.PrimaryUIColor
             }
         }, options));
     }
