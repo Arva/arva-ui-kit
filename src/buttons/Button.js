@@ -2,9 +2,10 @@
  * Created by lundfall on 07/07/16.
  */
 
-import Surface              from 'famous/core/Surface.js'
+import Surface                from 'famous/core/Surface.js'
 import { Throttler }          from 'arva-js/utils/Throttler.js'
-import { layout, bindings, event, dynamic }             from 'arva-js/layout/Decorators.js'
+import { layout, bindings,
+  event, dynamic }            from 'arva-js/layout/Decorators.js'
 import { combineOptions }     from 'arva-js/utils/CombineOptions.js'
 import { Colors }             from 'arva-kit/defaults/DefaultColors.js'
 
@@ -33,7 +34,7 @@ import { getShadow }          from '../defaults/DefaultShadows.js'
   backgroundClasses: [],
   useBackground: true,
   enableBorder: false,
-  backgroundProperties: {},
+  backgroundProperties: {backgroundColor: 'white'},
   useBoxShadow: false,
   rippleOptions: {}
 })
@@ -58,6 +59,7 @@ export class Button extends Clickable {
       borderRadius: this.options.backgroundProperties.borderRadius
     }
   })
+
 
   @layout.fullSize()
   @layout.translate(0, 0, -10)
