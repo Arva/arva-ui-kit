@@ -16,6 +16,9 @@ import {UIBarImageButton}                                   from '../buttons/UIB
 
 export class ModularDialog extends Dialog {
 
+
+    maxSize = [720, 720];
+
     @layout.translate(0, 0, -10)
     @layout.fullSize()
     background = new Surface({properties: {backgroundColor: this.options.backgroundColor, borderRadius: this.options.rounded ? '24px' : '4px'}});
@@ -89,7 +92,7 @@ export class ModularDialog extends Dialog {
         return [undefined, undefined];
     }
 
-    maxSize = [720, 720];
+
 
     static _setOptions({rightButton, leftButton, title, variation, shadowType}) {
         let components = [];

@@ -31,10 +31,10 @@ export class ColoredTextButton extends WhiteTextButton {
     /**
      * @example
      * colorProperties = {
-        inActiveTextColor: Colors.darkGrayColor,
-        inActiveBackgroundColor: Colors.lightGrayColor,
+        inActiveTextColor: Colors.DarkGrayColor,
+        inActiveBackgroundColor: Colors.LightGrayColor,
         activeTextColor: Colors.PrimaryUIColor,
-        activeBackgroundColor: Colors.lightGrayColor,
+        activeBackgroundColor: Colors.LightGrayColor,
      * };
      *
      * a = new ColoredTextButton({

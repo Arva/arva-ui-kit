@@ -21,10 +21,10 @@ export class ColoredIconTextButton extends WhiteIconTextButton {
     /**
      * @example
      * colorProperties = {
-        inActiveTextAndIconColor: Colors.darkGrayColor,
-        inActiveBackgroundColor: Colors.lightGrayColor,
+        inActiveTextAndIconColor: Colors.DarkGrayColor,
+        inActiveBackgroundColor: Colors.LightGrayColor,
         activeTextAndIconColor: Colors.PrimaryUIColor,
-        activeBackgroundColor: Colors.lightGrayColor,
+        activeBackgroundColor: Colors.LightGrayColor,
      * };
      *
      * a = new ColoredIconTextButton({
