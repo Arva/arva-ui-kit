@@ -11,11 +11,9 @@ export class ColoredTextButton extends WhiteTextButton {
     static generateOptions(options = {}) {
         return {
             backgroundProperties: {
-                backgroundColor: Colors.PrimaryUIColor
+                backgroundColor: options.colorProperties ? options.colorProperties.activeBackgroundColor : Colors.PrimaryUIColor
             },
-            properties: {
-                color: 'white'
-            },
+            properties: options.colorProperties ? {color: options.colorProperties.activeTextColor} : {color: 'white'},
             ...WhiteTextButton.generateBoxShadowVariations(options.variation)
         }
     }
@@ -28,6 +26,30 @@ export class ColoredTextButton extends WhiteTextButton {
 
     setBackgroundColor(color) {
         this.background && this.background.setProperties({backgroundColor: color});
+    }
+
+    /**
+     * @example
+     * colorProperties = {
+        inActiveTextColor: Colors.DarkGrayColor,
+        inActiveBackgroundColor: Colors.LightGrayColor,
+        activeTextColor: Colors.PrimaryUIColor,
+        activeBackgroundColor: Colors.LightGrayColor,
+     * };
+     *
+     * a = new ColoredTextButton({
+        colorProperties,
+        enabled: false,
+        icon: ScanIcon,
+        content: `Get free stuff`
+     })
+     *
+     *
+     * @param {object} [options.colorProperties] Object containing the colors of the icon/text/background in active and inactive state
+     */
+    _setEnabled(enabled) {
+        let properties = this.options.colorProperties ? this.options.colorProperties : null;
+        super._setEnabled(enabled, true, properties);
     }
 
 }

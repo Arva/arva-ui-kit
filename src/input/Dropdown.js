@@ -1,7 +1,7 @@
 /**
  * Created by lundfall on 21/09/16.
  */
-
+import _toPairs                     from 'lodash/toPairs.js';
 import {View}                       from 'arva-js/core/View.js';
 import {flow, layout, event}        from 'arva-js/layout/Decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
@@ -36,7 +36,7 @@ export class Dropdown extends View {
 
     @layout.translate(0, 0, 0)
     @layout.fullSize()
-    background = new Surface({ properties: { backgroundColor: this.options.backgroundProperties.backgroundColor, borderRadius: this.options.borderRadius } });
+    background = new Surface({ properties: { backgroundColor: this.options.backgroundProperties.backgroundColor, borderRadius: this.options.properties.borderRadius } });
 
     /* Using animate instead of flow state to avoid unwanted transitions when resizing */
     @layout.fullSize()
@@ -69,12 +69,19 @@ export class Dropdown extends View {
      * @returns {ContainerView}
      */
     constructor(options) {
+        //TODO Remove the need for having borderRadius as a property of the root level on the options, it's a bit hacky. Better to have it under properties
+        let borderRadius = options.borderRadius || options.rounded ? "24px" : "4px";
+
         super(combineOptions({
             //TODO Change to false once final
             fakeWithNative: true,
             items: [{ text: 'This is the selected item', selected: true, data: 1 }],
             eventName: 'itemChosen',
-            borderRadius: options.rounded ? "24px" : "4px",
+            placeholderOptions: {},
+            properties: {
+                border: '1px solid rgba(0, 0, 0, 0.1)',
+                borderRadius
+            },
             backgroundProperties: {
                 backgroundColor: 'white'
             }
@@ -91,13 +98,14 @@ export class Dropdown extends View {
                 }),
                 'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40)
             )
-            ;
+
             if (selectedItemIndex === -1) {
                 selectedItemIndex = 0;
             }
             this._selectedItem = this.options.items[selectedItemIndex];
             this.nativeSelect.on('change', (event) => {
                 this._selectedItemIndex = event.target.selectedIndex;
+
                 if(this.options.placeholder){
                     /* The placeholder takes up one space in the beginning,
                      * so decrease the index by 1 since you can't select the placeholder */
@@ -112,7 +120,13 @@ export class Dropdown extends View {
                         item.selected = false;
                     }
                 }
+
                 this._eventOutput.emit(this.options.eventName, this._selectedItem.data);
+
+                if(this.options.placeholder){
+                    this.options.placeholder = null;
+                    this.nativeSelect.setContent(this._generateNativeDropdownHtml());
+                }
             });
             return this;
         }
@@ -376,18 +390,27 @@ export class Dropdown extends View {
          * */
         return `
             <select style ="
+                ${this.options.placeholder ? this._getStyleStringFromProperties(this.options.placeholderOptions.properties) : ''}
+                ${this._getStyleStringFromProperties(this.options.properties)}
                 height: 48px;
                 overflow: hidden;
-                ${(this.options.properties && this.options.properties.color) ? `color: ${this.options.properties.color};` : ''  }
-                ${(this.options.properties && this.options.properties.border) ? `border: ${this.options.properties.border}` : 'border: 1px solid rgba(0, 0, 0, 0.1)' };
                 ${(this.options.backgroundProperties && this.options.backgroundProperties.backgroundColor) ? `background-color: ${this.options.backgroundProperties.backgroundColor};` : '' }
-                border-radius: ${this.options.borderRadius};
                 padding: 0 0 0 16px;
                 outline: none;
                 -webkit-appearance: none; /* Doesn't work for IE and firefox */
                 width: 100%;
             ">
-            ${this.options.placeholder ? `<option value="" disabled selected hidden>${this.options.placeholder}</option>` : ''}
+            ${this.options.placeholder ? `<option value="" disabled selected  hidden>${this.options.placeholder} </option>` : ''}
             ${this.options.items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
+    }
+
+    _getStyleStringFromProperties(properties) {
+        return _toPairs(properties).map((pair) =>
+                pair.map((string) =>
+                    string.replace(/[A-Z]/g, (upperCaseCharacter) =>
+                        `-${upperCaseCharacter.toLowerCase()}`)
+                ).join(':')
+            ).join('; ')
+            + ';';
     }
 }

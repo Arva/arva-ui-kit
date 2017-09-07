@@ -43,11 +43,11 @@ export class BaseDialog extends Dialog {
 
     @layout.dock.top( ~50)
     @layout.stick.top()
-    title = new Surface(combineOptions({ content: this.options.title, properties: this.options.titleProperties }, UITitle));
+    title = new Surface(combineOptions(UITitle, { content: this.options.title, properties: this.options.titleProperties }));
 
     @layout.stick.top()
     @layout.dock.top( ~50, 8)
-    body = new Surface(combineOptions({ content: this.options.body, properties: this.options.bodyProperties }, TextBody));
+    body = new Surface(combineOptions(TextBody, { content: this.options.body, properties: this.options.bodyProperties }));
 
     /**
      * @example

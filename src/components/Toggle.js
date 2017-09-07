@@ -25,7 +25,7 @@ export class Toggle extends View {
     inactiveButton = new WhiteTextButton({
         ...this.options,
         backgroundProperties: this.options.inactiveBackgroundProperties,
-        properties: this.options.inactiveProperties
+        properties: this.options.inactiveProperties ? this.options.inactiveProperties : this.options.properties
     });
 
     @layout.fullSize()
