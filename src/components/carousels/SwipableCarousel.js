@@ -22,15 +22,16 @@ import { CarouselIndicators }       from './CarouselIndicators.js';
 
 const width = window.innerWidth;
 
+
 export class SwipableCarousel extends View {
 
     @layout.stick.center()
-    @layout.size(undefined, undefined)
+    @layout.size(undefined, true)
     wall = new CarouselWall(this.options);
 
     @layout.stick.bottom(true)
     @layout.size(undefined, 48)
-    carouselIndicators = new CarouselIndicators({
+    carouselIndicators = this.options.showCarousel && new CarouselIndicators({
         numberOfPages: this.options.items.length,
         showButtons: false,
         ...this.options.carouselIndicatorProperties
@@ -38,15 +39,26 @@ export class SwipableCarousel extends View {
 
     constructor(options={}){
         super(combineOptions({
+            showCarousel: true,
             carouselIndicatorProperties: {
                 variation: 'transparent-light'
-            }
+            },
+            itemHeight: true,
+            sensitivity: 'high'
         },options));
 
-        this.carouselIndicators.setIndex(this.options.startIndex);
+        this.carouselIndicators && this.carouselIndicators.setIndex(this.options.startIndex);
         this.wall.on('change-index', (idx) => {
-            this.carouselIndicators.setIndex(idx);
+            this.carouselIndicators && this.carouselIndicators.setIndex(idx);
         })
+    }
+
+    swipe(next=true){
+        this.wall.swipe(next)
+    }
+
+    goToIndex(idx){
+        this.wall.goToIdx(idx)
     }
 }
 
@@ -59,6 +71,14 @@ class CarouselWall extends View {
         this.createItems();
         this.swipeListener = this.swipeListener.bind(this);
         this.addDragEventListener(this.focusedItem);
+
+        if (this.options.sensitivity === 'low'){
+            this.swipeSensitivity = 0.5
+        } else if (this.options.sensitivity === 'medium'){
+            this.swipeSensitivity = 0.35;
+        } else {
+            this.swipeSensitivity = 0.2;
+        }
 
         this.swipableOptions = {
             yRange: [0, 0],
@@ -101,7 +121,7 @@ class CarouselWall extends View {
 
         let decorators =[
             layout.stick.center(),
-            layout.size(width,undefined),
+            layout.size(width, this.options.itemHeight),
             layout.translate(idx * width, 0, 0),
             layout.draggable(this.swipableOptions)
         ];
@@ -137,6 +157,7 @@ class CarouselWall extends View {
     }
 
     goToIdx(idx){
+        this._eventOutput.emit('swipeIdx', idx);
         this.moveItems([-width * idx, 0], {duration: 300});
     }
 
@@ -145,9 +166,9 @@ class CarouselWall extends View {
 
         // normalise the displacement based on the current index
         endX = endX + (width * this.focusedItem);
-        if (velocity > 0.2 && this.focusedItem > 0){
-            this.swipe(false);
-        } else if (velocity < -0.2 && this.focusedItem < this.options.items.length -1){
+        if (velocity > this.swipeSensitivity && this.focusedItem > 0){
+            this.swipe(false)
+        } else if (velocity < -this.swipeSensitivity && this.focusedItem < this.options.items.length -1){
             this.swipe(true);
         } else if (endX > xThreshold[1] && this.focusedItem > 0) {
             this.swipe(false);

@@ -11,6 +11,7 @@ export class SwipableImageCarousel extends SwipableCarousel {
         options.items = options.images.map( url =>
             BkImageSurface.bind(this, {
                 content: url,
+                sizeMode: 'cover',
                 ...options.imageOptions
             })
         );
