@@ -8,14 +8,15 @@ import FlexTabBar                           from 'famous-flex/widgets/TabBar.js'
 import {Tab}                                from './Tab.js';
 
 export let DockLeftLayout = {
-    _calcCurrentPosition(id){
+    calcCurrentPosition(id, existingSizes){
         let position = 0;
-        for (let index = 0; index < this._itemCount; index++) {
-            if (index == id) {
+        for(let [index, size = []] of existingSizes.entries()){
+            if (index === id){
                 return position;
             }
-            position += this[`item${index}`].getSize()[0] || 0;
+            position += size.width || 0
         }
+        return position;
     },
     _getCurrentSize(index){
         let size = this[`item${index}`].getSize()[0] || 0;
@@ -33,10 +34,11 @@ export let DockLeftLayout = {
             let tab = new (this.options.tabRenderable || Tab)(combineOptions(this.options.tabOptions, items[index] || {}));
             this[`item${index}`] && this.removeRenderable(`item${index}`);
             this._registerTabListeners(tab, index);
-            this.addRenderable(tab, `item${index}`, layout.dock.left(~50))
+            this[`item${index}`] = this.addRenderable(tab , layout.dock.left(~50))
         }
     },
-    _handleItemActive(id, tab) {
+    _handleItemActive(id) {
+        let tab = this.items[id];
         this._currentItem = id;
         this.setItemActive(id, tab);
         for (let index = 0; index < this._itemCount; index++) {

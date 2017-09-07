@@ -15,7 +15,7 @@ const flowOptions = {transition: {curve: Easing.outCubic, duration: 200}};
 export class LineTabBar extends TabBar {
 
     @layout.size(0, function () {
-        return this.options.shapeHeight || 4
+        return this.options.shapeHeight || 2
     })
     @layout.stick.bottomLeft()
     @flow.defaultOptions(flowOptions)
@@ -59,7 +59,7 @@ export class LineTabBar extends TabBar {
      */
     setItemActive(id, item) {
         this._currentItem = id;
-        this.decorateRenderable('shape', layout.size(this._getCurrentSize(id), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 0, 10))
+        this.decorateRenderable(this.shape, layout.size(this._getCurrentSize(id), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 0, 10))
     }
 
     setItemDeactive(id, item) {
@@ -70,18 +70,18 @@ export class LineTabBar extends TabBar {
 
         /* Reshrink shape */
         if (id === this._currentItem) {
-            return this.decorateRenderable('shape', layout.size((this._getCurrentSize(this._currentItem)) - 24, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id) + 12, 0, 10));
+            return this.decorateRenderable(this.shape, layout.size((this._getCurrentSize(this._currentItem)) - 24, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id) + 12, 0, 10));
         }
 
         /* Expand shape with 12px to the hovered renderable */
         if (id < this._currentItem) {
-            this.decorateRenderable('shape', layout.size(this._getCurrentSize(this._currentItem) + 12, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this._currentItem) - 12, 0, 10))
+            this.decorateRenderable(this.shape, layout.size(this._getCurrentSize(this._currentItem) + 12, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this._currentItem) - 12, 0, 10))
         } else {
-            this.decorateRenderable('shape', layout.size(this._getCurrentSize(this._currentItem) + 12, this.options.shapeHeight))
+            this.decorateRenderable(this.shape, layout.size(this._getCurrentSize(this._currentItem) + 12, this.options.shapeHeight))
         }
     }
 
     offHover(id, item) {
-        this.decorateRenderable('shape', layout.size(this._getCurrentSize(this._currentItem), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this._currentItem), 0, 10))
+        this.decorateRenderable(this.shape, layout.size(this._getCurrentSize(this._currentItem), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this._currentItem), 0, 10))
     }
 }

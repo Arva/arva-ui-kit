@@ -70,11 +70,11 @@ export class ModularDialog extends Dialog {
             return;
         }
         if(this.mainContent){
-            this.hideRenderable('mainContent');
-            this.replaceRenderable('mainContent', content);
-            this.showRenderable('mainContent');
+            this.hideRenderable(this.mainContent);
+            this.replaceRenderable(this.mainContent, content);
+            this.showRenderable(this.mainContent);
         } else{
-            this.addRenderable(content, 'mainContent', layout.dock.fill(), layout.animate());
+            this.mainContent = this.addRenderable(content, layout.dock.fill(), layout.animate());
         }
     }
 

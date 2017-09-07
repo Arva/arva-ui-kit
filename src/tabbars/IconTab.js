@@ -99,19 +99,19 @@ export class IconTab extends Button {
     }
 
     setActive() {
-        this.setRenderableFlowState('iconOverlay', 'active');
+        this.setRenderableFlowState(this.iconOverlay, 'active');
     }
 
     setInactive() {
-        this.setRenderableFlowState('iconOverlay', 'inactive');
+        this.setRenderableFlowState(this.iconOverlay, 'inactive');
     }
 
     _activate() {
-        this.setRenderableFlowState('iconOverlay', 'inactive');
-        this.setRenderableFlowState('icon', 'active');
+        this.setRenderableFlowState(this.iconOverlay, 'inactive');
+        this.setRenderableFlowState(this.icon, 'active');
     }
 
     _deactivate() {
-        this.setRenderableFlowState('icon', 'inactive');
+        this.setRenderableFlowState(this.icon, 'inactive');
     }
 }

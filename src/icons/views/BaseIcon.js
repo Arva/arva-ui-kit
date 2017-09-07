@@ -19,7 +19,7 @@ export class BaseIcon extends Surface {
     changeColor(color) {
         let { options } = this;
         options.color = color;
-        this.setContent(replaceColors(options.icon, color));
+        this.setContent(replaceColors(this.constructor.icon, color));
     }
 
 }

@@ -3,7 +3,7 @@
  */
 
 import {View}                                   from 'arva-js/core/View.js';
-import {layout}                                 from 'arva-js/layout/Decorators.js';
+import {layout, bindings}                       from 'arva-js/layout/Decorators.js';
 import {combineOptions}                         from 'arva-js/utils/CombineOptions.js';
 import {Checkbox}                               from './Checkbox.js';
 import {UIRegular}                              from '../text/UIRegular.js';
@@ -12,6 +12,22 @@ import {ComponentHeight, ComponentPadding}      from '../defaults/DefaultDimensi
 
 const ComponentSpacing = 20;
 
+@bindings.setup({
+    checkbox: {
+        shadowType: 'softShadow',
+        enabled: true,
+        state: true
+    },
+    label: {
+        properties: {
+            whiteSpace: 'nowrap',
+            width:'100%',
+            overflowX: 'hidden',
+            textOverflow:'ellipsis'
+        }
+    },
+    center: false
+})
 export class LabeledCheckbox extends View {
 
     @layout.dock.left(ComponentHeight, 0, ComponentSpacing)
@@ -22,24 +38,6 @@ export class LabeledCheckbox extends View {
     @layout.translate((ComponentHeight - ComponentPadding), 0, 20)
     labels = new Labels(this.options);
 
-    constructor(options = {}) {
-        super(combineOptions({
-            checkbox: {
-                shadowType: 'softShadow',
-                enabled: true,
-                state: true
-            },
-            label: {
-                properties: {
-                    whiteSpace: 'nowrap',
-                    width:'100%',
-                    overflowX: 'hidden',
-                    textOverflow:'ellipsis'
-                }
-            },
-            center: false
-        }, options));
-    }
 
     setLabels(label, subLabel) {
         return this.labels.setLabels(label, subLabel);
@@ -71,7 +69,7 @@ class Labels extends View {
         super(options);
 
         if (!this.options.subLabel && !this.options.center) {
-            this.decorateRenderable('label', layout.stick.left(), layout.dock.top(ComponentHeight));
+            this.decorateRenderable(this.label, layout.stick.left(), layout.dock.top(ComponentHeight));
         }
     }
 

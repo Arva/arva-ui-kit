@@ -115,12 +115,13 @@ export class UIBar extends View {
             }
         }
         if (position === 'center') {
-            this.addRenderable(renderable, renderableName, layout.stick.center(), layout.size(...this.options.centerItemSize), ...decorators);
-            this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
+            this.addRenderable(renderable, layout.stick.center(), layout.size(...this.options.centerItemSize), ...decorators);
+            this.decorateRenderable(renderable, layout.animate({animation: AnimationController.Animation.Fade}));
         } else {
-            this.addRenderable(renderable, renderableName, layout.dock[position](true), ...decorators);
-            this.decorateRenderable(renderableName, layout.animate({animation: AnimationController.Animation.Fade}));
+            this.addRenderable(renderable, layout.dock[position](true), ...decorators);
+            this.decorateRenderable(renderable, layout.animate({animation: AnimationController.Animation.Fade}));
         }
+        this[renderableName] = renderable;
     }
 
     removeAllComponents() {

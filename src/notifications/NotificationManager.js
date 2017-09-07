@@ -60,7 +60,7 @@ export class NotificationManager {
 
 class NotificationWrapper extends View {
     dataSource = [];
-    @layout.dock.right(function (width) {
+    @layout.size(function (width) {
         this.isTablet = width >= 480;
         this.scrollView.setOptions({
             flowOptions: {
@@ -76,7 +76,7 @@ class NotificationWrapper extends View {
             }
         });
         return Math.min(width, 384)
-    }, 0, 6000)
+    }, true)
     @layout.translate(0, 16, 6000)
     scrollView = new DataBoundScrollView({
         layoutOptions: {

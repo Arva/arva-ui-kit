@@ -24,71 +24,89 @@ export class Tab extends TextButton {
      * @param {Boolean} [options.useBackground] Whether the tab should use a background
      * @param {Boolean} [options.useBoxShadow] Whether the tab should use a boxshadow
      */
-    constructor(options = {}){
-        super(combineOptions(options, {makeRipple: false, useBackground: false, useBoxShadow: false}));
+    constructor(options = {}) {
+        super(combineOptions(options, { makeRipple: false, useBackground: false, useBoxShadow: false, active: false}));
+        if(this.options.active){
+            this._setActive();
+        } else {
+            this._setInactive();
+        }
     }
 
-    _handleTouchMove(touchEvent){
+    _handleTouchMove(touchEvent) {
         if (this._inBounds) {
-            this.throttler.add(()=>{
+            this.throttler.add(() => {
                 this._inBounds = this._isInBounds(touchEvent, this.overlay);
-                if(!this._inBounds){
-                    this._setDeactive();
+                if (!this._inBounds) {
+                    this._setInactive();
                 }
             });
         }
     }
 
-    _handleTapStart(mouseEvent){
+
+
+    _handleTapStart(mouseEvent) {
+        this._onHover();
+        this._setActive();
+    }
+
+    _onHover() {
         this._hover = true;
         this._inBounds = true;
         this._eventOutput.emit('hoverOn');
-        this._activate();
-
     }
+
     _onMouseOut(mouseEvent) {
         this._handleTapEnd(mouseEvent);
     }
 
     _handleTapEnd(mouseEvent) {
-        if(mouseEvent.type === 'mouseout'){
+        if (mouseEvent.type === 'mouseout') {
             this._hover = false;
         }
 
-        if(this._hover){
-           return this._setActive();
+        if (this._hover) {
+            return this._setActive();
         }
 
-        this._setDeactive();
+        this._setInactive();
     }
 
-    _setActive(){
+    _setActive() {
+        if (this._active) {
+            return
+        }
+
         this._active = true;
         this._hover = false;
-        this._eventOutput.emit('activate');
-        this._deactivate();
+        this.activate();
     }
 
-    _setDeactive(){
+    _setInactive() {
+
+        if (!this._active) {
+            return;
+        }
+        this._eventOutput.emit('hoverOff');
         this._active = false;
         this._hover = false;
-        this._eventOutput.emit('hoverOff');
-        this._deactivate();
+        this.deactivate();
     }
 
     /**
      * Set the state of the Tab renderable to active
      * @private
      */
-    _activate(){
-        /* To be inherented */
+    activate() {
+        this._eventOutput.emit('activate');
     }
 
     /**
      * Set the state of the Tab renderable to inactive
      * @private
      */
-    _deactivate(){
+    deactivate() {
         /* to be inherented */
     }
 }
