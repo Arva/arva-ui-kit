@@ -39,7 +39,7 @@ export class WhiteIconButton extends Button {
             options.variation = 'noShadow';
         }
         super(combineOptions({
-            properties: {color: Colors.PrimaryUIColor},
+            properties: {color: Colors.White},
             ...WhiteTextButton.generateBoxShadowVariations(options.variation),
             iconSize: 24
         }, options));

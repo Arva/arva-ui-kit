@@ -26,7 +26,8 @@ export class WhiteTextButton extends Button {
                     color: Colors.White
                 }
             },
-            properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor},
+            /* TODO fix the following change!!!!!!!!*/
+            properties: {...UIButtonPrimary.properties, color: Colors.White},
             ...WhiteTextButton.generateBoxShadowVariations(options.variation, options.disableBoxShadow)
         }, options));
 
