@@ -4,7 +4,13 @@
 
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {TextButton}         from '../buttons/TextButton.js';
+import { layout, bindings,
+    event, dynamic }        from 'arva-js/layout/Decorators.js'
 
+
+@bindings.setup({
+    makeRipple: false, useBackground: false, useBoxShadow: false, active: false
+})
 export class Tab extends TextButton {
 
     /* If current tab is set to active */
@@ -24,8 +30,8 @@ export class Tab extends TextButton {
      * @param {Boolean} [options.useBackground] Whether the tab should use a background
      * @param {Boolean} [options.useBoxShadow] Whether the tab should use a boxshadow
      */
-    constructor(options = {}) {
-        super(combineOptions(options, { makeRipple: false, useBackground: false, useBoxShadow: false, active: false}));
+    constructor(options) {
+        super(options);
         if(this.options.active){
             this._setActive();
         } else {

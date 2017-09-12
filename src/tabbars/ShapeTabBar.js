@@ -23,6 +23,8 @@ const flowOptions = { flow: true, transition: { curve: Easing.outCubic, duration
         useBoxShadow: false,
         _shapeWidth: 0,
         _shapeHeight: 32,
+        _isHovering: false,
+        _currentlyHoveringIndex: 0,
         _shapeTranslate: [0, 0, 10],
         shapeSize: [0, 32],
         tabRenderable: ShapeTab,
@@ -38,7 +40,6 @@ const flowOptions = { flow: true, transition: { curve: Easing.outCubic, duration
     if (options.rounded) {
         options.borderRadius = '50%';
     }
-
 })
 export class ShapeTabBar extends TabBar {
 
@@ -71,10 +72,10 @@ export class ShapeTabBar extends TabBar {
      * @param {Object} [options.tabOptions] The options passed to the tabRenderable
      * @param {String} [options.tabOptions.inActiveColor] The color of the tabRenderable when it's not active
      * @param {String} [options.tabOptions.activeColor] The color of the tabRenderable when it's active
-     * @param {Array}  [items] The items to add to the TabBar on initialisation
+     * @param {Array}  [options.items] The items to add to the TabBar on initialisation
      */
     constructor(options = {}, items) {
-        super(options, items);
+        super(options);
     }
 
     /**
@@ -98,22 +99,16 @@ export class ShapeTabBar extends TabBar {
     onHover(id) {
         let { options } = this;
         let { cachedItemSizes, activeIndex } = options;
-        let targetWidth = cachedItemSizes[activeIndex].width;
-        //TODO Find out what the logic behind these boolean values are, they don't make a lot of sense
-        let isHoveringCurrentItem = id === activeIndex;
-        if (isHoveringCurrentItem) {
-            options._shapeWidth = targetWidth - 24;
-            options._shapeTranslate = [this._calcCurrentPosition(id) + 12, 0, 10];
-            return;
-        }
-        options._shapeWidth = targetWidth;
-        options._shapeTranslate = [this._calcCurrentPosition(this.options.activeIndex) - 12, 0, 10]
+        options._isHovering = true;
+        options._currentlyHoveringIndex = id;
+
 
     }
 
     offHover(id) {
         let {options} = this;
         let {cachedItemSizes} = options;
+        options._isHovering = false;
         options._shapeWidth = cachedItemSizes[id].width;
         options._shapeTranslate = [this._calcCurrentPosition(id), 0, 10];
     }

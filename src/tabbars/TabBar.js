@@ -83,7 +83,7 @@ export class TabBar extends View {
     //TODO Change this decorator in order to achieve equal spacing
     @layout.dock.left(~50)
     items = this.options.tabs.map((tabOptions, index) =>
-    //todo rename events that start with "hover" that actually refers to "press"
+    //todo rename events that start with hover that actually refers to "press"
         event
             .on('activate', () => this._handleItemActive(index))
             .on('hoverOn', () => this.onHover(index))
