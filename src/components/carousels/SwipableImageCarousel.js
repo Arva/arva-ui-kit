@@ -22,9 +22,7 @@ export class Cover extends View {
     });
 
     constructor(options={}) {
-        super(options)
-
-        console.log(this.image)
+        super(options);
     }
 }
 
