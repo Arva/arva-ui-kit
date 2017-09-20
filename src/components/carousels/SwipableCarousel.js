@@ -44,7 +44,8 @@ export class SwipableCarousel extends View {
                 variation: 'transparent-light'
             },
             itemHeight: true,
-            sensitivity: 'high'
+            sensitivity: 'high',
+            isSwipable: true
         },options));
 
         this.carouselIndicators && this.carouselIndicators.setIndex(this.options.startIndex);
@@ -120,7 +121,7 @@ class CarouselWall extends View {
         let item = new boundItemConstructor();
 
         let decorators =[
-            layout.stick.center(),
+            layout.stick.top(),
             layout.size(width, this.options.itemHeight),
             layout.translate(idx * width, 0, 0),
             layout.draggable(this.swipableOptions)
@@ -128,6 +129,9 @@ class CarouselWall extends View {
 
         this.addRenderable(item, `item-${idx}`, ...decorators);
 
+        if (!this.options.isSwipable){
+            item.draggable.deactivate();
+        }
         item.draggable.on('update', ({position}) => {
             this.moveItems(position)
         });
@@ -135,7 +139,9 @@ class CarouselWall extends View {
         this[`item-${idx}`] = item;
     }
 
+
     moveItems([xPos, yPos], {duration, curve} = {}){
+
         duration = duration || 0;
         curve = curve || Easing.outCirc;
         this.options.items.forEach( (itemUrl, idx) => {
