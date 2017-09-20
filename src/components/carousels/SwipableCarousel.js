@@ -121,7 +121,7 @@ class CarouselWall extends View {
         let item = new boundItemConstructor();
 
         let decorators =[
-            layout.stick.center(),
+            layout.stick.top(),
             layout.size(width, this.options.itemHeight),
             layout.translate(idx * width, 0, 0),
             layout.draggable(this.swipableOptions)
