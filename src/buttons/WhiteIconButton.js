@@ -57,14 +57,16 @@ export class WhiteIconButton extends Button {
         return this.image.changeColor(...arguments);
     }
 
-    _setEnabled(enabled) {
-        /* Pass false to parent button because we don't need the background to change, it is sufficient only to change the icon color */
-        super._setEnabled(enabled, false);
-        if (this.options.icon && this.image && this.image.changeColor) {
-            this.image.changeColor(enabled ? this.options.properties.color : Colors.Gray);
+    _setEnabled(enabled, changeBackGround, colorProperties) {
+        super._setEnabled(enabled, changeBackGround, colorProperties ? colorProperties : null);
+        if(this.image && this.image.changeColor) {
+            if (colorProperties) {
+                this.image.changeColor(enabled ? colorProperties.activeIconColor : colorProperties.inActiveIconColor);
+            } else {
+                this.image.changeColor(enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray);
+            }
         }
     }
-
 
     /* TODO 3: add _setEnabled method that changes image color if it's an icon */
 

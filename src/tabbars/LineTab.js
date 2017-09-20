@@ -7,6 +7,7 @@ import Easing               from 'famous/transitions/Easing.js';
 import {flow, layout}       from 'arva-js/layout/Decorators.js';
 import {flowStates}         from 'arva-js/layout/FlowStates.js';
 import {Tab}                from './Tab.js';
+import {Colors}             from '../defaults/DefaultColors.js';
 
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 200}};
 
@@ -27,11 +28,11 @@ export class LineTab extends Tab {
     }
 
     setActive() {
-
+        if (this.options.colorChange) { this.text.setProperties({color: Colors.PrimaryUIColor}) }
     }
 
     setInactive() {
-
+        if (this.options.colorChange) { this.text.setProperties({color: Colors.BasicTextColor}) }
     }
 
     _activate() {
