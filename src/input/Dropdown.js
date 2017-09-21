@@ -31,7 +31,7 @@ export class Dropdown extends View {
     _collapsed = true;
 
     @flow.stateStep('hidden', {}, layout.opacity(0))
-    @flow.defaultState('shown', {}, layout.opacity(1), layout.stick.right(), layout.size(32, 32), layout.translate(-4, 0, 50))
+    @flow.defaultState('shown', {}, layout.opacity(1), layout.stick.right() , layout.size(32, 32), layout.translate(-4, 0, 50))
     extendButton = new Surface({ content: sideArrows });
 
     @layout.translate(0, 0, 0)
