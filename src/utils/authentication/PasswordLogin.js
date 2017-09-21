@@ -18,7 +18,7 @@ export class PasswordLogin extends BaseLogin {
     }
 
     deauthenticateFromDataSource() {
-        this._dataSource.unauth();
+        return this._dataSource.unauth();
     }
 
     /**
