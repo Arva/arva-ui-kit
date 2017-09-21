@@ -23,7 +23,8 @@ export class WhiteTextButton extends Button {
             disabledOptions: {
                 content: options.content,
                 properties: {
-                    color: Colors.White
+                    color: Colors.White,
+                    width:'auto'
                 }
             },
             properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor},

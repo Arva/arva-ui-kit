@@ -11,8 +11,8 @@ import {WhiteTextButton}    from '../buttons/WhiteTextButton.js';
 import {ColoredTextButton}    from '../buttons/ColoredTextButton.js';
 
 export class Toggle extends View {
-
-    @layout.fullSize()
+    @layout.stick.center()
+    @layout.size(true, undefined)
     @layout.translate(0,0,20)
     @layout.animate({
         animation: AnimationController.Animation.Fade,
@@ -28,7 +28,8 @@ export class Toggle extends View {
         properties: this.options.inactiveProperties ? this.options.inactiveProperties : this.options.properties
     });
 
-    @layout.fullSize()
+    @layout.stick.center()
+    @layout.size(true, undefined)
     @layout.translate(0,0,10)
     @layout.animate({
         animation: AnimationController.Animation.Fade,
