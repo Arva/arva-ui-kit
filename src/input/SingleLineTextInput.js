@@ -43,7 +43,7 @@ export class SingleLineTextInput extends View {
 
     @flow.stateStep('shown', transition, layout.opacity(1))
     @flow.defaultState('hidden', transition, layout.stick.center(), layout.opacity(0), layout.translate(0, 0, 20))
-    shadow = new Surface({
+    shadow = this.options.showShadow ? new Surface({
             properties: {
                 boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',
                 backgroundColor: 'rgb(255, 255, 255)',
@@ -51,15 +51,20 @@ export class SingleLineTextInput extends View {
                 ...this.options.shadowProperties
             }
         }
-    );
+    ) : null;
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
     @flow.defaultState('hidden', closeTransition, ...hideBubble)
-    correct = new FeedbackBubble({ variation: 'correct', rounded: this.options.rounded });
+    correct = this.options.showCorrectBubble ? new FeedbackBubble({ variation: 'correct', rounded: this.options.rounded }) : null;
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
     @flow.defaultState('hidden', closeTransition, ...hideBubble)
-    incorrect = new FeedbackBubble({ variation: 'incorrect', rounded: this.options.rounded  });
+    incorrect = new FeedbackBubble({
+        variation: 'incorrect',
+        rounded: this.options.rounded,
+        text: this.options.incorrectText,
+        feedbackBubbleColor: this.options.incorrectColor
+    });
 
     @flow.defaultState('hidden', flowOptions, ...hideBubble)
     @flow.stateStep('shown', closeTransition, ...showBubble)
@@ -88,6 +93,8 @@ export class SingleLineTextInput extends View {
             usesFeedback: true,
             type: 'text',
             showBorder: true,
+            showShadow: true,
+            showCorrectBubble: true,
             inputOptions: { clearOnEnter: options.clearOnEnter },
             feedbackText: FeedbackBubble.texts.required,
             borderRadius: options.rounded ? "24px" : "4px"
@@ -203,7 +210,7 @@ export class SingleLineTextInput extends View {
 
     _onFocus() {
         this.setRenderableFlowState('shadow', 'shown');
-        this.correct.collapse();
+        if (this.correct) { this.correct.collapse() };
         this.incorrect.collapse();
         this.required.collapse();
     }
