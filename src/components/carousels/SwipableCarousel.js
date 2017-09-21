@@ -68,8 +68,13 @@ class CarouselWall extends View {
         super(options);
         this.focusedItem = 0;
         this.items = [];
+
+        this.swipableOptions = {
+            projection: ['x']
+        };
+
+
         this.createItems();
-        this.swipeListener = this.swipeListener.bind(this);
         this.addDragEventListener(this.focusedItem);
 
         if (this.options.sensitivity === 'low'){
@@ -80,17 +85,12 @@ class CarouselWall extends View {
             this.swipeSensitivity = 0.2;
         }
 
-        this.swipableOptions = {
-            yRange: [0, 0],
-            xRange: [-width / 2, width / 2],
-            snapX: false,
-            xThreshold: [-150, 150]
-        };
+
 
     }
 
     createItems(){
-        this.options.items.forEach(this.createItem.bind(this))
+        this.options.items.forEach(this.createItem)
     }
 
     addDragEventListener(idx){
