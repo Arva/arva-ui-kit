@@ -20,28 +20,28 @@ export class ProfileView extends View {
 
     @layout.fullSize()
     @layout.translate(0, 0, -10)
-    background = new FullScreenBackground({color: 'white'});
+    background = new FullScreenBackground({ color: 'white' });
 
     @layout.dock.top(160)
     @layout.stick.center()
     @layout.dockSpace(32)
     @layout.size(160, 160)
     @layout.translate(0, 0, 10)
-    image = new LoadingPlaceholderProfile({content: this.options.imageURL});
+    image = new LoadingPlaceholderProfile({ content: this.options.imageURL });
 
     @layout.dock.top(~32)
     @layout.dockSpace(32)
     @layout.size(~100, ~32)
     @layout.translate(0, 0, 10)
     @layout.stick.center()
-    name = new UITitle({content: this.options.title});
+    name = new UITitle({ content: this.options.title });
 
     @layout.dock.top(~32)
     @layout.dockSpace(8)
     @layout.size(~100, ~32)
     @layout.translate(0, 0, 10)
     @layout.stick.center()
-    subTitle = new UIRegular({content: this.options.subTitle, properties: {color: Colors.ModestTextColor}});
+    subTitle = new UIRegular({ content: this.options.subTitle, properties: { color: Colors.ModestTextColor } });
 
     @layout.dock.top(~32)
     @layout.dockSpace(8)
@@ -64,7 +64,7 @@ export class ProfileView extends View {
     @layout.size(undefined, undefined)
     @layout.dockSpace(32)
     @layout.translate(0, 0, 10)
-    description = new UIRegular({content: this.options.description});
+    description = new UIRegular({ content: this.options.description });
 
     /**
      * ProfileView
@@ -99,8 +99,8 @@ export class ProfileView extends View {
                 this.decorateRenderable('name', layout.dock.top(~32), layout.dockSpace(16, 0, 0, 32), layout.stick.center(), layout.translate(-80, 22, 10));
                 this.decorateRenderable('subTitle', layout.dock.top(~32), layout.dockSpace(16, 0, 0, 32), layout.stick.center(), layout.translate(-80, 16, 10));
                 this.decorateRenderable('buttons', layout.dock.top(~32), layout.dockSpace(32, 0, 0, 32), layout.stick.center(), layout.translate(-80, 0, 10));
-                this.decorateRenderable('line', layout.dock.none(), layout.translate(0, 210, 10), layout.size((size)=>Math.min(656, size - 64), 2), layout.align(0.5, 0), layout.origin(0.5, 0));
-                this.decorateRenderable('description', layout.dock.none(), layout.translate(0, 242, 10), layout.size((size)=>Math.min(656, size - 64), ~320), layout.align(0.5, 0), layout.origin(0.5, 0));
+                this.decorateRenderable('line', layout.dock.none(), layout.translate(0, 210, 10), layout.size((size) => Math.min(656, size - 64), 2), layout.align(0.5, 0), layout.origin(0.5, 0));
+                this.decorateRenderable('description', layout.dock.none(), layout.translate(0, 242, 10), layout.size((size) => Math.min(656, size - 64), ~320), layout.align(0.5, 0), layout.origin(0.5, 0));
             }
         }
     }
