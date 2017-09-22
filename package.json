@@ -14,14 +14,14 @@
       "lib": "src"
     },
     "dependencies": {
-      "arva-js": "github:bizboard/arva-js@develop",
+      "arva-js": "github:bizboard/arva-js@1.4.1.SignalR",
       "bowser": "npm:bowser@1.4.3",
       "color": "npm:color@^0.11.3",
       "degrees-radians": "npm:degrees-radians@^1.0.3",
-      "famous": "github:bizboard/famous@develop",
+      "famous": "github:bizboard/famous@0.4.5",
       "famous-autosizetextarea": "github:ijzerenhein/famous-autosizetextarea@^0.3.1",
       "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
-      "famous-flex": "github:bizboard/famous-flex@master",
+      "famous-flex": "github:bizboard/famous-flex@1.4.3",
       "lodash": "npm:lodash@^4.13.1",
       "rgbcolor": "npm:rgbcolor@^0.0.4"
     },
