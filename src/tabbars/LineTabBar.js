@@ -59,7 +59,19 @@ export class LineTabBar extends TabBar {
      */
     setItemActive(id, item) {
         this._currentItem = id;
-        this.decorateRenderable('shape', layout.size(this.options.shapeWidth || this._getCurrentSize(id), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 0, 10))
+
+        let currentWidth = this.__getCurrentSize(id, item);
+        let currentPosition = this.__getCurrentPosition(id, item, currentWidth, this._calcCurrentPosition(id));
+
+        this.decorateRenderable('shape', layout.size(currentWidth || this.options.shapeWidth || this._getCurrentSize(id), this.options.shapeHeight), layout.translate(currentPosition, 0, 10))
+    }
+
+    __getCurrentSize(id, item) {
+        return item.getSize()[0];
+    }
+
+    __getCurrentPosition(id, item, width, currentPosition) {
+        return currentPosition + item.getWidthDiff()/2;
     }
 
     setItemDeactive(id, item) {
