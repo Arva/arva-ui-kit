@@ -42,11 +42,5 @@ export class LineTab extends Tab {
     _deactivate() {
         this.setRenderableFlowState('text', 'inactive');
     }
-    getWidthDiff() {
-        return this.text._size && this.overlay._size? (this.overlay._size[0] - this.text._size[0]):0;
-    }
-    getSize() {
-        return this.text._size || super.getSize();
-    }
 
 }

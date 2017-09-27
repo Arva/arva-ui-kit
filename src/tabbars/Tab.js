@@ -56,7 +56,7 @@ export class Tab extends WhiteTextButton {
         }
 
         if(this._hover){
-            return this._setActive();
+           return this._setActive();
         }
 
         this._setDeactive();

@@ -1,0 +1,138 @@
+diff --git a/src/tabbars/LineTab.js b/src/tabbars/LineTab.js
+index 61041ba..104a7fb 100644
+--- a/src/tabbars/LineTab.js
++++ b/src/tabbars/LineTab.js
+@@ -42,5 +42,11 @@ export class LineTab extends Tab {
+     _deactivate() {
+         this.setRenderableFlowState('text', 'inactive');
+     }
++    getWidthDiff() {
++        return this.text._size && this.overlay._size? (this.overlay._size[0] - this.text._size[0]):0;
++    }
++    getSize() {
++        return this.text._size || super.getSize();
++    }
+ 
+ }
+\ No newline at end of file
+diff --git a/src/tabbars/LineTabBar.js b/src/tabbars/LineTabBar.js
+index fdfc688..d7a0e0d 100644
+--- a/src/tabbars/LineTabBar.js
++++ b/src/tabbars/LineTabBar.js
+@@ -59,7 +59,19 @@ export class LineTabBar extends TabBar {
+      */
+     setItemActive(id, item) {
+         this._currentItem = id;
+-        this.decorateRenderable('shape', layout.size(this.options.shapeWidth || this._getCurrentSize(id), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 0, 10))
++
++        let currentWidth = this.__getCurrentSize(id, item);
++        let currentPosition = this.__getCurrentPosition(id, item, currentWidth, this._calcCurrentPosition(id));
++
++        this.decorateRenderable('shape', layout.size(currentWidth || this.options.shapeWidth || this._getCurrentSize(id), this.options.shapeHeight), layout.translate(currentPosition, 0, 10))
++    }
++
++    __getCurrentSize(id, item) {
++        return item.getSize()[0];
++    }
++
++    __getCurrentPosition(id, item, width, currentPosition) {
++        return currentPosition + item.getWidthDiff()/2;
+     }
+ 
+     setItemDeactive(id, item) {
+diff --git a/src/tabbars/Tab.js b/src/tabbars/Tab.js
+index 18c3ec9..a0cdb8a 100644
+--- a/src/tabbars/Tab.js
++++ b/src/tabbars/Tab.js
+@@ -56,7 +56,7 @@ export class Tab extends WhiteTextButton {
+         }
+ 
+         if(this._hover){
+-           return this._setActive();
++            return this._setActive();
+         }
+ 
+         this._setDeactive();
+diff --git a/src/tabbars/TabBar.js b/src/tabbars/TabBar.js
+index 4783f0d..3ae9550 100644
+--- a/src/tabbars/TabBar.js
++++ b/src/tabbars/TabBar.js
+@@ -57,9 +57,10 @@ export class TabBar extends View {
+             equalSizing: false,
+             activeIndex: 0,
+             reflow: true,
+-            tabOptions: {clickEventName: 'tabClick'}
++            tabOptions: {clickEventName: 'tabClick'},
++            spacing:16
+         }, options));
+-
++        this._spacing = this.options.spacing;
+ 
+         /* Bind helper functions to this class depending on layout options */
+         let source = this.options.equalSizing ? EqualSizeLayout : DockLeftLayout;
+@@ -90,6 +91,7 @@ export class TabBar extends View {
+             this.setIndexActive(this.options.activeIndex);
+         }
+ 
++        console.log(this)
+     }
+ 
+     /**
+@@ -176,4 +178,4 @@ export class TabBar extends View {
+             this._handleItemActive(index, this.getItem(index));
+         }
+     }
+-}
++}
+\ No newline at end of file
+diff --git a/src/tabbars/TabBarHelperFunctions.js b/src/tabbars/TabBarHelperFunctions.js
+index 4b561cd..7ba1409 100644
+--- a/src/tabbars/TabBarHelperFunctions.js
++++ b/src/tabbars/TabBarHelperFunctions.js
+@@ -14,11 +14,13 @@ export let DockLeftLayout = {
+             if (index == id) {
+                 return position;
+             }
+-            position += this[`item${index}`].getSize()[0] || 0;
++            position += this[`item${index}`].getSize()[0] + (this._spacing? this._spacing:0) || 0;
+         }
+     },
+     _getCurrentSize(index){
+-        let size = this[`item${index}`].getSize()[0] || 0;
++        console.log("HELP")
++        let size = this[`item${index}`].getSize()[0] + (this._spacing? this._spacing:0) || 0;
++        console.log(size)
+         return size;
+     },
+     _setItems(items) {
+@@ -33,7 +35,7 @@ export let DockLeftLayout = {
+             let tab = new (this.options.tabRenderable || Tab)(combineOptions(this.options.tabOptions, items[index] || {}));
+             this[`item${index}`] && this.removeRenderable(`item${index}`);
+             this._registerTabListeners(tab, index);
+-            this.addRenderable(tab, `item${index}`, layout.dock.left(~50))
++            this.addRenderable(tab, `item${index}`, layout.dock.left(~50, (this._spacing? this._spacing:0)))
+         }
+     },
+     _handleItemActive(id, tab) {
+@@ -71,7 +73,7 @@ export let EqualSizeLayout = {
+             createRenderables: {
+                 item: (id, data) => {
+                     if(!data.clickEventData){
+-                       data.clickEventData = [this._itemCount, data];
++                        data.clickEventData = [this._itemCount, data];
+                     }
+                     let tab = new this.options.tabRenderable(combineOptions(this.options.tabOptions, data || {}));
+                     this._registerTabListeners(tab, this._itemCount);
+diff --git a/src/tabbars/UnderlineTabBar.js b/src/tabbars/UnderlineTabBar.js
+index 26d1de7..165e95f 100644
+--- a/src/tabbars/UnderlineTabBar.js
++++ b/src/tabbars/UnderlineTabBar.js
+@@ -54,7 +54,7 @@ export class UnderlineTabBar extends View {
+         this.options.tabBarTranslate && decorators.push(layout.translate.apply(layout, this.options.tabBarTranslate));
+ 
+         let uibar = new UIBar({
+-            bottomLine: true,
++            bottomLine: false,
+             components: [
+                 [new this.options.tabBar(this.options.tabBarOptions, this.options.tabBarContent), 'tabBar', 'fill']
+             ]

@@ -54,7 +54,7 @@ export class UnderlineTabBar extends View {
         this.options.tabBarTranslate && decorators.push(layout.translate.apply(layout, this.options.tabBarTranslate));
 
         let uibar = new UIBar({
-            bottomLine: false,
+            bottomLine: true,
             components: [
                 [new this.options.tabBar(this.options.tabBarOptions, this.options.tabBarContent), 'tabBar', 'fill']
             ]
