@@ -11,6 +11,7 @@ import {Colors}             from '../defaults/DefaultColors.js';
 
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 200}};
 
+@layout.dockPadding(0)
 export class LineTab extends Tab {
 
     @layout.translate(0, 0, 30)

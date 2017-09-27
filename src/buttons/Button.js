@@ -72,9 +72,9 @@ export class Button extends Clickable {
                 properties: {
                     boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : '',
                     ...(this.options.useBackground ? {
-                        border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : '',
-                        ...backgroundProperties
-                    } : {}),
+                            border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : '',
+                            ...backgroundProperties
+                        } : {}),
                 }
             }), 'background', layout.fullSize(), layout.translate(0, 0, -10));
         }

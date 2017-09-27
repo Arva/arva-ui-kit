@@ -6,6 +6,7 @@ import {combineOptions}                     from 'arva-js/utils/CombineOptions.j
 
 import FlexTabBar                           from 'famous-flex/widgets/TabBar.js';
 import {Tab}                                from './Tab.js';
+import { ComponentPadding }                 from "arva-kit/defaults/DefaultDimensions";
 
 export let DockLeftLayout = {
     _calcCurrentPosition(id){
@@ -14,7 +15,7 @@ export let DockLeftLayout = {
             if (index == id) {
                 return position;
             }
-            position += this[`item${index}`].getSize()[0] || 0;
+            position += ComponentPadding + this[`item${index}`].getSize()[0] || 0;
         }
     },
     _getCurrentSize(index){
@@ -33,7 +34,7 @@ export let DockLeftLayout = {
             let tab = new (this.options.tabRenderable || Tab)(combineOptions(this.options.tabOptions, items[index] || {}));
             this[`item${index}`] && this.removeRenderable(`item${index}`);
             this._registerTabListeners(tab, index);
-            this.addRenderable(tab, `item${index}`, layout.dock.left(~50))
+            this.addRenderable(tab, `item${index}`, layout.dock.left(~50, ComponentPadding))
         }
     },
     _handleItemActive(id, tab) {
@@ -71,7 +72,7 @@ export let EqualSizeLayout = {
             createRenderables: {
                 item: (id, data) => {
                     if(!data.clickEventData){
-                       data.clickEventData = [this._itemCount, data];
+                        data.clickEventData = [this._itemCount, data];
                     }
                     let tab = new this.options.tabRenderable(combineOptions(this.options.tabOptions, data || {}));
                     this._registerTabListeners(tab, this._itemCount);
