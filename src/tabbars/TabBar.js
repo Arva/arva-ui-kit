@@ -39,32 +39,35 @@ import {Tab}                                from './Tab.js';
  * @param {Boolean} [options.equalSizing] Whether the tab renderables should be evenly spaced and sized or whether it should not (thus docking.left with the size of the renderable)
  * @param {Number} [options.activeIndex] The index that should be active on initialisation
  * @param {Boolean} [options.reflow] Whether the TabBar should automatically reflow the active shape to the current active renderable
- * @param {Boolean} [options.usesIcon] Wheter the TabBar uses Icons or text
+ * @param {Boolean} [options.usesIcon] Wheter the TabBar uses Icons or text. Defaults to false
  * @fires TabBar#tabClick Emits a tabClick event once a tab renderable is clicked, with [id, tabData] as parameters. Content can be overwritten by setting tabOptions.clickEventData {Array}
  */
 @bindings.setup({
     equalSizing: false,
     activeIndex: 0,
     reflow: true,
+    usesIcon: false,
     tabOptions: { clickEventName: 'tabClick' },
-    tabs: [{ content: 'Example tab', active: true }],
+    tabs: [{ content: 'Example tab', active: false }],
     cachedItemSizes: [{width: 0, height: 0}],
     tabRenderable: Tab
 })
 @bindings.preprocess((options, defaultOptions) => {
-    let { items} = options;
-    let currentActiveItemIndex = items.findIndex(({ active }) => active);
+    let { tabs = defaultOptions.tabs } = options;
+    let currentActiveItemIndex = tabs.findIndex(({ active }) => active);
     if (currentActiveItemIndex === -1) {
-        items[options.activeIndex].active = true;
+        tabs[options.activeIndex].active = true;
     }
-    if (defaultOptions.currentItem.index !== options.activeIndex && options.activeIndex !== currentActiveItemIndex) {
+    if (defaultOptions.activeIndex !== options.activeIndex && options.activeIndex !== currentActiveItemIndex) {
         throw new Error('currentItem.index not consistent with items[options.activeIndex].active');
     }
 
-    options.activeIndex = currentActiveItemIndex;
+    if (currentActiveItemIndex !== -1){
+        options.activeIndex = currentActiveItemIndex;
+    }
 
     if(!options.cachedItemSizes){
-        options.cachedItemSizes = new Array(items.length);
+        options.cachedItemSizes = new Array(tabs.length);
     }
 })
 export class TabBar extends View {
