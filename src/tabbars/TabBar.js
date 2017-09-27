@@ -57,9 +57,10 @@ export class TabBar extends View {
             equalSizing: false,
             activeIndex: 0,
             reflow: true,
-            tabOptions: {clickEventName: 'tabClick'}
+            tabOptions: {clickEventName: 'tabClick'},
+            spacing:16
         }, options));
-
+        this._spacing = this.options.spacing;
 
         /* Bind helper functions to this class depending on layout options */
         let source = this.options.equalSizing ? EqualSizeLayout : DockLeftLayout;
@@ -90,6 +91,7 @@ export class TabBar extends View {
             this.setIndexActive(this.options.activeIndex);
         }
 
+        console.log(this)
     }
 
     /**
