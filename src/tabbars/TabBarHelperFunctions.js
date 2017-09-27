@@ -15,7 +15,7 @@ export let DockLeftLayout = {
             if (index == id) {
                 return position;
             }
-            position += ComponentPadding + this[`item${index}`].getSize()[0] || 0;
+            position += (this.options.spacing || ComponentPadding) + this[`item${index}`].getSize()[0] || 0;
         }
     },
     _getCurrentSize(index){
@@ -34,7 +34,7 @@ export let DockLeftLayout = {
             let tab = new (this.options.tabRenderable || Tab)(combineOptions(this.options.tabOptions, items[index] || {}));
             this[`item${index}`] && this.removeRenderable(`item${index}`);
             this._registerTabListeners(tab, index);
-            this.addRenderable(tab, `item${index}`, layout.dock.left(~50, ComponentPadding))
+            this.addRenderable(tab, `item${index}`, layout.dock.left(~50, (this.options.spacing || ComponentPadding)))
         }
     },
     _handleItemActive(id, tab) {
