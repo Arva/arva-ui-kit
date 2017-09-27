@@ -19,7 +19,7 @@ export let DockLeftLayout = {
         }
     },
     _getCurrentSize(index){
-        let size = this[`item${index}`].getSize()[0] || 0;
+        let size = this[`item${index}`] && this[`item${index}`].getSize()[0] || 0;
         return size;
     },
     _setItems(items) {
