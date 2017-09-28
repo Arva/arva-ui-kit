@@ -38,16 +38,28 @@ export let DockLeftLayout = {
         }
     },
     _handleItemActive(id, tab) {
-        this._currentItem = id;
-        this.setItemActive(id, tab);
-        for (let index = 0; index < this._itemCount; index++) {
-            let item = this[`item${index}`];
-            if (index == parseInt(id)) {
-                item && item.setActive && item.setActive();
-                continue;
-            }
+        if (this._currentID !== parseInt(id) && (!this.__lastActivated || (Date.now() - this.__lastActivated) > 800)) {
+            this.__lastActivated = Date.now();
 
-            item && item.setInactive && item.setInactive();
+            this._prevTab = this._currentTab || tab;
+            this._prevID = this._currentID || parseInt(id);
+            this._currentID = parseInt(id);
+            this._currentTab = tab;
+
+            this._eventOutput.emit('tabchange', {oldIndex:this._prevID, index:this._currentID, item:this._currentTab, oldItem:this._prevTab});
+            //}
+            this._currentID = parseInt(id);
+            this.setItemActive(id, tab);
+            for ( let index = 0; index < this._itemCount; index++ ) {
+                let item = this[ `item${index}` ];
+                if ( index == parseInt(id) ) {
+                    item && item.setActive && item.setActive();
+
+                    continue;
+                }
+                item && item.setInactive && item.setInactive();
+
+            }
         }
     },
     getItem(index){

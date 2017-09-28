@@ -20,8 +20,8 @@ export class LineTab extends Tab {
     @layout.origin(0.5, 0)
     @layout.align(0.5, 0)
     @flow.defaultOptions(flowOptions)
-    @flowStates.fade('active', {opacity: 0.5}, flowOptions)
-    @flowStates.fade('inactive', {opacity: 1}, flowOptions)
+    @flowStates.fade('active', {opacity: 0.5, color:Colors.PrimaryUIColor}, flowOptions)
+    @flowStates.fade('inactive', {opacity: 1, color:Colors.BasicTextColor}, flowOptions)
     text = new Surface(this.options);
 
     constructor(options = {}) {
@@ -29,19 +29,17 @@ export class LineTab extends Tab {
     }
 
     setActive() {
-        if (this.options.colorChange) { this.text.setProperties({color: Colors.PrimaryUIColor}) }
+        this.text.setProperties({color: Colors.PrimaryUIColor})
     }
 
     setInactive() {
-        if (this.options.colorChange) { this.text.setProperties({color: Colors.BasicTextColor}) }
+        this.text.setProperties({color: Colors.BasicTextColor})
     }
 
     _activate() {
-        this.setRenderableFlowState('text', 'active');
     }
 
     _deactivate() {
-        this.setRenderableFlowState('text', 'inactive');
     }
 
 }

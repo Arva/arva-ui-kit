@@ -58,12 +58,22 @@ export class LineTabBar extends TabBar {
      * @param item
      */
     setItemActive(id, item) {
+
+
+
+
+        this._currentTab && this._currentTab._deactive  && this._currentTab.setInactive();
         this._currentItem = id;
+        this._currentTab = item;
+
         this.decorateRenderable('shape', layout.size(this.options.shapeWidth || this._getCurrentSize(id), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 0, 10))
+        //this._currentTab.item._activate();
+
+        this._currentTab && this._currentTab._deactive  && this._currentTab.setActive();
     }
 
     setItemDeactive(id, item) {
-
+        //item._deactivate();
     }
 
     onHover(id, item) {
