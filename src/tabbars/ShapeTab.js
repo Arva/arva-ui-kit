@@ -13,7 +13,7 @@ const flowOptions = {transition: {curve: Easing.outCubic, duration: 200}};
 
 export class ShapeTab extends Tab {
 
-    //TODO It's a bit shady to override this property from TextButton
+    /* TODO: It's a bit shady to override this property from TextButton */
     @layout.translate(0, 0, 30)
     @layout.dock.top()
     @layout.size(~50, undefined)

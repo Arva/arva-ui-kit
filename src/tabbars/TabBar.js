@@ -72,13 +72,6 @@ import {Tab}                                from './Tab.js';
 })
 export class TabBar extends View {
 
-    /* Number of items in the tabBar */
-    _itemCount = 0;
-
-
-    /* Current _width of the TabBar */
-    _width = 0;
-
     @layout.translate(0, 0, -10)
     @layout.fullSize()
     background = new Surface(this.options.backgroundOptions);
@@ -90,13 +83,13 @@ export class TabBar extends View {
         event
             .on('activate', () => this._handleItemActive(index))
             .on('hoverOn', () => this.onHover(index))
-            .on('hoverOff', () => this.offHover.bind(index))
+            .on('hoverOff', () => this.offHover(index))
             .on('newSize', (newSize) => this.options.cachedItemSizes[index] = {width: newSize[0], height: newSize[1]},
                 /* TODO: Support this last argument */
                 {propagate: false}
                 )
             (
-                new this.options.tabRenderable({
+                this.options.tabRenderable.with({
                     ...this.options.tabOptions,
                     content: tabOptions.content,
                     active: tabOptions.active
@@ -153,14 +146,6 @@ export class TabBar extends View {
         /* To be inherited */
     }
 
-    setItemActive(id, item) {
-        /* To be inherited */
-    }
-
-    setItemDeactive(id, item) {
-        /* To be inherited */
-    }
-
     getItem(index) {
         /* Should be overwritten */
     }
@@ -178,18 +163,13 @@ export class TabBar extends View {
      * @param index
      */
     setIndexActive(index) {
-        this.options.activeIndex = index;
-        this._handleItemActive(index, this.getItem(index));
+        this._handleItemActive(index);
     }
 
-    _handleItemActive(id) {
-        this.options.activeIndex = id;
+    _handleItemActive(activeIndex) {
+        this.options.activeIndex = activeIndex;
         for (let [index, item] of this.options.tabs.entries()) {
-            if (index === parseInt(id)) {
-                item.active = true;
-                continue;
-            }
-            item.active = false;
+            item.active = (index === parseInt(activeIndex));
         }
     }
 }

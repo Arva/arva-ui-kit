@@ -52,13 +52,13 @@ export class Button extends Clickable {
   })
   @layout.fullSize()
   @layout.translate(0, 0, 40)
-  overlay = new Surface({
+  overlay = Surface.with({
     classes: this.options.backgroundClasses,
     properties: {
       cursor: this.options.enabled ? 'pointer' : 'inherit',
       borderRadius: this.options.backgroundProperties.borderRadius
     }
-  })
+  });
 
 
   @layout.fullSize()

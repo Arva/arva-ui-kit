@@ -10,7 +10,7 @@ import {Tab}                                from './Tab.js';
 export let DockLeftLayout = {
     calcCurrentPosition(id, existingSizes){
         let position = 0;
-        for(let [index, size = []] of existingSizes.entries()){
+        for(let [index, size = {}] of existingSizes.entries()){
             if (index === id){
                 return position;
             }
@@ -18,87 +18,14 @@ export let DockLeftLayout = {
         }
         return position;
     },
-    _getCurrentSize(index){
-        let size = this[`item${index}`].getSize()[0] || 0;
-        return size;
-    },
-    _setItems(items) {
-        this.items = items;
-        this._itemCount = 0;
-        for (let index in items) {
-            this._itemCount++;
-
-            if(!items[index].clickEventData){
-                items[index].clickEventData = [index, items[index]];
-            }
-            let tab = new (this.options.tabRenderable || Tab)(combineOptions(this.options.tabOptions, items[index] || {}));
-            this[`item${index}`] && this.removeRenderable(`item${index}`);
-            this._registerTabListeners(tab, index);
-            this[`item${index}`] = this.addRenderable(tab , layout.dock.left(~50))
-        }
-    },
-    _handleItemActive(id) {
-        let tab = this.items[id];
-        this._currentItem = id;
-        this.setItemActive(id, tab);
-        for (let index = 0; index < this._itemCount; index++) {
-            let item = this[`item${index}`];
-            if (index == parseInt(id)) {
-                item && item.setActive && item.setActive();
-                continue;
-            }
-
-            item && item.setInactive && item.setInactive();
-        }
-    },
     getItem(index){
         return this[`item${index}`] || {}
     }
 };
 
 export let EqualSizeLayout = {
-    _calcCurrentPosition(id){
+    calcCurrentPosition(id){
         let size =  (this._getCurrentSize() * id) + (this.options.shapeWidth ? (this._getCurrentSize()/2 - this.options.shapeWidth/2) : 0);
         return size;
-    },
-    _getCurrentSize(){
-        let size = this._itemCount ? this._width / this._itemCount : 0;
-        return size;
-    },
-    _setItems(items) {
-        this.items = items;
-        this._itemCount = 0;
-        this.tabBar && this.removeRenderable('tabBar');
-        this.addRenderable(new FlexTabBar({
-            createRenderables: {
-                item: (id, data) => {
-                    if(!data.clickEventData){
-                       data.clickEventData = [this._itemCount, data];
-                    }
-                    let tab = new this.options.tabRenderable(combineOptions(this.options.tabOptions, data || {}));
-                    this._registerTabListeners(tab, this._itemCount);
-                    this._itemCount++;
-                    return tab;
-                }
-            }
-        }), 'tabBar', layout.dock.fill());
-        this.tabBar.setItems(items);
-    },
-    _handleItemActive(id, tab) {
-        this._currentItem = id;
-        this.setItemActive(id, tab);
-        let items = this.tabBar.getItems();
-        for (let index in items) {
-            let item = items[index];
-            if (index == parseInt(id)) {
-                item && item.setActive && item.setActive();
-                continue;
-            }
-
-            item && item.setInactive && item.setInactive();
-        }
-    },
-    getItem(index){
-        return this.tabBar.getItems()[index] || {};
     }
 };

@@ -41,6 +41,9 @@ const flowOptions = { flow: true, transition: { curve: Easing.outCubic, duration
         options.borderRadius = '50%';
     }
 })
+@bindings.preprocess(options => {
+    options._shapeWidth = options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
+})
 export class ShapeTabBar extends TabBar {
 
     @layout.align(0, 0.5)
@@ -78,38 +81,17 @@ export class ShapeTabBar extends TabBar {
         super(options);
     }
 
-    /**
-     * Set item active, translating the shape to the active item
-     * @param id
-     * @param item
-     */
-    setItemActive(id) {
-        this.options.currentItem = id;
-        let { options } = this;
-        options.shapeWidth = options.cachedItemSizes[id] ?
-            (options.cachedItemSizes[id].width || 0) : 0;
-        options.shapeTranslate = [this._calcCurrentPosition(id), 0, 10];
-    }
-
-    setItemInactive(id, item) {
-        item.setInactive();
-    }
-
 
     onHover(id) {
         let { options } = this;
-        let { cachedItemSizes, activeIndex } = options;
         options._isHovering = true;
+        options._shapeWidth -= 20;
         options._currentlyHoveringIndex = id;
-
-
     }
 
     offHover(id) {
         let {options} = this;
-        let {cachedItemSizes} = options;
         options._isHovering = false;
-        options._shapeWidth = cachedItemSizes[id].width;
         options._shapeTranslate = [this._calcCurrentPosition(id), 0, 10];
     }
 }

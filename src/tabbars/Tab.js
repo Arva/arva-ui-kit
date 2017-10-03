@@ -39,22 +39,8 @@ export class Tab extends TextButton {
         }
     }
 
-    _handleTouchMove(touchEvent) {
-        if (this._inBounds) {
-            this.throttler.add(() => {
-                this._inBounds = this._isInBounds(touchEvent, this.overlay);
-                if (!this._inBounds) {
-                    this._setInactive();
-                }
-            });
-        }
-    }
-
-
-
     _handleTapStart(mouseEvent) {
         this._onHover();
-        this._setActive();
     }
 
     _onHover() {
@@ -63,14 +49,11 @@ export class Tab extends TextButton {
         this._eventOutput.emit('hoverOn');
     }
 
-    _onMouseOut(mouseEvent) {
-        this._handleTapEnd(mouseEvent);
-    }
 
     _handleTapEnd(mouseEvent) {
-        if (mouseEvent.type === 'mouseout') {
-            this._hover = false;
-        }
+
+
+        this._eventOutput.emit('hoverOff');
 
         if (this._hover) {
             return this._setActive();
@@ -79,23 +62,25 @@ export class Tab extends TextButton {
         this._setInactive();
     }
 
+
     _setActive() {
-        if (this._active) {
+
+        if (this.options.active) {
             return
         }
 
-        this._active = true;
+        this.options.active = true;
         this._hover = false;
         this.activate();
     }
 
     _setInactive() {
 
-        if (!this._active) {
+        if (!this.options.active) {
             return;
         }
-        this._eventOutput.emit('hoverOff');
-        this._active = false;
+
+        this.options.active = false;
         this._hover = false;
         this.deactivate();
     }
