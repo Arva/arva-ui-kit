@@ -18,14 +18,17 @@ import {ComponentHeight}                    from '../defaults/DefaultDimensions.
   imageSize: [undefined, undefined],
   backgroundProperties: {}
 })
-@bindings.preprocess((options) => {
-    if(options.imageOnly){
-      options.backgroundProperties = {...options.backgroundProperties, backgroundColor: 'none'}
-      options.variation = 'noShadow';
-    }
-    Object.assign(options, TextButton.generateBoxShadowVariations(options.variation))
-})
 export class ImageButton extends Button {
+
+    @bindings.preprocess()
+    setVariation(options) {
+        if(options.imageOnly){
+            options.backgroundProperties = {...options.backgroundProperties, backgroundColor: 'none'};
+            options.variation = 'noShadow';
+        }
+        Object.assign(options, TextButton.generateBoxShadowVariations(options.variation))
+    }
+
     @layout.translate(0, 0, 30)
       .dock.fill()
       .stick.center()

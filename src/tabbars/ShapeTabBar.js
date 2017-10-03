@@ -33,18 +33,24 @@ const flowOptions = { flow: true, transition: { curve: Easing.outCubic, duration
         rounded: false,
         shapeColor: Colors.PrimaryUIColor
     })
-@bindings.preprocess(options => {
-    if (!options.usesIcon) {
-        options.borderRadius = undefined;
-    }
-    if (options.rounded) {
-        options.borderRadius = '50%';
-    }
-})
-@bindings.preprocess(options => {
-    options._shapeWidth = options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
-})
+
 export class ShapeTabBar extends TabBar {
+
+
+    @bindings.preprocess()
+    setIconProps(options) {
+        if (!options.usesIcon) {
+            options.borderRadius = undefined;
+        }
+        if (options.rounded) {
+            options.borderRadius = '50%';
+        }
+    }
+
+    @bindings.preprocess()
+    setShapeWidth(options) {
+        options._shapeWidth = options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
+    }
 
     @layout.align(0, 0.5)
     @layout.origin(0, 0.5)
@@ -82,16 +88,32 @@ export class ShapeTabBar extends TabBar {
     }
 
 
-    onHover(id) {
+    onHover(index) {
         let { options } = this;
         options._isHovering = true;
-        options._shapeWidth -= 20;
-        options._currentlyHoveringIndex = id;
+
+        if(index < options.activeIndex){
+
+            options._shapeTranslate[0] -= 20;
+        }
+        if (index === options.activeIndex){
+            options._shapeWidth -= 20;
+            options._shapeTranslate[0] += 10;
+        } else {
+            options._shapeWidth += 20;
+        }
+        options._currentlyHoveringIndex = index;
     }
 
     offHover(id) {
+        this.setShapeWidth(this.options);
         let {options} = this;
         options._isHovering = false;
         options._shapeTranslate = [this._calcCurrentPosition(id), 0, 10];
+    }
+
+    _handleItemActive(activeIndex) {
+        super._handleItemActive(activeIndex);
+        this.offHover(activeIndex);
     }
 }

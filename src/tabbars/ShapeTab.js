@@ -5,7 +5,7 @@
 import Surface              from 'famous/core/Surface.js';
 import Easing               from 'famous/transitions/Easing.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {flow, layout}             from 'arva-js/layout/Decorators.js';
+import {flow, layout}       from 'arva-js/layout/Decorators.js';
 import {flowStates}         from 'arva-js/layout/FlowStates.js';
 import {Tab}                from './Tab.js';
 
@@ -28,25 +28,15 @@ export class ShapeTab extends Tab {
         super(combineOptions({activeColor: 'white'}, options));
     }
 
-    setActive() {
-        this.text.setProperties({
-            color: this.options.activeColor
-        })
-    }
 
-    setInactive() {
-        this.text.setProperties({
-            color: this.options.inActiveColor
-        });
-    }
-
-    activate() {
-        super.activate();
+    _setActive() {
+        super._setActive();
         this.setRenderableFlowState(this.text, 'active');
     }
 
-    deactivate() {
-        super.deactivate();
+    _setInactive() {
+        super._setInactive();
         this.setRenderableFlowState(this.text, 'inactive');
     }
+
 }

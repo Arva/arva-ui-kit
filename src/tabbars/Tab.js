@@ -39,6 +39,15 @@ export class Tab extends TextButton {
         }
     }
 
+    setNewOptions(options) {
+        super.setNewOptions(options);
+        if(options.active){
+            this._setActive();
+        } else {
+            this._setInactive();
+        }
+    }
+
     _handleTapStart(mouseEvent) {
         this._onHover();
     }

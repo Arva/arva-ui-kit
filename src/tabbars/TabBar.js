@@ -1,16 +1,15 @@
 /**
  * Created by Manuel on 07/09/16.
  */
-import Surface                              from 'famous/core/Surface.js';
-import {View}                               from 'arva-js/core/View.js';
-import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
+import Surface from 'famous/core/Surface.js';
+import {View} from 'arva-js/core/View.js';
+import {combineOptions} from 'arva-js/utils/CombineOptions.js';
 import {
     flow, layout, dynamic,
     bindings, event
-}                                           from 'arva-js/layout/Decorators.js';
+} from 'arva-js/layout/Decorators.js';
 
-import {DockLeftLayout, EqualSizeLayout}    from './TabBarHelperFunctions.js';
-import {Tab}                                from './Tab.js';
+import {Tab} from './Tab.js';
 
 
 /**
@@ -47,47 +46,51 @@ import {Tab}                                from './Tab.js';
     activeIndex: 0,
     reflow: true,
     usesIcon: false,
-    tabOptions: { clickEventName: 'tabClick' },
-    tabs: [{ content: 'Example tab', active: false }],
+    tabOptions: {clickEventName: 'tabClick'},
+    tabs: [{content: 'Example tab', active: false}],
     cachedItemSizes: [{width: 0, height: 0}],
     tabRenderable: Tab
 })
-@bindings.preprocess((options, defaultOptions) => {
-    let { tabs = defaultOptions.tabs } = options;
-    let currentActiveItemIndex = tabs.findIndex(({ active }) => active);
-    if (currentActiveItemIndex === -1) {
-        tabs[options.activeIndex].active = true;
-    }
-    if (defaultOptions.activeIndex !== options.activeIndex && options.activeIndex !== currentActiveItemIndex) {
-        throw new Error('currentItem.index not consistent with items[options.activeIndex].active');
-    }
 
-    if (currentActiveItemIndex !== -1){
-        options.activeIndex = currentActiveItemIndex;
-    }
-
-    if(!options.cachedItemSizes){
-        options.cachedItemSizes = new Array(tabs.length);
-    }
-})
 export class TabBar extends View {
+
+
+    @bindings.preprocess()
+    setupActiveIndex(options, defaultOptions) {
+        let {tabs = defaultOptions.tabs} = options;
+        let currentActiveItemIndex = tabs.findIndex(({active}) => active);
+        if (currentActiveItemIndex === -1) {
+            tabs[options.activeIndex].active = true;
+        }
+        if (defaultOptions.activeIndex !== options.activeIndex && options.activeIndex !== currentActiveItemIndex) {
+            throw new Error('currentItem.index not consistent with items[options.activeIndex].active');
+        }
+
+        if (currentActiveItemIndex !== -1) {
+            options.activeIndex = currentActiveItemIndex;
+        }
+
+        if (!options.cachedItemSizes) {
+            options.cachedItemSizes = new Array(tabs.length);
+        }
+    }
 
     @layout.translate(0, 0, -10)
     @layout.fullSize()
     background = new Surface(this.options.backgroundOptions);
 
-    //TODO Change this decorator in order to achieve equal spacing
-    @layout.dock.left(~50)
+    @dynamic(({equalSizing, tabs}) =>
+        layout.dock.left(equalSizing ? 1 / tabs.length : ~50)
+    )
     items = this.options.tabs.map((tabOptions, index) =>
-    //todo rename events that start with hover that actually refers to "press"
+        //todo rename events that start with hover that actually refers to "press"
         event
             .on('activate', () => this._handleItemActive(index))
             .on('hoverOn', () => this.onHover(index))
             .on('hoverOff', () => this.offHover(index))
             .on('newSize', (newSize) => this.options.cachedItemSizes[index] = {width: newSize[0], height: newSize[1]},
-                /* TODO: Support this last argument */
                 {propagate: false}
-                )
+            )
             (
                 this.options.tabRenderable.with({
                     ...this.options.tabOptions,
@@ -96,9 +99,6 @@ export class TabBar extends View {
                 })
             )
     );
-
-
-
 
     /**
      * Returns the active tab index of the TabBar
@@ -121,33 +121,24 @@ export class TabBar extends View {
         /* Should be overwritten */
     }
 
-    _registerTabListeners(tab, index) {
-        tab.on('activate', this._handleItemActive.bind(this, index, tab));
-        tab.on('hoverOn', this.onHover.bind(this, index, tab));
-        tab.on('hoverOff', this.offHover.bind(this, index, tab));
-        tab.pipe(this._eventOutput);
-    }
+    /**
+     * Calculates the current position for the selected item
+     * @param index
+     * @returns {number}
+     * @private
+     */
+    _calcCurrentPosition(index) {
+        if (this.options.equalSizing) {
+            return (this._currentSize[0] *
+                ((this.options.tabs.length - 1) / this.options.tabs.length)) *
+                (index / (this.options.tabs.length - 1));
+        }
 
-    _calcCurrentPosition(id) {
-        let source = this.options.equalSizing ? EqualSizeLayout : DockLeftLayout;
-        return source.calcCurrentPosition(id, this.options.cachedItemSizes);
-    }
-
-    _getCurrentSize(index) {
-        /* Should be overwritten */
-    }
-
-
-    onHover(id) {
-        /* To be inherited */
-    }
-
-    offHover(id, item) {
-        /* To be inherited */
-    }
-
-    getItem(index) {
-        /* Should be overwritten */
+        return this.options.cachedItemSizes
+            .slice(0, index)
+            .reduce((totalWidth, {width = 0}) =>
+                totalWidth + width
+                , 0);
     }
 
     /**
@@ -171,5 +162,10 @@ export class TabBar extends View {
         for (let [index, item] of this.options.tabs.entries()) {
             item.active = (index === parseInt(activeIndex));
         }
+    }
+
+    constructor(options) {
+        super(options);
+        this.on('newSize', (newSize) => this._currentSize = newSize, {propagate: false});
     }
 }
