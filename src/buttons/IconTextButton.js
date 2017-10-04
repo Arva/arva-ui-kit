@@ -25,7 +25,7 @@ export class IconTextButton extends Button {
     @layout.stick.center()
     @layout.size(~100, undefined)
     @layout.translate(0, 0, 30)
-    iconAndText = new IconAndText(this.options);
+    iconAndText = IconAndText.with(this.options);
 
     _setEnabled(enabled) {
         super._setEnabled(enabled);
@@ -54,7 +54,7 @@ class IconAndText extends View {
         layout.size(iconProperties.width, iconProperties.height).translate(_iconPadding, 0, 50)
     )
     @layout.stick.left()
-    icon = this.options.image ? new ImageSurface({ content: this.options.image }) : new this.options.icon({color: this.options.properties.color});
+    icon = this.options.image ? ImageSurface.with({ content: this.options.image }) : this.options.icon.with({color: this.options.properties.color});
 
     @dynamic(({_iconPadding}) =>
         layout.translate(_iconPadding, 0, 30)
