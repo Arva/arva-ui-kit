@@ -17,6 +17,10 @@ for(let filePath of fs.readdirSync('./src/icons/resources')){
     if(!filePath.includes('.svg.txt')) { continue; }
     
     let nameComponents = filePath.replace('.svg.txt', '').split('_');
+    if(nameComponents.length !== 3){
+        console.log(`Skipping class camera, because of inconsistent naming: ${filePath}`);
+        continue;
+    }
     let icon = nameComponents[0], form = nameComponents[1], thickness = nameComponents[2];
 
     icon = icon[0].toUpperCase() + icon.substring(1);
@@ -40,9 +44,7 @@ export class ${icon}Icon extends BaseIcon {
  import iconImage\t\t\t\t\tfrom '../../resources/${filePath}!text';
 
  export class ${icon}Icon extends BaseIcon {
-    constructor(options){
-        super({...options, icon: iconImage});
-    }
+    static icon = iconImage;
 }`);
 }
 console.log("Generated all classes!");

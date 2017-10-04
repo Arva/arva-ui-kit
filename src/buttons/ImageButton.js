@@ -22,6 +22,7 @@ export class ImageButton extends Button {
 
     @bindings.preprocess()
     setVariation(options) {
+        console.log(this);
         if(options.imageOnly){
             options.backgroundProperties = {...options.backgroundProperties, backgroundColor: 'none'};
             options.variation = 'noShadow';

@@ -1,8 +1,6 @@
 import {BaseIcon}					from './views/BaseIcon.js';
-import IconImage					from './resources/Camera.svg!text';
+import iconImage					from './resources/Camera.svg.txt_default.svg.txt!text';
 
 export class CameraIcon extends BaseIcon {
-    constructor(options){
-        super({...options, icon: IconImage});
-    }
-}
+    static icon = iconImage;
+ }
