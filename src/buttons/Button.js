@@ -36,7 +36,8 @@ import { getShadow }          from '../defaults/DefaultShadows.js'
   enableBorder: false,
   backgroundProperties: {backgroundColor: 'white'},
   useBoxShadow: false,
-  rippleOptions: {}
+    makeRipple: true,
+    rippleOptions: {}
 })
 @layout.dockPadding(0, ComponentPadding, 0, ComponentPadding)
 @layout.translate(0, 0, 30)
