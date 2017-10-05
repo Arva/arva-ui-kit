@@ -13,9 +13,6 @@ import { layout, bindings,
 })
 export class Tab extends TextButton {
 
-    /* If current tab is set to active */
-    _active = false;
-
     /* If current tab is being pressed, either by mouse or tab */
     _hover = true;
 
@@ -49,19 +46,14 @@ export class Tab extends TextButton {
     }
 
     _handleTapStart(mouseEvent) {
-        this._onHover();
-    }
-
-    _onHover() {
         this._hover = true;
         this._inBounds = true;
         this._eventOutput.emit('hoverOn');
     }
 
 
+
     _handleTapEnd(mouseEvent) {
-
-
         this._eventOutput.emit('hoverOff');
 
         if (this._hover) {
@@ -75,7 +67,7 @@ export class Tab extends TextButton {
     _setActive() {
 
         if (this.options.active) {
-            return
+            return ;
         }
 
         this.options.active = true;
@@ -91,12 +83,11 @@ export class Tab extends TextButton {
 
         this.options.active = false;
         this._hover = false;
-        this.deactivate();
+        this.deactivate && this.deactivate();
     }
 
     /**
      * Set the state of the Tab renderable to active
-     * @private
      */
     activate() {
         this._eventOutput.emit('activate');

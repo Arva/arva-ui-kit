@@ -2,7 +2,7 @@
  * Created by Manuel on 28/06/16.
  */
 
-import merge                from 'lodash/merge.js';
+import _merge from 'lodash/merge.js';
 
 export let Colors = {
     PrimaryUIColor: 'rgb(0, 188, 235)',
@@ -15,7 +15,7 @@ export let Colors = {
     ArticleTextColor: 'rgb(20, 20, 20)',
     ImageTextColor: 'rgb(255, 255, 255)',
     UIBarTextColor: 'rgb(255, 255, 255)',
-    
+
     White: 'rgb(255, 255, 255)',
     Black: 'rgb(0, 0, 0)',
     Gray: 'rgb(170, 170, 170)',
@@ -23,16 +23,7 @@ export let Colors = {
     VeryLightGray: 'rgb(250, 250, 250)'
 };
 
-export let White = Colors.White;
-export let Black = Colors.Black;
-export let Gray = Colors.Gray;
-export let LightGray = Colors.LightGray;
-export let VeryLightGray = Colors.VeryLightGray;
-
-export let IconColor = Colors.White;
-
-
 
 export function setColors(...colors) {
-    merge(Colors, ...colors);
+    _merge(Colors, ...colors);
 }

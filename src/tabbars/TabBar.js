@@ -1,15 +1,16 @@
 /**
  * Created by Manuel on 07/09/16.
  */
-import Surface from 'famous/core/Surface.js';
-import {View} from 'arva-js/core/View.js';
+import Surface          from 'famous/core/Surface.js';
+import {View}           from 'arva-js/core/View.js';
 import {combineOptions} from 'arva-js/utils/CombineOptions.js';
 import {
     flow, layout, dynamic,
     bindings, event
-} from 'arva-js/layout/Decorators.js';
+}                       from 'arva-js/layout/Decorators.js';
 
-import {Tab} from './Tab.js';
+import {Tab}            from './Tab.js';
+import {AccountIcon}    from '../icons/AccountIcon.js';
 
 
 /**
@@ -47,7 +48,7 @@ import {Tab} from './Tab.js';
     reflow: true,
     usesIcon: false,
     tabOptions: {clickEventName: 'tabClick'},
-    tabs: [{content: 'Example tab', active: false}],
+    tabs: [{active: false}],
     cachedItemSizes: [{width: 0, height: 0}],
     tabRenderable: Tab
 })
@@ -83,19 +84,20 @@ export class TabBar extends View {
         layout.dock.left(equalSizing ? 1 / tabs.length : ~50)
     )
     items = this.options.tabs.map((tabOptions, index) =>
-        //todo rename events that start with hover that actually refers to "press"
+        /*  TODO rename events that start with hover that actually refers to "press" */
         event
             .on('activate', () => this._handleItemActive(index))
             .on('hoverOn', () => this.onHover(index))
             .on('hoverOff', () => this.offHover(index))
+            .on('buttonClick', (index) => this.offHover(index))
             .on('newSize', (newSize) => this.options.cachedItemSizes[index] = {width: newSize[0], height: newSize[1]},
                 {propagate: false}
             )
             (
                 this.options.tabRenderable.with({
                     ...this.options.tabOptions,
-                    content: tabOptions.content,
-                    active: tabOptions.active
+                    ...tabOptions,
+                    clickEventData: [index]
                 })
             )
     );
@@ -158,7 +160,12 @@ export class TabBar extends View {
     }
 
     _handleItemActive(activeIndex) {
+        /* If not changed, then return */
+        if(activeIndex === this.options.activeIndex){
+            return;
+        }
         this.options.activeIndex = activeIndex;
+        this._eventOutput.emit('tabSwitch', activeIndex);
         for (let [index, item] of this.options.tabs.entries()) {
             item.active = (index === parseInt(activeIndex));
         }

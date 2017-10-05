@@ -8,7 +8,6 @@ import {replaceColors}                  from './ReplaceColors.js';
 
 export class BaseIcon extends Surface {
 
-
     static with(options) {
         return super.with({
             content: replaceColors(this.icon, options.color || Colors.PrimaryUIColor),

@@ -2,33 +2,52 @@
  * Created by lundfall on 12/07/16.
  */
 
-import Surface                  from 'famous/core/Surface.js';
-import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {layout}                 from 'arva-js/layout/Decorators.js';
-import {Button}                 from './Button.js';
-import {UIButtonPrimary}        from '../defaults/DefaultTypefaces.js';
-import {Colors}                 from '../defaults/DefaultColors.js';
-import {ComponentHeight}        from '../defaults/DefaultDimensions.js';
+import Surface                      from 'famous/core/Surface.js';
+import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
+import {layout, bindings, dynamic}  from 'arva-js/layout/Decorators.js';
+import {Button}                     from './Button.js';
+import {UIButtonPrimary}            from '../defaults/DefaultTypefaces.js';
+import {Colors}                     from '../defaults/DefaultColors.js';
+import {ComponentHeight}            from '../defaults/DefaultDimensions.js';
 
+@dynamic(() =>
+    bindings.setup({
+        content: 'Press me',
+        disabledOptions: {
+            content: undefined,
+            properties: {
+                color: Colors.White
+            }
+        },
+        properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor}
+    })
+)
 export class TextButton extends Button {
     @layout.translate(0, 0, 30)
     @layout.dock.top()
     @layout.size(true, undefined)
     @layout.origin(0.5, 0)
     @layout.align(0.5, 0)
-    text = new Surface(this.options);
+        /* Options need to be spread here since databinding doesn't work when passing the whole options object */
+    text = Surface.with(this.options.enabled ? {...this.options} : this.options.disabledOptions);
+
+    @bindings.preprocess()
+    generateBoxShadowVariations(){
+        let {variation, disableBoxShadow} = this.options;
+        Object.assign(this.options, TextButton.generateBoxShadowVariations(variation, disableBoxShadow));
+    }
+
+    @bindings.preprocess()
+    mimicDisabledContent(){
+        if(this.options.disabledOptions.content === undefined){
+            this.options.disabledOptions.content = this.options.content;
+        }
+    }
+
+
 
     constructor(options = {}) {
-        super(combineOptions({
-            disabledOptions: {
-                content: options.content,
-                properties: {
-                    color: Colors.White
-                }
-            },
-            properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor},
-            ...TextButton.generateBoxShadowVariations(options.variation, options.disableBoxShadow)
-        }, options));
+        super( options );
         this.layout.on('layoutstart', ({size}) => {
             let newLineHeight = size[1] + 'px';
             let {text} = this;
@@ -58,7 +77,7 @@ export class TextButton extends Button {
     }
 
     _setEnabled(enabled, changeBackground = true) {
-        super._setEnabled(enabled, changeBackground);
+        this.options.enabled = enabled;
         let options = enabled ? this.options : this.options.disabledOptions;
         this.text.setProperties(options.properties);
         this.text.setContent(options.content);

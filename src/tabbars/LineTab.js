@@ -26,19 +26,20 @@ export class LineTab extends Tab {
         super(options);
     }
 
-    setActive() {
+    _setActive() {
 
     }
 
-    setInactive() {
+    _setInactive() {
 
     }
 
-    _activate() {
+    activate() {
+        super.activate();
         this.setRenderableFlowState('text', 'active');
     }
 
-    _deactivate() {
+    deactivate() {
         this.setRenderableFlowState('text', 'inactive');
     }
 

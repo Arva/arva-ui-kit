@@ -6,32 +6,31 @@ import {combineOptions}                     from 'arva-js/utils/CombineOptions.j
 
 import {Colors}                             from '../defaults/DefaultColors.js';
 import {ImageButton}                        from './ImageButton.js';
+import {bindings}                           from 'arva-js/layout/Decorators.js';
 
+@bindings.setup({
+    backgroundProperties: {
+        backgroundColor: 'none'
+    },
+    uiBarVariation: 'white',
+    makeRipple: false
+})
 export class UIBarImageButton extends ImageButton {
 
-    static getColor(variation = 'white') {
-        switch (variation) {
-            default:
-                console.log('Invalid variation selected. Falling back to default settings (white).');
-            case 'white':
-                return Colors.PrimaryUIColor;
-            case 'colored':
-                return 'rgb(255, 255, 255)';
+    @bindings.preprocess()
+    setColorBasedOnVariation(options) {
+        let {uiBarVariation} = options;
+        if(uiBarVariation === 'white'){
+            return options.properties.color = Colors.PrimaryUIColor;
+        }
+        if(uiBarVariation === 'colored'){
+            return options.properties.color = 'white';
         }
     }
 
-    constructor(options = {}) {
-        super(combineOptions({
-            backgroundProperties: {
-                backgroundColor: 'none'
-            },
-            variation: 'noShadow',
-            makeRipple: false
-        }, options));
-    }
 
     setVariation(variation) {
-        this.setColor(UIBarImageButton.getColor(variation));
+        console.log(`Deprecated method setVariation called from ${this._name()}`);
     }
 
 }

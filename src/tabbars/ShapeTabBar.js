@@ -25,7 +25,8 @@ const flowOptions = { flow: true, transition: { curve: Easing.outCubic, duration
         _shapeHeight: 32,
         _isHovering: false,
         _currentlyHoveringIndex: 0,
-        _shapeTranslate: [0, 0, 10],
+        _shapeXOffset: 0,
+        _shapeYOffset: 0,
         shapeSize: [0, 32],
         tabRenderable: ShapeTab,
         tabOptions: { inActiveColor: Colors.PrimaryUIColor, activeColor: 'white' },
@@ -33,9 +34,7 @@ const flowOptions = { flow: true, transition: { curve: Easing.outCubic, duration
         rounded: false,
         shapeColor: Colors.PrimaryUIColor
     })
-
 export class ShapeTabBar extends TabBar {
-
 
     @bindings.preprocess()
     setIconProps(options) {
@@ -49,15 +48,16 @@ export class ShapeTabBar extends TabBar {
 
     @bindings.preprocess()
     setShapeWidth(options) {
-        options._shapeWidth = options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
+        options._shapeWidth =options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
     }
+
 
     @layout.align(0, 0.5)
     @layout.origin(0, 0.5)
-    @dynamic(({ _shapeWidth, _shapeHeight, _shapeTranslate, shapeSize }) =>
+    @dynamic(({ _shapeWidth, _shapeHeight, _shapeXOffset, _shapeYOffset, shapeSize }) =>
         layout
             .size(shapeSize[0] || _shapeWidth, _shapeHeight)
-            .translate(..._shapeTranslate)
+            .translate(_shapeXOffset, _shapeYOffset, 10)
     )
     @flow.defaultOptions(flowOptions)
     shape = Surface.with({
@@ -94,14 +94,15 @@ export class ShapeTabBar extends TabBar {
 
         if(index < options.activeIndex){
 
-            options._shapeTranslate[0] -= 20;
+            options._shapeXOffset -= 12;
         }
         if (index === options.activeIndex){
-            options._shapeWidth -= 20;
-            options._shapeTranslate[0] += 10;
+            options._shapeWidth -= 12;
+            options._shapeXOffset += 6;
         } else {
-            options._shapeWidth += 20;
+            options._shapeWidth += 12;
         }
+        options._shapeWidth = Math.max(options._shapeWidth, 0);
         options._currentlyHoveringIndex = index;
     }
 
@@ -109,11 +110,15 @@ export class ShapeTabBar extends TabBar {
         this.setShapeWidth(this.options);
         let {options} = this;
         options._isHovering = false;
-        options._shapeTranslate = [this._calcCurrentPosition(id), 0, 10];
+        options._shapeXOffset = this._calcCurrentPosition(id);
     }
 
     _handleItemActive(activeIndex) {
         super._handleItemActive(activeIndex);
         this.offHover(activeIndex);
+    }
+
+    getSize() {
+        return [super.getSize()[0], 40];
     }
 }

@@ -2,116 +2,98 @@
  * Created by Manuel on 09/09/16.
  */
 
-import Easing               from 'famous/transitions/Easing.js';
-import ImageSurface         from 'famous/surfaces/ImageSurface.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {Button}             from '../buttons/Button.js';
-import {layout, flow}       from 'arva-js/layout/Decorators.js';
-import {flowStates}         from 'arva-js/layout/FlowStates.js';
+import Easing                           from 'famous/transitions/Easing.js';
+import ImageSurface                     from 'famous/surfaces/ImageSurface.js';
+import {layout, flow, bindings, dynamic}from 'arva-js/layout/Decorators';
 
-import {AccountIcon}        from '../icons/AccountIcon.js';
+import {Button}                         from '../buttons/Button.js';
+
+import {flowStates}                     from 'arva-js/layout/FlowStates.js';
+
+import {AccountIcon}                    from '../icons/AccountIcon.js';
+import {Tab}                            from './Tab';
+import {Colors}                         from '../defaults/DefaultColors';
 
 const flowOptions = {transition: {curve: Easing.outCubic, duration: 200}};
 
+
+/**
+ * IconTab that displays an Icon
+ * @param {Object} [options] Construction options
+ * @param {String} [options.image] The optional image to display
+ * @param {Number} [options.icon] The icon's renderable Class, won't be used when an image is defined. Defaults to AccountIcon
+ */
+@bindings.setup({
+    icon: AccountIcon,
+    makeRipple: false,
+    useBackground: false,
+    useBoxShadow: false,
+    active: false,
+    passiveOpacity: 1,
+    properties: {color: 'white', activeColor: Colors.PrimaryUIColor}
+})
 export class IconTab extends Button {
     _hover = true;
-
-    /**
-     * IconTab that displays an Icon
-     * @param {Object} [options] Construction options
-     * @param {String} [options.image] The optional image to display
-     * @param {Number} [options.icon] The icon's renderable Class, won't be used when an image is defined. Defaults to AccountIcon
-     */
-    constructor(options = {}) {
-        super(combineOptions({
-            icon: AccountIcon,
-            makeRipple: false,
-            useBackground: false,
-            useBoxShadow: false
-        }, options));
-    }
 
     @layout.translate(0, 0, 30)
     @layout.size(24, 24)
     @layout.origin(0.5,0.5)
     @layout.align(0.5,0.5)
-    @flowStates.fade('inactive', {opacity: 1}, flowOptions)
-    @flowStates.fade('active', {opacity: 0.5}, flowOptions)
-    icon = this.options.image ? new ImageSurface({content: this.options.image}) : new this.options.icon({color: this.options.properties.color});
+    @flow.defaultOptions(flowOptions)
+    @dynamic(({active, passiveOpacity}) =>
+        layout.opacity(active ? 0 : passiveOpacity)
+    )
+    @flowStates.fade('inactive', {opacity: 0}, flowOptions)
+    @flowStates.fade('active', {opacity: 1}, flowOptions)
+    icon = this.options.image ? ImageSurface.with({content: this.options.image}) : this.options.icon.with({color: this.options.properties.color});
 
     @layout.translate(0, 0, 40)
     @layout.size(24, 24)
     @layout.origin(0.5,0.5)
     @layout.align(0.5,0.5)
-    @flowStates.fade('inactive', {opacity: 0.5}, flowOptions)
-    @flowStates.fade('active', {opacity: 1}, flowOptions)
-    iconOverlay = this.options.image ? new ImageSurface({content: this.options.image}) : new this.options.icon({color: this.options.properties.activeColor || 'black'});
-
-    _active = false;
+    @flow.defaultOptions(flowOptions)
+    @dynamic(({active}) =>
+        layout.opacity(active ? 1 : 0)
+    )
+    iconOverlay = this.options.image ? ImageSurface.with({content: this.options.image}) : this.options.icon.with({color: this.options.properties.activeColor || 'black'});
 
     getSize(){
-        return [24,48]
+        return [24,48];
+    }
+    /* TODO: Think about a better solution to multiple inheritance problem than the current solution */
+
+    _handleTapStart() {
+        Tab.prototype._handleTapStart.call(this, ...arguments);
     }
 
-    _handleTouchMove(touchEvent) {
-        if (this._inBounds) {
-            this.throttler.add(()=> {
-                this._inBounds = this._isInBounds(touchEvent);
-                if (!this._inBounds) {
-                    this._setDeactive();
-                }
-            });
-        }
+    _handleTapEnd() {
+        Tab.prototype._handleTapEnd.call(this, ...arguments);
     }
 
-    _handleTapStart(mouseEvent) {
-        this._hover = true;
-        this._inBounds = true;
-        this._eventOutput.emit('hoverOn');
-        this._activate();
 
-    }
 
-    _handleTapEnd(mouseEvent) {
-        if (mouseEvent.type === 'mouseout') {
-            this._hover = false;
-        }
-
-        if (this._hover) {
-            return this._setActive();
-        }
-
-        this._setDeactive();
-    }
 
     _setActive() {
-        this._active = true;
-        this._hover = false;
-        this._eventOutput.emit('activate');
-        this._deactivate();
+        Tab.prototype._setActive.call(this);
     }
 
-    _setDeactive() {
-        this._active = false;
-        this._hover = false;
-        this._eventOutput.emit('hoverOff');
-        this._deactivate();
+    _setInactive() {
+        Tab.prototype._setInactive.call(this);
+    }
+    
+    
+    activate() {
+        Tab.prototype.activate.call(this);
     }
 
-    setActive() {
-        this.setRenderableFlowState(this.iconOverlay, 'active');
+    deactivate() {
+        Tab.prototype.deactivate.call(this);
     }
 
-    setInactive() {
-        this.setRenderableFlowState(this.iconOverlay, 'inactive');
-    }
+    
 
-    _activate() {
-        this.setRenderableFlowState(this.iconOverlay, 'inactive');
-        this.setRenderableFlowState(this.icon, 'active');
-    }
-
-    _deactivate() {
-        this.setRenderableFlowState(this.icon, 'inactive');
+    getSize() {
+        return [40, 32];
     }
 }
+

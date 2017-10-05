@@ -91,7 +91,7 @@ export class SingleLineTextInput extends View {
         }, options));
 
         if (!this.input) {
-            this.addRenderable(new SingleLineInputSurface({
+            this.input = this.addRenderable(new SingleLineInputSurface({
                 value: this.options.value || '',
                 enabled: this.options.enabled === undefined ? true : this.options.enabled,
                 type: this.options.password ? 'password' : this.options.type,
@@ -106,7 +106,7 @@ export class SingleLineTextInput extends View {
                     lineHeight: 'normal' /* Don't reorder this to above UIRegular, or it will overwrite */
                 },
                 ...this.options.inputOptions
-            }), 'input', layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
+            }), layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
                 this._onBlur();
             }), event.on('focus', function () {
                     this._onFocus();
@@ -198,13 +198,14 @@ export class SingleLineTextInput extends View {
     }
 
     _onFocus() {
-        this.setRenderableFlowState('shadow', 'shown');
+        this.setRenderableFlowState(this.shadow, 'shown');
         this.correct.collapse();
         this.incorrect.collapse();
         this.required.collapse();
     }
+
     _onBlur() {
-        this.setRenderableFlowState('shadow', 'hidden');
+        this.setRenderableFlowState(this.shadow, 'hidden');
     }
 
     _validateInput() {

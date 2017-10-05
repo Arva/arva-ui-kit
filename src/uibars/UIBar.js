@@ -102,6 +102,7 @@ export class UIBar extends View {
         }
     }
 
+    //TODO AddComponent is a hack that isn't needed anymore
     addComponent(renderable, renderableName, position, ...decorators) {
         if (!renderable) {
             console.warn(`Invalid Renderable (${renderableName}) passed to UIBar`);
@@ -113,9 +114,11 @@ export class UIBar extends View {
             if (renderable.setVariation) {
                 renderable.setVariation(this.options.variation);
             }
+            renderable.options.uiBarVariation = this.options.variation;
+            renderable.setColorBasedOnVariation && renderable.setColorBasedOnVariation();
         }
         if (position === 'center') {
-            this.addRenderable(renderable, layout.stick.center(), layout.size(...this.options.centerItemSize), ...decorators);
+            this.addRenderable(renderable, layout.stick.center().size(...this.options.centerItemSize), ...decorators);
             this.decorateRenderable(renderable, layout.animate({animation: AnimationController.Animation.Fade}));
         } else {
             this.addRenderable(renderable, layout.dock[position](true), ...decorators);

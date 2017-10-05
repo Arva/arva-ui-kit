@@ -21,13 +21,17 @@ import {ComponentHeight}                    from '../defaults/DefaultDimensions.
 export class ImageButton extends Button {
 
     @bindings.preprocess()
-    setVariation(options) {
-        console.log(this);
+    setVariationIfNeeded(options) {
         if(options.imageOnly){
             options.backgroundProperties = {...options.backgroundProperties, backgroundColor: 'none'};
             options.variation = 'noShadow';
         }
         Object.assign(options, TextButton.generateBoxShadowVariations(options.variation))
+    }
+
+    @bindings.preprocess()
+    setCorrectColor({properties: {color}}) {
+        this.setColor(color);
     }
 
     @layout.translate(0, 0, 30)
@@ -53,7 +57,7 @@ export class ImageButton extends Button {
     }
 
     setColor() {
-        return this.image.changeColor(...arguments);
+        return this.image && this.image.changeColor(...arguments);
     }
 
     //TODO support this
