@@ -147,13 +147,13 @@ export class DraggableSideMenu extends View {
         let hiddenSurfaceNode = new RenderNode();
         hiddenSurfaceNode.add(hiddenSurfaceMod).add(this.draggable).add(this.hiddenSurface);
 
-        this._realRenderables.hiddenSurface = hiddenSurfaceNode;
+        this.renderables.hiddenSurface = hiddenSurfaceNode;
         this.hiddenSurface.pipe(this.draggable);
 
         let mod = new StateModifier();
         let dragNode = new RenderNode();
         dragNode.add(mod).add(this.draggable).add(this.sideMenuView);
-        this._realRenderables.control = dragNode;
+        this.renderables.control = dragNode;
 
         this.sideMenuView.pipe(this.draggable);
         this.fullScreenOverlay.pipe(this.draggable);
