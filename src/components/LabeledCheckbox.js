@@ -26,7 +26,7 @@ const ComponentSpacing = 20;
             textOverflow:'ellipsis'
         }
     },
-    center: false
+    center: true
 })
 export class LabeledCheckbox extends View {
 
@@ -54,6 +54,10 @@ export class LabeledCheckbox extends View {
 
     check() {
         this.checkbox.check()
+    }
+
+    getSize() {
+        return [undefined, this.checkbox.getSize()[1]]
     }
 }
 
