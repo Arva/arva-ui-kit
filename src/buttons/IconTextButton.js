@@ -11,6 +11,7 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 import {Button}                     from './Button.js';
 import {Colors}                     from '../defaults/DefaultColors.js';
+import {ComponentHeight}            from '../defaults/DefaultDimensions';
 
 
 @bindings.setup({
@@ -65,4 +66,8 @@ class IconAndText extends View {
     @layout.stick.left()
     text = new Surface(this.options);
 
+
+    getSize(){
+        return [undefined, ComponentHeight];
+    }
 }
