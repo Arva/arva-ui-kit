@@ -21,7 +21,7 @@ export class OneButtonDialog extends BaseDialog {
      */
     constructor(options = {}) {
         super(combineOptions(options, {button: {buttonText: 'Ok'}}));
-        let {button} = options;
+        let {button} = this.options;
         this.addRenderable(new TextButton({
                 content: button.buttonText,
                 disableBoxShadow: true,
