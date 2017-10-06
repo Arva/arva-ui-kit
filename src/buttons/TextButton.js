@@ -14,8 +14,9 @@ import {ComponentHeight}            from '../defaults/DefaultDimensions.js';
     bindings.setup({
         content: 'Press me',
         disabledOptions: {
-            content: undefined,
+            content: '',
             properties: {
+                lineHeight: `${ComponentHeight}px`,
                 color: Colors.White
             }
         },
@@ -39,24 +40,15 @@ export class TextButton extends Button {
 
     @bindings.preprocess()
     mimicDisabledContent(){
-        if(this.options.disabledOptions.content === undefined){
-            this.options.disabledOptions.content = this.options.content;
-        }
+        this.options.disabledOptions.content = this.options.content;
     }
-
 
 
     constructor(options = {}) {
         super( options );
-        this.layout.on('layoutstart', ({size}) => {
-            let newLineHeight = size[1] + 'px';
-            let {text} = this;
-            if (text.getProperties().lineHeight !== newLineHeight) {
-                text.setProperties({
-                    lineHeight: newLineHeight
-                });
-            }
-        });
+        this.on('newSize', (size) => {
+            this.options.properties.lineHeight = this.options.disabledOptions.properties.lineHeight = `${size[1]}px`;
+        }, {propagate: false})
     }
 
     getSize() {
