@@ -10,7 +10,7 @@ export class BaseIcon extends Surface {
 
     static with(options) {
         return super.with({
-            content: replaceColors(this.icon, options.color || Colors.PrimaryUIColor),
+            content: replaceColors(this.icon || options.icon, options.color || Colors.PrimaryUIColor),
             ...options
         })
     }
