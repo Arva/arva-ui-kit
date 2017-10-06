@@ -81,11 +81,11 @@ export class Dropdown extends View {
         let selectedItemIndex = items.findIndex(({ selected }) => selected);
 
         if (this.options.fakeWithNative) {
-            this.addRenderable(
+            this.nativeSelect = this.addRenderable(
                 new Surface({
                     content: this._generateNativeDropdownHtml()
                 }),
-                'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40)
+                layout.fullSize(), layout.translate(0, 0, 40)
             )
             ;
             if (selectedItemIndex === -1) {
@@ -326,7 +326,7 @@ export class Dropdown extends View {
         }
         await Promise.all(renderableHideCallbackList);
         this.setViewFlowState('collapsed');
-        this.hideRenderable('shadow');
+        this.hideRenderable(this.shadow);
         this._collapsed = true;
         this._containerView.layout.reflowLayout();
         this._containerView.decorateRenderable('dropdown', layout.translate(0, 0, 0));
@@ -339,7 +339,7 @@ export class Dropdown extends View {
 
     async _expand() {
         await this.setViewFlowState('expanded');
-        this.showRenderable('shadow');
+        this.showRenderable(this.shadow);
         this._collapsed = false;
         this._containerView.layout.reflowLayout();
 
