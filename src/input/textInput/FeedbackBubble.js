@@ -43,7 +43,7 @@ export class FeedbackBubble extends Button {
     @layout.dock.right()
     @layout.stick.center()
     @layout.translate(0, 0, 20)
-    icon = new BaseIcon({
+    icon = BaseIcon.with({
         icon: FeedbackBubble.icons[this.options.variation],
         color: 'rgb(255, 255, 255)',
         properties: {
@@ -56,7 +56,7 @@ export class FeedbackBubble extends Button {
     @flow.stateStep('hidden', closeTransition, layout.opacity(0))
     @flow.stateStep('hidden', closeTransition, layout.size(undefined, undefined), layout.dock.none())
     @flow.defaultState('hidden', closeTransition, layout.size(undefined, undefined), layout.dock.none(), layout.translate(0, 0, 10), layout.opacity(0))
-    text = new UIRegular({
+    text = UIRegular.with({
         content: this.options.text || FeedbackBubble.texts[this.options.variation],
         properties: {
             color: 'rgb(255, 255, 255)',
@@ -73,19 +73,19 @@ export class FeedbackBubble extends Button {
     }
 
     async expand() {
-        await Promise.all(this.setRenderableFlowState('background', 'shown'), this.setRenderableFlowState('text', 'shown'));
+        await Promise.all([this.setRenderableFlowState(this.background, 'shown'), this.setRenderableFlowState(this.text, 'shown')]);
         this.reflowRecursively();
     }
 
     async collapse() {
-        await this.setRenderableFlowState('text', 'hidden');
+        await this.setRenderableFlowState(this.text, 'hidden');
         this.reflowRecursively();
 
     }
 
     async toggle() {
-        let newState = this.getRenderableFlowState('text') === 'shown' ? 'hidden' : 'shown';
-        await this.setRenderableFlowState('text', newState);
+        let newState = this.getRenderableFlowState(this.text) === 'shown' ? 'hidden' : 'shown';
+        await this.setRenderableFlowState(this.text, newState);
         this.reflowRecursively();
 
     }

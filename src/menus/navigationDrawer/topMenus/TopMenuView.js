@@ -170,8 +170,8 @@ export class TopMenuView extends View {
     open() {
         if (!this.isOpen) {
             this.isOpen = true;
-            this.replaceRenderable('menuButton', this.arrowLeftButton);
-            this.showRenderable('menuButton');
+            this.replaceRenderable(this.menuButton, this.arrowLeftButton);
+            this.showRenderable(this.menuButton);
         }
     }
 
@@ -181,8 +181,8 @@ export class TopMenuView extends View {
     close() {
         if (this.isOpen) {
             this.isOpen = false;
-            this.replaceRenderable('menuButton', this.hamburgerButton);
-            this.showRenderable('menuButton');
+            this.replaceRenderable(this.menuButton, this.hamburgerButton);
+            this.showRenderable(this.menuButton);
         }
 
     }

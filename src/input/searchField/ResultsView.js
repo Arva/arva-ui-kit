@@ -65,7 +65,7 @@ export class ResultsView extends View {
         });
 
         if(this.options.showContent){
-            this.showRenderable('content');
+            this.showRenderable(this.content);
         }
 
 

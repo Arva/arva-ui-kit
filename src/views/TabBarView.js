@@ -47,8 +47,8 @@ export class TabBarView extends View {
     }
 
     switchToView(view) {
-        this.hideRenderable('currentView');
-        this.replaceRenderable('currentView', view);
-        this.showRenderable('currentView');
+        this.hideRenderable(this.currentView);
+        this.replaceRenderable(this.currentView, view);
+        this.showRenderable(this.currentView);
     }
 }
