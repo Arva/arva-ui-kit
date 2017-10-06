@@ -62,12 +62,13 @@ export class Checkbox extends Clickable {
     @flow.stateStep('disabled', outCurve, layout.opacity(0), ...defaultIconOptions, layout.scale(1, 1, 1))
     @flow.stateStep('pressed', inCurve, layout.scale(0.73, 0.73, 0.73))
     @flow.stateStep('enabled', outCurve, layout.opacity(1), ...defaultIconOptions, layout.scale(1, 1, 1))
-    tick = new DoneIcon({color: this.options.activeColor});
+    tick = DoneIcon.with({color: this.options.activeColor});
 
     @flow.stateStep('disabled', outCurve, layout.opacity(0), ...defaultIconOptions)
     @flow.stateStep('pressed', inCurve, layout.size(iconSize[0] * 0.73, iconSize[1] * 0.73))
     @flow.stateStep('enabled', outCurve, layout.opacity(1), ...defaultIconOptions)
-    cross = new CrossIcon({color: this.options.inactiveColor});
+    cross = CrossIcon.with({color: this.options.inactiveColor});
+
 
     /**
      * Checkbox that be used to enable and disable options
