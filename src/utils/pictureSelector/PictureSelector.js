@@ -5,6 +5,8 @@
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {FirebaseStorageManager}     from '../firebaseStorage/FirebaseStorageManager.js';
 
+let defaultPicture = 'https://i.pinimg.com/736x/90/b1/63/90b163ad105215024b8131d30bb2ffce--mornings-pictures.jpg';
+
 export class PictureSelector {
 
     static getDefaultOptions() {
@@ -31,7 +33,9 @@ export class PictureSelector {
      * @returns {Promise}
      */
     static async fetchPicture(usesCamera = true, fileLocation = undefined, fileName = undefined) {
-        PictureSelector._canBeUsed();
+        if(!PictureSelector._canBeUsed()){
+            return defaultPicture;
+        }
         try {
             let pictureUrl = usesCamera ? await PictureSelector.getCameraPicture() : await PictureSelector.getLibraryPicture();
             let fileBlob;
@@ -48,8 +52,10 @@ export class PictureSelector {
         }
     }
 
-    static getCameraPicture(options = {}) {
-        PictureSelector._canBeUsed();
+    static async getCameraPicture(options = {}) {
+        if(!PictureSelector._canBeUsed()){
+            return defaultPicture;
+        }
         return new Promise((resolve, reject)=> {
             let options = combineOptions(options, PictureSelector.getDefaultOptions());
             options.sourceType = navigator.camera.PictureSourceType.CAMERA;
@@ -57,8 +63,10 @@ export class PictureSelector {
         });
     }
 
-    static getLibraryPicture(options = {}) {
-        PictureSelector._canBeUsed();
+    static async getLibraryPicture(options = {}) {
+        if(!PictureSelector._canBeUsed()){
+            return defaultPicture;
+        }
         return new Promise((resolve, reject)=> {
             let options = combineOptions(options, PictureSelector.getDefaultOptions());
             options.sourceType = navigator.camera.PictureSourceType.SAVEDPHOTOALBUM;
@@ -91,11 +99,14 @@ export class PictureSelector {
 
     static _canBeUsed() {
         if (!navigator || !navigator.camera) {
-            throw new Error('Camera Plugin not Defined. PictureSelector class can only be used with a Cordova build and cordova-plugin-camera installed ');
+            console.log('Camera Plugin not Defined. PictureSelector class can only be used with a Cordova build and cordova-plugin-camera installed ');
+            return false;
         }
 
         if (!window.cordova || !window.cordova.file) {
-            throw new Error('File Plugin not Defined. PictureSelector class can only be used with a Cordova build and cordova-plugin-file installed ');
+            console.log('File Plugin not Defined. PictureSelector class can only be used with a Cordova build and cordova-plugin-file installed ');
+            return false;
         }
+        return true;
     }
 }
