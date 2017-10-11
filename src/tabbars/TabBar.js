@@ -166,14 +166,21 @@ export class TabBar extends View {
      * @param index
      */
     setIndexActive(index) {
-        this.options.activeIndex = index;
-        if (!this._width) {
-            this.onceNewSize().then(() => {
-                /* Read the active index from the option if overridden in subsequent calls to make resilient to race conditions */
-                this._handleItemActive(this.options.activeIndex, this.getItem(this.options.activeIndex));
-            })
-        } else {
-            this._handleItemActive(index, this.getItem(index));
+        if (!this._awaitingActivation) {
+            this._awaitingActivation = true;
+            setTimeout(() => {
+                this.options.activeIndex = index;
+                if ( !this._width ) {
+                    this.onceNewSize().then(() => {
+                        /* Read the active index from the option if overridden in subsequent calls to make resilient to race conditions */
+                        this._handleItemActive(this.options.activeIndex, this.getItem(this.options.activeIndex));
+                    })
+                } else {
+                    this._handleItemActive(index, this.getItem(index));
+                }
+            }, 600)
+            this._awaitingActivation = false;
         }
+
     }
 }

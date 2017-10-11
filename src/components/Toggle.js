@@ -12,7 +12,7 @@ import {ColoredTextButton}    from '../buttons/ColoredTextButton.js';
 
 export class Toggle extends View {
     @layout.stick.center()
-    @layout.size(true, undefined)
+    @layout.size(true, true)
     @layout.translate(0,0,20)
     @layout.animate({
         animation: AnimationController.Animation.Fade,

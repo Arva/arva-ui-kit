@@ -6,6 +6,7 @@ import {combineOptions}                     from 'arva-js/utils/CombineOptions.j
 
 import FlexTabBar                           from 'famous-flex/widgets/TabBar.js';
 import {Tab}                                from './Tab.js';
+import { ComponentPadding }                 from "arva-kit/defaults/DefaultDimensions";
 
 export let DockLeftLayout = {
     _calcCurrentPosition(id){
@@ -14,11 +15,11 @@ export let DockLeftLayout = {
             if (index == id) {
                 return position;
             }
-            position += this[`item${index}`].getSize()[0] || 0;
+            position += (this.options.spacing || ComponentPadding) + this[`item${index}`].getSize()[0] || 0;
         }
     },
     _getCurrentSize(index){
-        let size = this[`item${index}`].getSize()[0] || 0;
+        let size = this[`item${index}`] && this[`item${index}`].getSize()[0] || 0;
         return size;
     },
     _setItems(items) {
@@ -33,20 +34,32 @@ export let DockLeftLayout = {
             let tab = new (this.options.tabRenderable || Tab)(combineOptions(this.options.tabOptions, items[index] || {}));
             this[`item${index}`] && this.removeRenderable(`item${index}`);
             this._registerTabListeners(tab, index);
-            this.addRenderable(tab, `item${index}`, layout.dock.left(~50))
+            this.addRenderable(tab, `item${index}`, layout.dock.left(~50, (this.options.spacing || ComponentPadding)))
         }
     },
     _handleItemActive(id, tab) {
-        this._currentItem = id;
-        this.setItemActive(id, tab);
-        for (let index = 0; index < this._itemCount; index++) {
-            let item = this[`item${index}`];
-            if (index == parseInt(id)) {
-                item && item.setActive && item.setActive();
-                continue;
-            }
+        if (this._currentID !== parseInt(id) && (!this.__lastActivated || (Date.now() - this.__lastActivated) > 800)) {
+            this.__lastActivated = Date.now();
 
-            item && item.setInactive && item.setInactive();
+            this._prevTab = this._currentTab || tab;
+            this._prevID = this._currentID || parseInt(id);
+            this._currentID = parseInt(id);
+            this._currentTab = tab;
+
+            this._eventOutput.emit('tabchange', {oldIndex:this._prevID, index:this._currentID, item:this._currentTab, oldItem:this._prevTab});
+            //}
+            this._currentID = parseInt(id);
+            this.setItemActive(id, tab);
+            for ( let index = 0; index < this._itemCount; index++ ) {
+                let item = this[ `item${index}` ];
+                if ( index == parseInt(id) ) {
+                    item && item.setActive && item.setActive();
+
+                    continue;
+                }
+                item && item.setInactive && item.setInactive();
+
+            }
         }
     },
     getItem(index){
@@ -71,7 +84,7 @@ export let EqualSizeLayout = {
             createRenderables: {
                 item: (id, data) => {
                     if(!data.clickEventData){
-                       data.clickEventData = [this._itemCount, data];
+                        data.clickEventData = [this._itemCount, data];
                     }
                     let tab = new this.options.tabRenderable(combineOptions(this.options.tabOptions, data || {}));
                     this._registerTabListeners(tab, this._itemCount);
