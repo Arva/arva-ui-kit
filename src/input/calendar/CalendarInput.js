@@ -95,9 +95,9 @@ export class CalendarInput extends View {
                 size: [this.options.calendarWidth, this.options.calendarHeight],
                 origin: [0, 0],
                 align: [0, 1],
-                translate: [0, 0, 60]
-
+                translate: [0, 0, 100]
             });
+
 
             context.set('extensionArrow', {
                 size: [context.size[0] / 8, context.size[0] / 8],
