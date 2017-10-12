@@ -17,7 +17,7 @@ import {SingleLineTextInput}    from './SingleLineTextInput.js';
 export class LabeledInput extends View {
 
     @layout.dock.top(~20)
-    label = new UISmallGray({
+    label = UISmallGray.with({
         content: this.options.label, properties: {
             /* Prevent line-breaks from happening */
             whiteSpace: 'nowrap'
