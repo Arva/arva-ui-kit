@@ -64,8 +64,8 @@ export class Prompt {
         let dialog = new TwoButtonDialog({
             title,
             body,
-            buttonLeft: {content: leftButton, clickEventName: 'buttonClick', clickEventData: 'left'},
-            buttonRight: {content: rightButton, clickEventName: 'buttonClick', clickEventData: 'right'}
+            buttonLeft: {content: leftButton, clickEventName: 'buttonClick', clickEventData: ['left']},
+            buttonRight: {content: rightButton, clickEventName: 'buttonClick', clickEventData: ['right']}
         });
         this._dialogManager.show({
             dialog
