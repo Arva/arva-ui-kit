@@ -14,13 +14,15 @@ import {Colors}                     from '../defaults/DefaultColors.js';
 import {ComponentHeight}            from '../defaults/DefaultDimensions';
 
 
-@bindings.setup({
-    properties: {color: Colors.PrimaryUIColor},
-    iconProperties:{
-        width:48,
-        height:48
-    }
-})
+@dynamic(() =>
+    bindings.setup({
+        properties: {color: Colors.PrimaryUIColor},
+        iconProperties:{
+            width:48,
+            height:48
+        }
+    })
+)
 export class IconTextButton extends Button {
 
     @layout.stick.center()
@@ -64,7 +66,7 @@ class IconAndText extends View {
     @layout.dock.left()
     @layout.size(~100, ~16)
     @layout.stick.left()
-    text = new Surface(this.options);
+    text = new Surface({...this.options});
 
 
     getSize(){
