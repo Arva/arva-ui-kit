@@ -40,6 +40,9 @@ export class Clickable extends View {
      */
     constructor(options) {
         super(options);
+        if(!Array.isArray(options.clickEventData)){
+            options.clickEventData = [options.clickEventData];
+        }
         if (this.options.enabled === false) {
             this.once('deploy', () => {
                 this._setEnabled(this.options.enabled);
