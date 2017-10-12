@@ -206,7 +206,9 @@ export class Clickable extends View {
         if (element._currentTarget) {
             let elementPosition = element._currentTarget.getBoundingClientRect();
             let {left, right, top, bottom} = elementPosition;
-
+            if(!touch.touches){
+                return true;
+            }
             let touchList = touch.touches.length > 0 ? touch.touches : touch.changedTouches;
             let {pageX, pageY} = touchList[0];
 
