@@ -47,6 +47,11 @@ export class ShapeTabBar extends TabBar {
     }
 
     @bindings.preprocess()
+    moveShape() {
+        this.options._shapeXOffset = this._calcCurrentPosition(this.options.activeIndex);
+    }
+
+    @bindings.preprocess()
     setShapeWidth(options) {
         options._shapeWidth =options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
     }
@@ -93,7 +98,6 @@ export class ShapeTabBar extends TabBar {
         options._isHovering = true;
 
         if(index < options.activeIndex){
-
             options._shapeXOffset -= 12;
         }
         if (index === options.activeIndex){
@@ -110,7 +114,6 @@ export class ShapeTabBar extends TabBar {
         this.setShapeWidth(this.options);
         let {options} = this;
         options._isHovering = false;
-        options._shapeXOffset = this._calcCurrentPosition(id);
     }
 
     _handleItemActive(activeIndex) {
