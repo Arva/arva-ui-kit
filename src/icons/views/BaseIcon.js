@@ -2,7 +2,7 @@
  * Created by tom on 16/06/16.
  */
 
-import Surface                          from 'arva-js/famous/core/Surface.js';
+import Surface                          from 'famous/core/Surface.js';
 import {Colors}                         from '../../defaults/DefaultColors.js';
 import {replaceColors}                  from './ReplaceColors.js';
 

@@ -2,8 +2,8 @@
  * Created by Manuel on 06/09/16.
  */
 
-import Surface              from 'arva-js/famous/core/Surface.js';
-import Easing               from 'arva-js/famous/transitions/Easing.js';
+import Surface              from 'famous/core/Surface.js';
+import Easing               from 'famous/transitions/Easing.js';
 import {flow, layout}       from 'arva-js/layout/Decorators.js';
 import {flowStates}         from 'arva-js/layout/FlowStates.js';
 import {Tab}                from './Tab.js';

@@ -2,7 +2,7 @@
  * Created by vlad on 12/10/2016.
  */
 
-import Easing                       from 'arva-js/famous/transitions/Easing.js';
+import Easing                       from 'famous/transitions/Easing.js';
 
 import {layout, flow, event}        from 'arva-js/layout/Decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';

@@ -4,11 +4,11 @@
 
 import moment                       from 'moment';
 import _                            from 'lodash';
-import Surface                      from 'arva-js/famous/core/Surface';
+import Surface                      from 'famous/core/Surface';
 import AnimationController          from 'famous-flex/AnimationController.js';
-import Transform                    from 'arva-js/famous/core/Transform';
-import ContainerSurface             from 'arva-js/famous/surfaces/ContainerSurface';
-import Timer                        from 'arva-js/famous/utilities/Timer.js';
+import Transform                    from 'famous/core/Transform';
+import ContainerSurface             from 'famous/surfaces/ContainerSurface';
+import Timer                        from 'famous/utilities/Timer.js';
 
 
 import {View}                       from 'arva-js/core/View';

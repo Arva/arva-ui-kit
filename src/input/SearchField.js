@@ -2,9 +2,9 @@
  * Created by tom on 19/08/16.
  */
 
-import Timer                    from 'arva-js/famous/utilities/Timer.js';
-import Surface                  from 'arva-js/famous/core/Surface.js';
-import Easing                   from 'arva-js/famous/transitions/Easing.js';
+import Timer                    from 'famous/utilities/Timer.js';
+import Surface                  from 'famous/core/Surface.js';
+import Easing                   from 'famous/transitions/Easing.js';
 
 import {View}                   from 'arva-js/core/View.js';
 import {layout, event, flow}    from 'arva-js/layout/Decorators.js';

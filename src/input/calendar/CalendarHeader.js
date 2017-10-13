@@ -4,9 +4,16 @@
 
 import moment                       from 'moment';
 import _                            from 'lodash';
-import Surface                      from 'arva-js/famous/core/Surface';
+import Surface                      from 'famous/core/Surface';
 import {View}                       from 'arva-js/core/View';
+import AnimationController          from 'famous-flex/AnimationController.js';
+import InputSurface                 from 'famous/surfaces/InputSurface';
+import ContainerSurface             from 'famous/surfaces/ContainerSurface.js';
 import BkImageSurface               from 'famous-bkimagesurface/BkImageSurface.js';
+import FlexScrollView               from 'famous-flex/FlexScrollView';
+import LayoutController             from 'famous-flex/LayoutController';
+import ListLayout                   from 'famous-flex/layouts/ListLayout';
+import WheelLayout                  from 'famous-flex/layouts/WheelLayout';
 import FamousDatePicker             from 'famous-flex/widgets/DatePicker.js';
 
 import {Text as ReadOnlyText}       from '../../text/Text.js';

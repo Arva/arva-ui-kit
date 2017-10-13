@@ -2,8 +2,8 @@
  * Created by tom on 12/09/16.
  */
 
-import Surface                  from 'arva-js/famous/core/Surface.js';
-import Easing                   from 'arva-js/famous/transitions/Easing.js';
+import Surface                  from 'famous/core/Surface.js';
+import Easing                   from 'famous/transitions/Easing.js';
 
 import {View}                   from 'arva-js/core/View.js';
 import {layout, flow, event}    from 'arva-js/layout/Decorators.js';

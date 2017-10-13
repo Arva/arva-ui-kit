@@ -1,7 +1,7 @@
 /**
  * Created by lundfall on 12/07/16.
  */
-import Surface              from 'arva-js/famous/core/Surface.js';
+import Surface              from 'famous/core/Surface.js';
 
 import {Dialog}             from 'arva-js/components/Dialog.js';
 import {View}               from 'arva-js/core/View.js';

@@ -2,8 +2,8 @@
  * Created by lundfall on 01/02/2017.
  */
 
-import FamousContext        from 'arva-js/famous/core/Context.js';
-import Easing               from 'arva-js/famous/transitions/Easing.js';
+import FamousContext        from 'famous/core/Context.js';
+import Easing               from 'famous/transitions/Easing.js';
 
 import {View}               from 'arva-js/core/View.js';
 import {Router}             from 'arva-js/core/Router.js';

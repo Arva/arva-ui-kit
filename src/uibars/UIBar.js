@@ -3,8 +3,8 @@
  */
 
 import RGBColor                                     from 'rgbcolor';
-import Surface                                      from 'arva-js/famous/core/Surface.js';
-import Easing                                       from 'arva-js/famous/transitions/Easing.js';
+import Surface                                      from 'famous/core/Surface.js';
+import Easing                                       from 'famous/transitions/Easing.js';
 import AnimationController                          from 'famous-flex/AnimationController.js';
 import {View}                                       from 'arva-js/core/View.js';
 import {layout}                                     from 'arva-js/layout/Decorators.js';

@@ -1,5 +1,5 @@
 /**  Created by Manuel on 20/07/16.  */
-import FamousContext            from 'arva-js/famous/core/Context.js';
+import FamousContext            from 'famous/core/Context.js';
 import {View}                   from 'arva-js/core/View.js';
 import {Model}                  from 'arva-js/core/Model.js';
 import {LocalModel}             from 'arva-js/data/local/LocalModel.js';
@@ -8,7 +8,7 @@ import {layout}                 from 'arva-js/layout/Decorators.js';
 import {Injection}              from 'arva-js/utils/Injection.js';
 import {PrioritisedArray}       from 'arva-js/data/PrioritisedArray.js';
 import {DataBoundScrollView}    from 'arva-js/components/DataBoundScrollView.js';
-import Transform                from 'arva-js/famous/core/Transform.js';
+import Transform                from 'famous/core/Transform.js';
 
 import {NotificationItem}       from './NotificationItem.js';
 

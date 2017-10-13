@@ -4,7 +4,7 @@
 
 import {Colors}             from '../defaults/DefaultColors.js';
 
-import Surface              from 'arva-js/famous/core/Surface.js';
+import Surface              from 'famous/core/Surface.js';
 
 import {View}               from 'arva-js/core/View.js';
 import {layout}             from 'arva-js/layout/Decorators.js';

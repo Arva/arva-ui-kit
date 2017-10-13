@@ -2,7 +2,7 @@
  * Created by lundfall on 07/07/16.
  */
 
-import Surface from 'arva-js/famous/core/Surface.js'
+import Surface from 'famous/core/Surface.js'
 import {Throttler} from 'arva-js/utils/Throttler.js'
 import {
     layout, bindings,
