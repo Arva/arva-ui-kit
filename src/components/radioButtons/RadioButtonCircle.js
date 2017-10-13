@@ -2,8 +2,8 @@
  * Created by vlad on 19/09/16.
  */
 
-import Surface              from 'famous/core/Surface.js';
-import Easing               from 'famous/transitions/Easing.js';
+import Surface              from 'arva-js/famous/core/Surface.js';
+import Easing               from 'arva-js/famous/transitions/Easing.js';
 import {layout, flow}       from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {Clickable}          from "../Clickable.js";

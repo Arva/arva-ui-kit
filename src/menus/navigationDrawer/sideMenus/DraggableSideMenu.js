@@ -1,7 +1,7 @@
 /**
  * Created by manuel on 09-09-15.
  */
-import Surface                  from 'famous/core/Surface.js';
+import Surface                  from 'arva-js/famous/core/Surface.js';
 import TabBar                   from 'famous-flex/widgets/TabBar.js';
 
 import {View}                   from 'arva-js/core/View.js';
@@ -11,10 +11,10 @@ import {Injection}              from 'arva-js/utils/Injection.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 
 import AnimationController      from 'famous-flex/AnimationController';
-import RenderNode               from 'famous/core/RenderNode';
-import Easing                   from 'famous/transitions/Easing';
-import Draggable                from 'famous/modifiers/Draggable';
-import StateModifier            from 'famous/modifiers/StateModifier';
+import RenderNode               from 'arva-js/famous/core/RenderNode';
+import Easing                   from 'arva-js/famous/transitions/Easing';
+import Draggable                from 'arva-js/famous/modifiers/Draggable';
+import StateModifier            from 'arva-js/famous/modifiers/StateModifier';
 
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
 import {Dimensions}             from '../../../defaults/DefaultDimensions.js';

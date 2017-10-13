@@ -2,7 +2,7 @@
  * Created by lundfall on 12/07/16.
  */
 
-import Surface                      from 'famous/core/Surface.js';
+import Surface                      from 'arva-js/famous/core/Surface.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {layout, bindings, dynamic}  from 'arva-js/layout/Decorators.js';
 import {Button}                     from './Button.js';

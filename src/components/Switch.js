@@ -2,9 +2,9 @@
  * Created by vlad on 31/08/16.
  */
 
-import Surface              from 'famous/core/Surface.js';
-import Timer                from 'famous/utilities/Timer.js';
-import Easing               from 'famous/transitions/Easing.js';
+import Surface              from 'arva-js/famous/core/Surface.js';
+import Timer                from 'arva-js/famous/utilities/Timer.js';
+import Easing               from 'arva-js/famous/transitions/Easing.js';
 import {layout, flow}       from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {Knob}               from '../sliders/Knob.js';

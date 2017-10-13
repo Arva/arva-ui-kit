@@ -3,9 +3,9 @@
      * Created by chrwc on 2017-03-24.
      */
 
-import Surface                      from 'famous/core/Surface.js';
-import ImageSurface                 from 'famous/surfaces/ImageSurface.js';
-import Easing                       from 'famous/transitions/Easing.js';
+import Surface                      from 'arva-js/famous/core/Surface.js';
+import ImageSurface                 from 'arva-js/famous/surfaces/ImageSurface.js';
+import Easing                       from 'arva-js/famous/transitions/Easing.js';
 
 import {View}                       from 'arva-js/core/View.js';
 import {layout, event, flow}        from 'arva-js/layout/Decorators.js';

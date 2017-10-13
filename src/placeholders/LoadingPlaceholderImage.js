@@ -1,8 +1,8 @@
 /**
  * Created by tom on 27/07/16.
  */
-import Easing                   from 'famous/transitions/Easing';
-import ImageSurface             from 'famous/surfaces/ImageSurface.js';
+import Easing                   from 'arva-js/famous/transitions/Easing';
+import ImageSurface             from 'arva-js/famous/surfaces/ImageSurface.js';
 import AnimationController      from 'famous-flex/AnimationController.js';
 import BkImageSurface           from 'famous-bkimagesurface/BkImageSurface.js';
 import {View}                   from 'arva-js/core/View.js';

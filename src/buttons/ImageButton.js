@@ -1,7 +1,7 @@
 /**
  * Created by lundfall on 12/07/16.
  */
-import ImageSurface                         from 'famous/surfaces/ImageSurface.js';
+import ImageSurface                         from 'arva-js/famous/surfaces/ImageSurface.js';
 import {layout, bindings, dynamic}          from 'arva-js/layout/Decorators.js';
 import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
 

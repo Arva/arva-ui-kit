@@ -4,9 +4,9 @@
 
 import get                                      from 'lodash/get.js';
 
-import FamousContext                            from 'famous/core/Context.js';
-import Surface                                  from 'famous/core/Surface.js';
-import Easing                                   from 'famous/transitions/Easing.js';
+import FamousContext                            from 'arva-js/famous/core/Context.js';
+import Surface                                  from 'arva-js/famous/core/Surface.js';
+import Easing                                   from 'arva-js/famous/transitions/Easing.js';
 
 import {View}                                   from 'arva-js/core/View.js';
 import {Router}                                 from 'arva-js/core/Router.js';

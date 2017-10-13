@@ -3,10 +3,10 @@
  */
 import _                            from 'lodash';
 import {View}                       from 'arva-js/core/View.js';
-import Surface                      from 'famous/core/Surface.js';
+import Surface                      from 'arva-js/famous/core/Surface.js';
 import AnimationController          from 'famous-flex/AnimationController.js';
-import Easing                       from 'famous/transitions/Easing.js';
-import Transform                    from 'famous/core/Transform';
+import Easing                       from 'arva-js/famous/transitions/Easing.js';
+import Transform                    from 'arva-js/famous/core/Transform';
 
 import {Text as ReadOnlyText}       from '../../text/Text.js';
 import {Colors}                     from '../../defaults/DefaultColors.js';

@@ -4,8 +4,8 @@
 
 import get                  from 'lodash/get.js';
 import findIndex            from 'lodash/findIndex.js';
-import FamousContext        from 'famous/core/Context.js';
-import Easing               from 'famous/transitions/Easing.js';
+import FamousContext        from 'arva-js/famous/core/Context.js';
+import Easing               from 'arva-js/famous/transitions/Easing.js';
 
 import {View}               from 'arva-js/core/View.js';
 import {Router}             from 'arva-js/core/Router.js';

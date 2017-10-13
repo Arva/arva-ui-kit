@@ -2,8 +2,8 @@
  * Created by Manuel on 09/09/16.
  */
 
-import Easing                           from 'famous/transitions/Easing.js';
-import ImageSurface                     from 'famous/surfaces/ImageSurface.js';
+import Easing                           from 'arva-js/famous/transitions/Easing.js';
+import ImageSurface                     from 'arva-js/famous/surfaces/ImageSurface.js';
 import {layout, flow, bindings, dynamic}from 'arva-js/layout/Decorators';
 
 import {Button}                         from '../buttons/Button.js';

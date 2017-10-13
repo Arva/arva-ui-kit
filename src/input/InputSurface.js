@@ -1,7 +1,7 @@
 /**
  * Created by lundfall on 13/07/16.
  */
-import FamousInputSurface           from 'famous/surfaces/InputSurface.js';
+import FamousInputSurface           from 'arva-js/famous/surfaces/InputSurface.js';
 
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {replaceEmojiAtEnd}          from './Emoji.js';

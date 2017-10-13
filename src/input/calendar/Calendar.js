@@ -3,7 +3,7 @@
  */
 import _                            from 'lodash';
 import {View}                       from 'arva-js/core/View.js';
-import Surface                      from 'famous/core/Surface.js';
+import Surface                      from 'arva-js/famous/core/Surface.js';
 import LayoutController             from 'famous-flex/LayoutController';
 import ListLayout                   from 'famous-flex/layouts/ListLayout';
 

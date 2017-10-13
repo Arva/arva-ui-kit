@@ -1,7 +1,7 @@
 /**
  * Created by lundfall on 07/07/16.
  */
-import Timer from 'famous/utilities/Timer.js';
+import Timer from 'arva-js/famous/utilities/Timer.js';
 
 import {View} from 'arva-js/core/View.js';
 import {layout, bindings, event, dynamic} from 'arva-js/layout/Decorators.js'

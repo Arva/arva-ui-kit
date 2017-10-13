@@ -6,13 +6,13 @@ import {View}                       from 'arva-js/core/View.js';
 import {flow, layout, event}        from 'arva-js/layout/Decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
-import Surface                      from 'famous/core/Surface.js';
+import Surface                      from 'arva-js/famous/core/Surface.js';
 
 import {TextButton}                 from '../buttons/TextButton.js';
 import {UIRegular}                  from '../defaults/DefaultTypefaces.js';
 import sideArrows                   from './dropdown/sideArrows.svg.txt!text';
 
-import Easing                       from 'famous/transitions/Easing.js';
+import Easing                       from 'arva-js/famous/transitions/Easing.js';
 import AnimationController          from 'famous-flex/AnimationController.js';
 
 let expandShrinkTransition = { curve: Easing.outCubic, duration: 2000 };
