@@ -79,7 +79,7 @@ export class Dropdown extends View {
             eventName: 'itemChosen',
             placeholderOptions: {},
             properties: {
-                border: '1px solid rgba(0, 0, 0, 0.1)',
+                border: options.showBorder ? '1px solid rgba(0, 0, 0, 0.1)' : 'none',
                 borderRadius
             },
             backgroundProperties: {
