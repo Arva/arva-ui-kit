@@ -32,10 +32,10 @@ export class SwipableCarousel extends View {
     @layout.stick.bottom(true)
     @layout.size(undefined, 48)
     carouselIndicators = this.options.showCarousel && new CarouselIndicators({
-        numberOfPages: this.options.items.length,
-        showButtons: false,
-        ...this.options.carouselIndicatorProperties
-    });
+            numberOfPages: this.options.items.length,
+            showButtons: false,
+            ...this.options.carouselIndicatorProperties
+        });
 
     constructor(options={}){
         super(combineOptions({
@@ -85,8 +85,16 @@ class CarouselWall extends View {
         } else {
             this.swipeSensitivity = 0.2;
         }
+    }
 
-
+    replaceItem(idx, renderable){
+        let previousName =`item-${idx}`;
+        this.replaceRenderable(previousName, renderable);
+        this.decorateRenderable(previousName, layout.draggable(this.swipableOptions));
+        renderable.draggable.on('update', ({position}) => {
+            this.moveItems(position)
+        });
+        this.addDragEventListener(idx);
 
     }
 
