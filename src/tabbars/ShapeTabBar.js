@@ -101,6 +101,7 @@ export class ShapeTabBar extends TabBar {
             options._shapeXOffset -= 12;
         }
         if (index === options.activeIndex){
+            this._shrunk = true;
             options._shapeWidth -= 12;
             options._shapeXOffset += 6;
         } else {
@@ -111,6 +112,7 @@ export class ShapeTabBar extends TabBar {
     }
 
     offHover(id) {
+        this.moveShape(this.options);
         this.setShapeWidth(this.options);
         let {options} = this;
         options._isHovering = false;
