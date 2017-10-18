@@ -39,7 +39,7 @@ export class NavigationDrawer extends View {
 
 
   @layout.dock.top(true)
-  statusBarExtension = Injection.get(StatusBarExtension)
+  statusBarExtension = Injection.get(StatusBarExtension);
 
   /* Listen for sidemenu updates (drag events), so the Topbar can respond accordingly */
   @event.on('sideMenuUpdate', function () {
