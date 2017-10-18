@@ -82,6 +82,7 @@ export class Dropdown extends View {
                 border: options.showBorder ? '1px solid rgba(0, 0, 0, 0.1)' : 'none',
                 borderRadius
             },
+            itemProperties:{},
             backgroundProperties: {
                 backgroundColor: 'white'
             }
@@ -245,7 +246,7 @@ export class Dropdown extends View {
         return combineOptions(UIRegular, {
             properties: {
                 /* Use padding instead of @layout.dockPadding in order to make the surface cover the entire length */
-                padding: '0 0 0 16px',
+                padding: this.options.placeholderOptions.properties && this.options.placeholderOptions.properties.padding || '0 0 0 16px',
                 color: isPlaceholder ? 'rgb(170, 170, 170)' : undefined,
                 textAlign: 'left',
                 cursor: 'pointer'
@@ -395,7 +396,6 @@ export class Dropdown extends View {
                 height: 48px;
                 overflow: hidden;
                 ${(this.options.backgroundProperties && this.options.backgroundProperties.backgroundColor) ? `background-color: ${this.options.backgroundProperties.backgroundColor};` : '' }
-                padding: 0 0 0 16px;
                 outline: none;
                 -webkit-appearance: none; /* Doesn't work for IE and firefox */
                 width: 100%;
