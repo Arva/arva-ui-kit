@@ -72,4 +72,8 @@ export class FacebookLogin extends BaseLogin {
             console.log('Error deauthenticating Facebook', error);
         }
     }
+    
+    async revokePermission(userId) {
+        return await new Promise((resolve, reject) => facebookConnectPlugin.api(`/${userId}/permissions?method=delete`, [], resolve, reject));
+    }
 }
