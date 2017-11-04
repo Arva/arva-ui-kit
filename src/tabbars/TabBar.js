@@ -52,7 +52,6 @@ import {AccountIcon}    from '../icons/AccountIcon.js';
     cachedItemSizes: [{width: 0, height: 0}],
     tabRenderable: Tab
 })
-
 export class TabBar extends View {
 
 

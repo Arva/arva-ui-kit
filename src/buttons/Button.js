@@ -45,7 +45,7 @@ import {getShadow} from '../defaults/DefaultShadows.js'
 @layout.translate(0, 0, 30)
 export class Button extends Clickable {
 
-    _inBounds = true
+    _inBounds = true;
 
     @event.on('deploy', function () {
         /* Automatically enable button when coming into the view*/
