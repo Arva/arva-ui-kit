@@ -32,10 +32,10 @@ export class SwipableCarousel extends View {
     @layout.stick.bottom(true)
     @layout.size(undefined, 48)
     carouselIndicators = this.options.showCarousel && new CarouselIndicators({
-            numberOfPages: this.options.items.length,
-            showButtons: false,
-            ...this.options.carouselIndicatorProperties
-        });
+        numberOfPages: this.options.items.length,
+        showButtons: false,
+        ...this.options.carouselIndicatorProperties
+    });
 
     constructor(options={}){
         super(combineOptions({
@@ -61,13 +61,21 @@ export class SwipableCarousel extends View {
     goToIndex(idx){
         this.wall.goToIdx(idx)
     }
+
+    getActiveIndex(){
+        return this.wall.focusedItem;
+    }
 }
 
 class CarouselWall extends View {
 
+
     constructor(options = {}) {
         super(options);
-        this.focusedItem = 0;
+        this.focusedItem = this.options.startIndex;
+
+
+
         this.items = [];
 
         this.swipableOptions = {
@@ -77,6 +85,10 @@ class CarouselWall extends View {
 
         this.createItems();
         this.addDragEventListener(this.focusedItem);
+
+        if(this.focusedItem !== 0){
+            this.goToIdx(this.focusedItem, 0);
+        }
 
         if (this.options.sensitivity === 'low'){
             this.swipeSensitivity = 0.5
@@ -170,10 +182,13 @@ class CarouselWall extends View {
         this.addDragEventListener(this.focusedItem);
     }
 
-    goToIdx(idx){
+    goToIdx(idx, duration = 300){
+        this.focusedItem = idx;
         this._eventOutput.emit('swipeIdx', idx);
-        this.moveItems([-width * idx, 0], {duration: 300});
+        this.moveItems([-width * idx, 0], {duration});
     }
+
+
 
     _determineSwipeEvents(endX = 0, endY = 0, velocity) {
         let xThreshold = this.swipableOptions.xThreshold || [undefined, undefined];

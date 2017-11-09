@@ -77,17 +77,17 @@ export class TabBar extends View {
 
             this.onNewSize(([width]) => {
                 this._width = width;
-                this.options.reflow && this.setIndexActive(this._currentItem);
+                this.options.reflow && this.setIndexActive(this._currentItem, this.options.tabBarTimeout);
             });
 
             if(this._currentItem !== this.options.activeIndex){
-                this.setIndexActive(this.options.activeIndex);
+                this.setIndexActive(this.options.activeIndex, this.options.tabBarTimeout);
             }
 
         });
 
         if (this.options.activeIndex !== undefined) {
-            this.setIndexActive(this.options.activeIndex);
+            this.setIndexActive(this.options.activeIndex, this.options.tabBarTimeout);
         }
 
     }
@@ -109,7 +109,7 @@ export class TabBar extends View {
 
         this.onceNewSize().then(([width])=>{
             this._width = width;
-            this.options.reflow && this.setIndexActive(this._currentItem);
+            this.options.reflow && this.setIndexActive(this._currentItem, this.options.tabBarTimeout);
         });
     }
 
@@ -165,7 +165,7 @@ export class TabBar extends View {
      * Set a tabBar item to active
      * @param index
      */
-    setIndexActive(index) {
+    setIndexActive(index, timeout = null) {
         if (!this._awaitingActivation) {
             this._awaitingActivation = true;
             setTimeout(() => {
@@ -178,7 +178,7 @@ export class TabBar extends View {
                 } else {
                     this._handleItemActive(index, this.getItem(index));
                 }
-            }, 600)
+            }, timeout ? timeout : 600);
             this._awaitingActivation = false;
         }
 
