@@ -178,6 +178,8 @@ export class TabBar extends View {
                 } else {
                     this._handleItemActive(index, this.getItem(index));
                 }
+
+                this._eventOutput.emit('tabChanged', {index:index});
             }, 600)
             this._awaitingActivation = false;
         }
