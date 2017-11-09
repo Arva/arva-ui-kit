@@ -1,7 +1,7 @@
 /**
  * Created by manuel on 09-09-15.
  */
-import Surface                  from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 import TabBar                   from 'famous-flex/widgets/TabBar.js';
 
 import {View}                   from 'arva-js/core/View.js';

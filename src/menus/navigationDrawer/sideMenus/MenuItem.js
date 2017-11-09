@@ -1,7 +1,7 @@
 /**
  * Created by rbu on 06-11-15.
  */
-import Surface          from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 import {View}           from 'arva-js/core/View.js';
 
 import {combineOptions} from 'arva-js/utils/CombineOptions.js';

@@ -2,7 +2,7 @@
  * Created by lundfall on 21/10/2016.
  */
 
-import Surface              from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 import ImageSurface         from 'famous/surfaces/ImageSurface.js';
 import BkImageSurface       from 'famous-bkimagesurface';
 

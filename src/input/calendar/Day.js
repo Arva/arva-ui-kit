@@ -3,7 +3,7 @@
  */
 import _                            from 'lodash';
 import {View}                       from 'arva-js/core/View.js';
-import Surface                      from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 import AnimationController          from 'famous-flex/AnimationController.js';
 import Easing                       from 'famous/transitions/Easing.js';
 import Transform                    from 'famous/core/Transform';

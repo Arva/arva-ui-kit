@@ -1,7 +1,7 @@
 /**
  * Created by manuel on 09-09-15.
  */
-import Surface                  from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 import {View}                   from 'arva-js/core/View.js';
 import {NameDisplay}            from './NameDisplay.js';
 import {layout}                 from 'arva-js/layout/Decorators.js';

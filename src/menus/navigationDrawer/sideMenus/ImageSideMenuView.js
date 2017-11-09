@@ -1,7 +1,7 @@
 /**
  * Created by Manuel on 28/07/16.
  */
-import Surface                  from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 import BgImageSurface           from 'famous/surfaces/BgImageSurface.js';
 
 import {layout}                 from 'arva-js/layout/Decorators.js';

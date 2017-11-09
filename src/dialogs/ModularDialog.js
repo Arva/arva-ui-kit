@@ -2,7 +2,7 @@
  * Created by vlad on 29/07/16.
  */
 
-import Surface                                              from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 
 import {View}                                               from 'arva-js/core/View.js';
 import {layout}                                             from 'arva-js/layout/Decorators.js';

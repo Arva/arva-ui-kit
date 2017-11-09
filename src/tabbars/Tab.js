@@ -73,6 +73,7 @@ export class Tab extends TextButton {
         this.options.active = true;
         this._hover = false;
         this.activate();
+
     }
 
     _setInactive() {

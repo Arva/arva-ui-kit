@@ -1,7 +1,7 @@
 /**
  * Created by lundfall on 2/27/17.
  */
-import Surface              from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 
 import {layout, flow, event}from 'arva-js/layout/Decorators.js'
 import {View}               from 'arva-js/core/View.js';

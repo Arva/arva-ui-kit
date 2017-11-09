@@ -4,7 +4,7 @@
 import moment                               from 'moment';
 import _                                    from 'lodash';
 import {View}                               from 'arva-js/core/View.js';
-import Surface                              from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 
 import FamousDatePicker                     from 'famous-flex/widgets/DatePicker.js';
 import {Text as ReadOnlyText}               from '../../text/Text.js';

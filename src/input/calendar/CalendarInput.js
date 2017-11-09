@@ -4,7 +4,7 @@
 
 import moment                       from 'moment';
 import _                            from 'lodash';
-import Surface                      from 'famous/core/Surface';
+import {Surface}                    from 'arva-js/surfaces/Surface.js';
 import AnimationController          from 'famous-flex/AnimationController.js';
 import Transform                    from 'famous/core/Transform';
 import ContainerSurface             from 'famous/surfaces/ContainerSurface';

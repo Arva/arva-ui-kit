@@ -1,7 +1,7 @@
 /**
  * Created by lundfall on 08/07/16.
  */
-import Surface              from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 import Transform            from 'famous/core/Transform';
 import Easing               from 'famous/transitions/Easing.js';
 

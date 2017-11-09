@@ -7,7 +7,7 @@ import StateModifier                    from 'famous/modifiers/StateModifier.js'
 import Easing                           from 'famous/transitions/Easing.js';
 import Timer                            from 'famous/utilities/Timer.js';
 import Transform                        from 'famous/core/Transform.js';
-import Surface                          from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 import radians                          from 'degrees-radians';
 
 import {View}                           from 'arva-js/core/View.js';

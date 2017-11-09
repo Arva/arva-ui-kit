@@ -3,7 +3,7 @@
      * Created by chrwc on 2017-03-24.
      */
 
-import Surface                      from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 import ImageSurface                 from 'famous/surfaces/ImageSurface.js';
 import Easing                       from 'famous/transitions/Easing.js';
 

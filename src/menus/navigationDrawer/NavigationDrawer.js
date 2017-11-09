@@ -4,7 +4,7 @@
 import find                       from 'lodash/find.js'
 import every                      from 'lodash/every.js'
 import findIndex                  from 'lodash/findIndex.js'
-import Surface                    from 'famous/core/Surface.js'
+import {Surface}                  from 'arva-js/surfaces/Surface.js'
 import { Injection }              from 'arva-js/utils/Injection.js'
 import { combineOptions }         from 'arva-js/utils/CombineOptions.js'
 import FamousContext              from 'famous/core/Context.js'

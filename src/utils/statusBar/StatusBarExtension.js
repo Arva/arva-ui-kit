@@ -3,7 +3,7 @@
  */
 
 import Color                from 'color'
-import Surface              from 'famous/core/Surface.js'
+import {Surface}            from 'arva-js/surfaces/Surface.js';
 import Context              from 'famous/core/Context.js'
 import { View }               from 'arva-js/core/View.js'
 import { Injection }          from 'arva-js/utils/Injection.js'

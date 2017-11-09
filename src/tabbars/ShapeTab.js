@@ -2,7 +2,7 @@
  * Created by Manuel on 06/09/16.
  */
 
-import Surface              from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 import Easing               from 'famous/transitions/Easing.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {flow, layout}       from 'arva-js/layout/Decorators.js';

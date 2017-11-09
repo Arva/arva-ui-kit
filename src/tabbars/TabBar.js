@@ -1,7 +1,7 @@
 /**
  * Created by Manuel on 07/09/16.
  */
-import Surface          from 'famous/core/Surface.js';
+import {Surface}        from 'arva-js/surfaces/Surface.js';
 import {View}           from 'arva-js/core/View.js';
 import {combineOptions} from 'arva-js/utils/CombineOptions.js';
 import {
@@ -95,7 +95,9 @@ export class TabBar extends View {
             (
                 this.options.tabRenderable.with({
                     ...this.options.tabOptions,
-                    ...tabOptions,
+                    icon: tabOptions.icon,
+                    content: tabOptions.content,
+                    active: this.inputOptions.tabs[index].active,
                     clickEventData: [index]
                 })
             )
@@ -165,10 +167,15 @@ export class TabBar extends View {
         }
         this.options.activeIndex = activeIndex;
         this._eventOutput.emit('tabSwitch', activeIndex);
-        for (let [index, item] of this.options.tabs.entries()) {
-            item.active = (index === parseInt(activeIndex));
+        for (let [index, tab] of this.items.entries()) {
+            if(index !== parseInt(activeIndex)){
+                tab.options.active = false;
+                tab._optionObserver._flushUpdates();
+            }
         }
+
     }
+
 
     constructor(options) {
         super(options);
