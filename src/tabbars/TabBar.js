@@ -168,16 +168,15 @@ export class TabBar extends View {
         this.options.activeIndex = activeIndex;
         this._eventOutput.emit('tabSwitch', activeIndex);
         for (let [index, tab] of this.items.entries()) {
-            if(index !== parseInt(activeIndex)){
-                tab.options.active = false;
-                tab._optionObserver._flushUpdates();
-            }
+            tab.options.nested = {active: index === parseInt(activeIndex)};
         }
 
     }
 
 
     constructor(options) {
+        let {tabs = [], activeIndex = 0} = options;
+        options.tabs = tabs.map((tab, index) => ({...tab, nested: {active: activeIndex === index}}));
         super(options);
         this.on('newSize', (newSize) => this._currentSize = newSize, {propagate: false});
     }
