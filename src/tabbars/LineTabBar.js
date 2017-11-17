@@ -60,15 +60,22 @@ export class LineTabBar extends TabBar {
      */
     setItemActive(id, item) {
 
-
-
-
         this._currentTab && this._currentTab._deactive  && this._currentTab.setInactive();
         this._currentItem = id;
         this._currentTab = item;
 
-        this.decorateRenderable('shape', layout.size(this.options.shapeWidth || this._getCurrentSize(id), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 1, 10))
-        //this._currentTab.item._activate();
+        if (this.options.calculatedShapeWidth) {
+
+            /* Fixed a timeOut for the setItemActive, since when you want a calculated tabBarSize,
+            there are race conditions and we need to wait. We need to look more in to this, tricky solution.*/
+
+            setTimeout(() => {
+                let tabSize = this._currentTab.getSize()[0];
+                this.decorateRenderable('shape', layout.size(tabSize, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 1, 10))
+            }, 100);
+        } else {
+            this.decorateRenderable('shape', layout.size(this.options.shapeWidth || this._getCurrentSize(id), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 1, 10))
+        }
 
         this._currentTab && this._currentTab._deactive  && this._currentTab.setActive();
     }
