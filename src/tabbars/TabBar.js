@@ -168,7 +168,7 @@ export class TabBar extends View {
         this.options.activeIndex = activeIndex;
         this._eventOutput.emit('tabSwitch', activeIndex);
         for (let [index, tab] of this.items.entries()) {
-            tab.options.nested = {active: index === parseInt(activeIndex)};
+            tab.options.active = index === parseInt(activeIndex);
         }
 
     }
