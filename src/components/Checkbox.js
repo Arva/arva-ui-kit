@@ -6,7 +6,7 @@ import Easing                      from 'famous/transitions/Easing.js';
 import Timer                       from 'famous/utilities/Timer.js';
 import {Surface}        from 'arva-js/surfaces/Surface.js';
 
-import {layout, flow}              from 'arva-js/layout/Decorators.js';
+import {layout, flow, bindings}    from 'arva-js/layout/Decorators.js';
 import {combineOptions}            from 'arva-js/utils/CombineOptions.js';
 
 import {DoneIcon}                  from '../icons/DoneIcon.js';
@@ -28,11 +28,15 @@ const defaultIconOptions = [layout.stick.center(), layout.size(...iconSize), lay
     'unchecked': [{innerBox: 'big', tick: 'disabled', cross: 'enabled'}]
 })
 
+@bindings.setup({
+    state: false
+})
 export class Checkbox extends Clickable {
 
-    @layout.fullSize()
-    @layout.translate(0, 0, -10)
-    background = new Surface({
+    @layout
+        .fullSize()
+        .translate(0, 0, -10)
+    background = Surface.with({
         properties: {
             backgroundColor: this.options.state ? this.options.activeColor : this.options.inactiveColor,
             borderRadius: '4px',
@@ -44,8 +48,9 @@ export class Checkbox extends Clickable {
         }
     });
 
-    @flow.stateStep('small', inCurve, layout.stick.center(), layout.translate(0, 0, 10), layout.scale(.75, .75, .75))
-    @flow.stateStep('big', outCurve, layout.size(44, 44), layout.scale(1, 1, 1), layout.stick.center(), layout.translate(0, 0, 10))
+    @flow
+        .stateStep('small', inCurve, layout.stick.center(), layout.translate(0, 0, 10), layout.scale(.75, .75, .75))
+        .stateStep('big', outCurve, layout.size(44, 44), layout.scale(1, 1, 1), layout.stick.center(), layout.translate(0, 0, 10))
     innerBox = new Surface({
         properties: {
             borderRadius: '2px',
@@ -54,19 +59,21 @@ export class Checkbox extends Clickable {
         }
     });
 
-    @layout.fullSize()
-    @layout.translate(0, 0, 40)
+    @layout
+        .fullSize()
+        .translate(0, 0, 40)
     overlay = new Surface({properties: {cursor: 'pointer'}});
 
 
-    @flow.stateStep('disabled', outCurve, layout.opacity(0), ...defaultIconOptions, layout.scale(1, 1, 1))
-    @flow.stateStep('pressed', inCurve, layout.scale(0.73, 0.73, 0.73))
-    @flow.stateStep('enabled', outCurve, layout.opacity(1), ...defaultIconOptions, layout.scale(1, 1, 1))
+    @flow
+        .stateStep('disabled', outCurve, layout.opacity(0), ...defaultIconOptions, layout.scale(1, 1, 1))
+        .stateStep('pressed', inCurve, layout.scale(0.73, 0.73, 0.73))
+        .stateStep('enabled', outCurve, layout.opacity(1), ...defaultIconOptions, layout.scale(1, 1, 1))
     tick = DoneIcon.with({color: this.options.activeColor});
 
     @flow.stateStep('disabled', outCurve, layout.opacity(0), ...defaultIconOptions)
-    @flow.stateStep('pressed', inCurve, layout.size(iconSize[0] * 0.73, iconSize[1] * 0.73))
-    @flow.stateStep('enabled', outCurve, layout.opacity(1), ...defaultIconOptions)
+        .stateStep('pressed', inCurve, layout.size(iconSize[0] * 0.73, iconSize[1] * 0.73))
+        .stateStep('enabled', outCurve, layout.opacity(1), ...defaultIconOptions)
     cross = CrossIcon.with({color: this.options.inactiveColor});
 
 
@@ -108,10 +115,9 @@ export class Checkbox extends Clickable {
 
             this.tick.setProperties({display: isChecked ? 'none' : 'block'});
             this.cross.setProperties({display: isChecked ? 'block' : 'none'});
-            this.background.setProperties({backgroundColor: isChecked ? this.options.inactiveColor : this.options.activeColor});
 
             this.setViewFlowState(isChecked ? 'unchecked' : 'checked');
-            this.state = !isChecked;
+            this.options.state = !isChecked;
 
             this._eventOutput.emit(isChecked ? 'unchecked' : 'checked');
             this._eventOutput.emit('change', isChecked);
@@ -160,7 +166,7 @@ export class Checkbox extends Clickable {
      * @returns {boolean}
      */
     isChecked() {
-        return this.state;
+        return this.options.state;
     }
 
     getSize() {
