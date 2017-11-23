@@ -110,8 +110,8 @@ class CarouselWall extends View {
 
     }
 
-    createItems(){
-        this.options.items.forEach(this.createItem)
+    createItems(items){
+        items ? items.forEach(this.createItem) : this.options.items.forEach(this.createItem);
     }
 
     addDragEventListener(idx){
