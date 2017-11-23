@@ -97,13 +97,15 @@ export class Button extends Clickable {
 
     _handleTapStart({x, y}) {
         if (this.options.makeRipple) {
+
             /**
              * Calculate the correct position of the click inside the current renderable (overlay taken for easy calculation, as it's always fullSize).
              * This will not account for rotation/skew/any other transforms except translates so if the Button class is e.d rotated the ripple will not be placed in the correct location
              * @type {ClientRect}
              */
             let boundingBox = this.overlay._currentTarget.getBoundingClientRect();
-            this.ripple.show(x - boundingBox.left, y - boundingBox.top);
+            this._showRipple(x - boundingBox.left, y - boundingBox.top, boundingBox);
+
         }
         super._handleTapStart({x, y});
 
@@ -130,8 +132,11 @@ export class Button extends Clickable {
 
     _handleTapEnd(mouseEvent) {
         if (this.options.makeRipple) {
-            this.ripple.hide();
+            this._hideRipple();
         }
+    }
+    _handleTapRemoved(){
+        this._hideRipple();
     }
 
     /**
@@ -141,4 +146,11 @@ export class Button extends Clickable {
 
     }
 
+    _showRipple(x, y) {
+        this.ripple.show(x, y);
+    }
+
+    _hideRipple() {
+        this.ripple.hide();
+    }
 }
