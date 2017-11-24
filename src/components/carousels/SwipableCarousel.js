@@ -32,10 +32,10 @@ export class SwipableCarousel extends View {
     @layout.stick.bottom(true)
     @layout.size(undefined, 48)
     carouselIndicators = this.options.showCarousel && new CarouselIndicators({
-        numberOfPages: this.options.items.length,
-        showButtons: false,
-        ...this.options.carouselIndicatorProperties
-    });
+            numberOfPages: this.options.items.length,
+            showButtons: false,
+            ...this.options.carouselIndicatorProperties
+        });
 
     constructor(options={}){
         super(combineOptions({
@@ -83,7 +83,7 @@ class CarouselWall extends View {
         };
 
 
-        this.createItems();
+        this.createItems(this.options.items);
         this.addDragEventListener(this.focusedItem);
 
         if(this.focusedItem !== 0){
@@ -111,7 +111,8 @@ class CarouselWall extends View {
     }
 
     createItems(items){
-        items ? items.forEach(this.createItem) : this.options.items.forEach(this.createItem);
+        this.items = items;
+        items.forEach(this.createItem);
     }
 
     addDragEventListener(idx){
@@ -164,7 +165,7 @@ class CarouselWall extends View {
 
         duration = duration || 0;
         curve = curve || Easing.outCirc;
-        this.options.items.forEach( (itemUrl, idx) => {
+        this.items.forEach( (itemUrl, idx) => {
             this[`item-${idx}`].draggable.setPosition([xPos, 0, 0], {duration, curve})
         })
     }
@@ -197,11 +198,11 @@ class CarouselWall extends View {
         endX = endX + (width * this.focusedItem);
         if (velocity > this.swipeSensitivity && this.focusedItem > 0){
             this.swipe(false)
-        } else if (velocity < -this.swipeSensitivity && this.focusedItem < this.options.items.length -1){
+        } else if (velocity < -this.swipeSensitivity && this.focusedItem < this.items.length -1){
             this.swipe(true);
         } else if (endX > xThreshold[1] && this.focusedItem > 0) {
             this.swipe(false);
-        } else if (endX < xThreshold[0] && this.focusedItem < this.options.items.length-1) {
+        } else if (endX < xThreshold[0] && this.focusedItem < this.items.length-1) {
             this.swipe(true);
         } else {
             this.goToIdx(this.focusedItem);
