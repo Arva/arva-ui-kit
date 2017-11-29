@@ -23,7 +23,7 @@ import {UIBar}              from '../uibars/UIBar.js';
  *
  */
 
-
+//TODO This class is very hacky - It should not create a UI bar to rely on functionality
 export class UnderlineTabBar extends View {
 
     @layout.dock.bottom(1)
