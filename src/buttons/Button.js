@@ -2,16 +2,16 @@
  * Created by lundfall on 07/07/16.
  */
 
-import Surface              from 'famous/core/Surface.js';
-import {Throttler}          from 'arva-js/utils/Throttler.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {Colors}             from 'arva-kit/defaults/DefaultColors.js';
+import Surface from 'famous/core/Surface.js';
+import {Throttler} from 'arva-js/utils/Throttler.js';
+import {layout} from 'arva-js/layout/Decorators.js';
+import {combineOptions} from 'arva-js/utils/CombineOptions.js';
+import {Colors} from 'arva-kit/defaults/DefaultColors.js';
 
-import {Clickable}          from '../components/Clickable.js'
-import {Ripple}             from '../components/Ripple.js';
-import {ComponentPadding}   from '../defaults/DefaultDimensions.js';
-import {getShadow}          from '../defaults/DefaultShadows.js';
+import {Clickable} from '../components/Clickable.js'
+import {Ripple} from '../components/Ripple.js';
+import {ComponentPadding} from '../defaults/DefaultDimensions.js';
+import {getShadow} from '../defaults/DefaultShadows.js';
 
 
 /**
@@ -48,6 +48,7 @@ export class Button extends Clickable {
      * @param {Boolean} [options.autoEnable] If true, automatically enables the button when the deploy event is triggered.
      * Defaults to false
      * @param {Boolean} [options.backgroundProperties] The properties that should be passed to the background, if using one.
+     * @param {Boolean} [options.rounded] use rounded button variation
      */
     constructor(options) {
         super(combineOptions({
@@ -55,8 +56,9 @@ export class Button extends Clickable {
             useBoxShadow: true,
             useBackground: true,
             autoEnable: false,
+            rounded: false,
             backgroundProperties: {
-                borderRadius: '4px',
+                borderRadius: options.rounded ? "24px" : '4px',
                 backgroundColor: 'white'
             }
         }, options));
@@ -111,16 +113,22 @@ export class Button extends Clickable {
 
     }
 
-    _setEnabled(enabled, changeBackground = true) {
+    _setEnabled(enabled, changeBackground = true, colorProperties = null) {
         super._setEnabled(enabled);
         this.overlay.setProperties({
             cursor: enabled ? 'pointer' : 'inherit'
         });
 
-        if (changeBackground && this.background){
-            this.background.setProperties({
-                backgroundColor: enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray
-            });
+        if (changeBackground && this.background) {
+            if (colorProperties) {
+                this.background.setProperties({
+                    backgroundColor: enabled ? colorProperties.activeBackgroundColor : colorProperties.inActiveBackgroundColor
+                });
+            } else {
+                this.background.setProperties({
+                    backgroundColor: enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray
+                });
+            }
         }
     }
 
@@ -135,7 +143,8 @@ export class Button extends Clickable {
             this._hideRipple();
         }
     }
-    _handleTapRemoved(){
+
+    _handleTapRemoved() {
         this._hideRipple();
     }
 

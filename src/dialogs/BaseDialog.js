@@ -9,7 +9,7 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
 
 import {CrossIcon}          from '../icons/CrossIcon.js';
-import {ImageButton}        from '../buttons/ImageButton.js';
+import {WhiteIconButton}        from '../buttons/WhiteIconButton.js';
 import {UITitle}            from '../defaults/DefaultTypefaces.js';
 import {TextBody}           from '../defaults/DefaultTypefaces.js';
 
@@ -30,12 +30,12 @@ export class BaseDialog extends Dialog {
 
     @layout.translate(0, 0, -10)
     @layout.fullSize()
-    background = new Surface({properties: {backgroundColor: 'white', borderRadius: '4px'}});
+    background = new Surface({properties: this.options.backgroundProperties });
 
     @layout.size(48, 48)
     @layout.stick.topLeft()
     @layout.translate(4, 0, 0)
-    closeButton = this.options.showCloseButton && new ImageButton({
+    closeButton = this.options.showCloseButton && new WhiteIconButton({
         icon: CrossIcon,
         clickEventName: 'dialogClosed',
         variation: 'noShadow'
@@ -43,11 +43,11 @@ export class BaseDialog extends Dialog {
 
     @layout.dock.top( ~50)
     @layout.stick.top()
-    title = new Surface(combineOptions({ content: this.options.title, properties: { textAlign: "left", whitespace: "nowrap" } }, UITitle));
+    title = new Surface(combineOptions(UITitle, { content: this.options.title, properties: this.options.titleProperties }));
 
     @layout.stick.top()
     @layout.dock.top( ~50, 8)
-    body = new Surface(combineOptions({ content: this.options.body, properties: { textAlign: 'left' } }, TextBody));
+    body = new Surface(combineOptions(TextBody, { content: this.options.body, properties: this.options.bodyProperties }));
 
     /**
      * @example
@@ -58,7 +58,19 @@ export class BaseDialog extends Dialog {
      * @param {String} [options.body] The body of the dialog
      */
     constructor(options) {
-        super(options);
+        super(combineOptions({
+            titleProperties: {
+                textAlign: "left", whitespace: "nowrap"
+            },
+            bodyProperties: {
+                textAlign: 'left'
+            },
+            backgroundProperties: {
+                backgroundColor: 'white',
+                borderRadius: options.rounded ? "24px" : "4px"
+            }
+        }, options));
+
         this.layout.on('layoutstart', ({size}) => {
 
             /*Set the inner size of the items */

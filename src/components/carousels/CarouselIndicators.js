@@ -1,7 +1,8 @@
 
 /**
-     * Created by chrwc on 2017-03-24.
-     */
+
+     * Created by joe on 2017-03-24.
+ * */
 
 import Surface                      from 'famous/core/Surface.js';
 import ImageSurface                 from 'famous/surfaces/ImageSurface.js';
@@ -15,15 +16,18 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions';
 import {LeftIcon}                   from 'arva-kit/icons/LeftIcon.js';
 import {CrossIcon}                  from 'arva-kit/icons/CrossIcon.js';
 import {RightIcon}                  from 'arva-kit/icons/RightIcon.js';
-import {ImageButton}                from 'arva-kit/buttons/ImageButton';
+import {WhiteIconButton}                from 'arva-kit/buttons/WhiteIconButton';
 import {TypeFaces}                  from 'arva-kit/defaults/DefaultTypefaces';
 import {SingleLineInputSurface}     from 'arva-kit/input/SingleLineInputSurface';
 import {LoadingPlaceholderImage}    from 'arva-kit/placeholders/LoadingPlaceholderImage';
 
-import {Cycle}                      from './Cycle';
+import {Cycle}                      from '../Cycle.js';
 import {Counter}                    from './Counter.js'
 
+// todo: get rid of this
 const buttonSize = 48;
+
+// TODO: move these somewhere more modular
 
 const timingFunctionsMap = {
     inQuad:     "cubic-bezier(0.550,  0.085, 0.680, 0.530)",
@@ -65,7 +69,56 @@ const createThemeOptions = function(options) {
     let backgroundColor = '#000',
         indicatorColor = '#fff';
 
-    if (options.variation === 'dark') {
+    if (options.variation === 'transparent-light') {
+        return {
+            backgroundProperties: {
+                backgroundColor: 'transparent'
+            },
+            navIconProperties: {
+                backgroundColor: 'transparent'
+            },
+            indicatorDefaultProperties: {
+                // if an icon or image, set it's background to the same container background
+                backgroundColor: indicatorColor,
+            },
+            indicatorActiveProperties: {
+                backgroundColor: indicatorColor
+            },
+            indicatorInactiveProperties: {
+                backgroundColor: indicatorColor
+            },
+            decorators: {
+                active: {
+                    opacity: 1,
+                },
+                inactive: {
+                    opacity: 0.6,
+                }
+            }
+        }
+    } else if (options.variation === 'transparent-dark') {
+        return {
+            backgroundProperties: {
+                backgroundColor: 'transparent'
+            },
+            navIconProperties: {
+                backgroundColor: 'transparent'
+            },
+            indicatorDefaultProperties: {
+                backgroundColor,
+            },
+            indicatorActiveProperties: {},
+            indicatorInactiveProperties: {},
+            decorators: {
+                active: {
+                    opacity: 1.0,
+                },
+                inactive: {
+                    opacity: 0.1,
+                }
+            }
+        }
+    } else if (options.variation === 'dark') {
         return {
             backgroundProperties: {
                 backgroundColor
@@ -123,7 +176,7 @@ const createThemeOptions = function(options) {
     }
 };
 
-export class PageCarousel extends View {
+export class CarouselIndicators extends View {
 
 
     /**
@@ -198,12 +251,11 @@ export class PageCarousel extends View {
 
     @layout.stick.center()
     @layout.size(undefined, 48)
-    @layout.translate(-buttonSize/2, 0, 21)
     pageIndicators = new Cycle(this.options.layout);
 
     @layout.dock.left(48)
     @layout.size(buttonSize, buttonSize)
-    cancel = new ImageButton({
+    cancel = this.options.showButtons && new WhiteIconButton({
         icon: CrossIcon,
         backgroundProperties: {
             borderRadius: '0px',
@@ -214,7 +266,7 @@ export class PageCarousel extends View {
 
     @layout.dock.right(48)
     @layout.size(buttonSize, buttonSize)
-    nextPage = new ImageButton({
+    nextPage = this.options.showButtons && new WhiteIconButton({
         icon: RightIcon,
         backgroundProperties: {
             borderRadius: '0px',
@@ -225,7 +277,7 @@ export class PageCarousel extends View {
 
     @layout.dock.right(48)
     @layout.size(48,48)
-    prevPage = new ImageButton({
+    prevPage = this.options.showButtons && new WhiteIconButton({
         icon: LeftIcon,
         backgroundProperties: {
             borderRadius: '0px',
@@ -235,7 +287,7 @@ export class PageCarousel extends View {
     });
 
     constructor(options = {variation: 'light'}) {
-        if(!['light', 'dark'].includes(options.variation)) { options.variation = 'light'; }
+        if(!['light', 'dark', 'transparent-light', 'transparent-dark'].includes(options.variation)) { options.variation = 'light'; }
         super(combineOptions({
             numberOfPages: 7,
             layout: {
@@ -245,7 +297,8 @@ export class PageCarousel extends View {
             },
             animationOptions: defaultAnimationOptions,
             ...createThemeOptions(options),
-            overflowToCounter: true
+            overflowToCounter: true,
+            showButtons: true
         }, options));
 
         this._activeIndex = 0;
@@ -261,7 +314,7 @@ export class PageCarousel extends View {
         this._setCssTransitions();
         this._createIndicatorsOrCounter();
 
-        this._addEventListeners()
+        if (this.options.showButtons) this._addEventListeners()
     }
 
     /**
@@ -371,6 +424,9 @@ export class PageCarousel extends View {
             let items = new Array(numberItems).fill(0).map( (val, key) => this._createPageIndicator(key, this.options) );
             this.pageIndicators.setRenderables(items);
         }
+
+        let xTranslation = this.options.showButtons ? -buttonSize / 2 : 0;
+        this.decorateRenderable('pageIndicators', layout.translate(xTranslation, 0, 24));
     }
 
     _createCounter(){
@@ -451,11 +507,9 @@ export class PageCarousel extends View {
         } else {
             renderableType = Surface;
             properties = {
-                borderRadius:'50%',
-                borderStyle:'solid',
-                borderWidth: '2px',
                 ...this._properties,
-                ...this._inactiveProperties
+                ...this._inactiveProperties,
+                borderRadius:'50%',
             }
         }
 

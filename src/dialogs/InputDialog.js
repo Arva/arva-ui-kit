@@ -5,7 +5,7 @@
 import {layout}                 from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}             from './BaseDialog.js';
-import {TextButton}             from '../buttons/TextButton.js';
+import {WhiteTextButton}             from '../buttons/WhiteTextButton.js';
 import {SingleLineInputSurface} from '../input/SingleLineInputSurface';
 import {ComponentHeight}        from '../defaults/DefaultDimensions.js';
 
@@ -18,7 +18,7 @@ export class InputDialog extends BaseDialog {
     });
 
     @layout.dock.top( function(){return this.options.buttonHeight || ComponentHeight}, 24, 10)
-    button = new TextButton({
+    button = new WhiteTextButton({
         content: this.options.buttonText,
         disableBoxShadow: true,
         clickEventName: 'submit',

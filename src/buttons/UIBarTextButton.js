@@ -4,11 +4,11 @@
 
 import {combineOptions}                 from 'arva-js/utils/CombineOptions.js';
 
-import {TextButton}                     from './TextButton.js';
+import {WhiteTextButton}                     from './WhiteTextButton.js';
 import {Colors}                         from '../defaults/DefaultColors.js';
 import {TypeFaces}                      from '../defaults/DefaultTypefaces.js';
 
-export class UIBarTextButton extends TextButton {
+export class UIBarTextButton extends WhiteTextButton {
 
     static getColor(variation = 'white') {
         switch (variation) {

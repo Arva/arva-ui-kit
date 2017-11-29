@@ -45,7 +45,7 @@ export class TabBar extends View {
      * @param {Array} [items] The items to populate the TabBar with
      * @param {Object} [options.tabRenderable] A class that extends Tab, used for each of the rendered tabs
      * @param {Object} [options.backgroundOptions] Passed to the background of the tabBar
-     * @param {Object} [options.tabOptions] The options to pass to a tab renderable, for more info see TextButton.js/Clickable.js
+     * @param {Object} [options.tabOptions] The options to pass to a tab renderable, for more info see WhiteTextButton.js/Clickable.js
      * @param {Boolean} [options.equalSizing] Whether the tab renderables should be evenly spaced and sized or whether it should not (thus docking.left with the size of the renderable)
      * @param {Number} [options.activeIndex] The index that should be active on initialisation
      * @param {Boolean} [options.reflow] Whether the TabBar should automatically reflow the active shape to the current active renderable
@@ -77,17 +77,17 @@ export class TabBar extends View {
 
             this.onNewSize(([width]) => {
                 this._width = width;
-                this.options.reflow && this.setIndexActive(this._currentItem);
+                this.options.reflow && this.setIndexActive(this._currentItem, this.options.tabBarTimeout);
             });
 
             if(this._currentItem !== this.options.activeIndex){
-                this.setIndexActive(this.options.activeIndex);
+                this.setIndexActive(this.options.activeIndex, this.options.tabBarTimeout);
             }
 
         });
 
         if (this.options.activeIndex !== undefined) {
-            this.setIndexActive(this.options.activeIndex);
+            this.setIndexActive(this.options.activeIndex, this.options.tabBarTimeout);
         }
 
     }
@@ -109,7 +109,7 @@ export class TabBar extends View {
 
         this.onceNewSize().then(([width])=>{
             this._width = width;
-            this.options.reflow && this.setIndexActive(this._currentItem);
+            this.options.reflow && this.setIndexActive(this._currentItem, this.options.tabBarTimeout);
         });
     }
 
@@ -165,15 +165,23 @@ export class TabBar extends View {
      * Set a tabBar item to active
      * @param index
      */
-    setIndexActive(index) {
-        this.options.activeIndex = index;
-        if (!this._width) {
-            this.onceNewSize().then(() => {
-                /* Read the active index from the option if overridden in subsequent calls to make resilient to race conditions */
-                this._handleItemActive(this.options.activeIndex, this.getItem(this.options.activeIndex));
-            })
-        } else {
-            this._handleItemActive(index, this.getItem(index));
+    setIndexActive(index, timeout = null) {
+        if (!this._awaitingActivation) {
+            this._awaitingActivation = true;
+            setTimeout(() => {
+                this.options.activeIndex = index;
+                if ( !this._width ) {
+                    this.onceNewSize().then(() => {
+                        /* Read the active index from the option if overridden in subsequent calls to make resilient to race conditions */
+                        this._handleItemActive(this.options.activeIndex, this.getItem(this.options.activeIndex));
+                    })
+                } else {
+                    this._handleItemActive(index, this.getItem(index));
+                }
+                this._eventOutput.emit('tabChanged', {index:index});
+            }, timeout ? timeout : 600);
+            this._awaitingActivation = false;
         }
+
     }
 }

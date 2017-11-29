@@ -13,7 +13,7 @@ import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {ContentCard}        from '../components/ContentCard.js';
 import {UITitle}            from '../text/UITitle.js';
 import {UIRegular}          from '../text/UIRegular.js';
-import {SolidTextButton}    from '../buttons/SolidTextButton.js';
+import {ColoredTextButton}    from '../buttons/ColoredTextButton.js';
 import {Colors}             from '../defaults/DefaultColors.js';
 
 /**
@@ -119,7 +119,7 @@ export class ImageTextButtonCard extends ContentCard {
         }
 
         if (button) {
-            this.addRenderable(new SolidTextButton({
+            this.addRenderable(new ColoredTextButton({
                 content: button,
                 clickEventName: 'buttonClicked',
                 clickEventData: [this.options]
@@ -134,7 +134,7 @@ export class ImageTextButtonCard extends ContentCard {
             } else {
                 let newButtons = new View();
                 for(let i of [0, 1]){
-                    newButtons.addRenderable(new SolidTextButton({
+                    newButtons.addRenderable(new ColoredTextButton({
                         content: buttons[i],
                         clickEventName: `buttonClicked`,
                         clickEventData: [this.options, i]

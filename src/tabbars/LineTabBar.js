@@ -15,9 +15,10 @@ const flowOptions = {transition: {curve: Easing.outCubic, duration: 200}};
 export class LineTabBar extends TabBar {
 
     @layout.size(0, function () {
-        return this.options.shapeHeight || 4
+        return this.options.shapeHeight
     })
     @layout.stick.bottomLeft()
+    @layout.translate(0, 1, 10)
     @flow.defaultOptions(flowOptions)
     shape = new Surface({
         properties: {
@@ -46,7 +47,7 @@ export class LineTabBar extends TabBar {
             useBackground: false,
             useBoxShadow: false,
             shapeColor: Colors.PrimaryUIColor,
-            shapeHeight: 4,
+            shapeHeight: 2,
             tabOptions: {},
             tabRenderable: LineTab
         }, options), items);
@@ -58,30 +59,47 @@ export class LineTabBar extends TabBar {
      * @param item
      */
     setItemActive(id, item) {
+
+        this._currentTab && this._currentTab._deactive  && this._currentTab.setInactive();
         this._currentItem = id;
-        this.decorateRenderable('shape', layout.size(this._getCurrentSize(id), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 0, 10))
+        this._currentTab = item;
+
+        if (this.options.calculatedShapeWidth) {
+
+            /* Fixed a timeOut for the setItemActive, since when you want a calculated tabBarSize,
+            there are race conditions and we need to wait. We need to look more in to this, tricky solution.*/
+
+            setTimeout(() => {
+                let tabSize = this._currentTab.getSize()[0];
+                this.decorateRenderable('shape', layout.size(tabSize, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 1, 10))
+            }, 100);
+        } else {
+            this.decorateRenderable('shape', layout.size(this.options.shapeWidth || this._getCurrentSize(id), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id), 1, 10))
+        }
+
+        this._currentTab && this._currentTab._deactive  && this._currentTab.setActive();
     }
 
     setItemDeactive(id, item) {
-
+        //item._deactivate();
     }
 
     onHover(id, item) {
 
         /* Reshrink shape */
         if (id === this._currentItem) {
-            return this.decorateRenderable('shape', layout.size((this._getCurrentSize(this._currentItem)) - 24, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id) + 12, 0, 10));
+            return this.decorateRenderable('shape', layout.size((this._getCurrentSize(this._currentItem)) - 24, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(id) + 12, 1, 10));
         }
 
         /* Expand shape with 12px to the hovered renderable */
         if (id < this._currentItem) {
-            this.decorateRenderable('shape', layout.size(this._getCurrentSize(this._currentItem) + 12, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this._currentItem) - 12, 0, 10))
+            this.decorateRenderable('shape', layout.size(this._getCurrentSize(this._currentItem) + 12, this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this._currentItem) - 12, 1, 10))
         } else {
             this.decorateRenderable('shape', layout.size(this._getCurrentSize(this._currentItem) + 12, this.options.shapeHeight))
         }
     }
 
     offHover(id, item) {
-        this.decorateRenderable('shape', layout.size(this._getCurrentSize(this._currentItem), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this._currentItem), 0, 10))
+        this.decorateRenderable('shape', layout.size(this._getCurrentSize(this._currentItem), this.options.shapeHeight), layout.translate(this._calcCurrentPosition(this._currentItem), 1, 10))
     }
 }

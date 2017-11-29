@@ -10,7 +10,7 @@ import {UIButtonPrimary}        from '../defaults/DefaultTypefaces.js';
 import {Colors}                 from '../defaults/DefaultColors.js';
 import {ComponentHeight}        from '../defaults/DefaultDimensions.js';
 
-export class TextButton extends Button {
+export class WhiteTextButton extends Button {
     @layout.translate(0, 0, 30)
     @layout.dock.top()
     @layout.size(true, undefined)
@@ -23,12 +23,14 @@ export class TextButton extends Button {
             disabledOptions: {
                 content: options.content,
                 properties: {
-                    color: Colors.White
+                    color: Colors.White,
+                    width:'auto'
                 }
             },
             properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor},
-            ...TextButton.generateBoxShadowVariations(options.variation, options.disableBoxShadow)
+            ...WhiteTextButton.generateBoxShadowVariations(options.variation, options.disableBoxShadow)
         }, options));
+
         this.layout.on('layoutstart', ({size}) => {
             let newLineHeight = size[1] + 'px';
             let {text} = this;
@@ -73,10 +75,16 @@ export class TextButton extends Button {
         return this.text.getContent();
     }
 
-    _setEnabled(enabled, changeBackground = true) {
-        super._setEnabled(enabled, changeBackground);
+    _setEnabled(enabled, changeBackground = true, colorProperties = null) {
+        super._setEnabled(enabled, changeBackground, colorProperties);
         let options = enabled ? this.options : this.options.disabledOptions;
-        this.text.setProperties(options.properties);
+        if(this.text && changeBackground) {
+            if (colorProperties) {
+                this.text.setProperties({color: enabled ? colorProperties.activeTextColor : colorProperties.inActiveTextColor});
+            } else {
+                this.text.setProperties({color: enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray});
+            }
+        }
         this.text.setContent(options.content);
     }
 

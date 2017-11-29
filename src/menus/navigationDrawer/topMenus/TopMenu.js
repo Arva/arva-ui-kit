@@ -12,7 +12,7 @@ import {InfoIcon}                                       from '../../../icons/Inf
 import {UIBarTitle}                                     from '../../../text/UIBarTitle.js';
 import {HamburgerIcon}                                  from '../../../icons/HamburgerIcon.js';
 import {Clickable}                                      from '../../../components/Clickable.js';
-import {UIBarImageButton}                               from '../../../buttons/UIBarImageButton.js';
+import {UIBarIconButton}                                from '../../../buttons/UIBarIconButton.js';
 import {StatusBarExtension}                             from '../../../utils/statusBar/StatusBarExtension.js';
 
 
@@ -69,11 +69,11 @@ export class TopMenu extends UIBar {
                         cursor: 'default'
                     }
                 }), 'title', 'center'],
-                [options.rightButton || new UIBarImageButton({
+                [options.rightButton || new UIBarIconButton({
                     clickEventName: 'rightButtonClick',
                     icon: InfoIcon
                 }), 'rightButton', 'right'],
-                [options.leftButton || new UIBarImageButton({
+                [options.leftButton || new UIBarIconButton({
                     clickEventName: 'requestMenuOpen',
                     icon: HamburgerIcon,
                 }), 'menuButton', 'left']

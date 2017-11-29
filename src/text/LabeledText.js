@@ -2,7 +2,8 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions'
 import {View}                       from 'arva-js/core/View.js';
 import {layout, event}              from 'arva-js/layout/Decorators.js';
 
-import {ImpactBig}                  from '../text/ImpactBig.js';
+import {UITitle}                  from '../text/UITitle.js';
+
 import {UISmallGray}                from '../text/UISmallGray.js';
 import {Colors}                     from '../defaults/DefaultColors.js';
 
@@ -23,7 +24,7 @@ export class LabeledText extends View {
 
     @layout.dock.top(function(){return this.options.textHeight}, 5, 10)
     @layout.size(true, function(){return this.options.textHeight})
-    text = new ImpactBig({
+    text = new UITitle({
         content:  this.options.text,
         properties: this.options.textProperties,
     });

@@ -5,7 +5,7 @@
 import {layout}                 from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}             from './BaseDialog.js';
-import {IconButton}             from '../buttons/IconButton.js';
+import {WhiteIconTextButton}         from '../buttons/WhiteIconTextButton.js';
 import {LocationIcon}           from '../icons/LocationIcon.js';
 import {Colors}         from '../defaults/DefaultColors.js';
 
@@ -24,6 +24,7 @@ export class StackButtonIconDialog extends BaseDialog {
      * @param {String} [options.body] The body of the Dialog
      */
     constructor(options = {}) {
+        options.borderRadius = options.rounded ? "24px" : "4px";
         super(options);
 
         let {buttons} = options;
@@ -35,7 +36,7 @@ export class StackButtonIconDialog extends BaseDialog {
 
             this._buttons.push(`button${index}`);
 
-            this.addRenderable(new IconButton({
+            this.addRenderable(new WhiteIconTextButton({
                     content: buttonText,
                     icon: LocationIcon,
                     properties: {
@@ -46,7 +47,7 @@ export class StackButtonIconDialog extends BaseDialog {
                     clickEventData: [index],
                     backgroundProperties: {
                         borderTop: '1px #E6e6e6 solid',
-                        borderRadius: index !== buttons.length - 1 ? '0px' : '0px 0px 4px 4px'
+                        borderRadius: index !== buttons.length - 1 ? '0px' : `0px 0px ${this.options.borderRadius} ${this.options.borderRadius}`
                     }
                 }
             ), `button${index}`, layout.dock.top(buttonHeight));

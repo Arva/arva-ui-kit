@@ -29,11 +29,6 @@ export let Avenir = {
         TextQuote: {fontFamily: avenirBook, lineHeight: '1.2'},
         TextQuoteEmphasis: {fontFamily: avenirBook, lineHeight: '1.2'},
         TextInfoLabel: {fontFamily: avenirBook, textTransform: 'uppercase', lineHeight: '0.9'}
-    },
-
-    Impact: {
-        ImpactHuge: {fontFamily: avenirBook, lineHeight: '1.0'},
-        ImpactBig: {fontFamily: avenirBook, lineHeight: '1.0'}
     }
 
 };

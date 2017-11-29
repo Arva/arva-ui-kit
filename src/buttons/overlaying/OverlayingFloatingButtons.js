@@ -3,12 +3,12 @@
  */
 
 import {OverlayingButtons}          from './OverlayingButtons.js';
-import {FloatingImageButton}        from 'arva-kit/buttons/FloatingImageButton.js';
+import {FloatingIconButton}        from 'arva-kit/buttons/FloatingIconButton.js';
 
 export class OverlayingFloatingButtons extends OverlayingButtons {
 
     /**
-     * Specialized version of OverlayingButtons using the FloatingImageButton
+     * Specialized version of OverlayingButtons using the FloatingIconButton
      *
      * @example
      * const overlayingFloatingButtons = Injection.provide(OverlayingFloatingButtons, new OverlayingFloatingButtons({
@@ -34,7 +34,7 @@ export class OverlayingFloatingButtons extends OverlayingButtons {
      *
      *
      * @param {Object} options Construction options
-     * @param {Array} [options.buttons] Array containing the settings to be used for creating FloatingImageButtons.
+     * @param {Array} [options.buttons] Array containing the settings to be used for creating FloatingIconButtons.
      *        These settings include the icon and the background color.
      * @param {Object} [options.routes] Object containing the routes for which a specific set of buttons will be shown.
      *        It is passed directly to the OverlayingButtons class, so it functions in exactly the same way.
@@ -43,7 +43,7 @@ export class OverlayingFloatingButtons extends OverlayingButtons {
         let floatingButtons = [];
         for (let [index, buttonSettings] of options.buttons.entries()) {
             floatingButtons.push({
-                button: new FloatingImageButton({
+                button: new FloatingIconButton({
                     imageSize: [24, 24],
                     icon: buttonSettings.icon,
                     backgroundProperties: {

@@ -1,14 +1,14 @@
 /**
  * Created by lundfall on 21/09/16.
  */
-
+import _toPairs                     from 'lodash/toPairs.js';
 import {View}                       from 'arva-js/core/View.js';
 import {flow, layout, event}        from 'arva-js/layout/Decorators.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 import Surface                      from 'famous/core/Surface.js';
 
-import {TextButton}                 from '../buttons/TextButton.js';
+import {WhiteTextButton}                 from '../buttons/WhiteTextButton.js';
 import {UIRegular}                  from '../defaults/DefaultTypefaces.js';
 import sideArrows                   from './dropdown/sideArrows.svg.txt!text';
 
@@ -31,12 +31,12 @@ export class Dropdown extends View {
     _collapsed = true;
 
     @flow.stateStep('hidden', {}, layout.opacity(0))
-    @flow.defaultState('shown', {}, layout.opacity(1), layout.stick.right(), layout.size(32, 32), layout.translate(-4, 0, 50))
+    @flow.defaultState('shown', {}, layout.opacity(1), layout.stick.right() , layout.size(32, 32), layout.translate(-4, 0, 50))
     extendButton = new Surface({ content: sideArrows });
 
     @layout.translate(0, 0, 0)
     @layout.fullSize()
-    background = new Surface({ properties: { backgroundColor: 'white', borderRadius: '4px' } });
+    background = new Surface({ properties: { backgroundColor: this.options.backgroundProperties.backgroundColor, borderRadius: this.options.properties.borderRadius } });
 
     /* Using animate instead of flow state to avoid unwanted transitions when resizing */
     @layout.fullSize()
@@ -48,7 +48,7 @@ export class Dropdown extends View {
     shadow = new Surface({
         properties: {
             boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',
-            borderRadius: '4px'
+            borderRadius: this.options.borderRadius
         }
     });
 
@@ -69,11 +69,23 @@ export class Dropdown extends View {
      * @returns {ContainerView}
      */
     constructor(options) {
+        //TODO Remove the need for having borderRadius as a property of the root level on the options, it's a bit hacky. Better to have it under properties
+        let borderRadius = options.borderRadius || options.rounded ? "24px" : "4px";
+
         super(combineOptions({
             //TODO Change to false once final
             fakeWithNative: true,
             items: [{ text: 'This is the selected item', selected: true, data: 1 }],
-            eventName: 'itemChosen'
+            eventName: 'itemChosen',
+            placeholderOptions: {},
+            properties: {
+                border: options.showBorder ? '1px solid rgba(0, 0, 0, 0.1)' : 'none',
+                borderRadius
+            },
+            itemProperties:{},
+            backgroundProperties: {
+                backgroundColor: 'white'
+            }
         }, options));
 
 
@@ -87,13 +99,14 @@ export class Dropdown extends View {
                 }),
                 'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40)
             )
-            ;
+
             if (selectedItemIndex === -1) {
                 selectedItemIndex = 0;
             }
             this._selectedItem = this.options.items[selectedItemIndex];
             this.nativeSelect.on('change', (event) => {
                 this._selectedItemIndex = event.target.selectedIndex;
+
                 if(this.options.placeholder){
                     /* The placeholder takes up one space in the beginning,
                      * so decrease the index by 1 since you can't select the placeholder */
@@ -108,7 +121,13 @@ export class Dropdown extends View {
                         item.selected = false;
                     }
                 }
+
                 this._eventOutput.emit(this.options.eventName, this._selectedItem.data);
+
+                if(this.options.placeholder){
+                    this.options.placeholder = null;
+                    this.nativeSelect.setContent(this._generateNativeDropdownHtml());
+                }
             });
             return this;
         }
@@ -123,7 +142,7 @@ export class Dropdown extends View {
 
         for (let [index, item] of items.entries()) {
             this.addRenderable(
-                new TextButton(this._getItemOptions(item.text)),
+                new WhiteTextButton(this._getItemOptions(item.text)),
                 this._getNameFromIndex(index),
                 layout.dock.top(48),
                 flow.defaultOptions({}),
@@ -214,7 +233,7 @@ export class Dropdown extends View {
     _addPlaceholder(placeholderText) {
         this._totalHeight += 32;
         this.addRenderable(
-            new TextButton(this._getItemOptions(placeholderText, true)),
+            new WhiteTextButton(combineOptions(this._getItemOptions(placeholderText, true), this.options.placeholderOptions)),
             'placeholder',
             layout.dock.top(48),
             flow.defaultOptions({}),
@@ -227,7 +246,7 @@ export class Dropdown extends View {
         return combineOptions(UIRegular, {
             properties: {
                 /* Use padding instead of @layout.dockPadding in order to make the surface cover the entire length */
-                padding: '0 0 0 16px',
+                padding: this.options.placeholderOptions.properties && this.options.placeholderOptions.properties.padding || '0 0 0 16px',
                 color: isPlaceholder ? 'rgb(170, 170, 170)' : undefined,
                 textAlign: 'left',
                 cursor: 'pointer'
@@ -248,10 +267,10 @@ export class Dropdown extends View {
         return {
             border: 'none',
             borderBottom: index === length - 1 ? 'none' : '1px solid rgba(0, 0, 0, 0.1)',
-            borderTopLeftRadius: index === 0 ? '4px' : '0px',
-            borderTopRightRadius: index === 0 ? '4px' : '0px',
-            borderBottomLeftRadius: index === length - 1 ? '4px' : '0px',
-            borderBottomRightRadius: index === length - 1 ? '4px' : '0px'
+            borderTopLeftRadius: index === 0 ? (this.options.rounded ? '25px' : '4px') : '0px',
+            borderTopRightRadius: index === 0 ? (this.options.rounded ? '25px' : '4px') : '0px',
+            borderBottomLeftRadius: index === length - 1 ? (this.options.rounded ? '25px' : '4px') : '0px',
+            borderBottomRightRadius: index === length - 1 ? (this.options.rounded ? '25px' : '4px') : '0px'
         }
     }
 
@@ -259,10 +278,10 @@ export class Dropdown extends View {
         return {
             border: '1px solid rgba(0, 0, 0, 0.1)',
             borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
-            borderTopLeftRadius: '4px',
-            borderTopRightRadius: '4px',
-            borderBottomLeftRadius: '4px',
-            borderBottomRightRadius: '4px'
+            borderTopLeftRadius: (this.options.rounded ? '25px' : '4px'),
+            borderTopRightRadius: (this.options.rounded ? '25px' : '4px'),
+            borderBottomLeftRadius: (this.options.rounded ? '25px' : '4px'),
+            borderBottomRightRadius: (this.options.rounded ? '25px' : '4px')
         }
     }
 
@@ -364,25 +383,34 @@ export class Dropdown extends View {
 
     _generateNativeDropdownHtml() {
         /* TODO Placeholder will only work in the following browsers
-        * Google Chrome - v.43.0.2357.132
-        * Mozilla Firefox - v.39.0
-        * Safari - v.8.0.7 (Placeholder is visible in dropdown but is not selectable)
-        * Microsoft Internet Explorer - v.11 (Placeholder is visible in dropdown but is not selectable)
-        * Project Spartan - v.15.10130 (Placeholder is visible in dropdown but is not selectable)
-        * */
+         * Google Chrome - v.43.0.2357.132
+         * Mozilla Firefox - v.39.0
+         * Safari - v.8.0.7 (Placeholder is visible in dropdown but is not selectable)
+         * Microsoft Internet Explorer - v.11 (Placeholder is visible in dropdown but is not selectable)
+         * Project Spartan - v.15.10130 (Placeholder is visible in dropdown but is not selectable)
+         * */
         return `
             <select style ="
+                ${this.options.placeholder ? this._getStyleStringFromProperties(this.options.placeholderOptions.properties) : ''}
+                ${this._getStyleStringFromProperties(this.options.properties)}
                 height: 48px;
                 overflow: hidden;
-                border: 1px solid rgba(0, 0, 0, 0.1);
-                background-color: white;
-                border-radius: 4px;
-                padding: 0 0 0 16px;
+                ${(this.options.backgroundProperties && this.options.backgroundProperties.backgroundColor) ? `background-color: ${this.options.backgroundProperties.backgroundColor};` : '' }
                 outline: none;
                 -webkit-appearance: none; /* Doesn't work for IE and firefox */
                 width: 100%;
             ">
-            ${this.options.placeholder ? `<option value="" disabled selected hidden>${this.options.placeholder}</option>` : ''}
+            ${this.options.placeholder ? `<option value="" disabled selected  hidden>${this.options.placeholder} </option>` : ''}
             ${this.options.items.map((item) => `<option value=${item.data} ${item.selected ? 'selected' : ''}>${item.text}</option>`)}`
+    }
+
+    _getStyleStringFromProperties(properties) {
+        return _toPairs(properties).map((pair) =>
+                pair.map((string) =>
+                    string.replace(/[A-Z]/g, (upperCaseCharacter) =>
+                        `-${upperCaseCharacter.toLowerCase()}`)
+                ).join(':')
+            ).join('; ')
+            + ';';
     }
 }

@@ -12,7 +12,7 @@ import {combineOptions}                                     from 'arva-js/utils/
 import {UIBar}                                              from '../uibars/UIBar.js';
 import {UIBarTitle}                                         from '../text/UIBarTitle.js';
 import {UIBarTextButton}                                    from '../buttons/UIBarTextButton.js';
-import {UIBarImageButton}                                   from '../buttons/UIBarImageButton.js';
+import {UIBarIconButton}                                    from '../buttons/UIBarIconButton.js';
 
 export class ModularDialog extends Dialog {
 
@@ -92,14 +92,14 @@ export class ModularDialog extends Dialog {
         let components = [];
 
         if (leftButton) {
-            let buttonType = leftButton.icon ? UIBarImageButton : UIBarTextButton;
+            let buttonType = leftButton.icon ? UIBarIconButton : UIBarTextButton;
             components.push([new buttonType(leftButton), 'leftButton', 'left']);
         }
         if (title) {
             components.push([new UIBarTitle({ content: title, properties: { cursor: 'default' } }), 'title', 'center']);
         }
         if (rightButton) {
-            let buttonType = rightButton.icon ? UIBarImageButton : UIBarTextButton;
+            let buttonType = rightButton.icon ? UIBarIconButton : UIBarTextButton;
             components.push([new buttonType(rightButton), 'rightButton', 'right']);
         }
 

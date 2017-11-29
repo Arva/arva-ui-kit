@@ -6,13 +6,13 @@ import {
 
 let should = chai.should();
 
-describe('FloatingImageButton', () => {
+describe('FloatingIconButton', () => {
     let imports = {};
 
     before(async function() {
         await mockArvaViewDependencies();
         imports = await loadDependencies({
-            FloatingImageButton: './src/buttons/FloatingImageButton.js',
+            FloatingIconButton: './src/buttons/FloatingIconButton.js',
         });
     });
 
@@ -22,7 +22,7 @@ describe('FloatingImageButton', () => {
 
     describe('#constructor', () => {
         it('constructs without exceptions', () => {
-            let instance = new imports.FloatingImageButton();
+            let instance = new imports.FloatingIconButton();
             should.exist(instance);
         });
     });
