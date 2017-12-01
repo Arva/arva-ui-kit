@@ -99,6 +99,9 @@ export class Dropdown extends View {
                 }),
                 'nativeSelect', layout.fullSize(), layout.translate(0, 0, 40)
             )
+            if(window.cordova && window.cordova.platformId === 'ios'){
+                this._nativeOSDropdownHotfix();
+            }
 
             if (selectedItemIndex === -1) {
                 selectedItemIndex = 0;
@@ -412,5 +415,11 @@ export class Dropdown extends View {
                 ).join(':')
             ).join('; ')
             + ';';
+    }
+
+    _nativeOSDropdownHotfix() {
+        this.nativeSelect.on('touchstart', (e) => {
+            e.preventDefault();
+        })
     }
 }

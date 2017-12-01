@@ -33,7 +33,7 @@ export class Toggle extends View {
     @layout.translate(0,0,10)
     @layout.animate({
         animation: AnimationController.Animation.Fade,
-        showInitially: false,
+        showInitially: true,
         transition: {
             duration: 200,
             curve: Easing.outCubic
@@ -56,7 +56,11 @@ export class Toggle extends View {
         this.activeButton.on('click', this.disable);
         this.inactiveButton.on('click', this.enable);
 
-        if (this.options.active) this.enable()
+        if (this.options.active) {
+            this.enable()
+        } else {
+            this.disable();
+        }
     }
 
     disable(){
@@ -81,9 +85,9 @@ export class Toggle extends View {
 
 /*
 
-1. replace the renderable each time
-2. show / hide renderables on click
-3. layer the renderables and change zTranslate on click
-4. fancier animations
+ 1. replace the renderable each time
+ 2. show / hide renderables on click
+ 3. layer the renderables and change zTranslate on click
+ 4. fancier animations
 
  */
