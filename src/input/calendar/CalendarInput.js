@@ -117,7 +117,7 @@ export class CalendarInput extends View {
         this._initMouseBehaviour();
 
 
-        this.calendar.on('datePicked', async function (date) {
+        this.calendar.on('datePicked', async (date) =>{
             this.date = date;
             let dateText = this._formatDate(date);
             this.renderables.calendarInputField.setValue(dateText);
