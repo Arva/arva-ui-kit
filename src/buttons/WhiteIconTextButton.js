@@ -18,7 +18,8 @@ import {Button}                 from './Button.js';
 @layout.dockPadding(0,24,0,24)
 export class WhiteIconTextButton extends Button {
 
-    @layout.dock.left(~100)
+    @layout.dock.left()
+    @layout.stick.center()
     @layout.size(~100, 48)
     iconAndText = new IconAndText(this.options);
 
