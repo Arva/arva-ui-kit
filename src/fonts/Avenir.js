@@ -10,6 +10,7 @@ export default avenirBook;
 export let Avenir = {
     UI: {
         UITitle: {fontFamily: avenirBook, lineHeight: '1.0'},
+        UITHeader: {fontFamily: avenirBook, lineHeight: '1.0', fontSize: '32px'},
         UIRegular: {fontFamily: avenirBook, lineHeight: '1.0'},
         UISmall: {fontFamily: avenirBook, lineHeight: '1.0'},
         UISmallGray: {fontFamily: avenirBook, lineHeight: '1.0'},
