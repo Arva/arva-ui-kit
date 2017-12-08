@@ -440,7 +440,7 @@ export class CarouselIndicators extends View {
     }
 
     _setCounter(index){
-        this.pageIndicators.counter.setCurrentNumber(index+1)
+        this.pageIndicators.counter.setCurrentNumber(""+index+1)
     }
 
     _changeActiveIndicatorToInactive(index){

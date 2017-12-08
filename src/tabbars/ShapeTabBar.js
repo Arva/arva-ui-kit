@@ -25,8 +25,8 @@ export class ShapeTabBar extends TabBar {
     @flow.defaultOptions(flowOptions)
     shape = new Surface({
         properties: {
-            'background-color': this.options.shapeColor || Colors.PrimaryUIColor,
-            'border-radius': this.options.borderRadius || '16px'
+            backgroundColor: this.options.shapeColor || Colors.PrimaryUIColor,
+            borderRadius: this.options.borderRadius
         }
     });
 
@@ -48,6 +48,10 @@ export class ShapeTabBar extends TabBar {
      */
     constructor(options = {}, items) {
 
+        if(options.rounded){
+            options.borderRadius = '24px';
+        }
+
         if (options.usesIcon) {
             options.borderRadius = "50%";
         }
@@ -55,6 +59,7 @@ export class ShapeTabBar extends TabBar {
         super(combineOptions({
             makeRipple: false, useBackground: false, useBoxShadow: false, shapeHeight: 32,
             shapeWidth: 0,
+            borderRadius: '4px',
             shapeColor: Colors.PrimaryUIColor,
             tabRenderable: ShapeTab,
             tabOptions: {inActiveColor: Colors.PrimaryUIColor, activeColor: 'white'}

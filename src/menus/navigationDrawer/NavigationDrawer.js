@@ -106,7 +106,7 @@ export class NavigationDrawer extends View {
         if (!famousContext.addToRoot) {
             famousContext.addToRoot = famousContext.add.bind(famousContext);
         }
-        famousContext.add = this.addToContent;
+        famousContext.add = this.addToContent.bind(this);
         this._initSideMenuTopBarConnection();
         this.idCounter = 0;
         this.showingTopBar = true;
@@ -122,7 +122,7 @@ export class NavigationDrawer extends View {
 
         this._enabled = this.options.enabled;
         if (options.showInitial != undefined && !options.showInitial) this.hideTopBar();
-        this.router.on('routechange', this.onRouteChange);
+        this.router.on('routechange', this.onRouteChange.bind(this));
     }
 
     /**

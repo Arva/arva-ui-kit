@@ -70,7 +70,7 @@ export class ResultsView extends View {
 
 
 
-        this.content.on('resize', this.reflowRecursively);
+        this.content.on('resize', this.reflowRecursively.bind(this));
     }
 
     getSize() {

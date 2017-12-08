@@ -51,8 +51,7 @@ export let TypeFaces = merge({
     TextH2: {fontSize: '32px', fontWeight: 'bold', get color() { return Colors.ArticleTextColor; } },
     TextH3: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.ArticleTextColor; } },
     TextCaption: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } },
-    TextQuote: {fontSize: '18px', fontWeight: 'bold', get color() { return Colors.ModestTextColor; } },
-    TextQuoteEmphasis: {fontSize: '24px', fontWeight: 'normal', fontStyle: 'italic', get color() { return Colors.PrimaryUIColor; } },
+    TextQuote: {fontSize: '24px', fontWeight: 'normal', fontStyle: 'italic', get color() { return Colors.PrimaryUIColor; } },
     TextInfoLabel: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } , textTransform: 'uppercase'},
 
 }, Avenir.UI, Avenir.Text, Avenir.Impact);

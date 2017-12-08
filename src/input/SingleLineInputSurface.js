@@ -33,7 +33,6 @@ export class SingleLineInputSurface extends InputSurface {
         this.options = mergedOptions;
         this._cachedValue = null;
 
-        ObjectHelper.bindAllMethods(this, this);
 
         if (this.options.enabled) {
             this._initListeners();

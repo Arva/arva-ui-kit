@@ -51,8 +51,8 @@ export class NavigationTabBar extends View {
         famousContext.add = this.addToContent;
         this.idCounter = 0;
 
-        this.router.on('routechange', this._onRouteChange);
-        this.UIBar.tabBar.on('tabClick', this._onTabChange);
+        this.router.on('routechange', this._onRouteChange.bind(this));
+        this.UIBar.tabBar.on('tabClick', this._onTabChange.bind(this));
     }
 
     addToContent(renderable) {

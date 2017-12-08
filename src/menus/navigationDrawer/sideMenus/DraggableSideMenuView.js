@@ -111,7 +111,7 @@ export class DraggableSideMenuView extends View {
     }
 
     getSize() {
-        return [undefined, this.navigationItems.getItems().reduce(((total, {getSize, size}) => total + 0 + (size ? size[1] : getSize()[1] )), 0)
+        return [undefined, this.navigationItems.getItems().reduce(((total, item) => total + 0 + (item.size ? item.size[1] : item.getSize()[1] )), 0)
         + 2 * this.options.itemMargin ];
     }
 }

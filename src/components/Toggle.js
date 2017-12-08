@@ -53,8 +53,8 @@ export class Toggle extends View {
             rounded: false
         }, options));
 
-        this.activeButton.on('click', this.disable);
-        this.inactiveButton.on('click', this.enable);
+        this.activeButton.on('click', this.disable.bind(this));
+        this.inactiveButton.on('click', this.enable.bind(this));
 
         if (this.options.active) this.enable()
     }

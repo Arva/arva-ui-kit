@@ -6,7 +6,7 @@ import {layout}                 from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}             from './BaseDialog.js';
 import {WhiteIconTextButton}         from '../buttons/WhiteIconTextButton.js';
-import {LocationIcon}           from '../icons/LocationIcon.js';
+import {ArrowrightIcon}           from '../icons/ArrowrightIcon.js';
 import {Colors}         from '../defaults/DefaultColors.js';
 
 export class StackButtonIconDialog extends BaseDialog {
@@ -38,7 +38,7 @@ export class StackButtonIconDialog extends BaseDialog {
 
             this.addRenderable(new WhiteIconTextButton({
                     content: buttonText,
-                    icon: LocationIcon,
+                    icon: ArrowrightIcon,
                     properties: {
                         color: Colors.PrimaryUIColor
                     },
@@ -57,15 +57,14 @@ export class StackButtonIconDialog extends BaseDialog {
     onNewMargin(newMargin) {
 
         /* Set the space between text and buttons the same as the upper, left, and right margins */
-        this.decorations.viewMargins = [newMargin, 0, 0, 0];
+        this.decorations.viewMargins = [32, 0, 0, 0];
         if (this.button0) {
-            this.button0.decorations.dock.space = newMargin;
+            this.button0.decorations.dock.space = 32;
         }
 
         for (let button of this._buttons) {
-            this[button].icon.decorations.translate = [newMargin - 12, 0, 0];
-            this[button].text.decorations.translate = [newMargin, 0, 0];
-
+            this[button].iconAndText.icon.decorations.translate[0] = newMargin - 12;
+            this[button].iconAndText.text.decorations.translate[0] = newMargin;
         }
 
 
