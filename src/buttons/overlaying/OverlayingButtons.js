@@ -67,7 +67,7 @@ export class OverlayingButtons extends View {
         /* Hijack Famous Context's add() method */
         famousContext.add(this);
 
-        this.router.on('routechange', this._onRouteChange);
+        this.router.on('routechange', this._onRouteChange.bind(this));
 
         /* Add buttons dynamically */
         this.currentButtons = [];

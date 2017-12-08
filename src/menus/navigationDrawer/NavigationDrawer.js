@@ -104,13 +104,15 @@ export class NavigationDrawer extends View {
     let famousContext = Injection.get(FamousContext)
     this.router = Injection.get(Router)
 
-    /* Hijack Famous Context's add() method */
-    famousContext.add(this)
-    if (!famousContext.addToRoot) {
-      famousContext.addToRoot = famousContext.add.bind(famousContext)
-    }
-    famousContext.add = this.addToContent
-    this._initSideMenuTopBarConnection()
+        /* Hijack Famous Context's add() method */
+        famousContext.add(this);
+        if (!famousContext.addToRoot) {
+            famousContext.addToRoot = famousContext.add.bind(famousContext);
+        }
+        famousContext.add = this.addToContent.bind(this);
+        this._initSideMenuTopBarConnection();
+        this.idCounter = 0;
+        this.showingTopBar = true;
 
     /* Set the options */
     let initSideMenu = (options) => this.sideMenu.initWithOptions(options)
@@ -121,9 +123,9 @@ export class NavigationDrawer extends View {
       initSideMenu(sideMenuOptions)
     }
 
-    if (options.showInitial != undefined && !options.showInitial) this.hideTopBar()
-    this.router.on('routechange', this.onRouteChange)
-  }
+        if (options.showInitial != undefined && !options.showInitial) this.hideTopBar();
+        this.router.on('routechange', this.onRouteChange.bind(this));
+    }
 
   /**
    * Hide the topbar for specific routechanges and change the title according the routechanges

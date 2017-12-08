@@ -67,7 +67,7 @@ export class CalendarInput extends View {
             }));
 
 
-        this.renderables.calendarInputField.on('valueChange', this._onFieldChange);
+        this.renderables.calendarInputField.on('valueChange', this._onFieldChange.bind(this));
 
 
         this.renderables.extensionArrow = new BkImageSurface({

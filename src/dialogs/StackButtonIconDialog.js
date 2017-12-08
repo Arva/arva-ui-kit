@@ -35,7 +35,7 @@ export class StackButtonIconDialog extends BaseDialog {
 
             this._buttons.push(`button${index}`);
 
-            this.addRenderable(new IconButton({
+            this[`button${index}`] = this.addRenderable(new IconButton({
                     content: buttonText,
                     icon: LocationIcon,
                     properties: {
@@ -49,7 +49,7 @@ export class StackButtonIconDialog extends BaseDialog {
                         borderRadius: index !== buttons.length - 1 ? '0px' : '0px 0px 4px 4px'
                     }
                 }
-            ), `button${index}`, layout.dock.top(buttonHeight));
+            ), layout.dock.top(buttonHeight));
         }
     }
 

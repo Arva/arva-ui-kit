@@ -31,10 +31,10 @@ export class InputSurface extends FamousInputSurface {
                 tabIndex: InputSurface.tabIndex++
             }
         }, options));
-        this.on('paste', this._onFieldChange);
-        this.on('input', this._onFieldChange);
-        this.on('propertychange', this._onFieldChange);
-        this.on('change', this._onFieldChange);
+        this.on('paste', this._onFieldChange.bind(this));
+        this.on('input', this._onFieldChange.bind(this));
+        this.on('propertychange', this._onFieldChange.bind(this));
+        this.on('change', this._onFieldChange.bind(this));
     }
 
     setValue(value, emitEvent = false) {

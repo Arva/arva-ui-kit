@@ -26,7 +26,8 @@ export class StackButtonDialog extends BaseDialog {
         }
         for (let [index, buttonText] of buttons.entries()) {
             let buttonHeight = 64;
-            this.addRenderable(new TextButton({
+
+            this[`button${index}`] = this.addRenderable(new TextButton({
                     content: buttonText,
                     disableBoxShadow: true,
                     clickEventName: `button${index}`,
@@ -36,7 +37,7 @@ export class StackButtonDialog extends BaseDialog {
                         borderRadius: index !== buttons.length - 1 ? '0px' : '0px 0px 4px 4px'
                     }
                 }
-            ), `button${index}`, layout.dock.top(buttonHeight, 0), layout.translate(0, 0, 100));
+            ), layout.dock.top(buttonHeight, 0), layout.translate(0, 0, 100));
         }
     }
 

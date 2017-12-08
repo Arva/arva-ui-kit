@@ -33,7 +33,7 @@ export class TabBarView extends View {
             activeIndex: 0,
             equalSizing: true
         }, options));
-        this.tabBar.on('tabClick', this._onTabChange);
+        this.tabBar.on('tabClick', this._onTabChange.bind(this));
 
         }
 

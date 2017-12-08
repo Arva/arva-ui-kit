@@ -100,7 +100,7 @@ export class TopMenu extends UIBar {
         }
 
 
-        this.router.on('routechange', this.onRouteChange);
+        this.router.on('routechange', this.onRouteChange.bind(this));
     }
 
     onRouteChange(route) {
