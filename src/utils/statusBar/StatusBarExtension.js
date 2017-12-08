@@ -25,7 +25,7 @@ export class StatusBarExtension extends View {
     .translate(0, 0, 500)
   background = Surface.with({
     properties: {
-      display: this.options.isShowing ? 'block' : 'hidden',
+      display: this.options.isShowing ? 'block' : 'none',
       backgroundColor: this.options.color
     }
   })

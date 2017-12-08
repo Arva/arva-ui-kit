@@ -10,8 +10,8 @@ import {layout}             from 'arva-js/layout/Decorators.js';
 
 import {CrossIcon}          from '../icons/CrossIcon.js';
 import {ImageButton}        from '../buttons/ImageButton.js';
-import {UITitle}            from '../defaults/DefaultTypefaces.js';
-import {TextBody}           from '../defaults/DefaultTypefaces.js';
+import {UITitle}            from '../text/UITitle.js';
+import {Text}               from '../text/Text.js';
 
 /**
  * A dialog wth a title and text
@@ -43,11 +43,11 @@ export class BaseDialog extends Dialog {
 
     @layout.dock.top( ~50)
     @layout.stick.top()
-    title = new Surface(combineOptions({ content: this.options.title, properties: { textAlign: "left", whitespace: "nowrap" } }, UITitle));
+    title = new UITitle({ content: this.options.title, properties: { textAlign: "left", whitespace: "nowrap" } });
 
     @layout.stick.top()
     @layout.dock.top( ~50, 8)
-    body = new Surface(combineOptions({ content: this.options.body, properties: { textAlign: 'left' } }, TextBody));
+    body = new Text({ content: this.options.body, properties: { textAlign: 'left' } });
 
     /**
      * @example
