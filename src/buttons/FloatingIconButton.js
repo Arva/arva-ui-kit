@@ -14,4 +14,9 @@ export class FloatingIconButton extends WhiteIconButton {
             backgroundProperties: { backgroundColor: Colors.PrimaryUIColor, borderRadius: '50%' }
         }, options));
     }
+
+    /* Default if true size specified */
+    getSize() {
+        return [64, 64];
+    }
 }
