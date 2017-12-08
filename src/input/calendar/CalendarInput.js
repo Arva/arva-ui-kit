@@ -126,7 +126,7 @@ export class CalendarInput extends View {
             }
             this._eventOutput.emit('datePicked', date);
             setTimeout(() => this._setCalendarVisible(false), 150);
-        }.bind(this));
+        });
     }
 
     _initCalendar() {
