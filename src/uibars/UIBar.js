@@ -81,8 +81,8 @@ export class UIBar extends View {
      *              components: [
      *                  [new Surface(), 'icon1', 'right'],
      *                  [new WhiteIconButton(), 'button2', 'right'],
-     *                  [new textButton(), 'icon3', 'left'],
-     *                  [new iconButton(), 'button3', 'center']
+     *                  [new WhiteTextButton(), 'icon3', 'left'],
+     *                  [new ColoredIconButton(), 'button3', 'center']
      *              ]
      *          })
      */

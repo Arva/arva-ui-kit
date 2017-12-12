@@ -117,7 +117,7 @@ class CarouselWall extends View {
 
     addDragEventListener(idx){
         let item = this[`item-${idx}`];
-        item && item.draggable.on('end', this.swipeListener);
+        item && item.draggable.on('end', this.swipeListener.bind(this));
     }
 
     removeDragEventListener(idx){

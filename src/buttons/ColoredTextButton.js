@@ -47,9 +47,11 @@ export class ColoredTextButton extends WhiteTextButton {
      *
      * @param {object} [options.colorProperties] Object containing the colors of the icon/text/background in active and inactive state
      */
-    _setEnabled(enabled) {
-        let properties = this.options.colorProperties ? this.options.colorProperties : null;
-        super._setEnabled(enabled, true, properties);
+    _setEnabled(enabled, changeBackground = true) {
+        super._setEnabled(enabled, changeBackground);
+        var options = enabled ? this.options : this.options.disabledOptions;
+        this.text.setProperties(options.properties);
+        this.text.setContent(options.content);
     }
 
 }

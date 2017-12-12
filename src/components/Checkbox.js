@@ -93,7 +93,7 @@ export class Checkbox extends Clickable {
         this.state = this.options.state;
 
         this.setViewFlowState(this.options.state ? 'checked' : 'unchecked');
-        this.on('mouseout', this._onMouseOut);
+        this.on('mouseout', this._onMouseOut.bind(this));
     }
 
     _handleTapStart(mouseEvent) {

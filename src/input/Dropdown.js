@@ -238,7 +238,7 @@ export class Dropdown extends View {
             layout.dock.top(48),
             flow.defaultOptions({}),
             layout.translate(0, 0, 50),
-            event.on('click', this._placeholderChosen),
+            event.on('click', this._placeholderChosen.bind(this)),
         )
     }
 

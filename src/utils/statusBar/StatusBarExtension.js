@@ -35,7 +35,7 @@ export class StatusBarExtension extends View {
             window.StatusBar.show();
         }
 
-        Injection.get(Context).on('resize', this._onResize);
+        Injection.get(Context).on('resize', this._onResize.bind(this));
         this._onResize();
     }
 

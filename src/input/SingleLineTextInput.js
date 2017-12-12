@@ -17,7 +17,7 @@ import {TypeFaces}              from '../defaults/DefaultTypefaces.js';
 const transition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
 const closeTransition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
 const flowOptions = { transition: { curve: Easing.outCubic, duration: 300 }, delay: 0 };
-const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.topLeft(), layout.translate(0, 4, 50)];
+const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.topLeft(), layout.translate(-4, 4, 50)];
 const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
 
 @flow.viewStates({
@@ -126,10 +126,10 @@ export class SingleLineTextInput extends View {
 
         }
 
-        this.input.on('change', this._validateInput);
-        this.input.on('paste', this._validateInput);
-        this.input.on('input', this._validateInput);
-        this.input.on('propertychange', this._validateInput);
+        this.input.on('change', this._validateInput.bind(this));
+        this.input.on('paste', this._validateInput.bind(this));
+        this.input.on('input', this._validateInput.bind(this));
+        this.input.on('propertychange', this._validateInput.bind(this));
 
         /* The browser could auto-fill this stuff, so wait for deploy before checking if we have a value or not */
         if (this.options.required)

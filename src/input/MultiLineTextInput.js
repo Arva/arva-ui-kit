@@ -82,10 +82,10 @@ export class MultiLineTextInput extends SingleLineTextInput {
             }
         });
 
-        this.input.on('keyup', this._onKeyUp);
-        this.input.on('paste', this._onFieldChange);
-        this.input.on('input', this._onFieldChange);
-        this.input.on('propertychange', this._onFieldChange);
+        this.input.on('keyup', this._onKeyUp.bind(this));
+        this.input.on('paste', this._onFieldChange.bind(this));
+        this.input.on('input', this._onFieldChange.bind(this));
+        this.input.on('propertychange', this._onFieldChange.bind(this));
     }
 
     getSize() {

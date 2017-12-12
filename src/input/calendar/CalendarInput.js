@@ -67,7 +67,7 @@ export class CalendarInput extends View {
             }));
 
 
-        this.renderables.calendarInputField.on('valueChange', this._onFieldChange);
+        this.renderables.calendarInputField.on('valueChange', this._onFieldChange.bind(this));
 
 
         this.renderables.extensionArrow = new BkImageSurface({
@@ -126,7 +126,7 @@ export class CalendarInput extends View {
             }
             this._eventOutput.emit('datePicked', date);
             setTimeout(() => this._setCalendarVisible(false), 150);
-        }.bind(this));
+        });
     }
 
     _initCalendar() {
