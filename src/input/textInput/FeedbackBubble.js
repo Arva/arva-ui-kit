@@ -54,7 +54,7 @@ export class FeedbackBubble extends Button {
     @flow.stateStep('shown', transitions, layout.dock.right(~30), layout.dockSpace(8))
     @flow.stateStep('shown', transitions, layout.opacity(1))
     @flow.stateStep('hidden', closeTransition, layout.opacity(0))
-    @flow.stateStep('hidden', closeTransition, layout.size(0, 0), layout.dock.none())
+    @flow.stateStep('hidden', closeTransition, layout.size(undefined, undefined), layout.dock.none())
     @flow.defaultState('hidden', closeTransition, layout.size(undefined, undefined), layout.dock.none(), layout.translate(0, 0, 10), layout.opacity(0))
     text = new UIRegular({
         content: this.options.text || FeedbackBubble.texts[this.options.variation],
