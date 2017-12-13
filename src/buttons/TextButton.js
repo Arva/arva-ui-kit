@@ -32,13 +32,13 @@ export class TextButton extends Button {
         /* Options need to be spread here since databinding doesn't work when passing the whole options object */
     text = Surface.with(this.options.enabled ? {...this.options} : this.options.disabledOptions);
 
-    @bindings.preprocess()
+    @bindings.trigger()
     generateBoxShadowVariations(){
         let {variation, disableBoxShadow} = this.options;
         Object.assign(this.options, TextButton.generateBoxShadowVariations(variation, disableBoxShadow));
     }
 
-    @bindings.preprocess()
+    @bindings.trigger()
     mimicDisabledContent(){
         this.options.disabledOptions.content = this.options.content;
     }
