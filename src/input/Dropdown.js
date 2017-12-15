@@ -419,7 +419,7 @@ export class Dropdown extends View {
 
     _nativeOSDropdownHotfix() {
         this.nativeSelect.on('touchstart', (e) => {
-            e.preventDefault();
+            //e.preventDefault();
         })
     }
 }
