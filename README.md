@@ -13,4 +13,4 @@ ARVA UI Kit is an extensive and customizable library of User Interface component
 - **Global Options**: shadow styles, icon styles, branding colors and backgrounds
 
 ## Component Examples
-![Component Examples]()
+![Component Examples](https://raw.githubusercontent.com/Arva/arva-ui-kit/master/docs/res/Component%20Showcase.png)
