@@ -36,7 +36,7 @@ const flowOptions = { flow: true, transition: { curve: Easing.outCubic, duration
     })
 export class ShapeTabBar extends TabBar {
 
-    @bindings.preprocess()
+    @bindings.trigger()
     setIconProps(options) {
         if (!options.usesIcon) {
             options.borderRadius = undefined;
@@ -46,12 +46,12 @@ export class ShapeTabBar extends TabBar {
         }
     }
 
-    @bindings.preprocess()
+    @bindings.trigger()
     moveShape() {
         this.options._shapeXOffset = this._calcCurrentPosition(this.options.activeIndex);
     }
 
-    @bindings.preprocess()
+    @bindings.trigger()
     setShapeWidth(options) {
         options._shapeWidth =options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
     }

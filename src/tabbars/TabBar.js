@@ -55,7 +55,7 @@ import {AccountIcon}    from '../icons/AccountIcon.js';
 export class TabBar extends View {
 
 
-    @bindings.preprocess()
+    @bindings.trigger()
     setupActiveIndex(options, defaultOptions) {
         let {tabs = defaultOptions.tabs} = options;
         let currentActiveItemIndex = tabs.findIndex(({active}) => active);

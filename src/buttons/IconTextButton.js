@@ -36,6 +36,10 @@ export class IconTextButton extends Button {
             this.iconAndText.icon.changeColor(enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray);
         }
     }
+
+    getSize() {
+        return [undefined, 48];
+    }
 }
 
 
@@ -46,7 +50,7 @@ export class IconTextButton extends Button {
 })
 class IconAndText extends View {
 
-    @bindings.preprocess()
+    @bindings.trigger()
     estimateIconPadding() {
         this.options._iconPadding = -(this.options.iconProperties.width - 24.0)/2.0;
     }

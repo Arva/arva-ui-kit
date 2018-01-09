@@ -17,7 +17,7 @@ import {bindings}                           from 'arva-js/layout/Decorators.js';
 })
 export class UIBarImageButton extends ImageButton {
 
-    @bindings.preprocess()
+    @bindings.trigger()
     setColorBasedOnVariation(options) {
         let {uiBarVariation} = options;
         if(uiBarVariation === 'white'){

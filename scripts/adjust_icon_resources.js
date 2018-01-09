@@ -7,7 +7,8 @@ const fs = require('fs');
 const convert = require('xml-js');
 const iconDirectory = './src/icons/resources';
 
-
+//TODO Automate 100% width/height as well (but not the viewBox),
+//and be able to handle nested directories corresponding to a concatenated underscore (when supplied by Chari)
 for (let fileName of fs.readdirSync(iconDirectory)) {
     if (!fileName.endsWith('.svg')) {
         continue;

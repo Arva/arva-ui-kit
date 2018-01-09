@@ -32,14 +32,11 @@ export class OneButtonDialog extends BaseDialog {
                     borderRadius: '0px 0px 4px 4px'
                 }
             }
-        ), layout.dock.top( button.buttonHeight || 64));
+        ), layout.dock.top( button.buttonHeight || 64).translate(0, 32,  0));
     }
 
     onNewMargin(newMargin) {
         /* Set the space between text and buttons the same as the upper, left, and right margins */
-        this.decorations.viewMargins = [newMargin, 0, 0, 0];
-        if (this.button0) {
-            this.button0.decorations.dock.space = newMargin;
-        }
+        this.decorations.viewMargins = [32, 0, 0, 0];
     }
 }

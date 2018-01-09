@@ -83,7 +83,7 @@ class NotificationWrapper extends View {
             spacing: 16,
             margins: [0, 16, 16, 16]
         },
-        dataStore: this.options.dataSource,
+        dataSource: this.options.dataSource,
         sortingDirection: 'descending',
         orderBy: 'id',
         enabled: false,

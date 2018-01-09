@@ -20,7 +20,7 @@ import {ComponentHeight}                    from '../defaults/DefaultDimensions.
 })
 export class ImageButton extends Button {
 
-    @bindings.preprocess()
+    @bindings.trigger()
     setVariationIfNeeded(options) {
         if(options.imageOnly){
             options.backgroundProperties = {...options.backgroundProperties, backgroundColor: 'none'};
@@ -29,7 +29,7 @@ export class ImageButton extends Button {
         Object.assign(options, TextButton.generateBoxShadowVariations(options.variation))
     }
 
-    @bindings.preprocess()
+    @bindings.trigger()
     setCorrectColor({properties: {color}}) {
         this.setColor(color);
     }
