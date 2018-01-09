@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+   
+   <title>redo_angular_thin</title>
+   <desc>Created with Sketch.</desc>
+   <defs>
+      <path d="M24,48 C37.254834,48 48,37.254834 48,24 C48,10.745166 37.254834,0 24,0 C10.745166,0 0,10.745166 0,24 C0,37.254834 10.745166,48 24,48 Z" id="redo_angular_thin.svgpath-1"/>
+      <mask id="redo_angular_thin.svgmask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="48" height="48" fill="white">
+         <use xlink:href="#redo_angular_thin.svgpath-1"/>
+      </mask>
+   </defs>
+   <g id="redo_angular_thin.svgPage-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <g id="redo_angular_thin.svgGroup" stroke="#000000">
+         <g id="redo_angular_thin.svgGroup-27" transform="translate(24.000000, 24.000000) scale(-1, 1) translate(-24.000000, -24.000000) ">
+            <use id="redo_angular_thin.svgOval-161" mask="url(#redo_angular_thin.svgmask-2)" stroke-width="4" xlink:href="#redo_angular_thin.svgpath-1"/>
+            <path d="M37,5 L37,15" id="redo_angular_thin.svgLine" stroke-width="2" stroke-linecap="square"/>
+            <path d="M37,5 L47,5" id="redo_angular_thin.svgLine" stroke-width="2" stroke-linecap="square"/>
+         </g>
+      </g>
+   </g>
+</svg>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" height="100%" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+   
+   <title>Verplaatsen</title>
+   <desc>Created with Sketch.</desc>
+   <defs/>
+   <g id="move_task.svgPage-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+      <g id="move_task.svgARVA-KIT-Icons" transform="translate(-962.000000, -378.000000)" stroke="#000000" stroke-width="2">
+         <g id="move_task.svgGroup" transform="translate(961.000000, 378.000000)">
+            <path d="M33.5,19.5 L33.5,81.5" id="move_task.svgLine" transform="translate(33.000000, 50.500000) rotate(90.000000) translate(-33.000000, -50.500000) "/>
+            <path d="M1,13 L1,51" id="move_task.svgLine" transform="translate(1.500000, 32.000000) rotate(180.000000) translate(-1.500000, -32.000000) "/>
+            <path d="M32.5,-18.5 L32.5,43.5" id="move_task.svgLine" transform="translate(33.000000, 12.500000) rotate(270.000000) translate(-33.000000, -12.500000) "/>
+            <path d="M40,19 L26,19" id="move_task.svgLine" transform="translate(33.500000, 19.500000) rotate(270.000000) translate(-33.500000, -19.500000) "/>
+            <path d="M40,44 L26,44" id="move_task.svgLine" transform="translate(33.000000, 44.000000) rotate(270.000000) translate(-33.000000, -44.000000) "/>
+            <path d="M65,13 L65,51" id="move_task.svgLine" transform="translate(64.500000, 32.000000) rotate(180.000000) translate(-64.500000, -32.000000) "/>
+            <g id="move_task.svgGroup-23" transform="translate(34.000000, 32.000000) scale(1, -1) rotate(-90.000000) translate(-34.000000, -32.000000) translate(23.000000, 11.000000)">
+               <path d="M11,1 L11,40.5" id="move_task.svgLine"/>
+               <path d="M11,42 L21.7529066,31.2470934" id="move_task.svgLine"/>
+               <path d="M0.223868969,41.776131 L11,31" id="move_task.svgLine" transform="translate(5.500000, 36.500000) rotate(90.000000) translate(-5.500000, -36.500000) "/>
+            </g>
+         </g>
+      </g>
+   </g>
+</svg>

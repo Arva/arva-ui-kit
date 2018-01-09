@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+   
+   <title>clouddown_angular_bold</title>
+   <desc>Created with Sketch.</desc>
+   <defs>
+      <path d="M38,34 L10,34 C4.4771525,34 0,29.5228475 0,24 C0,19.7277364 2.67911816,16.0812144 6.44894089,14.6488475 C6.15813594,13.8198109 6,12.9283728 6,12 C6,7.581722 9.581722,4 14,4 C15.8155003,4 17.4897529,4.6047536 18.8323,5.62380312 C20.9553268,2.2454749 24.715434,0 29,0 C35.627417,0 41,5.372583 41,12 C41,12.817153 40.9183227,13.6152292 40.7626867,14.3865101 C44.941842,15.5852951 48,19.435512 48,24 C48,29.5228475 43.5228475,34 38,34 Z" id="clouddown_angular_bold.svgpath-1"/>
+      <mask id="clouddown_angular_bold.svgmask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="48" height="34" fill="white">
+         <use xlink:href="#clouddown_angular_bold.svgpath-1"/>
+      </mask>
+   </defs>
+   <g id="clouddown_angular_bold.svgPage-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <g id="clouddown_angular_bold.svgGroup" stroke="#000000">
+         <use id="clouddown_angular_bold.svgCombined-Shape" mask="url(#clouddown_angular_bold.svgmask-2)" stroke-width="8" xlink:href="#clouddown_angular_bold.svgpath-1"/>
+         <path d="M24,21 L24,43" id="clouddown_angular_bold.svgLine" stroke-width="4" stroke-linecap="square"/>
+         <path d="M24,45 L29.5,39.5" id="clouddown_angular_bold.svgLine" stroke-width="4" stroke-linecap="square"/>
+         <path d="M18.5,45 L24,39.5" id="clouddown_angular_bold.svgLine" stroke-width="4" stroke-linecap="square" transform="translate(21.250000, 42.250000) rotate(90.000000) translate(-21.250000, -42.250000)"/>
+      </g>
+   </g>
+</svg>

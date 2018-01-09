@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+   
+   <title>cloudup_angular_thin</title>
+   <desc>Created with Sketch.</desc>
+   <defs>
+      <path d="M38,36 L10,36 C4.4771525,36 0,31.5228475 0,26 C0,21.7277364 2.67911816,18.0812144 6.44894089,16.6488475 C6.15813594,15.8198109 6,14.9283728 6,14 C6,9.581722 9.581722,6 14,6 C15.8155003,6 17.4897529,6.6047536 18.8323,7.62380312 C20.9553268,4.2454749 24.715434,2 29,2 C35.627417,2 41,7.372583 41,14 C41,14.817153 40.9183227,15.6152292 40.7626867,16.3865101 C44.941842,17.5852951 48,21.435512 48,26 C48,31.5228475 43.5228475,36 38,36 Z" id="cloudup_angular_thin.svgpath-1"/>
+      <mask id="cloudup_angular_thin.svgmask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="48" height="34" fill="white">
+         <use xlink:href="#cloudup_angular_thin.svgpath-1"/>
+      </mask>
+   </defs>
+   <g id="cloudup_angular_thin.svgPage-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <g id="cloudup_angular_thin.svgGroup" stroke="#000000">
+         <use id="cloudup_angular_thin.svgCombined-Shape" mask="url(#cloudup_angular_thin.svgmask-2)" stroke-width="4" xlink:href="#cloudup_angular_thin.svgpath-1"/>
+         <g id="cloudup_angular_thin.svgGroup-19" transform="translate(24.000000, 33.000000) scale(1, -1) translate(-24.000000, -33.000000) translate(18.000000, 19.000000)" stroke-width="2" stroke-linecap="square">
+            <path d="M6,0 L6,27" id="cloudup_angular_thin.svgLine"/>
+            <path d="M6,28 L12,22" id="cloudup_angular_thin.svgLine"/>
+            <path d="M8.8817842e-16,28 L6,22" id="cloudup_angular_thin.svgLine" transform="translate(3.000000, 25.000000) rotate(90.000000) translate(-3.000000, -25.000000) "/>
+         </g>
+      </g>
+   </g>
+</svg>

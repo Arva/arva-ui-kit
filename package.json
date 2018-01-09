@@ -1,0 +1,47 @@
+{
+  "name": "arva-kit",
+  "version": "1.0.0",
+  "description": "A collection of private Arva components for usage in Bizboard projects.",
+  "main": false,
+  "homepage": "http://arva.io",
+  "scripts": {
+    "gen-icons": "node scripts/adjust_icon_resources.js && node scripts/create_icon_classes.js",
+    "test": "mocha --compilers js:babel/register --recursive --timeout 15000"
+  },
+  "jspm": {
+    "directories": {
+      "dist": "src",
+      "lib": "src"
+    },
+    "dependencies": {
+      "arva-js": "github:arva/arva-js@develop",
+      "bowser": "npm:bowser@1.4.3",
+      "color": "npm:color@^0.11.3",
+      "degrees-radians": "npm:degrees-radians@^1.0.3",
+      "famous-autosizetextarea": "github:ijzerenhein/famous-autosizetextarea@^0.3.1",
+      "famous-bkimagesurface": "github:bizboard/famous-bkimagesurface@master",
+      "lodash": "npm:lodash@^4.13.1",
+      "rgbcolor": "npm:rgbcolor@^0.0.4"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4",
+      "css": "github:systemjs/plugin-css@^0.1.23",
+      "text": "github:systemjs/plugin-text@^0.0.8"
+    }
+  },
+  "devDependencies": {
+    "babel": "^5.8.38",
+    "babel-runtime": "^6.9.2",
+    "chai": "^3.5.0",
+    "isparta": "^3.5.3",
+    "jspm": "^0.16.39",
+    "lodash": "^4.13.1",
+    "mocha": "^2.5.3",
+    "request-animation-frame-mock": "git+https://github.com/erykpiast/request-animation-frame-mock.git",
+    "sinon": "^1.17.4",
+    "systemjs": "^0.19.31",
+    "xml-js": "^1.0.0"
+  }
+}

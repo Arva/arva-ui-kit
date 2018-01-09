@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+   
+   <title>location_angular_bold</title>
+   <desc>Created with Sketch.</desc>
+   <defs/>
+   <g id="location_angular_bold.svgPage-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+      <g id="location_angular_bold.svgGroup" stroke-width="4" stroke="#000000">
+         <polygon id="location_angular_bold.svgLine" points="8 24 24 24 24 40 42.5 5.5"/>
+      </g>
+   </g>
+</svg>
