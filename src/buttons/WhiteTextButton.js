@@ -2,7 +2,7 @@
  * Created by lundfall on 12/07/16.
  */
 
-import {Surface}        from 'arva-js/surfaces/Surface.js';
+import {Surface}                    from 'arva-js/surfaces/Surface.js';
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {layout, bindings, dynamic}  from 'arva-js/layout/Decorators.js';
 import {Button}                     from './Button.js';
@@ -23,7 +23,8 @@ import {ComponentHeight}            from '../defaults/DefaultDimensions.js';
         properties: {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor}
     })
 )
-export class TextButton extends Button {
+export class WhiteTextButton extends Button {
+
     @layout.translate(0, 0, 30)
     @layout.dock.top()
     @layout.size(true, undefined)
@@ -61,7 +62,7 @@ export class TextButton extends Button {
     }
 
     setContent(value) {
-        this.text.setContent(value);
+        this.options.content = value;
     }
 
     getContent(){

@@ -58,8 +58,8 @@ export class CalendarInput extends View {
             _.merge(this.options, {
                 type: 'text',
                 properties: {
-                    border: '1px solid rgba(0, 0, 0, 0.1)',
-                    borderRadius: '4px'
+                    border: options.properties.border ? options.properties.border : '1px solid rgba(0, 0, 0, 0.1)',
+                    borderRadius: options.rounded ? '24px' : '4px',
                 },
                 placeholder: this.options.dateFormat.toLowerCase(),
                 //Prevent inputfield from centering placeholder because it looks ugly with this type of field
@@ -95,9 +95,9 @@ export class CalendarInput extends View {
                 size: [this.options.calendarWidth, this.options.calendarHeight],
                 origin: [0, 0],
                 align: [0, 1],
-                translate: [0, 0, 60]
-
+                translate: [0, 0, 100]
             });
+
 
             context.set('extensionArrow', {
                 size: [context.size[0] / 8, context.size[0] / 8],
@@ -117,7 +117,7 @@ export class CalendarInput extends View {
         this._initMouseBehaviour();
 
 
-        this.calendar.on('datePicked', async function (date) {
+        this.calendar.on('datePicked', async (date) =>{
             this.date = date;
             let dateText = this._formatDate(date);
             this.renderables.calendarInputField.setValue(dateText);
@@ -126,7 +126,7 @@ export class CalendarInput extends View {
             }
             this._eventOutput.emit('datePicked', date);
             setTimeout(() => this._setCalendarVisible(false), 150);
-        }.bind(this));
+        });
     }
 
     _initCalendar() {

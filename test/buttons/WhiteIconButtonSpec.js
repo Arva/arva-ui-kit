@@ -6,13 +6,13 @@ import {
 
 let should = chai.should();
 
-describe('OutlineImageButton', () => {
+describe('WhiteIconButton', () => {
     let imports = {};
 
     before(async function() {
         await mockArvaViewDependencies();
         imports = await loadDependencies({
-            OutlineImageButton: './src/buttons/OutlineImageButton.js',
+            WhiteIconButton: './src/buttons/WhiteIconButton.js',
         });
     });
 
@@ -22,7 +22,7 @@ describe('OutlineImageButton', () => {
 
     describe('#constructor', () => {
         it('constructs without exceptions', () => {
-            let instance = new imports.OutlineImageButton();
+            let instance = new imports.WhiteIconButton();
             should.exist(instance);
         });
     });

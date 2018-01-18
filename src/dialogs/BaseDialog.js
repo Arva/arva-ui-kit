@@ -1,21 +1,33 @@
 /**
  * Created by lundfall on 12/07/16.
  */
-import {Surface}        from 'arva-js/surfaces/Surface.js';
+import {Surface}            from 'arva-js/surfaces/Surface.js';
 
 import {Dialog}             from 'arva-js/components/Dialog.js';
 import {View}               from 'arva-js/core/View.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
+import {layout, bindings}   from 'arva-js/layout/Decorators.js';
 
 import {CrossIcon}          from '../icons/CrossIcon.js';
-import {ImageButton}        from '../buttons/ImageButton.js';
+import {WhiteIconButton}    from '../buttons/WhiteIconButton.js';
 import {UITitle}            from '../text/UITitle.js';
 import {Text}               from '../text/Text.js';
 
 /**
  * A dialog wth a title and text
  */
+@bindings.setup({
+    titleProperties: {
+        textAlign: "left", whitespace: "nowrap"
+    },
+    bodyProperties: {
+        textAlign: 'left'
+    },
+    backgroundProperties: {
+        backgroundColor: 'white',
+        borderRadius: '4px'
+    }
+})
 export class BaseDialog extends Dialog {
 
     static get DEFAULT_SIZES(){
@@ -28,14 +40,23 @@ export class BaseDialog extends Dialog {
         }
     }
 
+    @bindings.trigger()
+    roundCornersIfNeeded() {
+        if(this.options.rounded){
+            this.options.backgroundProperties.borderRadius = '24px';
+        }
+    }
+
+
+
     @layout.translate(0, 0, -10)
     @layout.fullSize()
-    background = new Surface({properties: {backgroundColor: 'white', borderRadius: '4px'}});
+    background = new Surface({properties: this.options.backgroundProperties });
 
     @layout.size(48, 48)
     @layout.stick.topLeft()
     @layout.translate(4, 0, 0)
-    closeButton = this.options.showCloseButton && new ImageButton({
+    closeButton = this.options.showCloseButton && new WhiteIconButton({
         icon: CrossIcon,
         clickEventName: 'dialogClosed',
         variation: 'noShadow'
@@ -43,11 +64,11 @@ export class BaseDialog extends Dialog {
 
     @layout.dock.top( ~50)
     @layout.stick.top()
-    title = new UITitle({ content: this.options.title, properties: { textAlign: "left", whitespace: "nowrap" } });
+    title = new UITitle({ content: this.options.title, properties: this.options.titleProperties });
 
     @layout.stick.top()
     @layout.dock.top( ~50, 8)
-    body = new Text({ content: this.options.body, properties: { textAlign: 'left' } });
+    body = new Text({ content: this.options.body, properties: this.options.bodyProperties });
 
     /**
      * @example

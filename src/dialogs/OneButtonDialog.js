@@ -5,7 +5,7 @@
 import {layout}             from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}         from './BaseDialog.js';
-import {TextButton}         from '../buttons/TextButton.js';
+import {WhiteTextButton}         from '../buttons/WhiteTextButton.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 export class OneButtonDialog extends BaseDialog {
@@ -20,16 +20,17 @@ export class OneButtonDialog extends BaseDialog {
      * @param {String} [options.body] The body of the Dialog
      */
     constructor(options = {}) {
+        options.borderRadius = options.rounded ? "24px" : "4px";
         super(combineOptions(options, {button: {buttonText: 'Ok'}}));
         let {button} = this.options;
-        this.addRenderable(new TextButton({
+        this.addRenderable(new WhiteTextButton({
                 content: button.buttonText,
                 disableBoxShadow: true,
                 clickEventName: 'closeDialog',
                 clickEventData: [button.clickEventData],
                 backgroundProperties: {
                     borderTop: '1px #E6e6e6 solid',
-                    borderRadius: '0px 0px 4px 4px'
+                    borderRadius: `0px 0px ${options.borderRadius} ${options.borderRadius}`
                 }
             }
         ), layout.dock.top( button.buttonHeight || 64).translate(0, 32,  0));
@@ -38,5 +39,8 @@ export class OneButtonDialog extends BaseDialog {
     onNewMargin(newMargin) {
         /* Set the space between text and buttons the same as the upper, left, and right margins */
         this.decorations.viewMargins = [32, 0, 0, 0];
+        if (this.button0) {
+            this.button0.decorations.dock.space = 32;
+        }
     }
 }

@@ -13,7 +13,7 @@ import {UIBarTitle}                                     from '../../../text/UIBa
 import {HamburgerIcon}                                  from '../../../icons/HamburgerIcon.js';
 import {ArrowleftIcon}                                  from '../../../icons/ArrowleftIcon.js';
 import {Clickable}                                      from '../../../components/Clickable.js';
-import {UIBarImageButton}                               from '../../../buttons/UIBarImageButton.js';
+import {UIBarIconButton}                                from '../../../buttons/UIBarIconButton.js';
 import {StatusBarExtension}                             from '../../../utils/statusBar/StatusBarExtension.js';
 import { layout, bindings, event, dynamic }             from 'arva-js/layout/Decorators.js'
 
@@ -37,22 +37,22 @@ export class TopMenu extends UIBar {
      *               'Home': {
      *                   'Index': {
      *                       left: [
-     *                           new UIBarImageButton({clickEventName: 'left0', icon: AccountIcon})
+     *                           new UIBarIconButton({clickEventName: 'left0', icon: AccountIcon})
      *                       ],
      *                       right: [
-     *                           new UIBarImageButton({clickEventName: 'right0', icon: LeftIcon}),
-     *                           new UIBarImageButton({clickEventName: 'right1', icon: LeftIcon})
+     *                           new UIBarIconButton({clickEventName: 'right0', icon: LeftIcon}),
+     *                           new UIBarIconButton({clickEventName: 'right1', icon: LeftIcon})
      *                       ],
      *                       title: 'First Page',
      *                       persistentButtons: false,
      *                   },
      *                   'Edit': {
      *                       left: [
-     *                           new UIBarImageButton({clickEventName: 'left0', icon: HamburgerIcon})
+     *                           new UIBarIconButton({clickEventName: 'left0', icon: HamburgerIcon})
      *                       ],
      *                       right: [
-     *                           new UIBarImageButton({clickEventName: 'right0', icon: LeftIcon}),
-     *                           new UIBarImageButton({clickEventName: 'right1', icon: LeftIcon})
+     *                           new UIBarIconButton({clickEventName: 'right0', icon: LeftIcon}),
+     *                           new UIBarIconButton({clickEventName: 'right1', icon: LeftIcon})
      *                       ],
      *                       title: 'First Page',
      *                       persistentButtons: false,
@@ -74,16 +74,16 @@ export class TopMenu extends UIBar {
 
     @layout.animate()
     @layout.dock.left(true)
-    menuButton = this.options.isOpen ? UIBarImageButton.with({
+    menuButton = this.options.isOpen ? UIBarIconButton.with({
       clickEventName: 'requestMenuClose',
       icon: ArrowleftIcon,
-    }) : UIBarImageButton.with({
+    }) : UIBarIconButton.with({
       clickEventName: 'requestMenuOpen',
       icon: HamburgerIcon,
     }) ;
 
     @layout.dock.right(true)
-    rightButton = UIBarImageButton.with({
+    rightButton = UIBarIconButton.with({
       clickEventName: 'rightButtonClick',
       icon: InfoIcon
     });

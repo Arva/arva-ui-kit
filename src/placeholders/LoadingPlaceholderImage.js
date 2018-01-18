@@ -9,7 +9,10 @@ import {View}                   from 'arva-js/core/View.js';
 import {layout}                 from 'arva-js/layout/Decorators';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 
-import placeholderImage         from './resources/imagePlaceholder.png!arva-js/utils/ImageLoader.js';
+
+import placeholderImage         from './resources/imagePlaceholder.svg.txt!text';
+import Surface                  from 'famous/core/Surface.js';
+
 
 export class LoadingPlaceholderImage extends View {
 
@@ -50,7 +53,7 @@ export class LoadingPlaceholderImage extends View {
 
     @layout.fullSize()
     @layout.translate(0, 0, 20)
-    placeholder = new BkImageSurface({content: this.options.placeholderContent, sizeMode: this.options.sizeMode, properties: this.options.placeholderProperties});
+    placeholder = new Surface({content: this.options.placeholderContent});
 
     /**
      * A view that loads a given external image into a BkImageSurface, overlays a placeholder image on top of it,

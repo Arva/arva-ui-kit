@@ -19,6 +19,9 @@ import StateModifier            from 'famous/modifiers/StateModifier';
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
 import {Dimensions}             from '../../../defaults/DefaultDimensions.js';
 
+import {Overlay}                from '../../../components/Overlay.js';
+
+
 export class DraggableSideMenu extends View {
 
     static get transition() {
@@ -31,11 +34,7 @@ export class DraggableSideMenu extends View {
         transition: {duration: 200, curve: Easing.inOutQuad},
         animation: AnimationController.Animation.Fade
     })
-    fullScreenOverlay = new Surface({
-        properties: {
-            background: 'radial-gradient(ellipse at left, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%)'
-        }
-    });
+    fullScreenOverlay = new Overlay({});
 
     /** The renderables of the draggableSideMenu is only initialised on initWithOptions()
      *

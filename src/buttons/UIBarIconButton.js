@@ -5,7 +5,7 @@
 import {combineOptions}                     from 'arva-js/utils/CombineOptions.js';
 
 import {Colors}                             from '../defaults/DefaultColors.js';
-import {ImageButton}                        from './ImageButton.js';
+import {WhiteIconButton}                        from './WhiteIconButton.js';
 import {bindings}                           from 'arva-js/layout/Decorators.js';
 
 @bindings.setup({
@@ -15,7 +15,7 @@ import {bindings}                           from 'arva-js/layout/Decorators.js';
     uiBarVariation: 'white',
     makeRipple: false
 })
-export class UIBarImageButton extends ImageButton {
+export class UIBarIconButton extends WhiteIconButton {
 
     @bindings.trigger()
     setColorBasedOnVariation(options) {

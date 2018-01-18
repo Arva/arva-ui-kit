@@ -1,7 +1,3 @@
-/**
- * Created by vlad on 25/07/16.
- */
-
 import chai                                 from 'chai';
 import {
     loadDependencies,
@@ -10,13 +6,13 @@ import {
 
 let should = chai.should();
 
-describe('IconButton', () => {
+describe('OutlineIconButton', () => {
     let imports = {};
 
     before(async function() {
         await mockArvaViewDependencies();
         imports = await loadDependencies({
-            IconButton: './src/buttons/IconButton.js',
+            OutlineIconButton: './src/buttons/OutlineIconButton.js',
         });
     });
 
@@ -26,7 +22,7 @@ describe('IconButton', () => {
 
     describe('#constructor', () => {
         it('constructs without exceptions', () => {
-            let instance = new imports.IconButton({icon: () => ''});
+            let instance = new imports.OutlineIconButton();
             should.exist(instance);
         });
     });

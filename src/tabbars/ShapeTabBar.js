@@ -24,6 +24,7 @@ const flowOptions = { flow: true, transition: { curve: Easing.outCubic, duration
         _shapeWidth: 0,
         _shapeHeight: 32,
         _isHovering: false,
+        usesIcon: false,
         _currentlyHoveringIndex: 0,
         _shapeXOffset: 0,
         _shapeYOffset: 0,
@@ -43,6 +44,19 @@ export class ShapeTabBar extends TabBar {
         }
         if (options.rounded) {
             options.borderRadius = '50%';
+        }
+    }
+
+    @bindings.trigger()
+    roundShapeIfNeeded() {
+        let {options} = this;
+        let {rounded, usesIcon} = options;
+        if(rounded){
+            options.borderRadius = '24px';
+        }
+
+        if (usesIcon) {
+            options.borderRadius = "50%";
         }
     }
 
@@ -67,7 +81,7 @@ export class ShapeTabBar extends TabBar {
     @flow.defaultOptions(flowOptions)
     shape = Surface.with({
         properties: {
-            backgroundColor: this.options.shapeColor,
+            backgroundColor: this.options.shapeColor || Colors.PrimaryUIColor,
             borderRadius: this.options.borderRadius
         }
     });

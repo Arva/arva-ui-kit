@@ -23,7 +23,7 @@ export class OverlayingButtons extends View {
      * @example
      * overlayingButtons = Injection.provide(OverlayingButtons, new OverlayingButtons({
      *     buttons: [{
-     *         button: new FloatingImageButton({
+     *         button: new FloatingIconButton({
      *             imageSize: [24, 24],
      *             icon: plus,
      *             backgroundProperties: {

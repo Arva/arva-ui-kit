@@ -3,13 +3,12 @@
  */
 
 import {combineOptions} from 'arva-js/utils/CombineOptions.js';
-import {TextButton} from '../buttons/TextButton.js';
 import {
     layout, bindings,
     flow, dynamic
-} from 'arva-js/layout/Decorators.js'
-import {Clickable} from '../components/Clickable.js';
-import Surface from 'famous/core/Surface.js';
+}                       from 'arva-js/layout/Decorators.js'
+import {Clickable}      from '../components/Clickable.js';
+import Surface          from 'famous/core/Surface.js';
 
 
 @bindings.setup({

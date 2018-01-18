@@ -10,7 +10,7 @@ export let Colors = {
     TertiaryUIColor: 'rgb(170, 170, 170)',
     QuaternaryUIColor: 'rgb(170, 170, 170)',
 
-    BasicTextColor: 'rgb(0, 0, 0)',
+    BasicTextColor: 'rgb(20, 20, 20)',
     ModestTextColor: 'rgb(170, 170, 170)',
     ArticleTextColor: 'rgb(20, 20, 20)',
     ImageTextColor: 'rgb(255, 255, 255)',

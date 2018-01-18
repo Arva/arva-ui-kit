@@ -5,7 +5,8 @@
 import {combineOptions}                 from 'arva-js/utils/CombineOptions.js';
 import {LoadingPlaceholderImage}        from './LoadingPlaceholderImage.js';
 
-import profilePlaceholder               from './resources/profilePlaceholder.png!arva-js/utils/ImageLoader.js';
+import profilePlaceholder               from './resources/profilePlaceholder.svg.txt!text';
+
 
 export class LoadingPlaceholderProfile extends LoadingPlaceholderImage {
 

@@ -9,7 +9,7 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 import {Clickable}                  from '../components/Clickable.js';
 import {ListElementCard}            from './ListElementCard.js';
-import {ImageButton}                from '../buttons/ImageButton.js';
+import {WhiteIconButton}                from '../buttons/WhiteIconButton.js';
 import {CirclecheckIcon}            from '../icons/CirclecheckIcon.js';
 import {ListElementHeight}          from '../defaults/DefaultDimensions.js';
 
@@ -182,7 +182,7 @@ export class ListElement extends Clickable {
     _addButtons(amountOfButtons, buttonsOptions, side) {
         for (let i = 0; i < amountOfButtons; i++) {
             this.addRenderable(
-                new ImageButton({
+                new WhiteIconButton({
                     icon: buttonsOptions[i].icon || CirclecheckIcon,
                     imageSize: [24, 24],
                     properties: {color: 'rgb(255, 255, 255)'},

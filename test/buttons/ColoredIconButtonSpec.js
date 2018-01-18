@@ -6,13 +6,13 @@ import {
 
 let should = chai.should();
 
-describe('TextButton', () => {
+describe('ColoredIconButton', () => {
     let imports = {};
 
     before(async function() {
         await mockArvaViewDependencies();
         imports = await loadDependencies({
-            TextButton: './src/buttons/TextButton.js',
+            ColoredIconButton: './src/buttons/ColoredIconButton.js',
         });
     });
 
@@ -22,7 +22,7 @@ describe('TextButton', () => {
 
     describe('#constructor', () => {
         it('constructs without exceptions', () => {
-            let instance = new imports.TextButton();
+            let instance = new imports.ColoredIconButton();
             should.exist(instance);
         });
     });

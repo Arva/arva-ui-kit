@@ -5,7 +5,7 @@
 import {layout}             from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}         from './BaseDialog.js';
-import {TextButton}         from '../buttons/TextButton.js';
+import {WhiteTextButton}         from '../buttons/WhiteTextButton.js';
 
 export class StackButtonDialog extends BaseDialog {
 
@@ -19,6 +19,7 @@ export class StackButtonDialog extends BaseDialog {
      * @param {String} [options.body] The body of the Dialog
      */
     constructor(options = {}) {
+        options.borderRadius = options.rounded ? "24px" : "4px";
         super(options);
         let {buttons} = options;
         if (!buttons) {
@@ -27,15 +28,16 @@ export class StackButtonDialog extends BaseDialog {
         for (let [index, buttonText] of buttons.entries()) {
             let buttonHeight = 64;
 
-            this[`button${index}`] = this.addRenderable(new TextButton({
+            this[`button${index}`] = this.addRenderable(new WhiteTextButton({
                     content: buttonText,
                     disableBoxShadow: true,
                     clickEventName: `button${index}`,
                     clickEventData: [index],
                     backgroundProperties: {
                         borderTop: '1px #E6e6e6 solid',
-                        borderRadius: index !== buttons.length - 1 ? '0px' : '0px 0px 4px 4px'
-                    }
+                        borderRadius: index !== buttons.length - 1 ? '0px' : `0px 0px ${this.options.borderRadius} ${this.options.borderRadius}`
+                    },
+                    ...this.options.buttonOptions
                 }
             ), layout.dock.top(buttonHeight, 0), layout.translate(0, 0, 100));
         }
@@ -43,9 +45,9 @@ export class StackButtonDialog extends BaseDialog {
 
     onNewMargin(newMargin) {
         /* Set the space between text and buttons the same as the upper, left, and right margins */
-        this.decorations.viewMargins = [newMargin, 0, 0, 0];
+        this.decorations.viewMargins = [32, 0, 0, 0];
         if (this.button0) {
-            this.button0.decorations.dock.space = newMargin;
+            this.button0.decorations.dock.space = 32;
         }
     }
 }

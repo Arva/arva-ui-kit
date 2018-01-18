@@ -2,7 +2,7 @@
  * Created by tom on 12/09/16.
  */
 
-import {Surface}        from 'arva-js/surfaces/Surface.js';
+import {Surface}                from 'arva-js/surfaces/Surface.js';
 import Easing                   from 'famous/transitions/Easing.js';
 
 import {View}                   from 'arva-js/core/View.js';
@@ -14,11 +14,10 @@ import {FeedbackBubble}         from './textInput/FeedbackBubble.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 import {TypeFaces}              from '../defaults/DefaultTypefaces.js';
 
-let { searchField: { borderRadius } } = Dimensions;
 const transition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
 const closeTransition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
 const flowOptions = { transition: { curve: Easing.outCubic, duration: 300 }, delay: 0 };
-const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.topLeft(), layout.translate(0, 4, 50)];
+const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.topLeft(), layout.translate(-4, 4, 50)];
 const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
 
 @flow.viewStates({
@@ -26,43 +25,49 @@ const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(
     required: [{ correct: 'hidden', incorrect: 'hidden', required: 'shown' }],
     incorrect: [{ correct: 'hidden', incorrect: 'shown', required: 'hidden' }]
 })
-@layout.dockPadding(0, 4, 0, 0)
 export class SingleLineTextInput extends View {
 
     @flow.stateStep('hidden', transition, layout.opacity(0))
     @flow.defaultState('shown', transition, layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 10))
-    border = new Surface({
+    border = this.options.showBorder ? new Surface({
             properties: {
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
                 backgroundColor: 'rgb(255, 255, 255)',
-                borderRadius: borderRadius,
-                boxSizing: 'content-box'
+                borderRadius: this.options.borderRadius,
+                boxSizing: 'content-box',
+                ...this.options.borderProperties
             }
         }
-    );
+    ) : null;
 
     @flow.stateStep('shown', transition, layout.opacity(1))
     @flow.defaultState('hidden', transition, layout.stick.center(), layout.opacity(0), layout.translate(0, 0, 20))
-    shadow = new Surface({
+    shadow = this.options.showShadow ? new Surface({
             properties: {
                 boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',
                 backgroundColor: 'rgb(255, 255, 255)',
-                borderRadius: borderRadius
+                borderRadius: this.options.borderRadius,
+                ...this.options.shadowProperties
             }
         }
-    );
+    ) : null;
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
     @flow.defaultState('hidden', closeTransition, ...hideBubble)
-    correct = new FeedbackBubble({ variation: 'correct' });
+    correct = this.options.showCorrectBubble ? new FeedbackBubble({ variation: 'correct', rounded: this.options.rounded }) : null;
 
     @flow.stateStep('shown', flowOptions, ...showBubble)
     @flow.defaultState('hidden', closeTransition, ...hideBubble)
-    incorrect = new FeedbackBubble({ variation: 'incorrect' });
+    incorrect = new FeedbackBubble({
+        variation: 'incorrect',
+        rounded: this.options.rounded,
+        text: this.options.incorrectText,
+        feedbackBubbleColor: this.options.incorrectColor
+    });
 
     @flow.defaultState('hidden', flowOptions, ...hideBubble)
     @flow.stateStep('shown', closeTransition, ...showBubble)
-    required = new FeedbackBubble({ variation: 'required', text: this.options.feedbackText });
+    required = new FeedbackBubble({ variation: 'required', text: this.options.feedbackText, rounded: this.options.rounded });
 
     /**
      * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
@@ -86,8 +91,12 @@ export class SingleLineTextInput extends View {
             enabled: true,
             usesFeedback: true,
             type: 'text',
+            showBorder: true,
+            showShadow: true,
+            showCorrectBubble: true,
             inputOptions: { clearOnEnter: options.clearOnEnter },
-            feedbackText: FeedbackBubble.texts.required
+            feedbackText: FeedbackBubble.texts.required,
+            borderRadius: options.rounded ? "24px" : "4px"
         }, options));
 
         if (!this.input) {
@@ -100,10 +109,11 @@ export class SingleLineTextInput extends View {
                 properties: {
                     backgroundColor: 'transparent',
                     padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
-                    borderRadius: borderRadius,
+                    borderRadius: this.options.borderRadius,
                     boxShadow: 'none',
                     ...TypeFaces.UIRegular,
-                    lineHeight: 'normal' /* Don't reorder this to above UIRegular, or it will overwrite */
+                    lineHeight: 'normal', /* Don't reorder this to above UIRegular, or it will overwrite */
+                    ...this.options.backgroundProperties
                 },
                 ...this.options.inputOptions
             }), layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
@@ -164,7 +174,7 @@ export class SingleLineTextInput extends View {
         if (message) {
             this.correct.setText(message);
         }
-        this.setViewFlowState('correct');
+        this.options.usesFeedback && this.setViewFlowState('correct');
 
         this._eventOutput.emit('stateCorrect');
     }
@@ -174,7 +184,7 @@ export class SingleLineTextInput extends View {
         if (message) {
             this.incorrect.setText(message);
         }
-        this.setViewFlowState('incorrect');
+        this.options.usesFeedback && this.setViewFlowState('incorrect');
         this._eventOutput.emit('stateIncorrect');
     }
 
@@ -184,7 +194,7 @@ export class SingleLineTextInput extends View {
 
     setRequiredState() {
         /* This is incorrect state, because there's nothing in the field as of now */
-        this.setViewFlowState('required');
+        this.options.usesFeedback && this.setViewFlowState('required');
         this._eventOutput.emit('stateIncorrect');
     }
 
@@ -199,7 +209,7 @@ export class SingleLineTextInput extends View {
 
     _onFocus() {
         this.setRenderableFlowState(this.shadow, 'shown');
-        this.correct.collapse();
+        if (this.correct) { this.correct.collapse() };
         this.incorrect.collapse();
         this.required.collapse();
     }

@@ -16,6 +16,7 @@ import {Ripple} from '../components/Ripple.js'
 import {ComponentPadding} from '../defaults/DefaultDimensions.js'
 import {getShadow} from '../defaults/DefaultShadows.js'
 
+
 /**
  * @example
  * a = new Button({
@@ -102,16 +103,16 @@ export class Button extends Clickable {
 
 
     _handleTapRemoved() {
-        if (this.options.makeRipple) {
-            this.ripple.hide()
-        }
+        this._hideRipple();
     }
 
     _handleTapEnd(mouseEvent) {
         if (this.options.makeRipple) {
-            this.ripple.hide()
+            this._hideRipple();
         }
     }
+
+
 
     /**
      * @abstract
@@ -120,4 +121,11 @@ export class Button extends Clickable {
 
     }
 
+    _showRipple(x, y) {
+        this.ripple.show(x, y);
+    }
+
+    _hideRipple() {
+        this.ripple.hide();
+    }
 }

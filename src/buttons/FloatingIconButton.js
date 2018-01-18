@@ -3,15 +3,20 @@
  */
 import {combineOptions}                 from 'arva-js/utils/CombineOptions.js';
 import {Colors}                         from '../defaults/DefaultColors.js';
-import {SolidTextButton}                from './SolidTextButton.js';
-import {ImageButton}                    from './ImageButton.js';
+import {ColoredTextButton}                from './ColoredTextButton.js';
+import {WhiteIconButton}                    from './WhiteIconButton.js';
 
 
-export class FloatingImageButton extends ImageButton {
+export class FloatingIconButton extends WhiteIconButton {
     constructor(options = {}) {
         super(combineOptions({
-            ...SolidTextButton.generateOptions(options),
+            ...ColoredTextButton.generateOptions(options),
             backgroundProperties: { backgroundColor: Colors.PrimaryUIColor, borderRadius: '50%' }
         }, options));
+    }
+
+    /* Default if true size specified */
+    getSize() {
+        return [64, 64];
     }
 }

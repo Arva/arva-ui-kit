@@ -7,7 +7,7 @@ import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 
 import {BaseDialog}         from './BaseDialog.js';
-import {TextButton}         from '../buttons/TextButton.js';
+import {WhiteTextButton}         from '../buttons/WhiteTextButton.js';
 
 export class TwoButtonDialog extends BaseDialog {
 
@@ -45,20 +45,21 @@ class BottomButtonView extends View{
 
     @layout.dock.left()
     @layout.size((size)=>(Math.floor(size/2)), 64)
-    buttonLeft = new TextButton(this.options.buttonLeft);
+    buttonLeft = new WhiteTextButton(this.options.buttonLeft);
 
     @layout.dock.right()
     @layout.size((size)=>(Math.floor(size/2)), 64)
-    buttonRight = new TextButton(this.options.buttonRight);
+    buttonRight = new WhiteTextButton(this.options.buttonRight);
 
     constructor(options) {
+        options.borderRadius = options.rounded ? "24px" : "4px";
         super(combineOptions({
             buttonLeft: {
                 disableBoxShadow: true,
                 clickEventName: 'closeDialog',
                 backgroundProperties: {
                     borderTop: '1px #E6e6e6 solid',
-                    borderRadius: '0px 0px 0px 4px',
+                    borderRadius: `0px 0px 0px ${options.borderRadius}`,
                     borderRight: '1px #E6e6e6 solid'
                 }
             },
@@ -67,7 +68,7 @@ class BottomButtonView extends View{
                 clickEventName: 'closeDialog',
                 backgroundProperties: {
                     borderTop: '1px #E6e6e6 solid',
-                    borderRadius: '0px 0px 4px 0px'
+                    borderRadius: `0px 0px ${options.borderRadius} 0px`
                 }
             }
         }, options));

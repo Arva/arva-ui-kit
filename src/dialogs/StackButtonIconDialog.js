@@ -5,8 +5,8 @@
 import {layout}                 from 'arva-js/layout/Decorators.js';
 
 import {BaseDialog}             from './BaseDialog.js';
-import {IconButton}             from '../buttons/IconButton.js';
-import {LocationIcon}           from '../icons/LocationIcon.js';
+import {WhiteIconTextButton}         from '../buttons/WhiteIconTextButton.js';
+import {ArrowrightIcon}           from '../icons/ArrowrightIcon.js';
 import {Colors}         from '../defaults/DefaultColors.js';
 
 export class StackButtonIconDialog extends BaseDialog {
@@ -24,6 +24,7 @@ export class StackButtonIconDialog extends BaseDialog {
      * @param {String} [options.body] The body of the Dialog
      */
     constructor(options = {}) {
+        options.borderRadius = options.rounded ? "24px" : "4px";
         super(options);
 
         let {buttons} = options;
@@ -35,9 +36,9 @@ export class StackButtonIconDialog extends BaseDialog {
 
             this._buttons.push(`button${index}`);
 
-            this[`button${index}`] = this.addRenderable(new IconButton({
+            this[`button${index}`] = this.addRenderable(new WhiteIconTextButton({
                     content: buttonText,
-                    icon: LocationIcon,
+                    icon: ArrowrightIcon,
                     properties: {
                         color: Colors.PrimaryUIColor
                     },
@@ -46,25 +47,24 @@ export class StackButtonIconDialog extends BaseDialog {
                     clickEventData: [index],
                     backgroundProperties: {
                         borderTop: '1px #E6e6e6 solid',
-                        borderRadius: index !== buttons.length - 1 ? '0px' : '0px 0px 4px 4px'
+                        borderRadius: index !== buttons.length - 1 ? '0px' : `0px 0px ${this.options.borderRadius} ${this.options.borderRadius}`
                     }
                 }
-            ), layout.dock.top(buttonHeight));
+            ), `button${index}`, layout.dock.top(buttonHeight));
         }
     }
 
     onNewMargin(newMargin) {
 
         /* Set the space between text and buttons the same as the upper, left, and right margins */
-        this.decorations.viewMargins = [newMargin, 0, 0, 0];
+        this.decorations.viewMargins = [32, 0, 0, 0];
         if (this.button0) {
-            this.button0.decorations.dock.space = newMargin;
+            this.button0.decorations.dock.space = 32;
         }
 
         for (let button of this._buttons) {
-            this[button].icon.decorations.translate = [newMargin - 12, 0, 0];
-            this[button].text.decorations.translate = [newMargin, 0, 0];
-
+            this[button].iconAndText.icon.decorations.translate[0] = newMargin - 12;
+            this[button].iconAndText.text.decorations.translate[0] = newMargin;
         }
 
 

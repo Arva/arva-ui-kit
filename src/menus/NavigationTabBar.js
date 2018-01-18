@@ -48,7 +48,7 @@ export class NavigationTabBar extends View {
         if (!famousContext.addToRoot) {
             famousContext.addToRoot = famousContext.add.bind(famousContext);
         }
-        famousContext.add = this.addToContent;
+        famousContext.add = this.addToContent.bind(this);
         this.idCounter = 0;
 
         this.router.on('routechange', this._onRouteChange.bind(this));
