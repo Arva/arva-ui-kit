@@ -53,7 +53,7 @@ export class ShapeTabBar extends TabBar {
 
     @bindings.trigger()
     setShapeWidth(options) {
-        options._shapeWidth =options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
+        options._shapeWidth = options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
     }
 
 
@@ -82,14 +82,15 @@ export class ShapeTabBar extends TabBar {
      * @param {Number} [options.shapeHeight] The initial height of the shape renderable
      * @param {Number} [options.shapeWidth] The initial width of the shape renderable
      * @param {String} [options.shapeColor] The color of the shape renderable
-     * @param {Renderable} [options.tabRenderable] The renderable class of the Tabs
+     * @param {Class} [options.tabRenderable] The renderable class of the Tabs
      * @param {Object} [options.tabOptions] The options passed to the tabRenderable
      * @param {String} [options.tabOptions.inActiveColor] The color of the tabRenderable when it's not active
      * @param {String} [options.tabOptions.activeColor] The color of the tabRenderable when it's active
      * @param {Array}  [options.items] The items to add to the TabBar on initialisation
      */
-    constructor(options = {}, items) {
+    constructor(options = {}) {
         super(options);
+        this.on('newSize', (newSize) => this._currentSize = newSize, {propagate: false});
     }
 
 
@@ -126,4 +127,25 @@ export class ShapeTabBar extends TabBar {
     getSize() {
         return [super.getSize()[0], 40];
     }
+
+    /**
+     * Calculates the current position for the selected item
+     * @param index
+     * @returns {number}
+     * @private
+     */
+    _calcCurrentPosition(index) {
+        if (this.options.equalSizing) {
+            return this._currentSize ? (this._currentSize[0] *
+                ((this.options.tabs.length - 1) / this.options.tabs.length)) *
+                (index / (this.options.tabs.length - 1)) : 0;
+        }
+
+        return this.options.cachedItemSizes
+            .slice(0, index)
+            .reduce((totalWidth, {width = 0}) =>
+                totalWidth + width
+                , 0) + this.options.tabSpacing * index;
+    }
+
 }
