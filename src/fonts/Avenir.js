@@ -3,8 +3,10 @@
  */
 
 import './resources/avenir-book.css!';
+import './resources/avenir-heavy.css!'
 
 let avenirBook = 'avenir-book';
+let avenirHeavy = 'avenir-heavy';
 export default avenirBook;
 
 export let Avenir = {
@@ -15,7 +17,7 @@ export let Avenir = {
         UISmall: {fontFamily: avenirBook, lineHeight: '1.0'},
         UISmallGray: {fontFamily: avenirBook, lineHeight: '1.0'},
         UITiny: {fontFamily: avenirBook, lineHeight: '1.0'},
-        UIButtonPrimary: {fontFamily: avenirBook, lineHeight: '1.0'},
+        UIButtonPrimary: {fontFamily: avenirHeavy, lineHeight: '1.0'},
         UIButtonPrimaryLight: {fontFamily: avenirBook, lineHeight: '1.0'},
         UIButtonSecondary: {fontFamily: avenirBook, lineHeight: '1.0'},
         UIButtonSecondaryLight: {fontFamily: avenirBook, lineHeight: '1.0'}

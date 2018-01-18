@@ -54,7 +54,7 @@ export let TypeFaces = merge({
     TextQuote: {fontSize: '24px', fontWeight: 'normal', fontStyle: 'italic', get color() { return Colors.PrimaryUIColor; } },
     TextInfoLabel: {fontSize: '14px', fontWeight: 'normal', get color() { return Colors.ModestTextColor; } , textTransform: 'uppercase'},
 
-}, Avenir.UI, Avenir.Text, Avenir.Impact);
+}, Avenir.UI, Avenir.Text);
 
 export function useTypefaces() {
     console.log('Warning: DefaultTypeFaces.js:useTypefaces() has been deprecated in favor of setTypefaces()');
@@ -68,7 +68,7 @@ export function setTypefaces(...faces){
 export let UIHeader                 = {properties: TypeFaces.UIHeader};
 export let UITitle                  = {properties: TypeFaces.UITitle};
 export let UIRegular                = {properties: TypeFaces.UIRegular};
-export let UIRegularGray = {properties: TypeFaces.UIRegularGray};
+export let UIRegularGray            = {properties: TypeFaces.UIRegularGray};
 export let UISmall                  = {properties: TypeFaces.UISmall};
 export let UISmallGray              = {properties: TypeFaces.UISmallGray};
 export let UITiny                   = {properties: TypeFaces.UITiny};
