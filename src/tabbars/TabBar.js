@@ -160,6 +160,5 @@ export class TabBar extends View {
         let {tabs = [], activeIndex = 0} = options;
         options.tabs = tabs.map((tab, index) => ({...tab, nested: {active: activeIndex === index}}));
         super(options);
-        this.on('newSize', (newSize) => this._currentSize = newSize, {propagate: false});
     }
 }
