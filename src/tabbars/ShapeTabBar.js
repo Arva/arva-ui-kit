@@ -53,7 +53,7 @@ export class ShapeTabBar extends TabBar {
 
     @bindings.trigger()
     setShapeWidth(options) {
-        options._shapeWidth =options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
+        options._shapeWidth = options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
     }
 
 
@@ -126,4 +126,25 @@ export class ShapeTabBar extends TabBar {
     getSize() {
         return [super.getSize()[0], 40];
     }
+
+    /**
+     * Calculates the current position for the selected item
+     * @param index
+     * @returns {number}
+     * @private
+     */
+    _calcCurrentPosition(index) {
+        if (this.options.equalSizing) {
+            return (this._currentSize[0] *
+                ((this.options.tabs.length - 1) / this.options.tabs.length)) *
+                (index / (this.options.tabs.length - 1));
+        }
+
+        return this.options.cachedItemSizes
+            .slice(0, index)
+            .reduce((totalWidth, {width = 0}) =>
+                totalWidth + width
+                , 0) + this.options.tabSpacing * index;
+    }
+
 }

@@ -2,58 +2,66 @@
  * Created by Manuel on 06/09/16.
  */
 
-import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
-import {TextButton}         from '../buttons/TextButton.js';
-import { layout, bindings,
-    event, dynamic }        from 'arva-js/layout/Decorators.js'
+import {combineOptions} from 'arva-js/utils/CombineOptions.js';
+import {TextButton} from '../buttons/TextButton.js';
+import {
+    layout, bindings,
+    flow, dynamic
+} from 'arva-js/layout/Decorators.js'
+import {Clickable} from '../components/Clickable.js';
+import Surface from 'famous/core/Surface.js';
 
 
 @bindings.setup({
-    makeRipple: false, useBackground: false, useBoxShadow: false, active: false
+    active: false
 })
-export class Tab extends TextButton {
+/**
+ * Base Tab for the TabBar. Class is meant to be extended
+ *
+ * @example
+ * input = new Tab();
+ *
+ * @param {Object} [options] Construction options
+ * @param {Boolean} [options.makeRipple] Whether the tab should have a ripple
+ * @param {Boolean} [options.useBackground] Whether the tab should use a background
+ * @param {Boolean} [options.useBoxShadow] Whether the tab should use a boxshadow
+ */
+@bindings.setup({
+    active: false,
+    textOpacity: 1
+})
+export class Tab extends Clickable {
+
+    @dynamic(({textOpacity}) => flow.transition()(layout.opacity(textOpacity)))
+    @layout.translate(0, 0, 30)
+        .dock.top()
+        .size(true, undefined)
+        .origin(0.5, 0)
+        .align(0.5, 0)
+        /* Options need to be spread here since databinding doesn't work when passing the whole options object */
+    text = Surface.with({...this.options});
 
     /* If current tab is being pressed, either by mouse or tab */
     _hover = true;
 
-    /**
-     * Base Tab for the TabBar. Class is meant to be extended
-     *
-     * @example
-     * input = new Tab();
-     *
-     * @param {Object} [options] Construction options
-     * @param {Boolean} [options.makeRipple] Whether the tab should have a ripple
-     * @param {Boolean} [options.useBackground] Whether the tab should use a background
-     * @param {Boolean} [options.useBoxShadow] Whether the tab should use a boxshadow
-     */
-    constructor(options) {
-        super(options);
-        if(this.options.active){
+
+    @bindings.trigger()
+    setActive() {
+        if (this.options.active) {
             this._setActive();
         } else {
             this._setInactive();
         }
     }
 
-    setNewOptions(options) {
-        super.setNewOptions(options);
-        if(options.active){
-            this._setActive();
-        } else {
-            this._setInactive();
-        }
-    }
-
-    _handleTapStart(mouseEvent) {
+    _handleTapStart() {
         this._hover = true;
         this._inBounds = true;
         this._eventOutput.emit('hoverOn');
     }
 
 
-
-    _handleTapEnd(mouseEvent) {
+    _handleTapEnd() {
         this._eventOutput.emit('hoverOff');
 
         if (this._hover) {
@@ -67,7 +75,7 @@ export class Tab extends TextButton {
     _setActive() {
 
         if (this.options.active) {
-            return ;
+            return;
         }
 
         this.options.active = true;

@@ -47,6 +47,7 @@ import {AccountIcon}    from '../icons/AccountIcon.js';
     activeIndex: 0,
     reflow: true,
     usesIcon: false,
+    tabSpacing: 24,
     tabOptions: {clickEventName: 'tabClick'},
     tabs: [{active: false}],
     cachedItemSizes: [{width: 0, height: 0}],
@@ -79,8 +80,9 @@ export class TabBar extends View {
     @layout.fullSize()
     background = new Surface(this.options.backgroundOptions);
 
-    @dynamic(({equalSizing, tabs}) =>
-        layout.dock.left(equalSizing ? 1 / tabs.length : ~50)
+
+    @dynamic(({equalSizing, tabs, tabSpacing}) =>
+        layout.dock.left(equalSizing ? 1 / tabs.length : ~50).dockSpace(equalSizing ? 0 : tabSpacing)
     )
     items = this.options.tabs.map((tabOptions, index) =>
         /*  TODO rename events that start with hover that actually refers to "press" */
@@ -122,26 +124,6 @@ export class TabBar extends View {
     /* Layout and display the items in the TabBar */
     _setItems(items) {
         /* Should be overwritten */
-    }
-
-    /**
-     * Calculates the current position for the selected item
-     * @param index
-     * @returns {number}
-     * @private
-     */
-    _calcCurrentPosition(index) {
-        if (this.options.equalSizing) {
-            return (this._currentSize[0] *
-                ((this.options.tabs.length - 1) / this.options.tabs.length)) *
-                (index / (this.options.tabs.length - 1));
-        }
-
-        return this.options.cachedItemSizes
-            .slice(0, index)
-            .reduce((totalWidth, {width = 0}) =>
-                totalWidth + width
-                , 0);
     }
 
     /**
