@@ -8,7 +8,6 @@
 import {Injection}                                      from 'arva-js/utils/Injection.js';
 import {DialogManager}                                  from 'arva-js/utils/DialogManager.js';
 import {ButtonDialog}                                from 'arva-kit/dialogs/ButtonDialog.js';
-import {TwoButtonDialog}                                from 'arva-kit/dialogs/TwoButtonDialog.js';
 import {ConfirmationDialog}                             from './ConfirmationDialog';
 
 

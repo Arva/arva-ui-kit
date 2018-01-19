@@ -28,7 +28,5 @@ export class InputDialog extends BaseDialog {
         }
     });
 
-    onNewMargin(newMargin) {
-    }
 
 }
