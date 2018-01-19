@@ -15,7 +15,7 @@ import {Clickable} from '../components/Clickable.js'
 import {Ripple} from '../components/Ripple.js'
 import {ComponentPadding} from '../defaults/DefaultDimensions.js'
 import {getShadow} from '../defaults/DefaultShadows.js'
-import {ComponentHeight}            from '../defaults/DefaultDimensions.js';
+import {ComponentHeight} from '../defaults/DefaultDimensions.js';
 
 
 /**
@@ -65,27 +65,25 @@ export class Button extends Clickable {
         }
     });
 
-
-    @layout.fullSize()
-    @layout.translate(0, 0, -10)
-    background = Surface.with({
-        classes: this.options.backgroundClasses,
-        properties: {
-            ...(this.options.useBackground ? {
-                border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : '',
-                ...this.options.backgroundProperties,
-                backgroundColor: this.options.backgroundProperties.backgroundColor
-            } : {}),
-            boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : ''
-        }
-    });
-
-    @layout.size(undefined, undefined)
     @dynamic(({backgroundProperties}) =>
         //todo the clip decorator isn't applied
         layout.clip(undefined, undefined, {borderRadius: backgroundProperties.borderRadius})
     )
-    ripple = Ripple.with(this.options.rippleOptions)
+    @layout.size(undefined, undefined)
+    ripple = Ripple.with({
+        ...this.options.rippleOptions,
+        backgroundOptions: {
+            classes: this.options.backgroundClasses,
+            properties: {
+                ...(this.options.useBackground ? {
+                    border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : '',
+                    ...this.options.backgroundProperties,
+                    backgroundColor: this.options.backgroundProperties.backgroundColor
+                } : {}),
+                boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : ''
+            }
+        }
+    });
 
 
     _handleTapStart({x, y}) {
@@ -112,7 +110,6 @@ export class Button extends Clickable {
             this._hideRipple();
         }
     }
-
 
 
     /**

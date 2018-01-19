@@ -6,9 +6,14 @@ import Transform            from 'famous/core/Transform';
 import Easing               from 'famous/transitions/Easing.js';
 
 import {View}               from 'arva-js/core/View.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
+import {layout, bindings,
+dynamic}                    from 'arva-js/layout/Decorators.js';
 
+@bindings.setup({
+    backgroundOptions: {properties: {}}
+})
 export class Ripple extends View {
+
 
     @layout
       .translate(0, 0, 10)
@@ -43,6 +48,10 @@ export class Ripple extends View {
             /*boxShadow: '0px 0px 35px rgba(0, 0, 0, 0.65) inset, 0px 0px 5px rgba(255, 255, 255, 0.5)'*/
         }
     });
+
+    @layout.fullSize()
+    @layout.translate(0, 0, -10)
+    background = Surface.with({...this.options.backgroundOptions});
 
     constructor(options) {
         super(options);

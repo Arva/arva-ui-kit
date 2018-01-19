@@ -34,7 +34,9 @@ import {Text}               from '../text/Text.js';
     backgroundProperties: {
         backgroundColor: 'white',
         borderRadius: '4px'
-    }
+    },
+    title: '',
+    body: ''
 })
 @layout.columnDockPadding(320, [32, 32, 0, 32])
 export class BaseDialog extends Dialog {

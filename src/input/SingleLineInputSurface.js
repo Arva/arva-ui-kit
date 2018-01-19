@@ -3,7 +3,7 @@
  @copyright Bizboard, 2015
  */
 
-import {InputSurface} from './InputSurface.js';
+import {InputSurface} from 'arva-js/surfaces/InputSurface.js';
 import {Colors} from '../defaults/DefaultColors.js';
 
 export class SingleLineInputSurface extends InputSurface {
@@ -37,7 +37,7 @@ export class SingleLineInputSurface extends InputSurface {
         let {enabled} = mergedOptions;
         mergedOptions.attributes.disabled = enabled ? undefined : 'disabled';
         mergedOptions.properties.cursor = enabled ? 'text' : 'not-allowed';
-        return super.with(mergedOptions);
+        return InputSurface.with(options);
     }
 
 

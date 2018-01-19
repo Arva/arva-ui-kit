@@ -63,9 +63,11 @@ export class TabBar extends View {
         if (currentActiveItemIndex === -1) {
             tabs[options.activeIndex].active = true;
         }
+        /*
         if (defaultOptions.activeIndex !== options.activeIndex && options.activeIndex !== currentActiveItemIndex) {
             throw new Error('currentItem.index not consistent with items[options.activeIndex].active');
         }
+        */
 
         if (currentActiveItemIndex !== -1) {
             options.activeIndex = currentActiveItemIndex;

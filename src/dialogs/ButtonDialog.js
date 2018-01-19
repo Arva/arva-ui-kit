@@ -20,7 +20,7 @@ let separationBorder = '1px #E6e6e6 solid';
  * @param {String} [options.body] The body of the Dialog
  */
 @bindings.setup({
-    buttons: ['Ok'],
+    buttons: [{content: 'Ok'}],
     rounded: false,
     buttonType: WhiteTextButton,
     borderRadius: '4px',

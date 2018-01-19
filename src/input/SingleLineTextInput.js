@@ -6,7 +6,8 @@ import {Surface}                from 'arva-js/surfaces/Surface.js';
 import Easing                   from 'famous/transitions/Easing.js';
 
 import {View}                   from 'arva-js/core/View.js';
-import {layout, flow, event}    from 'arva-js/layout/Decorators.js';
+import {layout, flow, event,
+bindings, dynamic}              from 'arva-js/layout/Decorators.js';
 import {flowStates}             from 'arva-js/layout/FlowStates.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {SingleLineInputSurface} from './SingleLineInputSurface.js';
@@ -14,35 +15,45 @@ import {FeedbackBubble}         from './textInput/FeedbackBubble.js';
 import {Dimensions}             from '../defaults/DefaultDimensions.js';
 import {TypeFaces}              from '../defaults/DefaultTypefaces.js';
 
-const transition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
-const closeTransition = { transition: { curve: Easing.outCubic, duration: 200 }, delay: 0 };
-const flowOptions = { transition: { curve: Easing.outCubic, duration: 300 }, delay: 0 };
-const showBubble = [layout.size(~40, 40), layout.dock.right(), layout.stick.topLeft(), layout.translate(-4, 4, 50)];
+const transition = { curve: Easing.outCubic, duration: 200 };
+const closeTransition = { curve: Easing.outCubic, duration: 200 };
+const flowOptions = { curve: Easing.outCubic, duration: 300 };
+const showBubble = layout.size(~40, 40).dock.right().stick.topLeft().translate(-4, 4, 50);
 const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
 
-@flow.viewStates({
-    correct: [{ correct: 'shown', incorrect: 'hidden', required: 'hidden' }],
-    required: [{ correct: 'hidden', incorrect: 'hidden', required: 'shown' }],
-    incorrect: [{ correct: 'hidden', incorrect: 'shown', required: 'hidden' }]
+@bindings.setup({
+    active: false,
+    showBorder: true,
+    showShadow: true,
+    borderRadius: '4px',
+    rounded: false,
+    usesFeedback: true,
+    value: ''
 })
 export class SingleLineTextInput extends View {
 
-    @flow.stateStep('hidden', transition, layout.opacity(0))
-    @flow.defaultState('shown', transition, layout.stick.center(), layout.opacity(1), layout.translate(-1, -1, 10))
-    border = this.options.showBorder ? new Surface({
+    @bindings.trigger()
+    roundIfNeeded() {
+        if(this.options.rounded){
+            this.options.borderRadius = '24px';
+        }
+    }
+
+    @layout.stick.center().opacity(1).translate(-1, 0, 10).fullSize()
+    @dynamic(({active}) => flow.transition(transition)(layout.opacity(active ? 0 : 1)))
+    border = this.options.showBorder ? Surface.with({
             properties: {
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
                 backgroundColor: 'rgb(255, 255, 255)',
                 borderRadius: this.options.borderRadius,
-                boxSizing: 'content-box',
                 ...this.options.borderProperties
             }
         }
     ) : null;
 
-    @flow.stateStep('shown', transition, layout.opacity(1))
-    @flow.defaultState('hidden', transition, layout.stick.center(), layout.opacity(0), layout.translate(0, 0, 20))
-    shadow = this.options.showShadow ? new Surface({
+    @layout.stick.center().translate(0, 0, 20)
+    @dynamic(({active}) => flow.transition(transition)(layout.opacity(active ? 1 : 0)))
+    shadow = this.options.showShadow ? Surface.with({
             properties: {
                 boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',
                 backgroundColor: 'rgb(255, 255, 255)',
@@ -52,6 +63,42 @@ export class SingleLineTextInput extends View {
         }
     ) : null;
 
+    @layout.dock.fill().translate(0, 0, 30)
+    @event.on('focus', function () { this.options.active = true;  })
+        .on('blur', function () { this.options.active = false;  })
+        /*.on('valueChange', function(text) { this._validateInput(text) })*/
+    input =  SingleLineInputSurface.with({
+        value: this.inputOptions.value,
+        enabled: this.options.enabled === undefined ? true : this.options.enabled,
+        type: this.options.password ? 'password' : this.options.type,
+        clearOnEnter: this.options.clearOnEnter,
+        placeholder: this.options.placeholder || '',
+        properties: {
+            backgroundColor: 'transparent',
+            padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
+            borderRadius: this.options.borderRadius,
+            boxShadow: 'none',
+            ...TypeFaces.UIRegular,
+            lineHeight: 'normal', /* Don't reorder this to above UIRegular, or it will overwrite */
+            ...this.options.backgroundProperties
+        },
+        ...this.options.inputOptions
+    });
+
+    @layout.size(~40, ~40).dock.right().stick.topLeft().translate(-4, 4, 50)
+    incorrect = new FeedbackBubble({
+        variation: 'incorrect',
+        rounded: this.options.rounded,
+        text: this.options.incorrectText,
+        feedbackBubbleColor: this.options.incorrectColor
+    });
+
+    getSize() {
+        return [undefined, Dimensions.ComponentHeight];
+    }
+
+
+/*
     @flow.stateStep('shown', flowOptions, ...showBubble)
     @flow.defaultState('hidden', closeTransition, ...hideBubble)
     correct = this.options.showCorrectBubble ? new FeedbackBubble({ variation: 'correct', rounded: this.options.rounded }) : null;
@@ -69,7 +116,7 @@ export class SingleLineTextInput extends View {
     @flow.stateStep('shown', closeTransition, ...showBubble)
     required = new FeedbackBubble({ variation: 'required', text: this.options.feedbackText, rounded: this.options.rounded });
 
-    /**
+    /!**
      * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
      *
      * @example
@@ -84,7 +131,7 @@ export class SingleLineTextInput extends View {
      * @param {Boolean} [options.required] If set to true, shows a FeedbackBubble stating the field is required to be filled in
      * @param {Boolean} [options.validator] Function that takes the string and returns {isValid: Boolean, feedback: String}
      * @param {Boolean} [options.feedbackText] The text that should display on feedback by default
-     */
+     *!/
     constructor(options = {}) {
         super(combineOptions({
             required: false,
@@ -99,38 +146,7 @@ export class SingleLineTextInput extends View {
             borderRadius: options.rounded ? "24px" : "4px"
         }, options));
 
-        if (!this.input) {
-            this.input = this.addRenderable(new SingleLineInputSurface({
-                value: this.options.value || '',
-                enabled: this.options.enabled === undefined ? true : this.options.enabled,
-                type: this.options.password ? 'password' : this.options.type,
-                clearOnEnter: this.options.clearOnEnter,
-                placeholder: this.options.placeholder || '',
-                properties: {
-                    backgroundColor: 'transparent',
-                    padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
-                    borderRadius: this.options.borderRadius,
-                    boxShadow: 'none',
-                    ...TypeFaces.UIRegular,
-                    lineHeight: 'normal', /* Don't reorder this to above UIRegular, or it will overwrite */
-                    ...this.options.backgroundProperties
-                },
-                ...this.options.inputOptions
-            }), layout.dock.fill(), layout.translate(0, 0, 30), event.on('blur', function () {
-                this._onBlur();
-            }), event.on('focus', function () {
-                    this._onFocus();
-                }
-            ));
-
-        }
-
-        this.input.on('change', this._validateInput.bind(this));
-        this.input.on('paste', this._validateInput.bind(this));
-        this.input.on('input', this._validateInput.bind(this));
-        this.input.on('propertychange', this._validateInput.bind(this));
-
-        /* The browser could auto-fill this stuff, so wait for deploy before checking if we have a value or not */
+        /!* The browser could auto-fill this stuff, so wait for deploy before checking if we have a value or not *!/
         if (this.options.required)
 
             setTimeout(() => {
@@ -174,7 +190,6 @@ export class SingleLineTextInput extends View {
         if (message) {
             this.correct.setText(message);
         }
-        this.options.usesFeedback && this.setViewFlowState('correct');
 
         this._eventOutput.emit('stateCorrect');
     }
@@ -184,7 +199,6 @@ export class SingleLineTextInput extends View {
         if (message) {
             this.incorrect.setText(message);
         }
-        this.options.usesFeedback && this.setViewFlowState('incorrect');
         this._eventOutput.emit('stateIncorrect');
     }
 
@@ -193,8 +207,7 @@ export class SingleLineTextInput extends View {
     }
 
     setRequiredState() {
-        /* This is incorrect state, because there's nothing in the field as of now */
-        this.options.usesFeedback && this.setViewFlowState('required');
+        /!* This is incorrect state, because there's nothing in the field as of now *!/
         this._eventOutput.emit('stateIncorrect');
     }
 
@@ -208,18 +221,20 @@ export class SingleLineTextInput extends View {
     }
 
     _onFocus() {
-        this.setRenderableFlowState(this.shadow, 'shown');
         if (this.correct) { this.correct.collapse() };
         this.incorrect.collapse();
         this.required.collapse();
     }
 
     _onBlur() {
-        this.setRenderableFlowState(this.shadow, 'hidden');
     }
 
-    _validateInput() {
-        let inputString = this.input.getValue();
+    /!**
+     *
+     * @param inputString
+     * @private
+     *!/
+    _validateInput(inputString) {
 
         if (this.options.validator) {
             if (this.options.required && !inputString) {
@@ -242,5 +257,5 @@ export class SingleLineTextInput extends View {
         } else {
             this._eventOutput.emit('stateCorrect'); // we only emit the correct state on change -- there is no feedback elements
         }
-    }
+    }*/
 }
