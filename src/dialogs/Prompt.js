@@ -7,8 +7,10 @@
  */
 import {Injection}                                      from 'arva-js/utils/Injection.js';
 import {DialogManager}                                  from 'arva-js/utils/DialogManager.js';
-import {OneButtonDialog}                                from 'arva-kit/dialogs/OneButtonDialog.js';
+import {ButtonDialog}                                from 'arva-kit/dialogs/ButtonDialog.js';
 import {TwoButtonDialog}                                from 'arva-kit/dialogs/TwoButtonDialog.js';
+import {ConfirmationDialog}                             from './ConfirmationDialog';
+
 
 /**
  * Class for avoiding repeating boiler plate for showing dialogs
@@ -22,15 +24,14 @@ export class Prompt {
      * @param {String} body
      * @returns {Promise.<void>}
      */
-    static async show({ title, body }) {
+    static async message({ title, body }) {
         if (!this._dialogManager) {
             this._dialogManager = Injection.get(DialogManager);
         }
         this._dialogManager.show({
-            dialog: new OneButtonDialog({
+            dialog: new ButtonDialog({
                 title,
-                body,
-                button: { buttonText: 'Ok' }
+                body
             })
         });
         await this._dialogManager.dialogComplete();
@@ -38,39 +39,51 @@ export class Prompt {
 
     /**
      *
-     * @example
-     * async confirm() {
-     *  let chosenAnswer = await Prompt.showTwoButtonDialog({
-     *      title: 'Are you sure?',
-     *      body: 'This will delete all your files',
-     *      leftButton: 'Cancel',
-     *      rightButton: 'Go ahead'
-     *  })
-     *  if(chosenAnswer === 'right') {
-     *      this.deleteAll()
-     *   }
-     * }
-     *
      * @param title
      * @param body
-     * @param leftButton
-     * @param rightButton
-     * @returns {Promise.<*>} Resolves to either 'left' or 'right' depending on the clicked button
+     * @param confirmText
+     * @param cancelText
+     * @returns {Promise.<*>}
      */
-    static async showTwoButtonDialog({ title, body, leftButton, rightButton }) {
+    static async confirmation({ title, body, confirmText, cancelText }) {
         if (!this._dialogManager) {
             this._dialogManager = Injection.get(DialogManager);
         }
-        let dialog = new TwoButtonDialog({
+        let dialog = new ConfirmationDialog({
             title,
             body,
-            buttonLeft: {content: leftButton, clickEventName: 'buttonClick', clickEventData: ['left']},
-            buttonRight: {content: rightButton, clickEventName: 'buttonClick', clickEventData: ['right']}
+            confirmText,
+            cancelText
         });
         this._dialogManager.show({
             dialog
         });
-        let chosenOption = await dialog.once('buttonClick');
+        let chosenOption = await dialog.once('closeDialog');
+        this._dialogManager.close();
+        return chosenOption;
+    }
+
+    /**
+     *
+     * @param title
+     * @param body
+     * @param labels
+     * @returns {Promise.<*>}
+     */
+    static async multipleOptions({ title, body, labels}) {
+        labels = labels || [];
+        if (!this._dialogManager) {
+            this._dialogManager = Injection.get(DialogManager);
+        }
+        let dialog = new ButtonDialog({
+            title,
+            body,
+            buttons: labels.map((text) => ({content: text}))
+        });
+        this._dialogManager.show({
+            dialog
+        });
+        let chosenOption = await dialog.once('closeDialog');
         this._dialogManager.close();
         return chosenOption;
     }

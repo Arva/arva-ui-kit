@@ -13,8 +13,16 @@ import {WhiteIconButton}    from '../buttons/WhiteIconButton.js';
 import {UITitle}            from '../text/UITitle.js';
 import {Text}               from '../text/Text.js';
 
+
 /**
  * A dialog wth a title and text
+ *
+ * @example
+ * Injection.get(DialogManager).show({dialog: new BaseDialog({title: "Welcome!}))
+ *
+ * @param {Object} options
+ * @param {String} [options.title] The title of the dialog
+ * @param {String} [options.body] The body of the dialog
  */
 @bindings.setup({
     titleProperties: {
@@ -28,17 +36,8 @@ import {Text}               from '../text/Text.js';
         borderRadius: '4px'
     }
 })
+@layout.columnDockPadding(320, [32, 32, 0, 32])
 export class BaseDialog extends Dialog {
-
-    static get DEFAULT_SIZES(){
-        return {
-            size: [320, 320],
-            maxSize: [480, undefined],
-            maxTextSize: [320, undefined],
-            margins: [0,16,0,16],
-            textMargin: [32,32,32,32]
-        }
-    }
 
     @bindings.trigger()
     roundCornersIfNeeded() {
@@ -46,8 +45,6 @@ export class BaseDialog extends Dialog {
             this.options.backgroundProperties.borderRadius = '24px';
         }
     }
-
-
 
     @layout.translate(0, 0, -10)
     @layout.fullSize()
@@ -62,47 +59,19 @@ export class BaseDialog extends Dialog {
         variation: 'noShadow'
     });
 
+
     @layout.dock.top( ~50)
-    @layout.stick.top()
+        .stick.top()
     title = new UITitle({ content: this.options.title, properties: this.options.titleProperties });
 
     @layout.stick.top()
-    @layout.dock.top( ~50, 8)
+        .dock.top( ~50, 8)
     body = new Text({ content: this.options.body, properties: this.options.bodyProperties });
 
-    /**
-     * @example
-     * Injection.get(DialogManager).show({dialog: new BaseDialog({title: "Welcome!}))
-     *
-     * @param {Object} options
-     * @param {String} [options.title] The title of the dialog
-     * @param {String} [options.body] The body of the dialog
-     */
-    constructor(options) {
-        super(options);
-        this.layout.on('layoutstart', ({size}) => {
-
-            /*Set the inner size of the items */
-            this.title.decorations.size = [Math.min(size[0] - (BaseDialog.DEFAULT_SIZES.textMargin[1] *2), BaseDialog.DEFAULT_SIZES.maxTextSize[0]), ~BaseDialog.DEFAULT_SIZES.size[1]];
-            this.body.decorations.size = this.title.decorations.size;
-            let marginSize = Math.max((size[0] - this.title.decorations.size[0]) / 2, BaseDialog.DEFAULT_SIZES.margins[1]);
-
-            /* If any child classes need to know about the new margin, call this function */
-            this.onNewMargin(marginSize);
-        });
-    }
 
 
     getSize() {
         /* Specifies the size to be undefined on the width to make a full width dialog with wrapped height */
         return [undefined, super.getSize()[1]];
-    }
-
-    /**
-     * Called when the margin is (re)calculated that is needed for the dialog
-     * @param newMargin
-     */
-    onNewMargin(newMargin) {
-        this.decorations.viewMargins = [newMargin, newMargin, newMargin, 0];
     }
 }

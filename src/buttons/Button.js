@@ -15,6 +15,7 @@ import {Clickable} from '../components/Clickable.js'
 import {Ripple} from '../components/Ripple.js'
 import {ComponentPadding} from '../defaults/DefaultDimensions.js'
 import {getShadow} from '../defaults/DefaultShadows.js'
+import {ComponentHeight}            from '../defaults/DefaultDimensions.js';
 
 
 /**
@@ -23,7 +24,7 @@ import {getShadow} from '../defaults/DefaultShadows.js'
  *  makeRipple: false,
  *  useBackground: false,
  *  });
- * A general class for a clickable making a ripple and some other useful button-like stuff
+ * A general class for a Clickable making a ripple and some other useful button-like stuff
  *
  * @param {Object} options. The options a
  * @param {Boolean} [options.makeRipple] Whether or not the button should make a ripple on press. Defaults to true.
@@ -73,7 +74,7 @@ export class Button extends Clickable {
             ...(this.options.useBackground ? {
                 border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : '',
                 ...this.options.backgroundProperties,
-                backgroundColor: this.options.enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray
+                backgroundColor: this.options.backgroundProperties.backgroundColor
             } : {}),
             boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : ''
         }
@@ -127,5 +128,9 @@ export class Button extends Clickable {
 
     _hideRipple() {
         this.ripple.hide();
+    }
+
+    getSize() {
+        return [super.getSize()[0], ComponentHeight];
     }
 }

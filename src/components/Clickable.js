@@ -16,6 +16,13 @@ import {layout, bindings, event, dynamic} from 'arva-js/layout/Decorators.js'
 })
 export class Clickable extends View {
 
+    @bindings.trigger()
+    ensureClickEventDataIsArray() {
+        if(!Array.isArray(this.options.clickEventData)){
+            this.options.clickEventData = [this.options.clickEventData];
+        }
+    }
+
     /**
      * General interface for something clickable. Create a renderable inside the view 'overlay' with a high z-index
      * to control tap hold/removals within the view. When subclassing this, you can override the following methods:
@@ -40,14 +47,6 @@ export class Clickable extends View {
      */
     constructor(options) {
         super(options);
-        if(!Array.isArray(options.clickEventData)){
-            options.clickEventData = [options.clickEventData];
-        }
-        if (this.options.enabled === false) {
-            this.once('deploy', () => {
-                this._setEnabled(this.options.enabled);
-            })
-        }
         this._setupListeners();
     }
 
@@ -57,6 +56,15 @@ export class Clickable extends View {
 
     disable() {
         this._setEnabled(false);
+    }
+
+    /**
+     * To be inherited
+     * @param {Boolean} isEnabled
+     * @private
+     */
+    _setEnabled(isEnabled){
+
     }
 
     setClickEventName(name) {
