@@ -15,7 +15,7 @@ import {Clickable} from '../components/Clickable.js'
 import {Ripple} from '../components/Ripple.js'
 import {ComponentPadding} from '../defaults/DefaultDimensions.js'
 import {getShadow} from '../defaults/DefaultShadows.js'
-import {ComponentHeight} from '../defaults/DefaultDimensions.js';
+import {Dimensions} from '../defaults/DefaultDimensions.js';
 
 
 /**
@@ -43,12 +43,18 @@ import {ComponentHeight} from '../defaults/DefaultDimensions.js';
     makeRipple: true,
     rippleOptions: {}
 })
-@layout.dockPadding(0, ComponentPadding, 0, ComponentPadding)
+@layout.dockPadding(0, Dimensions.ComponentPadding, 0, Dimensions.ComponentPadding)
 @layout.translate(0, 0, 30)
 export class Button extends Clickable {
 
     _inBounds = true;
 
+    @event.on('focus', function() {
+        this._onFocus();
+    })
+    @event.on('blur', function() {
+        this._onBlur();
+    })
     @event.on('deploy', function () {
         /* Automatically enable button when coming into the view*/
         if (this.options.autoEnable) {
@@ -103,6 +109,24 @@ export class Button extends Clickable {
 
     _handleTapRemoved() {
         this._hideRipple();
+    }
+
+    /**
+     * @abstract
+     * To be inherited
+     * @private
+     */
+    _onBlur() {
+
+    }
+
+    /**
+     * @abstract
+     * To be inherited
+     * @private
+     */
+    _onFocus() {
+
     }
 
     _handleTapEnd(mouseEvent) {

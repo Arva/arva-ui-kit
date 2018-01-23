@@ -28,7 +28,11 @@ const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(
     borderRadius: '4px',
     rounded: false,
     usesFeedback: true,
-    value: ''
+    required: false,
+    value: '',
+    expandFeedback: false,
+    inputValidator: () => true,
+    feedbackText: 'Required'
 })
 export class SingleLineTextInput extends View {
 
@@ -36,6 +40,14 @@ export class SingleLineTextInput extends View {
     roundIfNeeded() {
         if(this.options.rounded){
             this.options.borderRadius = '24px';
+        }
+    }
+
+    @bindings.trigger()
+    feedbackIfRequired() {
+        if(this.options.required){
+            this.options.usesFeedback = true;
+            this.options.inputValidator = (text) => !!text;
         }
     }
 
@@ -65,14 +77,15 @@ export class SingleLineTextInput extends View {
 
     @layout.dock.fill().translate(0, 0, 30)
     @event.on('focus', function () { this.options.active = true;  })
-        .on('blur', function () { this.options.active = false;  })
-        /*.on('valueChange', function(text) { this._validateInput(text) })*/
+        .on('blur', function () {
+            this.options.active = false;
+        })
     input =  SingleLineInputSurface.with({
         value: this.inputOptions.value,
         enabled: this.options.enabled === undefined ? true : this.options.enabled,
         type: this.options.password ? 'password' : this.options.type,
         clearOnEnter: this.options.clearOnEnter,
-        placeholder: this.options.placeholder || '',
+        placeholder: this.options.placeholder,
         properties: {
             backgroundColor: 'transparent',
             padding: this.options.usesFeedback ? '16px 48px 16px 16px' : '0px 16px 0px 16px',
@@ -86,10 +99,14 @@ export class SingleLineTextInput extends View {
     });
 
     @layout.size(~40, ~40).dock.right().stick.topLeft().translate(-4, 4, 50)
-    incorrect = new FeedbackBubble({
-        variation: 'incorrect',
+    feedback = this.options.usesFeedback && FeedbackBubble.with({
+        state:
+            this.options.value ?
+            this.options.inputValidator(this.options.value) ? 'correct' :
+            (this.options.required ? 'required'  : 'incorrect') : 'required',
         rounded: this.options.rounded,
-        text: this.options.incorrectText,
+        expanded: this.inputOptions.expandFeedback,
+        text: this.options.feedbackText,
         feedbackBubbleColor: this.options.incorrectColor
     });
 

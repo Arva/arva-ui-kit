@@ -18,15 +18,11 @@ import {Dimensions} from '../../defaults/DefaultDimensions.js';
 
 import crossImage from '../../icons/resources/cross_default.svg.txt!text';
 import doneImage from '../../icons/resources/done_default.svg.txt!text';
+import {ComponentPadding} from '../../defaults/DefaultDimensions';
 
 const transition = {curve: Easing.outCubic, duration: 200};
 const closeTransition = {curve: Easing.outCubic, duration: 20};
 
-let colors = {
-    'required': 'rgb(170, 170, 170)',
-    'incorrect': 'rgb(255,63,63)',
-    'correct': 'rgb(63, 223, 63)'
-};
 
 let icons = {
     'required': asteriskImage,
@@ -43,16 +39,30 @@ let texts = {
 @layout.dockPadding(0, 8)
 @bindings.setup({
     backgroundProperties: {borderRadius: '2px'},
-    variation: 'incorrect',
+    state: 'incorrect',
     expanded: false,
-    showText: false
+    showText: false,
+    requiredColor: 'rgb(170, 170, 170)',
+    incorrectColor: 'rgb(255,63,63)',
+    correctColor: 'rgb(63, 223, 63)',
+    useBoxShadow: false
 })
 export class FeedbackBubble extends Button {
 
     @bindings.trigger()
+    changeColorOnStateChange() {
+        this.options.backgroundProperties.backgroundColor =
+            {
+                incorrect: this.options.requiredColor,
+                correct: this.options.correctColor,
+                required: this.options.requiredColor,
+            }[this.options.state];
+    }
+
+    @bindings.trigger()
     async triggerReflowOnExpand({expanded}) {
         if (expanded) {
-            let expandedWidth = this.getResolvedSize(this.text)[0] + 8 + this.getResolvedSize(this.icon)[0];
+            let expandedWidth = this.getResolvedSize(this.text)[0] + 8 + this.getResolvedSize(this.icon)[0] + Dimensions.ComponentPadding;
             let translationForLeftAdjustment = this.getSize()[0] - expandedWidth;
             this.decorateRenderable(this.ripple,
                 flow.transition(transition)(
@@ -60,10 +70,12 @@ export class FeedbackBubble extends Button {
                 )
             );
             await this.whenFlowFinished(this.ripple);
+            this.ripple.readjustRippleSize(5);
             this.options.showText = true;
         } else {
             this.options.showText = false;
             await this.whenFlowFinished(this.text);
+            this.ripple && this.ripple.readjustRippleSize(2);
             this.decorateRenderable(this.ripple,
                 flow.transition(transition)(
                     layout.fullSize().translate(0, 0, -10)
@@ -76,18 +88,26 @@ export class FeedbackBubble extends Button {
         .stick.center()
         .translate(0, 0, 20)
     icon = BaseIcon.with({
-        icon: icons[this.options.variation],
+        icon: icons[this.options.state],
         color: 'rgb(255, 255, 255)',
         properties: {
             cursor: 'pointer'
         }
     });
 
+    _onFocus() {
+        this.options.expanded = true;
+    }
+
+    _onBlur() {
+        this.options.expanded = false;
+    }
+
 
     @layout.dock.right(~100).dockSpace(8).translate(0, 0, 10)
     @dynamic(({showText}) => flow.transition(transition)(layout.opacity(showText ? 1 : 0)))
     text = UIRegular.with({
-        content: this.options.text || texts[this.options.variation],
+        content: this.options.text || texts[this.options.state],
         properties: {
             color: 'rgb(255, 255, 255)',
             lineHeight: '40px'
@@ -101,32 +121,4 @@ export class FeedbackBubble extends Button {
         return [height, height];
     }
 
-    /*async expand() {
-        await Promise.all([this.setRenderableFlowState(this.background, 'shown'), this.setRenderableFlowState(this.text, 'shown')]);
-        this.reflowRecursively();
-    }
-
-    async collapse() {
-        await this.setRenderableFlowState(this.text, 'hidden');
-        this.reflowRecursively();
-    }*/
-
-    /*
-     }*/
-
-    toggle() {
-        this.options.expanded = !this.options.expanded;
-    }
-
-    constructor(options) {
-        super(combineOptions({
-            backgroundProperties: {
-                backgroundColor: options.feedbackBubbleColor ? options.feedbackBubbleColor : colors[options.variation],
-                cursor: 'pointer'
-            },
-            useBoxShadow: false
-        }, options));
-
-        this.on('buttonClick', this.toggle.bind(this));
-    }
 }
