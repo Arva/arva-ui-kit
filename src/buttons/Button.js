@@ -152,6 +152,6 @@ export class Button extends Clickable {
     }
 
     getSize() {
-        return [super.getSize()[0], ComponentHeight];
+        return [super.getSize()[0], Dimensions.ComponentHeight];
     }
 }
