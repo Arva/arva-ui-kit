@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" height="100%" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Z Support Symbols / Cross</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.16">
+        <g id="Z-Support-Symbols-/-Cross" fill="#000000" fill-rule="nonzero">
+            <g id="Cross">
+                <path d="M8,6.58578644 L13,1.58578644 L14.4142136,3 L9.41421356,8 L14.4142136,13 L13,14.4142136 L8,9.41421356 L3,14.4142136 L1.58578644,13 L6.58578644,8 L1.58578644,3 L3,1.58578644 L8,6.58578644 Z" id="Combined-Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

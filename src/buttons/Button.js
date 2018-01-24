@@ -38,8 +38,8 @@ import {Dimensions} from '../defaults/DefaultDimensions.js';
     backgroundClasses: [],
     useBackground: true,
     enableBorder: false,
-    backgroundProperties: {backgroundColor: 'white'},
-    useBoxShadow: false,
+    backgroundProperties: {backgroundColor: 'white', borderRadius: '4px'},
+    useBoxShadow: true,
     makeRipple: true,
     rippleOptions: {}
 })
@@ -67,7 +67,8 @@ export class Button extends Clickable {
         classes: this.options.backgroundClasses,
         properties: {
             cursor: this.options.enabled ? 'pointer' : 'inherit',
-            borderRadius: this.options.backgroundProperties.borderRadius
+            borderRadius: this.options.backgroundProperties.borderRadius,
+            boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : ''
         }
     });
 
@@ -85,8 +86,7 @@ export class Button extends Clickable {
                     border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : '',
                     ...this.options.backgroundProperties,
                     backgroundColor: this.options.backgroundProperties.backgroundColor
-                } : {}),
-                boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : ''
+                } : {})
             }
         }
     });

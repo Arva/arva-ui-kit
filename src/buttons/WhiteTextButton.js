@@ -29,11 +29,8 @@ export class WhiteTextButton extends Button {
 
     @bindings.trigger()
     changeAccordingToBoldNess(options){
-        if(options.bold){
-            options.properties = {...UIButtonPrimary.properties, color: Colors.PrimaryUIColor}
-        } else {
-            options.properties = {...UIRegular.properties, color: Colors.PrimaryUIColor}
-        }
+        let {fontFamily, fontWeight, lineHeight} = options.bold ? UIButtonPrimary.properties : UIRegular.properties;
+        Object.assign(options.properties, {fontFamily, fontWeight, lineHeight});
     }
 
     @dynamic(({center}) =>

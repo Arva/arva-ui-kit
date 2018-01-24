@@ -16,25 +16,27 @@ import {ShapeTab}               from './ShapeTab.js';
 
 const flowOptions = { flow: true, transition: { curve: Easing.outCubic, duration: 200 } };
 
-@bindings.setup(
-    {
-        makeRipple: false,
-        useBackground: false,
-        useBoxShadow: false,
-        _shapeWidth: 0,
-        _shapeHeight: 32,
-        _isHovering: false,
-        usesIcon: false,
-        _currentlyHoveringIndex: 0,
-        _shapeXOffset: 0,
-        _shapeYOffset: 0,
-        shapeSize: [0, 32],
-        tabRenderable: ShapeTab,
-        tabOptions: { inActiveColor: Colors.PrimaryUIColor, activeColor: 'white' },
-        borderRadius: '4px',
-        rounded: false,
-        shapeColor: Colors.PrimaryUIColor
-    })
+@dynamic(() =>
+    bindings.setup(
+        {
+            makeRipple: false,
+            useBackground: false,
+            useBoxShadow: false,
+            _shapeWidth: 0,
+            _shapeHeight: 32,
+            _isHovering: false,
+            usesIcon: false,
+            _currentlyHoveringIndex: 0,
+            _shapeXOffset: 0,
+            _shapeYOffset: 0,
+            shapeSize: [0, 32],
+            tabRenderable: ShapeTab,
+            tabOptions: { inActiveColor: Colors.PrimaryUIColor, activeColor: 'white' },
+            borderRadius: '4px',
+            rounded: false,
+            shapeColor: Colors.PrimaryUIColor
+        })
+)
 export class ShapeTabBar extends TabBar {
 
     @bindings.trigger()

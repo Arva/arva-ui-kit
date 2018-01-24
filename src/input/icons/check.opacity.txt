@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" height="100%" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Z Support Symbols / Check</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.16">
+        <g id="Z-Support-Symbols-/-Check" fill="#000000" fill-rule="nonzero">
+            <g id="Check">
+                <polygon id="Line-2" points="6 10.5857864 14 2.58578644 15.4142136 4 6 13.4142136 0.585786438 8 2 6.58578644"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

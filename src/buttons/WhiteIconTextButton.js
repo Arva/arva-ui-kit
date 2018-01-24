@@ -42,7 +42,7 @@ export class WhiteIconTextButton extends Button {
     @dynamic(({center}) =>
         center ? layout
                 .size(true, true)
-                .dock.none()
+                .dock.fill()
             :
             layout
                 .columnDockPadding(320, [0, 32])

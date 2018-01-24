@@ -11,23 +11,22 @@ import {Colors}                             from '../defaults/DefaultColors.js';
 import {ArrowleftIcon}                      from '../icons/rounded/thin/ArrowleftIcon.js';
 import {ComponentHeight}                    from '../defaults/DefaultDimensions.js';
 
-
-@bindings.setup({
-    image: undefined,
-    icon: ArrowleftIcon,
-    properties: {color: Colors.PrimaryUIColor},
-    iconSize: [undefined, undefined],
-    backgroundProperties: {}
-})
+@dynamic(() =>
+    bindings.setup({
+        image: undefined,
+        icon: ArrowleftIcon,
+        properties: {color: Colors.PrimaryUIColor},
+        iconSize: [24, 24]
+    })
+)
 export class WhiteIconButton extends Button {
 
     @bindings.trigger()
-    setVariationIfNeeded(options) {
+    setImageOnlyIfNeeded(options) {
         if(options.imageOnly){
-            options.backgroundProperties = {...options.backgroundProperties, backgroundColor: 'none'};
-            options.variation = 'noShadow';
+            options.backgroundProperties.backgroundColor = 'none';
+            options.useShadow = false;
         }
-        Object.assign(options, WhiteTextButton.generateBoxShadowVariations(options.variation))
     }
 
     @bindings.trigger()

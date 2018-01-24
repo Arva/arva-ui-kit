@@ -37,6 +37,7 @@ export class Clickable extends View {
      *
      *
      * @param {Object} options
+     * @param {Object} extraRenderables
      * @param {String}  [options.clickEventName] An event to fire after click has happened.
      * @param {Array}   [options.clickEventData] An array of data to fire after click has happened.
      * @param {Boolean} [options.disableAfterClick] If set to true, disables the clickable after it's been clicked.
@@ -45,8 +46,8 @@ export class Clickable extends View {
      * and _handleClick on tap start instead of click
      *
      */
-    constructor(options) {
-        super(options);
+    constructor(options, extraRenderables) {
+        super(options, extraRenderables);
         this._setupListeners();
     }
 
@@ -59,6 +60,7 @@ export class Clickable extends View {
     }
 
     /**
+     * @deprecated
      * To be inherited
      * @param {Boolean} isEnabled
      * @private

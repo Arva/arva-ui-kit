@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" height="100%" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Z Support Symbols / Asterisk</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.16">
+        <g id="Z-Support-Symbols-/-Asterisk" fill="#000000">
+            <g id="Asterisk">
+                <path d="M9,6.26794919 L13.5621778,3.6339746 L14.5621778,5.3660254 L10,8 L14.5621778,10.6339746 L13.5621778,12.3660254 L9,9.73205081 L9,15 L7,15 L7,9.73205081 L2.43782217,12.3660254 L1.43782217,10.6339746 L6,8 L1.43782217,5.3660254 L2.43782217,3.6339746 L7,6.26794919 L7,1 L9,1 L9,6.26794919 Z" id="Combined-Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

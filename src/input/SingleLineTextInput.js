@@ -21,6 +21,21 @@ const flowOptions = { curve: Easing.outCubic, duration: 300 };
 const showBubble = layout.size(~40, 40).dock.right().stick.topLeft().translate(-4, 4, 50);
 const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(), layout.size(~40, 40), layout.translate(0, 0, -20)];
 
+/**
+ *
+ * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
+ *
+ *
+ * @example
+ * SingleLineTextInput.with({
+ *      placeholder: 'input',
+ *      value: this.inputOptions.sentence,
+ *      enabled: this.options.shouldEnable,
+ *      feedbackText: 'numerical',
+ *      inputValidator: (text) => /^\d*$/,
+ *      required: true
+ *  })
+ */
 @bindings.setup({
     active: false,
     showBorder: true,
@@ -28,11 +43,14 @@ const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(
     borderRadius: '4px',
     rounded: false,
     usesFeedback: true,
-    required: false,
+    required: true,
+    showFeedback: false,
     value: '',
     expandFeedback: false,
     inputValidator: () => true,
-    feedbackText: 'Required'
+    correctText: 'Correct',
+    incorrectText: 'Incorrect',
+    requiredText: 'Required',
 })
 export class SingleLineTextInput extends View {
 
@@ -47,8 +65,13 @@ export class SingleLineTextInput extends View {
     feedbackIfRequired() {
         if(this.options.required){
             this.options.usesFeedback = true;
-            this.options.inputValidator = (text) => !!text;
         }
+    }
+
+    @bindings.trigger()
+    hideFeedback({required, value}) {
+        this.options.showFeedback = required || value;
+        this._lastState = this.options.state;
     }
 
     @layout.stick.center().opacity(1).translate(-1, 0, 10).fullSize()
@@ -98,181 +121,31 @@ export class SingleLineTextInput extends View {
         ...this.options.inputOptions
     });
 
-    @layout.size(~40, ~40).dock.right().stick.topLeft().translate(-4, 4, 50)
+    @dynamic(({showFeedback, required}) =>
+         !required && (showFeedback ?
+        flow.transition({duration: 150, curve: Easing.outBack})(layout.scale(1, 1 ,1)) :
+        flow.transition({duration: 150, curve: Easing.inCubic})(layout.scale(0, 0, 0))
+        )
+    )
+    @layout.dock.right(40).size(40, 40).stick.center().translate(-6, 0, 50)
     feedback = this.options.usesFeedback && FeedbackBubble.with({
-        state:
-            this.options.value ?
-            this.options.inputValidator(this.options.value) ? 'correct' :
-            (this.options.required ? 'required'  : 'incorrect') : 'required',
+        state: this._isStateCorrect(),
         rounded: this.options.rounded,
         expanded: this.inputOptions.expandFeedback,
-        text: this.options.feedbackText,
-        feedbackBubbleColor: this.options.incorrectColor
+        feedbackBubbleColor: this.options.incorrectColor,
+        correctText: this.options.correctText,
+        incorrectText: this.options.incorrectText,
+        requiredText: this.options.requiredText,
     });
+
+    _isStateCorrect() {
+        return this.options.showFeedback ?
+        this.options.value ?
+            (this.options.inputValidator(this.options.value) ? 'correct' : 'incorrect') : 'required':
+            this._lastState;
+    }
 
     getSize() {
         return [undefined, Dimensions.ComponentHeight];
     }
-
-
-/*
-    @flow.stateStep('shown', flowOptions, ...showBubble)
-    @flow.defaultState('hidden', closeTransition, ...hideBubble)
-    correct = this.options.showCorrectBubble ? new FeedbackBubble({ variation: 'correct', rounded: this.options.rounded }) : null;
-
-    @flow.stateStep('shown', flowOptions, ...showBubble)
-    @flow.defaultState('hidden', closeTransition, ...hideBubble)
-    incorrect = new FeedbackBubble({
-        variation: 'incorrect',
-        rounded: this.options.rounded,
-        text: this.options.incorrectText,
-        feedbackBubbleColor: this.options.incorrectColor
-    });
-
-    @flow.defaultState('hidden', flowOptions, ...hideBubble)
-    @flow.stateStep('shown', closeTransition, ...showBubble)
-    required = new FeedbackBubble({ variation: 'required', text: this.options.feedbackText, rounded: this.options.rounded });
-
-    /!**
-     * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
-     *
-     * @example
-     * @layout.dock.top(~48, 8)
-     * input = new SingleLineTextInput({ placeholder: '' });
-     *
-     * @param {Object} [options] Construction options
-     * @param {String} [options.content] Prefilled content of the input field
-     * @param {String} [options.placeholder] Placeholder text of the input field
-     * @param {Boolean} [options.usesFeedback] Option to enable specific layouting for displaying feedbackBubbles
-     * @param {Boolean} [options.password] Hides entered characters, replacing them with system-defined asterisks or comparable
-     * @param {Boolean} [options.required] If set to true, shows a FeedbackBubble stating the field is required to be filled in
-     * @param {Boolean} [options.validator] Function that takes the string and returns {isValid: Boolean, feedback: String}
-     * @param {Boolean} [options.feedbackText] The text that should display on feedback by default
-     *!/
-    constructor(options = {}) {
-        super(combineOptions({
-            required: false,
-            enabled: true,
-            usesFeedback: true,
-            type: 'text',
-            showBorder: true,
-            showShadow: true,
-            showCorrectBubble: true,
-            inputOptions: { clearOnEnter: options.clearOnEnter },
-            feedbackText: FeedbackBubble.texts.required,
-            borderRadius: options.rounded ? "24px" : "4px"
-        }, options));
-
-        /!* The browser could auto-fill this stuff, so wait for deploy before checking if we have a value or not *!/
-        if (this.options.required)
-
-            setTimeout(() => {
-                if (this.options.required) {
-                    if (this.getValue()) {
-                        this.setCorrectState(this.options.feedbackText);
-                    } else {
-                        this.setRequiredState();
-                    }
-                }
-            }, 200);
-    }
-
-    setEnabled(enabled = true){
-        return this.input.enable && this.input.enable(enabled);
-    }
-
-    enable() {
-        this.setEnabled(true);
-    }
-
-    disable() {
-        this.setEnabled(false);
-    }
-
-    setValue() {
-        let result = this.input.setValue(...arguments);
-        this._validateInput(this.getValue());
-        return result;
-    }
-
-    getValue() {
-        return this.input.getValue(...arguments);
-    }
-
-    focus() {
-        return this.input.focus(...arguments);
-    }
-
-    setCorrectState(message = '') {
-        if (message) {
-            this.correct.setText(message);
-        }
-
-        this._eventOutput.emit('stateCorrect');
-    }
-
-
-    setIncorrectState(message = '') {
-        if (message) {
-            this.incorrect.setText(message);
-        }
-        this._eventOutput.emit('stateIncorrect');
-    }
-
-    isStateCorrect() {
-        return this.getViewFlowState() === 'correct' || !this.options.usesFeedback;
-    }
-
-    setRequiredState() {
-        /!* This is incorrect state, because there's nothing in the field as of now *!/
-        this._eventOutput.emit('stateIncorrect');
-    }
-
-    getSize() {
-        return [undefined, 48];
-    }
-
-
-    revalidate() {
-        this._validateInput(this.getValue());
-    }
-
-    _onFocus() {
-        if (this.correct) { this.correct.collapse() };
-        this.incorrect.collapse();
-        this.required.collapse();
-    }
-
-    _onBlur() {
-    }
-
-    /!**
-     *
-     * @param inputString
-     * @private
-     *!/
-    _validateInput(inputString) {
-
-        if (this.options.validator) {
-            if (this.options.required && !inputString) {
-                this.setRequiredState();
-            } else {
-                let { isValid, feedback } = this.options.usesFeedback? this.options.validator(inputString):true;
-                if (isValid) {
-                    this.setCorrectState(feedback);
-                } else {
-                    this.setIncorrectState(feedback);
-                }
-            }
-
-        } else if (this.options.required) {
-            if (inputString) {
-                this.setCorrectState(this.options.feedbackText);
-            } else {
-                this.setRequiredState();
-            }
-        } else {
-            this._eventOutput.emit('stateCorrect'); // we only emit the correct state on change -- there is no feedback elements
-        }
-    }*/
 }

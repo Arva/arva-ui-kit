@@ -6,39 +6,21 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 
 import {WhiteIconTextButton}        from './WhiteIconTextButton.js';
 import {Colors}                     from '../defaults/DefaultColors';
+import {layout, bindings, dynamic} from 'arva-js/layout/Decorators.js';
 
-
+@dynamic(() =>
+    bindings.setup({
+        enabledColor: 'white',
+        disabledColor: 'white',
+        disabledBackgroundColor: Colors.Gray,
+        enabledBackgroundColor: Colors.PrimaryUIColor
+    })
+)
 export class ColoredIconTextButton extends WhiteIconTextButton {
-    constructor(options){
-        super(combineOptions({
-            textProperties: options.colorProperties ? {color: options.colorProperties.activeTextAndIconColor} : {color: 'white'},
-            iconProperties: options.colorProperties ? {color: options.colorProperties.activeTextAndIconColor} : {color: 'white'},
-            backgroundProperties: {
-                backgroundColor: options.colorProperties ? options.colorProperties.activeBackgroundColor : Colors.PrimaryUIColor
-            }
-        }, options));
-    }
-    /**
-     * @example
-     * colorProperties = {
-        inActiveTextAndIconColor: Colors.DarkGrayColor,
-        inActiveBackgroundColor: Colors.LightGrayColor,
-        activeTextAndIconColor: Colors.PrimaryUIColor,
-        activeBackgroundColor: Colors.LightGrayColor,
-     * };
-     *
-     * a = new ColoredIconTextButton({
-        colorProperties,
-        enabled: false,
-        icon: ScanIcon,
-        content: `Get free stuff`
-     })
-     *
-     *
-     * @param {object} [options.colorProperties] Object containing the colors of the icon/text/background in active and inactive state
-     */
-    _setEnabled(enabled) {
-        let properties = this.options.colorProperties ? this.options.colorProperties : null;
-        super._setEnabled(enabled, true, properties);
+    @bindings.trigger()
+    changeBackgroundOnDisable() {
+        this.options.backgroundProperties.backgroundColor =
+            this.options.enabled ? this.options.enabledBackgroundColor :
+                this.options.disabledBackgroundColor
     }
 }
