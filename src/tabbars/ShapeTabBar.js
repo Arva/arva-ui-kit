@@ -34,7 +34,8 @@ const flowOptions = { flow: true, transition: { curve: Easing.outCubic, duration
             tabOptions: { inActiveColor: Colors.PrimaryUIColor, activeColor: 'white' },
             borderRadius: '4px',
             rounded: false,
-            shapeColor: Colors.PrimaryUIColor
+            shapeColor: Colors.PrimaryUIColor,
+            shapePadding: 8,
         })
 )
 export class ShapeTabBar extends TabBar {
@@ -69,7 +70,11 @@ export class ShapeTabBar extends TabBar {
 
     @bindings.trigger()
     setShapeWidth(options) {
-        options._shapeWidth = options.cachedItemSizes && options.cachedItemSizes[options.activeIndex] && options.cachedItemSizes[options.activeIndex].width || 0;
+        options._shapeWidth = Math.max(
+            options.cachedItemSizes &&
+            options.cachedItemSizes[options.activeIndex] &&
+            options.cachedItemSizes[options.activeIndex].width + this.options.shapePadding * 2
+            , 0) || 0;
     }
 
 
@@ -118,8 +123,7 @@ export class ShapeTabBar extends TabBar {
             options._shapeXOffset -= 12;
         }
         if (index === options.activeIndex){
-            this._shrunk = true;
-            options._shapeWidth -= 12;
+            options._shapeWidth = options._shapeWidth - 12;
             options._shapeXOffset += 6;
         } else {
             options._shapeWidth += 12;
@@ -141,7 +145,7 @@ export class ShapeTabBar extends TabBar {
     }
 
     getSize() {
-        return [super.getSize()[0], 40];
+        return [super.getSize()[0], 48];
     }
 
     /**
@@ -152,16 +156,16 @@ export class ShapeTabBar extends TabBar {
      */
     _calcCurrentPosition(index) {
         if (this.options.equalSizing) {
-            return this._currentSize ? (this._currentSize[0] *
+            return (this._currentSize ? (this._currentSize[0] *
                 ((this.options.tabs.length - 1) / this.options.tabs.length)) *
-                (index / (this.options.tabs.length - 1)) : 0;
+                (index / (this.options.tabs.length - 1))  : 0 ) - this.options.shapePadding;
         }
 
         return this.options.cachedItemSizes
             .slice(0, index)
             .reduce((totalWidth, {width = 0}) =>
                 totalWidth + width
-                , 0) + this.options.tabSpacing * index;
+                , 0) + this.options.tabSpacing * index - this.options.shapePadding;
     }
 
 }

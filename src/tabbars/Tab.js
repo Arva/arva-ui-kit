@@ -8,6 +8,7 @@ import {
     flow, dynamic
 }                       from 'arva-js/layout/Decorators.js'
 import {Clickable}      from '../components/Clickable.js';
+import {UIRegular}      from '../text/UIRegular.js';
 import Surface          from 'famous/core/Surface.js';
 
 
@@ -38,7 +39,7 @@ export class Tab extends Clickable {
         .origin(0.5, 0)
         .align(0.5, 0)
         /* Options need to be spread here since databinding doesn't work when passing the whole options object */
-    text = Surface.with({...this.options});
+    text = UIRegular.with({...this.options});
 
     /* If current tab is being pressed, either by mouse or tab */
     _hover = true;

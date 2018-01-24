@@ -84,7 +84,7 @@ export class TabBar extends View {
 
 
     @dynamic(({equalSizing, tabs, tabSpacing}) =>
-        layout.dock.left(equalSizing ? 1 / tabs.length : ~50).dockSpace(equalSizing ? 0 : tabSpacing)
+        layout.dock.left(equalSizing ? 1 / tabs.length : ~50).dockSpace(equalSizing ? 0 : tabSpacing).size(undefined, ~30).stick.center()
     )
     items = this.options.tabs.map((tabOptions, index) =>
         /*  TODO rename events that start with hover that actually refers to "press" */
@@ -134,6 +134,10 @@ export class TabBar extends View {
      */
     getItems() {
         return this.items;
+    }
+
+    getSize() {
+        return [super.getSize()[0], 48];
     }
 
     /**

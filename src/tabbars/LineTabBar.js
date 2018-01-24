@@ -19,8 +19,6 @@ import {ShapeTabBar}        from './ShapeTabBar';
 })
 export class LineTabBar extends ShapeTabBar {
 
-    getSize() {
-        return [super.getSize()[0], 18];
-    }
+
 
 }

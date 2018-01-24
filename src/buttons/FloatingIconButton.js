@@ -12,11 +12,18 @@ import {layout, bindings, dynamic}  from 'arva-js/layout/Decorators.js';
     bindings.setup({
         disabledBackgroundColor: Colors.Gray,
         enabledBackgroundColor: Colors.PrimaryUIColor,
-        activeColor: 'white',
+        properties: {color: 'white'},
         backgroundProperties: { borderRadius: '50%' }
     })
 )
 export class FloatingIconButton extends WhiteIconButton {
+
+    @bindings.trigger()
+    changeBackgroundOnDisable() {
+        this.options.backgroundProperties.backgroundColor =
+            this.options.enabled ? this.options.enabledBackgroundColor :
+                this.options.disabledBackgroundColor
+    }
 
     /* Default if true size specified */
     getSize() {
