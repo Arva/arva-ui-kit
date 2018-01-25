@@ -1,39 +1,50 @@
 /**
  * Created by lundfall on 08/07/16.
  */
-import {Surface}        from 'arva-js/surfaces/Surface.js';
-import Transform            from 'famous/core/Transform';
-import Easing               from 'famous/transitions/Easing.js';
+import {Surface} from 'arva-js/surfaces/Surface.js';
+import Transform from 'famous/core/Transform';
+import Easing from 'famous/transitions/Easing.js';
 
-import {View}               from 'arva-js/core/View.js';
-import {layout}             from 'arva-js/layout/Decorators.js';
+import {View} from 'arva-js/core/View.js';
+import {
+    layout, bindings,
+    dynamic
+} from 'arva-js/layout/Decorators.js';
 
+@bindings.setup({
+    backgroundOptions: {properties: {}}
+})
 export class Ripple extends View {
 
+
     @layout
-      .translate(0, 0, 10)
-      .animate({
-        showInitially: false,
-        show: {
-            transition: {duration: 10000, curve: Easing.inSine}
-        },
-        animation: function () {
-            return {
-                transform: Transform.scale(0.05, 0.05, 1),
-                align: [0.5, 0.5],
-                origin: [0.5, 0.5]
-            }
-        },
-        hide: {
-            transition: {duration: 100},
+        .translate(0, 0, 10)
+        .animate({
+            showInitially: false,
+            show: {
+                transition: {duration: 10000, curve: Easing.inSine}
+            },
             animation: function () {
                 return {
-                    opacity: 0
+                    transform: Transform.scale(0.05, 0.05, 1),
+                    align: [0.5, 0.5],
+                    origin: [0.5, 0.5]
+                }
+            },
+            hide: {
+                transition: {duration: 100},
+                animation: function () {
+                    return {
+                        opacity: 0
+                    }
                 }
             }
-        }
-    })
-      .size(function() {return this._rippleSize}, function() {return this._rippleSize})
+        })
+        .size(function () {
+            return this._rippleSize
+        }, function () {
+            return this._rippleSize
+        })
     ripple = Surface.with({
         properties: {
             borderRadius: '100%',
@@ -44,14 +55,34 @@ export class Ripple extends View {
         }
     });
 
+
+    @layout.fullSize()
+    @layout.translate(0, 0, -10)
+    background = Surface.with({...this.options.backgroundOptions});
+
     constructor(options) {
         super(options);
-        this.onNewSize(([width, height]) => {
-            let sizeMultiplier = this.options.sizeMultiplier || 2;
-            this._rippleSize = sizeMultiplier*Math.sqrt((width*width)+(height*height));
-            this._actualRipple = this.getActualRenderable(this.ripple);
-            this._actualRipple.setOptions({show: {transition: {duration:0.5*this._rippleSize}}});
-        });
+        this.on('newSize', (newSize) => {
+                this._currentSize = newSize;
+                this.readjustRippleSize();
+            }
+            , {propagate: false}
+        );
+        this.options.sizeMultiplier  = this.options.sizeMultiplier || 2;
+    }
+
+    readjustRippleSize(multiplier) {
+        if(multiplier !== undefined){
+            this.options.sizeMultiplier = multiplier;
+        }
+        if(!this._currentSize){
+            return;
+        }
+        let [width, height] = this._currentSize;
+        let sizeMultiplier = this.options.sizeMultiplier;
+        this._rippleSize = sizeMultiplier * Math.sqrt((width * width) + (height * height));
+        this._actualRipple = this.getActualRenderable(this.ripple);
+        this._actualRipple.setOptions({show: {transition: {duration: 0.5 * this._rippleSize}}});
     }
 
     /**

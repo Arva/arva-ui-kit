@@ -6,10 +6,6 @@ import BgImageSurface           from 'famous/surfaces/BgImageSurface.js';
 
 import {layout}                 from 'arva-js/layout/Decorators.js';
 import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
-import {AccountIcon}            from 'arva-kit/icons/AccountIcon.js';
-import {CloudIcon}              from 'arva-kit/icons/CloudIcon.js';
-import {ArrowleftIcon}          from 'arva-kit/icons/ArrowleftIcon.js';
-import {AndroidshareIcon}       from 'arva-kit/icons/AndroidshareIcon.js';
 
 import {DraggableSideMenuView}  from './DraggableSideMenuView.js';
 import {IconMenuItem}           from './IconMenuItem.js';

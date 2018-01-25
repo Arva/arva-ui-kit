@@ -7,13 +7,14 @@ import {layout}             from 'arva-js/layout/Decorators.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {UISmallGray}        from '../text/UISmallGray.js';
 import {UISmall}            from '../text/UISmall.js';
+import {Colors}             from '../defaults/DefaultColors.js';
 
 export class SectionHeader extends View {
 
     @layout.fullSize()
     text = new (this.options.textVariation === 'gray' ? UISmallGray : UISmall)({
         properties: {
-            backgroundColor: this.options.colorVariation == 'white' ? 'rgb(255, 255, 255)' : 'rgb(245, 245, 245)',
+            backgroundColor: this.options.colorVariation == 'white' ? 'rgb(255, 255, 255)' : Colors.VeryLightGray,
             borderBottom: this.options.lines ? '1px solid rgba(0, 0, 0, 0.1)' : '',
             borderTop: this.options.lines ? '1px solid rgba(0, 0, 0, 0.1)' : '',
             lineHeight: `${this.options.height}px`,

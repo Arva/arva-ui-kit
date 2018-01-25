@@ -5,6 +5,8 @@ import FamousInputSurface           from 'famous/surfaces/InputSurface.js';
 
 import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {replaceEmojiAtEnd}          from './Emoji.js';
+import bowser                       from 'bowser';
+
 /**
  * Emits 'valueChange' when input is changed
  */
@@ -12,6 +14,14 @@ export class InputSurface extends FamousInputSurface {
     static tabIndex = 1;
 
     constructor(options = {}) {
+        /* type = 'date' is not supported for IE11 */
+        if(options.type === 'date' && bowser.msie && bowser.version <= 11 ){
+            options.type = 'text';
+            options.placeholder = 'mm/dd/yy';
+            if(options.attributes.type){
+                options.attributes.type = 'text';
+            }
+        }
         let properties = {
             outline: 'none',
             borderBottom: 'none',
@@ -67,7 +77,7 @@ export class InputSurface extends FamousInputSurface {
     // TODO We should emit a change event instead, and prevent the parent change event. valueChange event is only emitted by SOME input components.
     _onFieldChange() {
         let currentValue = this.getValue();
-        if (currentValue != this._value) {
+        if (currentValue !== this._value) {
             this._onNewValue(currentValue);
         }
     }

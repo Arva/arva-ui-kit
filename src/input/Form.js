@@ -8,6 +8,7 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {LabeledTextInput}           from 'arva-kit/input/LabeledTextInput.js';
 
 export class Form extends View {
+
     constructor(options = {}) {
         super(combineOptions({
             inputNames: []
@@ -16,6 +17,7 @@ export class Form extends View {
         this._inputNames = this.options.inputNames;
         this.setupStateListeners();
     }
+
     validate(inputName) {
         if (inputName) {
             if (this._inputNames.includes(inputName)) {
@@ -25,7 +27,6 @@ export class Form extends View {
                     this._eventOutput.emit('formFilledIncorrectly');
                 }
             }
-            //else do nothing
         }
         else if (this.isStateCorrect()) {
             this._eventOutput.emit('formFilledCorrectly');
@@ -34,6 +35,7 @@ export class Form extends View {
             this._eventOutput.emit('formFilledIncorrectly');
         }
     }
+
     addInputName(renderableName) {
         let renderable = this[renderableName] || undefined;
         if (renderable) {
@@ -67,7 +69,7 @@ export class Form extends View {
     setupStateListeners() {
         for (let renderableName of this._inputNames) {
             let renderable = this[renderableName] || undefined;
-            if (renderable) {
+            if (renderable && renderable instanceof LabeledTextInput) {
                 this._setupStateListener(renderable);
             }
         }

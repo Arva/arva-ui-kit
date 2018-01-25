@@ -15,6 +15,8 @@ import {Clickable} from '../components/Clickable.js'
 import {Ripple} from '../components/Ripple.js'
 import {ComponentPadding} from '../defaults/DefaultDimensions.js'
 import {getShadow} from '../defaults/DefaultShadows.js'
+import {Dimensions} from '../defaults/DefaultDimensions.js';
+
 
 /**
  * @example
@@ -22,7 +24,7 @@ import {getShadow} from '../defaults/DefaultShadows.js'
  *  makeRipple: false,
  *  useBackground: false,
  *  });
- * A general class for a clickable making a ripple and some other useful button-like stuff
+ * A general class for a Clickable making a ripple and some other useful button-like stuff
  *
  * @param {Object} options. The options a
  * @param {Boolean} [options.makeRipple] Whether or not the button should make a ripple on press. Defaults to true.
@@ -36,17 +38,23 @@ import {getShadow} from '../defaults/DefaultShadows.js'
     backgroundClasses: [],
     useBackground: true,
     enableBorder: false,
-    backgroundProperties: {backgroundColor: 'white'},
-    useBoxShadow: false,
+    backgroundProperties: {backgroundColor: 'white', borderRadius: '4px'},
+    useBoxShadow: true,
     makeRipple: true,
     rippleOptions: {}
 })
-@layout.dockPadding(0, ComponentPadding, 0, ComponentPadding)
+@layout.dockPadding(0, Dimensions.ComponentPadding, 0, Dimensions.ComponentPadding)
 @layout.translate(0, 0, 30)
 export class Button extends Clickable {
 
     _inBounds = true;
 
+    @event.on('focus', function() {
+        this._onFocus();
+    })
+    @event.on('blur', function() {
+        this._onBlur();
+    })
     @event.on('deploy', function () {
         /* Automatically enable button when coming into the view*/
         if (this.options.autoEnable) {
@@ -59,31 +67,29 @@ export class Button extends Clickable {
         classes: this.options.backgroundClasses,
         properties: {
             cursor: this.options.enabled ? 'pointer' : 'inherit',
-            borderRadius: this.options.backgroundProperties.borderRadius
-        }
-    });
-
-
-    @layout.fullSize()
-    @layout.translate(0, 0, -10)
-    background = Surface.with({
-        classes: this.options.backgroundClasses,
-        properties: {
-            ...(this.options.useBackground ? {
-                border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : '',
-                ...this.options.backgroundProperties,
-                backgroundColor: this.options.enabled ? this.options.backgroundProperties.backgroundColor : Colors.Gray
-            } : {}),
+            borderRadius: this.options.backgroundProperties.borderRadius,
             boxShadow: this.options.useBoxShadow ? getShadow({color: this.options.backgroundProperties.backgroundColor}) : ''
         }
     });
 
-    @layout.size(undefined, undefined)
     @dynamic(({backgroundProperties}) =>
         //todo the clip decorator isn't applied
         layout.clip(undefined, undefined, {borderRadius: backgroundProperties.borderRadius})
     )
-    ripple = Ripple.with(this.options.rippleOptions)
+    @layout.size(undefined, undefined)
+    ripple = Ripple.with({
+        ...this.options.rippleOptions,
+        backgroundOptions: {
+            classes: this.options.backgroundClasses,
+            properties: {
+                ...(this.options.useBackground ? {
+                    border: this.options.enableBorder ? '1px inset rgba(0, 0, 0, 0.1)' : '',
+                    ...this.options.backgroundProperties,
+                    backgroundColor: this.options.backgroundProperties.backgroundColor
+                } : {})
+            }
+        }
+    });
 
 
     _handleTapStart({x, y}) {
@@ -102,16 +108,33 @@ export class Button extends Clickable {
 
 
     _handleTapRemoved() {
-        if (this.options.makeRipple) {
-            this.ripple.hide()
-        }
+        this._hideRipple();
+    }
+
+    /**
+     * @abstract
+     * To be inherited
+     * @private
+     */
+    _onBlur() {
+
+    }
+
+    /**
+     * @abstract
+     * To be inherited
+     * @private
+     */
+    _onFocus() {
+
     }
 
     _handleTapEnd(mouseEvent) {
         if (this.options.makeRipple) {
-            this.ripple.hide()
+            this._hideRipple();
         }
     }
+
 
     /**
      * @abstract
@@ -120,4 +143,15 @@ export class Button extends Clickable {
 
     }
 
+    _showRipple(x, y) {
+        this.ripple.show(x, y);
+    }
+
+    _hideRipple() {
+        this.ripple.hide();
+    }
+
+    getSize() {
+        return [super.getSize()[0], Dimensions.ComponentHeight];
+    }
 }

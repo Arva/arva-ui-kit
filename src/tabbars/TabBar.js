@@ -11,6 +11,7 @@ import {
 
 import {Tab}            from './Tab.js';
 import {AccountIcon}    from '../icons/AccountIcon.js';
+import {Colors} from 'arva-kit/defaults/DefaultColors.js';
 
 
 /**
@@ -42,18 +43,34 @@ import {AccountIcon}    from '../icons/AccountIcon.js';
  * @param {Boolean} [options.usesIcon] Wheter the TabBar uses Icons or text. Defaults to false
  * @fires TabBar#tabClick Emits a tabClick event once a tab renderable is clicked, with [id, tabData] as parameters. Content can be overwritten by setting tabOptions.clickEventData {Array}
  */
-@bindings.setup({
-    equalSizing: false,
-    activeIndex: 0,
-    reflow: true,
-    usesIcon: false,
-    tabOptions: {clickEventName: 'tabClick'},
-    tabs: [{active: false}],
-    cachedItemSizes: [{width: 0, height: 0}],
-    tabRenderable: Tab
-})
+@dynamic(() =>
+    bindings.setup({
+        equalSizing: true,
+        activeIndex: 0,
+        reflow: true,
+        usesIcon: false,
+        tabSpacing: 24,
+        tabOptions: {clickEventName: 'tabClick'},
+        tabs: [{active: false}],
+        cachedItemSizes: [{width: 0, height: 0}],
+        tabRenderable: Tab,
+        fillBackground: false,
+        backgroundColor: 'white',
+        constrastColor: Colors.PrimaryUIColor,
+        backgroundProperties: {backgroundColor: 'white'}
+    })
+)
+@layout.dockPadding(0, 24)
 export class TabBar extends View {
 
+
+    @bindings.trigger()
+    setBackground({fillBackground, constrastColor}) {
+        if(fillBackground){
+            this.options.tabOptions.swapColors = true;
+            this.options.backgroundProperties.backgroundColor = constrastColor;
+        }
+    }
 
     @bindings.trigger()
     setupActiveIndex(options, defaultOptions) {
@@ -62,9 +79,11 @@ export class TabBar extends View {
         if (currentActiveItemIndex === -1) {
             tabs[options.activeIndex].active = true;
         }
+        /*
         if (defaultOptions.activeIndex !== options.activeIndex && options.activeIndex !== currentActiveItemIndex) {
             throw new Error('currentItem.index not consistent with items[options.activeIndex].active');
         }
+        */
 
         if (currentActiveItemIndex !== -1) {
             options.activeIndex = currentActiveItemIndex;
@@ -77,17 +96,18 @@ export class TabBar extends View {
 
     @layout.translate(0, 0, -10)
     @layout.fullSize()
-    background = new Surface(this.options.backgroundOptions);
+    background = Surface.with({properties: this.options.backgroundProperties});
 
-    @dynamic(({equalSizing, tabs}) =>
-        layout.dock.left(equalSizing ? 1 / tabs.length : ~50)
+
+    @dynamic(({equalSizing, tabs, tabSpacing}) =>
+        layout.dock.left(equalSizing ? 1 / tabs.length : ~50).dockSpace(equalSizing ? 0 : tabSpacing).size(~100, ~30).stick.center()
     )
     items = this.options.tabs.map((tabOptions, index) =>
         /*  TODO rename events that start with hover that actually refers to "press" */
         event
             .on('activate', () => this._handleItemActive(index))
-            .on('hoverOn', () => this.onHover(index))
-            .on('hoverOff', () => this.offHover(index))
+            .on('hoverOn', () => this.onHover && this.onHover(index))
+            .on('hoverOff', () => this.offHover && this.offHover(index))
             .on('buttonClick', (index) => this.offHover(index))
             .on('newSize', (newSize) => this.options.cachedItemSizes[index] = {width: newSize[0], height: newSize[1]},
                 {propagate: false}
@@ -124,25 +144,6 @@ export class TabBar extends View {
         /* Should be overwritten */
     }
 
-    /**
-     * Calculates the current position for the selected item
-     * @param index
-     * @returns {number}
-     * @private
-     */
-    _calcCurrentPosition(index) {
-        if (this.options.equalSizing) {
-            return (this._currentSize[0] *
-                ((this.options.tabs.length - 1) / this.options.tabs.length)) *
-                (index / (this.options.tabs.length - 1));
-        }
-
-        return this.options.cachedItemSizes
-            .slice(0, index)
-            .reduce((totalWidth, {width = 0}) =>
-                totalWidth + width
-                , 0);
-    }
 
     /**
      * Returns the items in the TabBar
@@ -150,6 +151,10 @@ export class TabBar extends View {
      */
     getItems() {
         return this.items;
+    }
+
+    getSize() {
+        return [super.getSize()[0], 48];
     }
 
     /**
@@ -178,6 +183,5 @@ export class TabBar extends View {
         let {tabs = [], activeIndex = 0} = options;
         options.tabs = tabs.map((tab, index) => ({...tab, nested: {active: activeIndex === index}}));
         super(options);
-        this.on('newSize', (newSize) => this._currentSize = newSize, {propagate: false});
     }
 }

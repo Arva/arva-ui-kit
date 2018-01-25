@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100%" height="100%" viewBox="0 0 160 160" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
+    <title>Placeholder / Image</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.04">
+        <g id="Placeholder-/-Image" fill="#000000">
+            <rect id="Mask" x="0" y="0" width="160" height="160"></rect>
+            <polygon id="Rectangle" points="160 0 160 160 40 160 80 0"></polygon>
+            <polygon id="Rectangle-2" points="0 40 160 80 160 160 0 160"></polygon>
+        </g>
+    </g>
+</svg>

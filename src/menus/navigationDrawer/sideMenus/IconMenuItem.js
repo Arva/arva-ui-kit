@@ -18,7 +18,7 @@ export class IconMenuItem extends Button {
     @layout.dock.left()
     @layout.size(24, 24)
     @layout.stick.center()
-    icon = new this.options.icon({color: this.options.textColor});
+    icon = this.options.icon && new this.options.icon({color: this.options.textColor});
 
     @layout.size(~30, undefined)
     @layout.dock.left()

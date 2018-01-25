@@ -30,11 +30,6 @@ export let PTSans = {
         TextQuote: {fontFamily: ptSans, lineHeight: '1.2'},
         TextQuoteEmphasis: {fontFamily: ptSans, lineHeight: '1.2'},
         TextInfoLabel: {fontFamily: ptSans, textTransform: 'uppercase', lineHeight: '0.9'}
-    },
-
-    Impact: {
-        ImpactHuge: {fontFamily: ptSans, lineHeight: '1.0'},
-        ImpactBig: {fontFamily: ptSans, lineHeight: '1.0'}
     }
 
 };

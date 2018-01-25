@@ -26,15 +26,15 @@ import {
 } from 'arva-js/layout/Decorators.js';
 import {combineOptions} from 'arva-js/utils/CombineOptions.js';
 
-import {DoneIcon} from '../icons/DoneIcon.js';
-import {CrossIcon} from '../icons/CrossIcon.js';
+import {CheckIcon} from './icons/CheckIcon.js';
+import {CrossIcon} from './icons/CrossIcon.js';
 import {Colors} from '../defaults/DefaultColors.js';
 import {getShadow} from '../defaults/DefaultShadows.js';
 import {Clickable} from './Clickable.js';
 >>>>>>> studio
 
 
-const iconSize = [24, 24];
+const iconSize = [16, 16];
 const iconZValue = 30;
 <<<<<<< HEAD
 const inCurve = {transition: {curve: Easing.outCubic, duration: 200}};
@@ -59,13 +59,15 @@ const compressIfPressed = (isPressed) => isPressed ?
     flow.transition(inCurve)(layout.scale(0.73, 0.73, 0.73)) :
     flow.transition(outCurve)(layout.scale(1, 1, 1));
 
-@bindings.setup({
-    activeColor: Colors.PrimaryUIColor,
-    inactiveColor: 'rgb(170, 170, 170)',
-    state: true,
-    enabled: true,
-    isPressed: false
-})
+@dynamic(() =>
+    bindings.setup({
+        activeColor: Colors.PrimaryUIColor,
+        inactiveColor: 'rgb(170, 170, 170)',
+        state: true,
+        enabled: true,
+        isPressed: false
+    })
+)
 /**
  * Checkbox that be used to enable and disable options
  *
@@ -202,7 +204,7 @@ export class Checkbox extends Clickable {
     @dynamic(({isPressed}) =>
         compressIfPressed(isPressed)
     )
-    tick = DoneIcon.with({color: this.options.activeColor});
+    tick = CheckIcon.with({color: this.options.activeColor});
 
     @layout.stick.center().size(...iconSize).translate(0, 0, iconZValue)
     @dynamic(({state}) =>

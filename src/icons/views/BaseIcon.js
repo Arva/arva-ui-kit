@@ -2,15 +2,17 @@
  * Created by tom on 16/06/16.
  */
 
-import {Surface}        from 'arva-js/surfaces/Surface.js';
+import {Surface}                        from 'arva-js/surfaces/Surface.js';
 import {Colors}                         from '../../defaults/DefaultColors.js';
 import {replaceColors}                  from './ReplaceColors.js';
 
 export class BaseIcon extends Surface {
 
     static with(options) {
+        let icon = this.icon || options.icon || '';
         return super.with({
-            content: replaceColors(this.icon || options.icon, options.color || Colors.PrimaryUIColor),
+            content:
+                options.color ? replaceColors(icon, options.color) : (this.icon || icon),
             ...options
         })
     }
