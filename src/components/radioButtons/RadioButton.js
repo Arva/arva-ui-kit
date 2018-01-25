@@ -3,96 +3,48 @@
  */
 
 import {Surface}        from 'arva-js/surfaces/Surface.js';
-import {layout}                 from 'arva-js/layout/Decorators.js';
-import {combineOptions}         from 'arva-js/utils/CombineOptions.js';
 import {Clickable}              from '../Clickable.js';
 import {RadioButtonCircle}      from './RadioButtonCircle.js';
-import {Colors}                 from '../../defaults/DefaultColors.js';
-import {UIRegular}              from '../../defaults/DefaultTypefaces.js';
+import {UIRegular}              from '../../text/UIRegular.js';
+import {layout, dynamic, bindings, flow}   from 'arva-js/layout/Decorators.js';
 
+@bindings.setup({
+    selected: false
+})
 export class RadioButton extends Clickable {
 
     @layout.size(48, 48)
-    @layout.dock.left()
-    @layout.stick.left()
-    @layout.translate(0, 0, 0)
-    circle = new RadioButtonCircle({
-        icon: this.options.icon
+        @layout.dock.left()
+        @layout.stick.left()
+        @layout.translate(0, 0, 0)
+    circle = RadioButtonCircle.with({
+        icon: this.options.icon,
+        selected: this.options.selected
     });
 
     @layout.size(undefined, 48)
-    @layout.dock.left()
-    @layout.dockSpace(16)
-    @layout.stick.left()
-    @layout.translate(0, 0, 0)
-    text = new Surface(combineOptions(this.options.typeface || UIRegular, {
+        .dock.left()
+        .dockSpace(16)
+        .stick.left()
+        .translate(0, 0, 0)
+    text = UIRegular.with({
         content: this.options.text,
         properties: {
             lineHeight: '48px',
             whiteSpace: 'nowrap'
         }
-    }));
+    });
 
     @layout.fullSize()
-    @layout.translate(0, 0, 60)
+        .translate(0, 0, 60)
     overlay = new Surface({properties: {cursor: 'pointer'}});
 
-    constructor(options = {}) {
-        super(combineOptions({
-            activeColor: Colors.PrimaryUIColor
-        }, options));
 
-        if (this.options.selected) {
-            this.select();
-        } else {
-            this.deselect();
-        }
+    _handleTapEnd() {
+        this.options.selected = true;
+        this._eventOutput.emit('chosen');
     }
-
     getSize() {
         return [undefined, 64];
     }
-
-    highlight() {
-        this.circle.select();
-        this.text.setProperties({color: this.options.activeColor});
-    }
-
-    unhighlight() {
-        this.circle.deselect();
-        this.text.setProperties({color: 'rgb(0, 0, 0)'});
-    }
-
-    select() {
-        this.circle.select();
-        this.text.setProperties({color: this.options.activeColor});
-        this._isSelected = true;
-    }
-
-    deselect() {
-        this.circle.deselect();
-        this.text.setProperties({color: 'rgb(0, 0, 0)'});
-        this._isSelected = false;
-    }
-
-    _handleTapStart() {
-        this.highlight();
-    }
-
-    _handleTapEnd() {
-        if (!this._isSelected) {
-            this.unhighlight();
-        }
-    }
-
-    _handleTapRemoved() {
-        if (!this._isSelected) {
-            this.unhighlight();
-        }
-    }
-
-    getValue(){
-        return this.text.getContent();
-    }
-
 }

@@ -9,7 +9,7 @@ import {replaceColors}                  from './ReplaceColors.js';
 export class BaseIcon extends Surface {
 
     static with(options) {
-        let icon = this.icon || options.icon;
+        let icon = this.icon || options.icon || '';
         return super.with({
             content:
                 options.color ? replaceColors(icon, options.color) : (this.icon || icon),
