@@ -86,14 +86,14 @@ export class UIBar extends View {
      *              ]
      *          })
      */
-    constructor(options = {}) {
+    constructor(options = {}, extraRenderables) {
         let {backgroundProperties} = UIBar._computeSettings(options);
 
         super(combineOptions({
             backgroundProperties,
             autoColoring: true,
             centerItemSize: [~300, ~30]
-        }, options));
+        }, options), extraRenderables);
 
         let components = options.components;
         this.componentNames = {left: [], right: [], center: [], fill: []};
