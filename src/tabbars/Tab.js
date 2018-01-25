@@ -6,15 +6,13 @@ import {combineOptions} from 'arva-js/utils/CombineOptions.js';
 import {
     layout, bindings,
     flow, dynamic
-}                       from 'arva-js/layout/Decorators.js'
-import {Clickable}      from '../components/Clickable.js';
-import {UIRegular}      from '../text/UIRegular.js';
-import Surface          from 'famous/core/Surface.js';
+} from 'arva-js/layout/Decorators.js'
+import {Clickable} from '../components/Clickable.js';
+import {UIRegular} from '../text/UIRegular.js';
+import Surface from 'famous/core/Surface.js';
+import {Colors} from '../defaults/DefaultColors';
+import {AccountIcon} from '../icons/AccountIcon';
 
-
-@bindings.setup({
-    active: false
-})
 /**
  * Base Tab for the TabBar. Class is meant to be extended
  *
@@ -26,20 +24,50 @@ import Surface          from 'famous/core/Surface.js';
  * @param {Boolean} [options.useBackground] Whether the tab should use a background
  * @param {Boolean} [options.useBoxShadow] Whether the tab should use a boxshadow
  */
-@bindings.setup({
-    active: false,
-    textOpacity: 1
-})
+
+@dynamic(() =>
+    bindings.setup({
+        active: false,
+        textOpacity: 1,
+        passiveColor: Colors.Gray,
+        activeColor: Colors.PrimaryUIColor,
+        properties: {color: 'white'},
+        swapColors: false
+    })
+)
 export class Tab extends Clickable {
+
+    @bindings.trigger()
+    setTextColor({active, activeColor, passiveColor, swapColors}) {
+        this.options.properties.color =
+            active ?
+                (swapColors ? passiveColor : activeColor) : (swapColors ? activeColor : passiveColor);
+    }
+
+    @bindings.trigger()
+    decreaseFontSizeForIcon() {
+        if(this.options.icon){
+            this.options.properties.fontSize = '10px';
+        }
+    }
+
+    @layout.translate(0, 0, 30)
+        .dock.top()
+        .size(24, 24)
+        .origin(0.5, 0)
+        .align(0.5, 0)
+    icon = this.options.icon && this.options.icon.with({color: this.options.properties.color});
+
 
     @dynamic(({textOpacity}) => flow.transition()(layout.opacity(textOpacity)))
     @layout.translate(0, 0, 30)
         .dock.top()
-        .size(true, undefined)
+        .dockSpace(2)
+        .size(true, true)
         .origin(0.5, 0)
         .align(0.5, 0)
         /* Options need to be spread here since databinding doesn't work when passing the whole options object */
-    text = UIRegular.with({...this.options});
+    text = this.options.content && UIRegular.with({...this.options});
 
     /* If current tab is being pressed, either by mouse or tab */
     _hover = true;
@@ -58,6 +86,10 @@ export class Tab extends Clickable {
         this._hover = true;
         this._inBounds = true;
         this._eventOutput.emit('hoverOn');
+    }
+
+    _handleTapRemoved() {
+        this._handleTapEnd();
     }
 
 

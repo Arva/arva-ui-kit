@@ -12,9 +12,7 @@ import {Router}             from 'arva-js/core/Router.js';
 import {UIBar}              from 'arva-kit/uibars/UIBar.js';
 import {Injection}          from 'arva-js/utils/Injection.js';
 import {layout}             from 'arva-js/layout/Decorators.js';
-import {LineTab}            from 'arva-kit/tabbars/LineTab.js';
 import {LineTabBar}         from 'arva-kit/tabbars/LineTabBar.js';
-import {MinimalTab}         from 'arva-kit/tabbars/MinimalTab.js';
 import {combineOptions}     from 'arva-js/utils/CombineOptions.js';
 import {Dimensions}         from 'arva-kit/defaults/DefaultDimensions.js';
 
