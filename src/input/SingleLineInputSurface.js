@@ -3,8 +3,8 @@
  @copyright Bizboard, 2015
  */
 
-import {InputSurface} from 'arva-js/surfaces/InputSurface.js';
-import {Colors} from '../defaults/DefaultColors.js';
+import {InputSurface}   from 'arva-js/surfaces/InputSurface.js';
+import {Colors}         from '../defaults/DefaultColors.js';
 
 export class SingleLineInputSurface extends InputSurface {
     constructor(options = {}) {

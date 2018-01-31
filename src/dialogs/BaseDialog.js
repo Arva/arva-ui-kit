@@ -18,7 +18,7 @@ import {Text}               from '../text/Text.js';
  * A dialog wth a title and text
  *
  * @example
- * Injection.get(DialogManager).show({dialog: new BaseDialog({title: "Welcome!}))
+ * dialogManager.show({dialog: new BaseDialog({title: "Welcome!}))
  *
  * @param {Object} options
  * @param {String} [options.title] The title of the dialog
