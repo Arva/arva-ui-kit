@@ -24,7 +24,7 @@ const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(
 /**
  *
  * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
- *
+ * Fires the event 'message' after pressing enter, since it's composed from SingleLineInputSurface
  *
  * @example
  * SingleLineTextInput.with({
