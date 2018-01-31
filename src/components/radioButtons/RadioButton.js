@@ -6,7 +6,7 @@ import {Surface}        from 'arva-js/surfaces/Surface.js';
 import {Clickable}              from '../Clickable.js';
 import {RadioButtonCircle}      from './RadioButtonCircle.js';
 import {UIRegular}              from '../../text/UIRegular.js';
-import {layout, dynamic, bindings, flow}   from 'arva-js/layout/Decorators.js';
+import {layout, bindings}       from 'arva-js/layout/Decorators.js';
 
 @bindings.setup({
     selected: false

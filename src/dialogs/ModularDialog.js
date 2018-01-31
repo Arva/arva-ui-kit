@@ -5,7 +5,7 @@
 import {Surface}        from 'arva-js/surfaces/Surface.js';
 
 import {View}                                               from 'arva-js/core/View.js';
-import {layout}                                             from 'arva-js/layout/Decorators.js';
+import {layout, bindings}                                   from 'arva-js/layout/Decorators.js';
 import {Dialog}                                             from 'arva-js/components/Dialog.js';
 import {combineOptions}                                     from 'arva-js/utils/CombineOptions.js';
 
@@ -14,18 +14,15 @@ import {UIBarTitle}                                         from '../text/UIBarT
 import {UIBarTextButton}                                    from '../buttons/UIBarTextButton.js';
 import {UIBarIconButton}                                    from '../buttons/UIBarIconButton.js';
 
-export class ModularDialog extends Dialog {
-
-    @layout.translate(0, 0, -10)
-    @layout.fullSize()
-    background = new Surface({properties: {backgroundColor: this.options.backgroundColor, borderRadius: '4px'}});
-
-    @layout.dock.top(true)
-    uibar = new UIBar({bottomLine: true, ...this.options.UIBarOptions});
-
-    /**
-     * @example
-     * modal = new ModularDialog({
+@bindings.setup({
+        backgroundColor: 'white',
+        title: '',
+        UIBarOptions: {
+        }
+})
+/**
+ * @example
+ * modal = new ModularDialog({
      *     variation: 'colored',
      *     title: 'Movie info',
      *     leftButton: {
@@ -37,72 +34,41 @@ export class ModularDialog extends Dialog {
      *     }
      *     content: new Surface()
      * });
-     *
-     * Container that can be placed at the top or bottom of the view, in which you can put a collection of components like buttons, etc.
-     *
-     * @param {Object} options Construction options
-     * @param {String} [options.variation] The variation of the UIBar inside the ModalViewDialog ('white' [default], 'colored')
-     * @param {String} [options.title] The title to be displayed in the center of the UIBar
-     * @param {Boolean} [options.leftButton] Add a button on the left side of the ModalViewDialog's UIBar.
-     *          Contains the sub-options 'content', which specifies the text inside the button, and 'variation', which can
-     *          be set to 'light' in order to set button text typeface to UIButtonPrimaryLight instead of UIButtonPrimary.
-     *          Alternatively, can have sub-option 'icon', which turns the button into a UIBarImageButton.
-     * @param {Boolean} [options.rightButton] Identical to leftButton, but on the right side of the ModalViewDialog's UIBar.
-     */
-    constructor(options = {}) {
-        let UIBarOptions = ModularDialog._setOptions(options);
+ *
+ * Container that can be placed at the top or bottom of the view, in which you can put a collection of components like buttons, etc.
+ *
+ * @param {Object} options Construction options
+ * @param {String} [options.variation] The variation of the UIBar inside the ModalViewDialog ('white' [default], 'colored')
+ * @param {String} [options.title] The title to be displayed in the center of the UIBar
+ * @param {Boolean} [options.leftButton] Add a button on the left side of the ModalViewDialog's UIBar.
+ *          Contains the sub-options 'content', which specifies the text inside the button, and 'variation', which can
+ *          be set to 'light' in order to set button text typeface to UIButtonPrimaryLight instead of UIButtonPrimary.
+ *          Alternatively, can have sub-option 'icon', which turns the button into a UIBarImageButton.
+ * @param {Boolean} [options.rightButton] Identical to leftButton, but on the right side of the ModalViewDialog's UIBar.
+ */
+export class ModularDialog extends Dialog {
 
-        super(combineOptions({
-            UIBarOptions,
-            backgroundColor: 'white',
-        }, options));
+    @layout.translate(0, 0, -10)
+    @layout.fullSize()
+    background = Surface.with({properties: {backgroundColor: this.options.backgroundColor, borderRadius: '4px'}});
 
-        if (this.options.content) {
-            let {content} = options;
-            this.setContent(content);
-        }
-    }
+    @layout.dock.top(true)
+    uibar = UIBar.with({bottomLine: true, ...this.options.UIBarOptions}, {
+        @layout.stick.center().size(true, true).translate(0, 0, 100)
+        title: UIBarTitle.with({content: this.options.title}),
+        @layout.dock.left(true).size()
+        leftButton: this.options.leftButton,
+        @layout.dock.right(true).size()
+        rightButton: this.options.rightButton,
+    });
 
-    setContent(content) {
-        this.content = content;
-        if(content == undefined){
-            console.warn('Content set to undefined in ModularDialog.setContent()!');
-            return;
-        }
-        if(this.mainContent){
-            this.hideRenderable(this.mainContent);
-            this.replaceRenderable(this.mainContent, content);
-            this.showRenderable(this.mainContent);
-        } else{
-            this.mainContent = this.addRenderable(content, layout.dock.fill(), layout.animate());
-        }
-    }
+    @layout.dock.fill()
+    mainContent = this.options.content && this.options.content;
 
-    getContent(){
-        return this.content;
-    }
 
     getSize(){
         return [undefined, undefined];
     }
 
     maxSize = [720, 720];
-
-    static _setOptions({rightButton, leftButton, title, variation, shadowType}) {
-        let components = [];
-
-        if (leftButton) {
-            let buttonType = leftButton.icon ? UIBarIconButton : UIBarTextButton;
-            components.push([new buttonType(leftButton), 'leftButton', 'left']);
-        }
-        if (title) {
-            components.push([new UIBarTitle({ content: title, properties: { cursor: 'default' } }), 'title', 'center']);
-        }
-        if (rightButton) {
-            let buttonType = rightButton.icon ? UIBarIconButton : UIBarTextButton;
-            components.push([new buttonType(rightButton), 'rightButton', 'right']);
-        }
-
-        return {variation, components, shadowType};
-    }
 }

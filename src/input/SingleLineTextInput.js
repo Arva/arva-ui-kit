@@ -24,7 +24,7 @@ const hideBubble = [layout.dock.none(), layout.dockSpace(8), layout.stick.right(
 /**
  *
  * A text input field that can contain a single line of text, and optionally show required, correct, and incorrect FeedbackBubble icons.
- *
+ * Fires the event 'message' after pressing enter, since it's composed from SingleLineInputSurface
  *
  * @example
  * SingleLineTextInput.with({
@@ -75,7 +75,7 @@ export class SingleLineTextInput extends View {
     }
 
     @layout.stick.center().opacity(1).translate(-1, 0, 10).fullSize()
-    @dynamic(({active}) => flow.transition(transition)(layout.opacity(active ? 0 : 1)))
+    @dynamic(({active}) => flow.transition({...transition, queuePriority: active ? 2 : 1})(layout.opacity(active ? 0 : 1)))
     border = this.options.showBorder ? Surface.with({
             properties: {
                 border: 'solid 1px rgba(0, 0, 0, 0.1)',
@@ -87,7 +87,7 @@ export class SingleLineTextInput extends View {
     ) : null;
 
     @layout.stick.center().translate(0, 0, 20)
-    @dynamic(({active}) => flow.transition(transition)(layout.opacity(active ? 1 : 0)))
+    @dynamic(({active}) => flow.transition({...transition, queuePriority: active ? 1 : 2})(layout.opacity(active ? 1 : 0)))
     shadow = this.options.showShadow ? Surface.with({
             properties: {
                 boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.12)',

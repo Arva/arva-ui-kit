@@ -10,7 +10,6 @@ import {combineOptions}             from 'arva-js/utils/CombineOptions.js';
 import {UIRegular}                  from '../text/UIRegular.js';
 import {LoadingPlaceholderProfile}  from '../placeholders/LoadingPlaceholderProfile.js';
 import {UITitle}                    from '../text/UITitle.js';
-import {FullScreenBackground}       from '../backgrounds/FullScreenBackground.js';
 import {Colors}                     from '../defaults/DefaultColors.js';
 import {FloatingImageButton}        from '../buttons/FloatingImageButton.js';
 
@@ -20,7 +19,7 @@ export class ProfileView extends View {
 
     @layout.fullSize()
     @layout.translate(0, 0, -10)
-    background = new FullScreenBackground({color: 'white'});
+    background = new Surface({properties: {backgroundColor: 'white'}});
 
     @layout.dock.top(160)
     @layout.stick.center()
