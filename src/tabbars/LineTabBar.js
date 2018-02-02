@@ -9,9 +9,9 @@ import {Colors} from 'arva-kit/defaults/DefaultColors.js';
 @dynamic(() =>
     bindings.setup({
         borderRadius: '0px',
-        _shapeHeight: 4,
+        _shapeHeight: 2,
         tabOptions: {passiveColor: Colors.Gray, activeColor: Colors.PrimaryUIColor},
-        _shapeYOffset: 18,
+        _shapeYOffset: 24
     })
 )
 export class LineTabBar extends ShapeTabBar {

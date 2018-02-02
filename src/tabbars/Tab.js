@@ -51,6 +51,9 @@ export class Tab extends Clickable {
         }
     }
 
+    @layout.fullSize().translate(0, 0, 40)
+    clickableArea = Surface.with();
+
     @layout.translate(0, 0, 30)
         .dock.top()
         .size(24, 24)

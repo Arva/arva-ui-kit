@@ -100,7 +100,7 @@ export class TabBar extends View {
 
 
     @dynamic(({equalSizing, tabs, tabSpacing}) =>
-        layout.dock.left(equalSizing ? 1 / tabs.length : ~50).dockSpace(equalSizing ? 0 : tabSpacing).size(~100, ~30).stick.center()
+        layout.dock.left(equalSizing ? 1 / tabs.length : ~50).dockSpace(equalSizing ? 0 : tabSpacing).size(equalSizing ? undefined : ~100, ~30).stick.center()
     )
     items = this.options.tabs.map((tabOptions, index) =>
         /*  TODO rename events that start with hover that actually refers to "press" */
