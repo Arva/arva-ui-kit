@@ -54,9 +54,9 @@ export class IconMenuItem extends Button {
             }
         }, options));
 
-        this.layout.once('layoutstart', ({size: [_,height]}) => {
-            this.text.setProperties({lineHeight: `${height}px`});
-        });
+        this.on('newSize', (([width, height]) =>
+            this.text.setProperties({lineHeight: `${height}px`})
+        ), {propagate: false });
     }
 
     setSelected(selected) {
