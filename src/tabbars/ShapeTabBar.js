@@ -14,7 +14,6 @@ import {Colors} from 'arva-kit/defaults/DefaultColors.js';
 import {TabBar} from './TabBar.js';
 import {getShadow} from '../defaults/DefaultShadows';
 
-const flowOptions = {flow: true, transition: {curve: Easing.outCubic, duration: 200}};
 
 @dynamic(() =>
     bindings.setup(
@@ -82,11 +81,10 @@ export class ShapeTabBar extends TabBar {
     @layout.align(0, 0.5)
     @layout.origin(0, 0.5)
     @dynamic(({_shapeWidth, _shapeHeight, _shapeXOffset, _shapeYOffset, shapeSize}) =>
-        layout
+        flow.transition({curve: Easing.outCubic, duration: 200})(layout
             .size(shapeSize[0] || _shapeWidth, _shapeHeight)
-            .translate(_shapeXOffset, _shapeYOffset, 10)
+            .translate(_shapeXOffset, _shapeYOffset, 10))
     )
-    @flow.defaultOptions(flowOptions)
     shape = () => {
         let color = this.options.fillBackground ? this.options.backgroundColor : this.options.constrastColor;
         return Surface.with({
@@ -119,7 +117,7 @@ export class ShapeTabBar extends TabBar {
         this.on('newSize', (newSize) => {
             this._currentSize = newSize;
             this.setShapeWidth();
-            this._calcCurrentPosition(this.options.activeIndex);
+            this.moveShape();
         }, {propagate: false});
     }
 

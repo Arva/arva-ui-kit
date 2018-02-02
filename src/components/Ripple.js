@@ -99,7 +99,7 @@ export class Ripple extends View {
             /* Shift it because origin/align is 0.5 */
             decorations.translate[0] = x - rippleSize / 2;
             decorations.translate[1] = y - rippleSize / 2;
-            this.layout.reflowLayout();
+            this._doReflow();
 
             this._actualRipple.show(this.ripple, null, () => {
                 resolve();

@@ -148,7 +148,7 @@ export class TopMenuView extends View {
      */
     setUserNameEnabled(enabled) {
         this._userNameEnabled = enabled;
-        this.layout.reflowLayout();
+        this._doReflow();
     }
 
     /**

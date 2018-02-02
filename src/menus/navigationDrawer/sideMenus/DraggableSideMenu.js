@@ -183,15 +183,15 @@ export class DraggableSideMenu extends View {
         });
 
         this.setTabIndexSelected(0);
-        this.layout.reflowLayout();
+        this._doReflow();
 
-        this.layout.on('layoutstart', ({size: [width]}) => {
+        this.on('newSize', ([width]) => {
             this.controlWidth = Math.min(320, width * ( options.width || 0.75 )) | 0;
             /* Update xRange of draggable, as size is now defined */
             this.draggable.setOptions({
                 xRange: [0, this.controlWidth]
             });
-        });
+        }, {propagate: false});
 
         this.layouts.push((context) => {
 

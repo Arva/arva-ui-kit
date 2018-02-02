@@ -38,9 +38,9 @@ export class MenuItem extends View {
             }
         }), 'clickOverlay');
 
-        this.layout.once('layoutstart', ({size: [_,height]}) => {
+        this.once('newSize', ([_,height]) => {
             this.textSurface.setProperties({lineHeight: `${height}px`});
-        });
+        }, {propagate: false});
 
         this.layouts.push((context)=> {
             let clickOverlaySize = [context.size[0] * 0.9, 44];
